@@ -38,6 +38,14 @@ Prerequisites and environment setup.
 
   Build the Docker Images
 
+## [02 - Push the Docker Images to Azure Container Registry](02-push-the-docker-images/README.md)
+
+  Push the Docker Images to Azure Container Registy
+
+## [03 - Configure App Service for continuous deployment](03-configure-app-service-for-ci/README.md)
+
+  Configure App Service for continuous deployments of Azure Container Registry Docker image updates
+
 ---
 
 ## Legal Notices

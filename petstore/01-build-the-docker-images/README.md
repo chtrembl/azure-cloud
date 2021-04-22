@@ -182,4 +182,4 @@ Congratulations, you have successfully integrated your Pet Store Application wit
 > 💡 Note, all Pet Store Service Data is currently persisted In Memory, no databases are used at the moment.
 
 ---
-➡️ Next guide: [02 - something](../02-something/README.md)
+➡️ Next guide: [02 - Push the Docker Images to Azure Container Registry](../02-push-the-docker-images/README.md)
