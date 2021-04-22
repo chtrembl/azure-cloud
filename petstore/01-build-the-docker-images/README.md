@@ -39,7 +39,7 @@ run the following command
 
 > 💡 You can also open in any editor of choice
 
-Add '#' characters to the start of the following lines, this will disable the services that we are not yet integrating with. Be sure to save!
+Add '#' characters to the start of the following lines (in the above screenshot), this will disable the services that we are not yet integrating with. Be sure to save!
 
 We are going to use Maven to first build the Spring Boot artifact .jar file that will be needed by Docker.
 
@@ -57,7 +57,7 @@ run the following command
 
 ```ls target -l``` 
 
-You should see petstoreapp-0.0.1-SNAPSHOT.jar newly created. We can then run this Spring Boot .jar file if we would like. However the goal is to containerize it with all of the required dependecis (Java Runtime Environment etc... so that we can deploy anyqhere within Azure)
+You should see petstoreapp-0.0.1-SNAPSHOT.jar newly created. We can then run this Spring Boot .jar file if we would like. However the goal is to containerize it with all of the required dependencies (Java Runtime Environment etc... so that we can deploy anyqhere within Azure)
 
 Now lets have Docker build our image.
 
