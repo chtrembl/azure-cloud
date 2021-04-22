@@ -91,7 +91,7 @@ Open a browser and head to http://localhost:8080
 
 You should see something similar to the below image:
 
-![](images/petstoreapp_runtime.png)
+![](images/petstoreapp_runtime_view.png)
 
 **2. Build and Run the Pet Store Service Docker Image**
 
