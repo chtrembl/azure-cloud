@@ -2,7 +2,7 @@
 
 Often times it is handy to have an N-Tiered Architecture ready to go and since it is usually hard to find one that hits all of the many services of Azure App Dev, I've decided to build one. Perhaps you're learning new technologies, giving demos, looking for a prototype or even just curious, these guides will get you on your way to running a full Hypothetical Azure Pet Store Application using the technologies illustrated below. 
 
-![enter image description here](https://raw.githubusercontent.com/chtrembl/azure-cloud/petstore/main/petstore_architecture.png)
+![enter image description here](https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstore_architecture.png?raw=true)
 
 The objective is to showcase the many uses of App Dev Services within Azure. Below are some of the useful scenarios that are currently available.
 
