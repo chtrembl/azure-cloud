@@ -64,6 +64,7 @@ You should see petstoreapp-0.0.1-SNAPSHOT.jar newly created. We can then run thi
 Now lets have Docker build our image.
 
 run the following command 
+
 > 💡 Docker will use the root directory (indicated by '.') and execute the Dockerfile commands to build a Docker Image tagged petstoreapp:latest
 
 ```docker build -t petstoreapp .``` 
@@ -94,6 +95,9 @@ Open a browser and head to http://localhost:8080
 You should see something similar to the below image:
 
 ![](images/petstoreapp_runtime_view.png)
+
+> 💡 Note,the footer of this application contains meta data that will be useful as we progress through the guides. Things like container id (useful for understanding containers at scale), CI/CD dates/version, Session Id for N-Tier Correlated Telemetry with Application Insights. We will also integrate our products with the Pet Store Service and allow for external user authentication via B2C.
+
 
 **2. Build and Run the Pet Store Service Docker Image**
 
