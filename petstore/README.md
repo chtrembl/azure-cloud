@@ -38,7 +38,7 @@ Prerequisites and environment setup.
 
   Build the Docker Images
 
-## [02 - Push the Docker Images to Azure Container Registry](02-push-the-docker-images/README.md)
+## [02 - Push the Docker Images to Azure Container Registry](02-push-the-docker-images-to-acr/README.md)
 
   Push the Docker Images to Azure Container Registy
 
