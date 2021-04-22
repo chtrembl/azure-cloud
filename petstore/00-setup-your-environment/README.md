@@ -18,7 +18,7 @@ To save time, we have an ARM template to get a few Azure resources created:
  - App Service Plan (Resources needed to host the Pet Store Application)
  - Container Registry (Used to store Docker Images for Pet Store Application and Pet Store Service)
  
-> 💡 Note, Azure B2C, Azure Kubernetes Service, Azure Application Insights, API Management & Azure Key Vault will be setup in the subsequent guides.
+> 💡 Please Note, Azure B2C, Azure Kubernetes Service, Azure Application Insights, API Management & Azure Key Vault will be setup in the subsequent guides.
 
 Go ahead and Deploy to Azure
 
