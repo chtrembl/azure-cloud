@@ -86,6 +86,7 @@ You should see something similar to the below image:
 Lets now test our petstore application
 
 run the following command
+
 > 💡 This will instruct Docker to start a running container with the following petstore:latest image, forwarding port 8080 to the Spring Boot App running on 8080 (default Spring Boot Port). The PETSTOREAPP_SERVER_PORT is one of several environment variables that we will introduce over the course of these guidas.
 
 ```docker run -p 8080:8080 -e PETSTOREAPP_SERVER_PORT=8080 -e PETSTORESERVICE_URL=http://localhost:8080 petstoreapp:latest```
@@ -98,8 +99,87 @@ You should see something similar to the below image:
 
 > 💡 Note,the footer of this application contains meta data that will be useful as we progress through the guides. Things like container id (useful for understanding containers at scale), CI/CD dates/version, Session Id for N-Tier Correlated Telemetry with Application Insights. We will also integrate our products with the Pet Store Service and allow for external user authentication via B2C.
 
+You can now stop the Docker contaier.
+
+run the following command 
+
+``` ctrl+c ```
+
+or 
+
+``` docker stop <containerid> ```
 
 **2. Build and Run the Pet Store Service Docker Image**
+
+The steps are going to be similar to the above
+
+cd to azure-cloud/petstore/petstoreservice
+
+run the following command
+
+```vi src/main/resources/application.yml```
+
+> 💡 You can also open in any editor of choice
+
+Add '#' characters to the start of the following lines (in the screenshot below), this will disable the services that we are not yet integrating with. Be sure to save!
+
+![](images/petstoreservice_props.png)
+
+run the following command
+
+```mvn clean package``` 
+
+run the following command 
+
+```ls target -l``` 
+
+You should see petstoreservice-0.0.1-SNAPSHOT.jar newly created. We can then run this Spring Boot .jar file if we would like. However the goal is to containerize it with all of the required dependencies (Java Runtime Environment etc... so that we can deploy anyqhere within Azure)
+
+Now lets have Docker build our image.
+
+run the following command 
+
+> 💡 Docker will use the root directory (indicated by '.') and execute the Dockerfile commands to build a Docker Image tagged petstoreservice:latest
+
+```docker build -t petstoreservice .```
+
+run the following command 
+
+```docker image ls``` 
+
+You should see your latest petstoreservice:latest image
+
+run the following command
+
+> 💡 This will instruct Docker to start a running container with the following petstore:latest image, forwarding port 8080 to the Spring Boot App running on 8080 (default Spring Boot Port). The PETSTORESERVICE_SERVER_PORT is one of several environment variables that we will introduce over the course of these guidas.
+
+```docker run -p 8080:8080 -e PETSTORESERVICE_SERVER_PORT=8080 petstoreservice:latest```
+
+Open a browser and head to http://localhost:8080
+
+You should see something similar to the below image:
+
+![](images/petstoreservice_runtime_view.png)
+
+**3. Test the two application together locally**
+
+With the petstoreservice:latest container still running on 8080, start up the petstoreapp and test the two together.
+
+> 💡 Note, we are starting petstoreapp with Maven, outside of a Docker container, to avoid having to configure the containers to communicate with eachother.
+
+run the following command (you can use another terminal window for this)
+
+```mvn spring-boot:run -Dspring-boot.run.arguments="--server.port=8081 --PETSTORESERVICE_URL=http://localhost:8080"```
+
+Open a browser and head to http://localhost/dogbreeds:8080
+
+You should see something similar to the below image:
+
+![](images/petstoreapp_petstoreservice_runtime.png)
+
+Congratulations, you have successfully integrated your Pet Store Application with the Pet Store Service and have made a service call to retrieve Dog Breeds. 
+
+> 💡 Note, all Pet Store Service Data is currently persisted In Memory, no databases are used at the moment.
 
 ---
 ➡️ Next guide: [02 - something](../02-something/README.md)

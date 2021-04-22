@@ -4,7 +4,7 @@ springfoxdocumentation:
       path: /api-docs
       
 server:
-  port: 8080
+  port: ${PETSTORESERVICE_SERVER_PORT}
   
 spring:
   jackson:
@@ -13,9 +13,9 @@ spring:
   application:
     name: petstoreservice
 
-azure:
-    application-insights:
-      instrumentation-key: 2d58aa8a-dadd-4657-8b3e-8c3358d41b44
+#azure:
+#    application-insights:
+#      instrumentation-key: ${PETSTORESERVICE_AI_INSTRUMENTATION_KEY}
 
 management:
   endpoints:
