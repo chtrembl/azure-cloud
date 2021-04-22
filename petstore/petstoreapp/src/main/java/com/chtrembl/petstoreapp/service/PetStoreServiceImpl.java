@@ -39,7 +39,7 @@ public class PetStoreServiceImpl implements PetStoreService {
 		try {
 			List<Pet> pets = this.webClient.get().uri("/v2/pet/findByStatus?status={status}", "available")
 					.header("session-id", this.sessionUser.getSessionId()).accept(MediaType.APPLICATION_JSON)
-					.header("Ocp-Apim-Subscription-Key", this.containerEnvironment.getPetStoreServiceSubscriptionKeyL())
+					.header("Ocp-Apim-Subscription-Key", this.containerEnvironment.getPetStoreServiceSubscriptionKey())
 					.header("Ocp-Apim-Trace", "true").retrieve()
 					.bodyToMono(new ParameterizedTypeReference<List<Pet>>() {
 					}).block();

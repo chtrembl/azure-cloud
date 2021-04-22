@@ -31,6 +31,16 @@ You should see something similar to the below image:
 
 ![](images/petstoreapp_ls.png)
 
+First lets comment some properties needed for services that we are not yet ready for. Thinks like Application Insights, API Management & B2C.
+
+run the following command
+
+```vi src/main/resources/application.yml```
+
+> 💡 You can also open in any editor of choice
+
+Add '#' characters to the start of the following lines, this will disable the services that we are not yet integrating with. Be sure to save!
+
 We are going to use Maven to first build the Spring Boot artifact .jar file that will be needed by Docker.
 
 run the following command
@@ -75,8 +85,13 @@ Lets now test our petstore application
 run the following command
 > 💡 This will instruct Docker to start a running container with the following petstore:latest image, forwarding port 8080 to the Spring Boot App running on 8080 (default Spring Boot Port). The PETSTOREAPP_SERVER_PORT is one of several environment variables that we will introduce over the course of these guidas.
 
-```docker run -p 8080:8080 -e PETSTOREAPP_SERVER_PORT=8080 petstoreapp:latest```
+```docker run -p 8080:8080 -e PETSTOREAPP_SERVER_PORT=8080 -e PETSTORESERVICE_URL=http://localhost:8080 petstoreapp:latest```
 
+Open a browser and head to http://localhost:8080
+
+You should see something similar to the below image:
+
+![](images/petstoreapp_runtime.png)
 
 ---
 ➡️ Next guide: [02 - something](../02-something/README.md)

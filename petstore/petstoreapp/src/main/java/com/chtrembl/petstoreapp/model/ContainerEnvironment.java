@@ -37,8 +37,8 @@ public class ContainerEnvironment implements Serializable {
 	@Value("${petstore.service.url}")
 	private String petStoreServiceURL;
 
-	@Value("${petstore.service.subscription.key}")
-	private String petStoreServiceSubscriptionKeyL;
+	@Value("${petstore.service.subscription.key:@null}")
+	private String petStoreServiceSubscriptionKey;
 
 	@PostConstruct
 	private void initialize() throws JoranException {
@@ -101,12 +101,12 @@ public class ContainerEnvironment implements Serializable {
 		this.petStoreServiceURL = petStoreServiceURL;
 	}
 
-	public String getPetStoreServiceSubscriptionKeyL() {
-		return petStoreServiceSubscriptionKeyL;
+	public String getPetStoreServiceSubscriptionKey() {
+		return petStoreServiceSubscriptionKey;
 	}
 
-	public void setPetStoreServiceSubscriptionKeyL(String petStoreServiceSubscriptionKeyL) {
-		this.petStoreServiceSubscriptionKeyL = petStoreServiceSubscriptionKeyL;
+	public void setPetStoreServiceSubscriptionKey(String petStoreServiceSubscriptionKey) {
+		this.petStoreServiceSubscriptionKey = petStoreServiceSubscriptionKey;
 	}
 
 	public String getAppDate() {
