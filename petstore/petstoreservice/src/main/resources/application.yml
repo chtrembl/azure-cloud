@@ -1,0 +1,233 @@
+springfoxdocumentation:
+  swagger:
+    v2:
+      path: /api-docs
+      
+server:
+  port: 8080
+  
+spring:
+  jackson:
+     date-format: org.openapitools.RFC3339DateFormat
+     serialization.WRITE_DATES_AS_TIMESTAMPS: false
+  application:
+    name: petstoreservice
+
+azure:
+    application-insights:
+      instrumentation-key: 2d58aa8a-dadd-4657-8b3e-8c3358d41b44
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"       
+  trace:
+    http:
+      enabled: true 
+  endpoint:
+    httptrace:
+      enabled: true
+    
+data:
+  pets:
+    - id: 1
+      category: 
+        id: 1
+        name: "Dog"
+      name: "Afador"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-breeds/afador.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "doggie"
+      status: "available"
+    - id: 2
+      category: 
+        id: 1
+        name: "Dog"
+      name: "American Bulldog"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-breeds/american-bulldog.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "doggie"
+      status: "available"
+    - id: 3
+      category: 
+        id: 1
+        name: "Dog"
+      name: "Australian Retriever"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-breeds/australian-retriever.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "doggie"
+      status: "available"
+    - id: 4
+      category: 
+        id: 1
+        name: "Dog"
+      name: "Australian Shepherd"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-breeds/australian-shepherd.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "doggie"
+      status: "available"
+    - id: 5
+      category: 
+        id: 1
+        name: "Dog"
+      name: "Basset Hound"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-breeds/basset-hound.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "doggie"
+      status: "available"
+    - id: 6
+      category: 
+        id: 1
+        name: "Dog"
+      name: "Beagle"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-breeds/beagle.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "doggie"
+      status: "available"
+    - id: 7
+      category: 
+        id: 1
+        name: "Dog"
+      name: "Border Terrier"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-breeds/border-terrier.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "doggie"
+      status: "available"
+    - id: 8
+      category: 
+        id: 1
+        name: "Dog"
+      name: "Boston Terrier"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-breeds/boston-terrier.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "doggie"
+      status: "available"
+    - id: 9
+      category: 
+        id: 1
+        name: "Dog"
+      name: "Bulldog"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-breeds/bulldog.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "doggie"
+      status: "available"
+    - id: 10
+      category: 
+        id: 1
+        name: "Dog"
+      name: "Bullmastiff"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-breeds/bullmastiff.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "doggie"
+      status: "available"
+    - id: 11
+      category: 
+        id: 1
+        name: "Dog"
+      name: "Chihuahua"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-breeds/chihuahua.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "doggie"
+      status: "available"
+    - id: 12
+      category: 
+        id: 1
+        name: "Dog"
+      name: "Cocker Spaniel"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-breeds/cocker-spaniel.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "doggie"
+      status: "available"
+    - id: 13
+      category: 
+        id: 1
+        name: "Dog"
+      name: "German Sheperd"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-breeds/german-shepherd.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "doggie"
+      status: "available"
+    - id: 14
+      category: 
+        id: 1
+        name: "Dog"
+      name: "Labrador Retriever"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-breeds/labrador-retriever.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "doggie"
+      status: "available"
+    - id: 15
+      category: 
+        id: 1
+        name: "Dog"
+      name: "Pomeranian"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-breeds/pomeranian.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "doggie"
+      status: "available"
+    - id: 16
+      category: 
+        id: 1
+        name: "Dog"
+      name: "Pug"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-breeds/pug.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "doggie"
+      status: "available"
+    - id: 17
+      category: 
+        id: 1
+        name: "Dog"
+      name: "Rottweiler"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-breeds/rottweiler.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "doggie"
+      status: "available"
+    - id: 18
+      category: 
+        id: 1
+        name: "Dog"
+      name: "Shetland Sheepdog"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-breeds/shetland-sheepdog.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "doggie"
+      status: "available"
+    - id: 19
+      category: 
+        id: 1
+        name: "Dog"
+      name: "Shih Tzu"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-breeds/shih-tzu.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "doggie"
+      status: "available"
+    - id: 20
+      category: 
+        id: 1
+        name: "Dog"
+      name: "Toy Fox Terrier"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-breeds/toy-fox-terrier.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "doggie"
+      status: "available"

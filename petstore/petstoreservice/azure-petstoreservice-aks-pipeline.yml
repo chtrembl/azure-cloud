@@ -1,0 +1,103 @@
+# Deploy to Azure Kubernetes Service
+# Build and push image to Azure Container Registry; Deploy to Azure Kubernetes Service
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - petstoreservice/*
+
+resources:
+- repo: self
+
+variables:
+
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: 'dbfef104-061f-4584-b25e-222fcf745a2c'
+  imageRepository: 'petstoreservice'
+  containerRegistry: 'petstorecr.azurecr.io'
+  dockerfilePath: 'petstoreservice/Dockerfile'
+  tag: '$(Build.BuildId)'
+  imagePullSecret: '$(crImagePullSecret)'
+
+stages:
+- stage: Build
+  displayName: Build stage
+  jobs: 
+  - job: Analysis
+    displayName: Security Analysis
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+    - task: CredScan@2
+      inputs:
+        toolMajorVersion: 'V2'
+ 
+  - job: Build
+    displayName: Build App
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: Maven@3
+      displayName: Build Spring Boot Jar
+      inputs:
+        mavenPomFile: 'petstoreservice/pom.xml'
+        mavenOptions: '-Xmx3072m'
+        javaHomeOption: 'JDKVersion'
+        jdkVersionOption: '1.8'
+        jdkArchitectureOption: 'x64'
+        publishJUnitResults: true
+        testResultsFiles: 'petstoreservice/target/surefire-reports/TEST-*.xml'
+        codeCoverageToolOption: 'jaCoCo'
+        goals: 'package'
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(imageRepository)
+        dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+          
+    - upload: manifests
+      artifact: manifests
+
+- stage: Deploy
+  displayName: Deploy Stage
+  dependsOn: Build
+
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy App
+    pool:
+      vmImage: 'ubuntu-latest'
+    environment: 'Development'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: KubernetesManifest@0
+            displayName: Create secret
+            inputs: 
+              action: createSecret
+              namespace: default
+              secretType: dockerRegistry
+              secretName: $(imagePullSecret)
+              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
+              kubernetesServiceConnection: petstoreservice-akscluster-default
+          - task: KubernetesManifest@0
+            displayName: Deploy to Kubernetes cluster
+            inputs:
+              action: deploy
+              kubernetesServiceConnection: petstoreservice-akscluster-default
+              manifests: |
+                $(Pipeline.Workspace)/manifests/petstoreservice-deployment.yml
+                $(Pipeline.Workspace)/manifests/petstoreservice-service.yml
+              imagePullSecrets: |
+                $(imagePullSecret)
+              containers: |
+                $(containerRegistry)/$(imageRepository):$(tag)
