@@ -87,7 +87,7 @@ Lets now test our petstore application
 
 run the following command
 
-> 💡 This will instruct Docker to start a running container with the following petstore:latest image, forwarding port 8080 to the Spring Boot App running on 8080 (default Spring Boot Port). The PETSTOREAPP_SERVER_PORT is one of several environment variables that we will introduce over the course of these guidas.
+> 💡 This will instruct Docker to start a running container with the following petstore:latest image, forwarding port 8080 to the Spring Boot App running on 8080 (default Spring Boot Port). The PETSTOREAPP_SERVER_PORT is one of several environment variables that we will introduce over the course of these guidas. You may have noticed that we aren injecting also injecting a PETSTORESERVICE_URL property without an actual service yet. I am doing this because we will tie the two running apps together in Step 3 below so its nice to keep this property available to ensure we are able to inject real values.
 
 ```docker run -p 8080:8080 -e PETSTOREAPP_SERVER_PORT=8080 -e PETSTORESERVICE_URL=http://localhost:8080 petstoreapp:latest```
 
