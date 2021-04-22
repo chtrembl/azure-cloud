@@ -161,17 +161,17 @@ You should see something similar to the below image:
 
 ![](images/petstoreservice_runtime_view.png)
 
-**3. Test the two application together locally**
+**3. Test the two applications together locally**
 
 With the petstoreservice:latest container still running on 8080, start up the petstoreapp and test the two together.
 
-> 💡 Note, we are starting petstoreapp with Maven, outside of a Docker container, to avoid having to configure the containers to communicate with eachother.
+> 💡 Note, we are starting petstoreapp with Maven, outside of a Docker container, to avoid having to configure the two Docker containers to communicate with eachother. For simplicity locally, this is easier for this guide and still conveys the point of integrating the two apps. Once we deploy to Azure we will keep the containerized in Docker PaaS based services.
 
 run the following command (you can use another terminal window for this)
 
 ```mvn spring-boot:run -Dspring-boot.run.arguments="--server.port=8081 --PETSTORESERVICE_URL=http://localhost:8080"```
 
-Open a browser and head to http://localhost/dogbreeds:8080
+Open a browser and head to http://localhost:8081/dogbreeds
 
 You should see something similar to the below image:
 
