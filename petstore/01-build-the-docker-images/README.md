@@ -21,7 +21,7 @@ You should see something similar to the below image:
 
 ![](images/prereq_check.png)
 
-**1. Build the Pet Store App Docker Image**
+**1. Build and Run the Pet Store App Docker Image**
 
 cd to azure-cloud/petstore/petstoreapp and run the following command
 
@@ -92,6 +92,8 @@ Open a browser and head to http://localhost:8080
 You should see something similar to the below image:
 
 ![](images/petstoreapp_runtime.png)
+
+**2. Build and Run the Pet Store Service Docker Image**
 
 ---
 ➡️ Next guide: [02 - something](../02-something/README.md)
