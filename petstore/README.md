@@ -1,10 +1,10 @@
-# Azure Pet Store Reference Guides
+# Azure Pet Store Reference Guide
 
-Often times it is handy to have an N-Tiered Architecture ready to go and since it is usually hard to find one that hits all of the many services of Azure App Dev, I've decided to build one. Perhaps you're learning new technologies, giving demos, looking for a prototype or even just curious, these guides will get you on your way to running a full Hypothetical Azure Pet Store Application using the technologies illustrated below. 
+Often times it is handy to have an N-Tiered Azure archtitected deployment ready to go and since it is usually hard to find one that hits many of the App Dev Services of Azure, I've decided to build one. Perhaps you're learning new technologies, giving demos, looking for a prototype or simply just curious, these guides will get you on your way to running a full Hypothetical Azure Pet Store Application using the technologies illustrated below. Already built are two applications that we will be deploying to Azure App Service (![petstoreapp](https://github.com/chtrembl/azure-cloud/tree/main/petstore/petstoreapp)) and Azure Kubernetes Service (![petstoreservice](https://github.com/chtrembl/azure-cloud/tree/main/petstore/petstoreservice)). We will first build and run these two apps (N-Tiered) locally (optional) and slowly add in the other services depicted (Azure B2C, Application Insights, API Management, Key Vault etc...). These two applications were built with Java/Spring Boot and while the guides are not necessarily focused on coding (not required) you are encouraged to build/deploy them locally to get the full developer experience. You can however use Azure DevOps Pipelines and GitHub Actions to do the build & deploys for you.
 
 ![enter image description here](https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstore_architecture.png?raw=true)
 
-The objective is to showcase the many uses of App Dev Services within Azure. Below are some of the useful scenarios that are currently available.
+The objective is to showcase the many uses of App Dev Services within Azure. Below are some of the useful scenarios that are currently available in these guides:
 
  - CI/CD into Azure App Service & Azure Kubernetes Service using Azure DevOps Pipelines and GitHub Actions
  - N-Tiered Architecture using Pet Store Application deployed to App Services and Pet Store Service deployed to Azure Kubernetes Service
@@ -18,9 +18,11 @@ The objective is to showcase the many uses of App Dev Services within Azure. Bel
 
 ## What you should expect
 
-This is not the official documentation but an opinionated approach/guidance.
+This is not official Microsoft documentation but rather an opinionated approach/guidance.
 
-This is hands-on and will be hands on keyboard. However, once complete, this will be running in you're subscription and always readily available. The Pet Store Application and Pet Store Service are built with Java and Spring Boot. You're welcome to import these into your IDE of choice, write code and/or contribute back, however that is not mandatory for these guides. You can simply build the Docker Images and that should suffice. Writing code is not actually needed to benefit from the learning/deploying of these technologies, Docker images are all you need.
+This is hands-on and will be hands on keyboard. However, once complete, this will be running in you're subscription and always readily available. The Pet Store Application and Pet Store Service are built with Java and Spring Boot. You're welcome to import these into your IDE of choice, write code and/or contribute back, however that is not mandatory for these guides. As mentioned above, you can use Azure DevOps Pipelines and GitHub Actions to do the build & deploys for you.
+
+*Please Note, you will need an Azure Subscription for this*
 
 ## [00 - Setup your environment](00-setup-your-environment/README.md)
 

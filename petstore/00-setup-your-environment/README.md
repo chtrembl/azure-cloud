@@ -4,7 +4,9 @@
 
 __This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)__
 
-In this section, we'll begin to set up your environment
+In this section, we'll begin to set up your environment.
+
+*Please note, if your not interested in building/deploying locally, you can certainly skip ahead and leverage Azure DevOps Pipelines and GitHub Actions to do the build & deploys for you.*
 
 ---
 
@@ -28,15 +30,16 @@ Go ahead and Deploy to Azure
 
 ## Prerequisites
 
-These guides assume you have Docker Desktop installed on your machine. Until we setup your Azure Pipeline & GitHub Action, we will use Docker, locally, to build and push both the PetStoreApp and PetStoreService Docker Images into Azure Container Registry. We will also use Azure CLI to push Docker images into our Azure Container Registry and do other things like Administer our Azure Kubernetes Cluster.
+Thus guide assumes you have Java JDK, Maven, Docker Desktop and Azure CLI installed on your machine. Until we setup your Azure Pipeline & GitHub Action, we will use Maven, Docker and Azure CLI, locally, to build and push both the PetStoreApp and PetStoreService Docker Images into Azure Container Registry. We will do other things like Administer our Azure Kubernetes Cluster.
 
+ - Install Java JDK 13 or higher using the guide from the following https://examples.javacodegeeks.com/download-and-install-java-development-kit-jdk-13/
+
+ - Install Maven using the following guide from https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html
+  
  - Install Docker Desktop from the following https://www.docker.com/products/docker-desktop and ensure you can run Docker from your command line.
  
  - Install Azure CLI from the following https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?tabs=azure-cli and ensure you can run AZ from your command line.
 
-
-
-Optionally, you can also run the code locally and/or contribute to code changes, and in this case can then use Visual Studio Code or an IDE of your choice.
 
 ---
 
