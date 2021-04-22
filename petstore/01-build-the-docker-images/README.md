@@ -39,7 +39,9 @@ run the following command
 
 > 💡 You can also open in any editor of choice
 
-Add '#' characters to the start of the following lines (in the above screenshot), this will disable the services that we are not yet integrating with. Be sure to save!
+Add '#' characters to the start of the following lines (in the screenshot below), this will disable the services that we are not yet integrating with. Be sure to save!
+
+![](images/petstoreapp_props.png)
 
 We are going to use Maven to first build the Spring Boot artifact .jar file that will be needed by Docker.
 
