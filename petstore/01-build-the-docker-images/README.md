@@ -19,7 +19,40 @@ Run the following four commands to ensure your envrionment is good to go.
 
 You should see something similar to the below image:
 
-![](prereq_check.png)
+![](images/prereq_check.png)
 
+ 1. Build the Pet Store App Docker Image
+
+cd to azure-cloud/petstore/petstoreapp and run the following command
+
+```ls -l``` 
+
+You should see something similar to the below image:
+
+![](images/petstoreapp_ls.png)
+
+We are going to use Maven to first build the Spring Boot artifact .jar file that will be needed by Docker.
+
+run the following command
+
+```mvn clean package``` 
+
+This will compile a Spring Boot jar file and place it in the /target directory. You will do this each and every time you make any code changes to petstoreapp. Utlimatley our Azure DevOps Pipelines & GitHub Actions will perform this compilation task for us.
+
+You should see something similar to the below image:
+
+![](images/petstoreapp_target_ls.png)
+
+run the following command 
+
+```ls target -l``` 
+
+You should see petstoreapp-0.0.1-SNAPSHOT.jar newly created. We can then run this Spring Boot .jar file if we would like. However the goal is to containerize it with all of the required dependecis (Java Runtime Environment etc... so that we can deploy anyqhere within Azure)
+
+Now lets have Docker build our image.
+
+run the following command (Docker will use the root directory (indicated by '.') and execute the Dockerfile commands to build a Docker Image tagged petstoreapp:latest
+
+```docker build -t petstoreapp .``` 
 ---
 ➡️ Next guide: [02 - something](../02-something/README.md)
