@@ -1,4 +1,4 @@
-# 02 - Push the Docker Images to Azure Container Registy
+# 02 - Push the Docker Images to Azure Container Registy (Local Development Only)
 
 __This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)__
 

@@ -4,9 +4,9 @@
 
 __This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)__
 
-In this section, we'll begin to set up your environment.
+In this section, we'll begin to set up your environment both for local development and for Azure.
 
-*Please note, if your not interested in building/deploying locally, you can certainly skip ahead and leverage Azure DevOps Pipelines and GitHub Actions to do the build & deploys for you.*
+*Please note, if your not interested in building/deploying locally, you can certainly skip ahead and leverage Azure DevOps Pipelines and GitHub Actions to do the build & deploys for you. Once you complete the first step of Deploying to Azure below, you can jump head to (../03-configure-app-service-for-cd/README.md)*
 
 ---
 
@@ -36,7 +36,9 @@ If you head over to your Azure Resource Group (once completed) You should see so
 
 ![](images/deployment2.png)
 
-## Prerequisites
+*Please note, if your not interested in building/deploying locally, you can certainly skip ahead and leverage Azure DevOps Pipelines and GitHub Actions to do the build & deploys for you. Once you complete the first step of Deploying to Azure above, you can jump head to (../03-configure-app-service-for-cd/README.md)*
+
+## Prerequisites (Local Development Only)
 
 Thus guide assumes you have Java JDK, Maven, Docker Desktop and Azure CLI installed on your machine. Until we setup your Azure Pipeline & GitHub Action, we will use Maven, Docker and Azure CLI, locally, to build and push both the PetStoreApp and PetStoreService Docker Images into Azure Container Registry. We will do other things like Administer our Azure Kubernetes Cluster.
 
