@@ -1,6 +1,5 @@
 name: Pet Store App CI/CD to Azure App Service
-  AZURE_CONTAINER_REGISTRY="petstorecr.azurecr.io"
-  AZURE_CONTAINER_REGISTRY_USERNAME="petstorecr"
+
 on:
   push:
     branches:
