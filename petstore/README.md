@@ -42,9 +42,13 @@ Prerequisites and environment setup.
 
   Push the Docker Images to Azure Container Registy
 
-## [03 - Configure App Service for continuous deployment](03-configure-app-service-for-ci/README.md)
+## [03 - Configure App Service for continuous deployment](03-configure-app-service-for-cd/README.md)
 
   Configure App Service for continuous deployments of Azure Container Registry Docker image updates
+
+## [04 - Configure Git Hub Action for CI/CD into App Service](04-configure-git-hub-action-for-ci-cd/README.md)
+
+   Configure Git Hub Action for CI/CD into App Service
 
 ---
 

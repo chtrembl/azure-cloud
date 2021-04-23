@@ -16,15 +16,19 @@ run the following commands:
 
 > 💡 use your subscription for "your subscription" and your container registry value for "youraliaspetstorecr" from the first guide 00-setup-your-environment
 
-```az account set --subscription "your subscription"```
+```az account set --subscription <your subscription>```
 
-```az acr login --name "youraliaspetstorecr```
+```az acr login --name <youraliaspetstorecr>```
+
+> 💡 Note the following is what enables us to get Web Hook control for our App Service Continuous Integration
+
+```az acr update -n <youraliaspetstorecr> -g <yourresourcegroup> --admin-enabled true```
 
 > 💡 tag your local Docker image built in the previous guide so that we can push it to Azure Container Registry then push it
 
-```docker image tag petstoreapp:latest youraliaspetstorecr.azurecr.io/petstoreapp:latest```
+```docker image tag petstoreapp:latest <youraliaspetstorecr>.azurecr.io/petstoreapp:latest```
 
-```docker push youraliaspetstorecr.azurecr.io/petstoreapp:latest```
+```docker push <youraliaspetstorecr>.azurecr.io/petstoreapp:latest```
 
 You should see something similar to the below image:
 
@@ -44,9 +48,9 @@ run the following commands:
 
 > 💡 tag your local Docker image built in the previous guide so that we can push it to Azure Container Registry then push it
 
-```docker image tag petstoreservice:latest youraliaspetstorecr.azurecr.io/petstoreservice:latest```
+```docker image tag <petstoreservice>:latest <youraliaspetstorecr>.azurecr.io/petstoreservice:latest```
 
-```docker push youraliaspetstorecr.azurecr.io/petstoreservice:latest```
+```docker push <youraliaspetstorecr>.azurecr.io/petstoreservice:latest```
 
 ---
 ➡️ Next guide: [03 - Configure App Service for continuous deployment](../03-configure-app-service-for-ci/README.md)
