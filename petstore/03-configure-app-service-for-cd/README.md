@@ -23,7 +23,7 @@ Select Configuration and add two Application Settings, be sure to click Save.
 
 You should see something similar to the below image:
 
-![](images/petstoreapp_app2.png)
+![](images/petstoreapp_app1.png)
 
 > 💡 Note, the port is needed to tell App Service where to find our Spring Boot Pet Store App (remember it is running on port 8080). The URL will be the Pet Store Service URL where our Pet Store App will retrieve data from. We have not yet deployed that Pet Store Service to Azure Kubernetes Service, so we can put anything in here for now. We wont be using it just yet so this is really just a placeholder so the Pet Store App starts up without issues.
 
@@ -31,7 +31,7 @@ Select Container Settings (Classic)
 
 You should see something similar to the below image:
 
-![](images/petstoreapp_app0.png)
+![](images/petstoreapp_app2.png)
 
 > 💡 Note, this is the default configuration, we are going to change this up. Change Image Source to Azure Container Registry, Find your Pet Store Image Name and Tag and Select On for Continous Deployment. Make sure to click Save.
 
