@@ -1,0 +1,44 @@
+name: Pet Store App CI/CD to Azure App Service
+  AZURE_CONTAINER_REGISTRY="petstorecr.azurecr.io"
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - petstoreapp/**
+      
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Checking the file system listing for Pet Store App
+      run: |
+        ls -al
+    - name: Update the version.json
+      run: echo -n -e "{\"version\":\"${{ github.sha }}\",\"date\":\"$(date '+%m-%d-%Y %H:%M:%S')\"}" > petstoreapp/src/main/resources/static/content/version.json
+    - run: cat petstoreapp/src/main/resources/static/content/version.json
+    - uses: actions/setup-java@v2
+      name: Building Pet Store App with Java 13
+      with:
+        java-version: '13'
+        distribution: 'adopt'
+    - name: Run Maven build
+      run: mvn -f petstoreapp/pom.xml --batch-mode --update-snapshots verify
+    - name: Upload Maven build artifact
+      uses: actions/upload-artifact@v1
+      with:
+        name: artifact
+        path: petstoreapp/target/petstoreapp-0.0.1-SNAPSHOT.jar
+    - uses: azure/docker-login@v1
+      name: Build Docker image
+      with:
+        login-server: ${AZURE_CONTAINER_REGISTRY
+        username: petstorecr
+        password: ${{ secrets.PETSTORECRSECRET }}
+    - name: Push Docker image to Azure Container Registry    
+      run: |
+        docker build petstoreapp -t ${AZURE_CONTAINER_REGISTRY}/petstoreapp:latest -t ${AZURE_CONTAINER_REGISTRY}/petstoreapp:${{ github.sha }}
+        docker push ${AZURE_CONTAINER_REGISTRY}/petstoreapp:${{ github.sha }}
+        docker push  ${AZURE_CONTAINER_REGISTRY}/petstoreapp:latest
+      
