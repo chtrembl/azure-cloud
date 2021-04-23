@@ -45,6 +45,8 @@ Open a browser and head to your URL from above
 
 You should see something similar to the below image:
 
+![](images/petstoreapp_app4.png)
+
 Congratulations, you know Pet Store App Continuously Deploying into your App Service each and evey time an image is pushed to Azure Container Registry.
 
 ---
