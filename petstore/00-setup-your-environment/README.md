@@ -26,7 +26,15 @@ Go ahead and Deploy to Azure
 
 > 💡 Create a new resource when prompted, such as: **azurepetstorerg** and substitute your network alias for **youralias**, or something unique that will appear as a FQDM for accessing your Azure Pet Store Application.
 
->⏱ The resource provisioning will take some time. **Do not wait!** Continue with the guides.
+You should see something similar to the below image:
+
+![](images/deployment.png)
+
+>⏱ The resource provisioning will take some time. **Do not wait!** Continue with the guides. Remember your Resource Group!
+
+If you head over to your Azure Resource Group (once completed) You should see something similar to the below image:
+
+![](images/deployment2.png)
 
 ## Prerequisites
 
