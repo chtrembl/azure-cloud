@@ -47,7 +47,7 @@ You should see something similar to the below image:
 
 ![](images/petstoreapp_app4.png)
 
-Congratulations, you know Pet Store App Continuously Deploying into your App Service each and evey time an image is pushed to Azure Container Registry.
+Congratulations, you now have Pet Store App Continuously Deploying into your App Service each and evey time an image is pushed to Azure Container Registry.
 
 ---
 ➡️ Next guide: [04 - something](../04/README.md)
