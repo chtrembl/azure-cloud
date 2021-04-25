@@ -3,7 +3,7 @@ __This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.
 
 In this section, we'll build the Docker Images and run them locally
 
-> 💡 Please Note, if you're planning to complete this guide, we assume you have Java JDK 13+, Maven, Docker Desktop and Azure CLI installed.
+> 📝 Please Note, if you're planning to complete this guide, we assume you have Java JDK 13+, Maven, Docker Desktop and Azure CLI installed.
 
 From your terminal, clone this repository: https://github.com/chtrembl/azure-cloud and set azure-cloud/petstore as your working directory
 
@@ -37,7 +37,7 @@ run the following command
 
 ```vi src/main/resources/application.yml```
 
-> 💡 You can also open in any editor of choice
+> 📝 Please Note, You can also open in any editor of choice
 
 Add '#' characters to the start of the following lines (in the screenshot below), this will disable the services that we are not yet integrating with. Be sure to save!
 
@@ -65,7 +65,7 @@ Now lets have Docker build our image.
 
 run the following command 
 
-> 💡 Docker will use the root directory (indicated by '.') and execute the Dockerfile commands to build a Docker Image tagged petstoreapp:latest
+> 📝 Please Note, Docker will use the root directory (indicated by '.') and execute the Dockerfile commands to build a Docker Image tagged petstoreapp:latest
 
 ```docker build -t petstoreapp .``` 
 
@@ -87,7 +87,7 @@ Lets now test our petstore application
 
 run the following command
 
-> 💡 This will instruct Docker to start a running container with the following petstore:latest image, forwarding port 8080 to the Spring Boot App running on 8080 (default Spring Boot Port). The PETSTOREAPP_SERVER_PORT is one of several environment variables that we will introduce over the course of these guidas. You may have noticed that we aren injecting also injecting a PETSTORESERVICE_URL property without an actual service yet. I am doing this because we will tie the two running apps together in Step 3 below so its nice to keep this property available to ensure we are able to inject real values.
+> 📝 Please Note, This will instruct Docker to start a running container with the following petstore:latest image, forwarding port 8080 to the Spring Boot App running on 8080 (default Spring Boot Port). The PETSTOREAPP_SERVER_PORT is one of several environment variables that we will introduce over the course of these guidas. You may have noticed that we aren injecting also injecting a PETSTORESERVICE_URL property without an actual service yet. I am doing this because we will tie the two running apps together in Step 3 below so its nice to keep this property available to ensure we are able to inject real values.
 
 ```docker run -p 8080:8080 -e PETSTOREAPP_SERVER_PORT=8080 -e PETSTORESERVICE_URL=http://localhost:8080 petstoreapp:latest```
 
@@ -97,7 +97,7 @@ You should see something similar to the below image:
 
 ![](images/petstoreapp_runtime_view.png)
 
-> 💡 Note,the footer of this application contains meta data that will be useful as we progress through the guides. Things like container id (useful for understanding containers at scale), CI/CD dates/version, Session Id for N-Tier Correlated Telemetry with Application Insights. We will also integrate our products with the Pet Store Service and allow for external user authentication via B2C.
+> 📝 Please Note,the footer of this application contains meta data that will be useful as we progress through the guides. Things like container id (useful for understanding containers at scale), CI/CD dates/version, Session Id for N-Tier Correlated Telemetry with Application Insights. We will also integrate our products with the Pet Store Service and allow for external user authentication via B2C.
 
 You can now stop the Docker contaier.
 
@@ -119,7 +119,7 @@ run the following command
 
 ```vi src/main/resources/application.yml```
 
-> 💡 You can also open in any editor of choice
+> 📝 Please Note, You can also open in any editor of choice
 
 Add '#' characters to the start of the following lines (in the screenshot below), this will disable the services that we are not yet integrating with. Be sure to save!
 
@@ -139,7 +139,7 @@ Now lets have Docker build our image.
 
 run the following command 
 
-> 💡 Docker will use the root directory (indicated by '.') and execute the Dockerfile commands to build a Docker Image tagged petstoreservice:latest
+> 📝 Please Note, Docker will use the root directory (indicated by '.') and execute the Dockerfile commands to build a Docker Image tagged petstoreservice:latest
 
 ```docker build -t petstoreservice .```
 
@@ -151,7 +151,7 @@ You should see your latest petstoreservice:latest image
 
 run the following command
 
-> 💡 This will instruct Docker to start a running container with the following petstore:latest image, forwarding port 8080 to the Spring Boot App running on 8080 (default Spring Boot Port). The PETSTORESERVICE_SERVER_PORT is one of several environment variables that we will introduce over the course of these guidas.
+> 📝 Please Note, This will instruct Docker to start a running container with the following petstore:latest image, forwarding port 8080 to the Spring Boot App running on 8080 (default Spring Boot Port). The PETSTORESERVICE_SERVER_PORT is one of several environment variables that we will introduce over the course of these guidas.
 
 ```docker run -p 8080:8080 -e PETSTORESERVICE_SERVER_PORT=8080 petstoreservice:latest```
 
@@ -165,7 +165,7 @@ You should see something similar to the below image:
 
 With the petstoreservice:latest container still running on 8080, start up the petstoreapp and test the two together.
 
-> 💡 Note, we are starting petstoreapp with Maven, outside of a Docker container, to avoid having to configure the two Docker containers to communicate with eachother. For simplicity locally, this is easier for this guide and still conveys the point of integrating the two apps. Once we deploy to Azure we will keep the containerized in Docker PaaS based services.
+> 📝 Please Note, we are starting petstoreapp with Maven, outside of a Docker container, to avoid having to configure the two Docker containers to communicate with eachother. For simplicity locally, this is easier for this guide and still conveys the point of integrating the two apps. Once we deploy to Azure we will keep the containerized in Docker PaaS based services.
 
 run the following command (you can use another terminal window for this)
 
@@ -177,9 +177,9 @@ You should see something similar to the below image:
 
 ![](images/petstoreapp_petstoreservice_runtime.png)
 
-Congratulations, you have successfully integrated your Pet Store Application with the Pet Store Service and have made a service call to retrieve Dog Breeds. 
+🎉Congratulations, you have successfully integrated your Pet Store Application with the Pet Store Service and have made a service call to retrieve Dog Breeds. 
 
-> 💡 Note, all Pet Store Service Data is currently persisted In Memory, no databases are used at the moment.
+> 📝 Please Note, all Pet Store Service Data is currently persisted In Memory, no databases are used at the moment.
 
 ---
 ➡️ Next guide: [02 - Push the Docker Images to Azure Container Registry](../02-push-the-docker-images-to-acr/README.md)

@@ -28,17 +28,17 @@ This is not official Microsoft documentation but rather an opinionated approach/
 
 This is hands-on and will be hands on keyboard. However, once complete, this will be running in you're subscription and always readily available. The Pet Store Application and Pet Store Service are built with Java and Spring Boot. You're welcome to import these into your IDE of choice, write code and/or contribute back, however that is not mandatory for these guides. As mentioned above, you can use Azure DevOps Pipelines and GitHub Actions to do the build & deploys for you.
 
-> 💡 Please Note, you **will need** an Azure Subscription for these guides
+> 📝 Please Note, you **will need** an Azure Subscription for these guides
 
 ## [00 - Setup your environment](00-setup-your-environment/README.md)
 
 Prerequisites and environment setup.
 
-## [01 - Build the Docker Images](01-build-the-docker-images/README.md)
+## [01 - Build the Docker Images (Optional and for Local Development Only)](01-build-the-docker-images/README.md)
 
   Build the Docker Images
 
-## [02 - Push the Docker Images to Azure Container Registry](02-push-the-docker-images-to-acr/README.md)
+## [02 - Push the Docker Images to Azure Container Registry (Optional and for Local Development Only)](02-push-the-docker-images-to-acr/README.md)
 
   Push the Docker Images to Azure Container Registy
 
@@ -49,6 +49,14 @@ Prerequisites and environment setup.
 ## [04 - Configure Git Hub Action for CI/CD into App Service](04-configure-git-hub-action-for-ci-cd/README.md)
 
    Configure Git Hub Action for CI/CD into App Service
+
+## [05 - Create an Azure Kubernetes Cluster](05-create-an-azure-k8s-cluster/README.md)
+
+   Create an Azure Kubernetes Cluster
+
+## [06 - Configure Azure DevOps Pipeline for CI/CD into Azure Kubernetes Service](06-configure-devops-pipeline-for-ci-cd/README.md)
+
+   Configure Azure DevOps Pipeline for CI/CD into Azure Kubernetes Service
 
 ---
 
