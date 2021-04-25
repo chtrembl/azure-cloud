@@ -2,7 +2,7 @@
 
 __This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)__
 
-In this section, we'll Configure Git Hub Action for CI/CD into App Service
+In this section, we'll Configure Git Hub Action for Pet Store App CI/CD into App Service
 
 Head to Azure Portal and find your Container Registry (as seen below) and copy your Login Server, Username and Password off somewhere (you will need them)
 
@@ -20,7 +20,7 @@ You should see something similar to the below image:
 
 ![](images/gh1.png)
 
-Head to Settings > Secrets, Add a secret to store the Azure Container Registry Secret from above. Create a PETSTORESECRET, and paste in password 1 from above.
+Head to Settings > Secrets, Add a secret to store the Azure Container Registry Secret from above. Create a PETSTORESECRET, and paste in password from above.
 
 You should see something similar to the below image:
 
@@ -63,11 +63,11 @@ You should see something similar to the below image:
 
 ![](images/gh5.png)
 
-Once successfull you will see somehting like 
+Once successful you will see somehting like 
 
 ![](images/gh6.png)
 
-If successfull, you can head to a browser and visit your FQDN Azure App Service URL as seen below (this is the URL from the previous guide 03-configure-app-service-for-cd)
+If successfull you can head to a browser and visit your FQDN Azure App Service URL as seen below (this is the URL from the previous guide 03-configure-app-service-for-cd)
 
 ![](images/browser1.png)
 

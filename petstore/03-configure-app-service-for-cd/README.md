@@ -4,9 +4,9 @@ __This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.
 
 In this section, we'll Configure App Service for continuous deployments of Azure Container Registry Docker image updates
 
-We are going to use Web Hooks to deploy the latest Azure Container Registry Docker image for Pet Store App.
+We are going to use Web Hooks to deploy the latest Azure Container Registry Docker image for *Pet Store App*.
 
-> 📝 Please Note, Pet Store Service will get deployed to Azure Kubernetes Service, we will tackle that in a subsequent guide.
+> 📝 Please Note, *Pet Store Service* will get deployed to Azure Kubernetes Service, we will tackle that in a subsequent guide.
 
 Head to Azure Portal > App Services and find your App Service that was created in 00-setup-your-environment.
 
