@@ -53,7 +53,7 @@ on:
 
 Let's first take a look at azure-cloud/blob/main/.github/workflows/petstoresapp_ci_cd_to_appservice.yml to underastand what is going on. 
 
-There are several Git Hub Task. The goal is to build the Spring Boot Java Pet Store Application Docker Image, Push it into Azure Container Registry and have an Azure App Service Web Hook to notify/deploy.
+There are several Git Hub Tasks. The goal is to build the Spring Boot Java Pet Store Application Docker Image, Push it into Azure Container Registry and have an Azure App Service Web Hook to notify/deploy.
 
 ```
 name: Pet Store App CI/CD to Azure App Service
@@ -107,7 +107,7 @@ jobs:
 
 This workflow action does both CI & CD. Below are the details:
 
- - On any Changce to petstoreapp/** main branch, the Action will execute
+ - On any Change to petstoreapp/** main branch, the Action will execute
  - The code is then checked out into a project workspace using actions/checkout@v2
  - A version.json is created each time containing meta data about the build (Date/Version) and will be built as part of the Docker Image as static content. This is useful for obtaining version info at application runtime.
  - actions/setup-java@v2 is used to compile our Spring Boot Java Application using Maven. Since we are not configuring Docker for a Multi Stage build, we first build the petstoreapp.jar executable, in advance of our Docker Image.
@@ -143,6 +143,10 @@ Things you can now do now with this guide
 
 ☑️ GitHub Action to CI/CD into App Service, showcasing the details behind building/deploying and the associated meta data reflecting within the running application
 
+
+> 📝 Please Note, if you're interested in viewing the web hook that got created, **automagically**, when Container Configuration was updated to sync with Azure Container Registry, you can view these under the Azure Container Registry as seen below.
+
+![](images/webhook.png)
 
 ---
 ➡️ Next guide: [05 - Create an Azure Kubernertes Cluster](../05-create-an-azure-k8s-cluster/README.md)
