@@ -49,5 +49,9 @@ You should see something similar to the below image:
 
 🎉Congratulations, you now have Pet Store App Continuously Deploying into your App Service each and evey time an image is pushed to Azure Container Registry.
 
+Things you can now do now with this guide
+
+☑️ App Service Configuration, underatanding how App Service gets configured
+
 ---
 ➡️ Next guide: [04 - Configure Git Hub Action for CI/CD into App Service](../04-configure-git-hub-action-for-ci-cd-into-app-service/README.md)

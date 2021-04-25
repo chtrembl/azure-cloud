@@ -181,5 +181,10 @@ You should see something similar to the below image:
 
 > 📝 Please Note, all Pet Store Service Data is currently persisted In Memory, no databases are used at the moment.
 
+
+Things you can now do now with this guide
+
+☑️ Building Docker Images locally
+
 ---
 ➡️ Next guide: [02 - Push the Docker Images to Azure Container Registry](../02-push-the-docker-images-to-acr/README.md)
