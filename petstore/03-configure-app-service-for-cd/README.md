@@ -25,7 +25,7 @@ You should see something similar to the below image:
 
 ![](images/petstoreapp_app2.png)
 
-> 📝 Please Note, the port is needed to tell App Service where to find our Spring Boot Pet Store App (remember it is running on port 8080). The URL will be the Pet Store Service URL where our Pet Store App will retrieve data from. We have not yet deployed that Pet Store Service to Azure Kubernetes Service, so we can put anything in here for now. We wont be using it just yet so this is really just a placeholder so the Pet Store App starts up without issues.
+> 📝 Please Note, the port is needed to tell App Service where to find our Spring Boot Pet Store App (remember it is running on port 8080). The URL will be the Pet Store Service URL where our Pet Store App will retrieve data from. We have not yet deployed that Pet Store Service to Azure Kubernetes Service, so we can put anything in here for now. We won't be using it just yet so this is really just a placeholder so the Pet Store App starts up without issues.
 
 Select Container Settings (Classic)
 
@@ -33,7 +33,7 @@ You should see something similar to the below image:
 
 ![](images/petstoreapp_app1.png)
 
-> Please Note, this is the default configuration we are going to change this up. Change Image Source to Azure Container Registry, Find your Pet Store Image Name and Tag and Select On for Continous Deployment. Make sure to click Save. (If you didn't complete 01-build-the-docker-images and 02-push-the-docker-images-to-acr which were for Local Developement, then you probably do not have any Docker Images in your Container Registry Yet and will need to move ahead now to Next guide: [04 - Configure Git Hub Action for CI/CD into App Service](../04-configure-git-hub-action-for-ci-cd/README.md) It's ok, you will do the steps below in the next guide)
+> Please Note, this is the default configuration we are going to change this up. Change Image Source to Azure Container Registry, Find your Pet Store Image Name and Tag and Select On for Continuous Deployment. Make sure to click Save. (If you didn't complete 01-build-the-docker-images and 02-push-the-docker-images-to-acr which were for Local Development, then you probably do not have any Docker Images in your Container Registry Yet and will need to move ahead now to Next guide: [04 - Configure Git Hub Action for CI/CD into App Service](../04-configure-git-hub-action-for-ci-cd/README.md) It's ok, you will do the steps below in the next guide)
 
 You should see something similar to the below image:
 

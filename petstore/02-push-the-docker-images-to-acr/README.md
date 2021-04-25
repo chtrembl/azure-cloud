@@ -53,4 +53,4 @@ run the following commands:
 ```docker push <youraliaspetstorecr>.azurecr.io/petstoreservice:latest```
 
 ---
-➡️ Next guide: [03 - Configure App Service for continuous deployment](../03-configure-app-service-for-cd/README.md)
+➡️ Next guide: [03 - Configure App Service for continuous deployment](../03-configure-app-service-for-c/README.md)

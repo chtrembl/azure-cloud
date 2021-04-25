@@ -32,7 +32,7 @@ You should see something similar to the below image:
 
 ![](images/gh4.png)
 
-Head to azure-cloud/blob/main/.github/workflows/petstoresapp_ci_cd_to_appservice.yml and update the following properties to refect your Container Registry and your Username from above:
+Head to azure-cloud/blob/main/.github/workflows/petstoresapp_ci_cd_to_appservice.yml and update the following properties to reflect your Container Registry and your Username from above:
 
 ```AZURE_CONTAINER_REGISTRY```
 
@@ -63,15 +63,15 @@ You should see something similar to the below image:
 
 ![](images/gh5.png)
 
-Once successful you will see somehting like 
+Once successful you will see something like 
 
 ![](images/gh6.png)
 
-If successfull you can head to a browser and visit your FQDN Azure App Service URL as seen below (this is the URL from the previous guide 03-configure-app-service-for-cd)
+If successful you can head to a browser and visit your FQDN Azure App Service URL as seen below (this is the URL from the previous guide 03-configure-app-service-for-cd)
 
 ![](images/browser1.png)
 
-🎉Congratulations, you now have Pet Store App Continuously Deploying into your App Service each and evey time an image is pushed to Azure Container Registry from your Git Hub Action.
+🎉Congratulations, you now have Pet Store App Continuously Deploying into your App Service each and every time an image is pushed to Azure Container Registry from your Git Hub Action.
 
 
 ---
