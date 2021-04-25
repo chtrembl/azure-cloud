@@ -46,7 +46,7 @@ Prerequisites and environment setup.
 
   Configure App Service for continuous deployments of Azure Container Registry Docker image updates
 
-## [04 - Configure Git Hub Action for CI/CD into App Service](04-configure-git-hub-action-for-ci-cd/README.md)
+## [04 - Configure Git Hub Action for CI/CD into App Service](04-configure-git-hub-action-for-ci-cd-into-app-service/README.md)
 
    Configure Git Hub Action for CI/CD into App Service
 
