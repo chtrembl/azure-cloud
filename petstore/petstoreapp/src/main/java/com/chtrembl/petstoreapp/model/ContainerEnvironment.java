@@ -26,7 +26,6 @@ import ch.qos.logback.core.joran.spi.JoranException;
 @Component
 public class ContainerEnvironment implements Serializable {
 	private static Logger logger = LoggerFactory.getLogger(ContainerEnvironment.class);
-	com.microsoft.azure.spring.autoconfigure.b2c.AADB2COidcLoginConfigurer d;
 	private String containerHostName = null;
 	private String appVersion = null;
 	private String appDate = null;
