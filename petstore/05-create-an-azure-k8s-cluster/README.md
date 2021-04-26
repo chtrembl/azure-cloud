@@ -179,4 +179,4 @@ kubectl logs --follow <pod names here>
 ```
 
 ---
-➡️ Next guide: [06 - Configure Azure DevOps Pipeline for CI/CD into Azure Kubernetes Service](../06-configure-devops-pipeline-for-ci-cd/README.md)
+➡️ Next guide: [06 - Configure Azure DevOps Pipeline for CI/CD into Azure Kubernetes Service](../06-configure-ado-pipeline-for-ci-cd-into-aks/README.md)
