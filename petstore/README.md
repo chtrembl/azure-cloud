@@ -26,7 +26,7 @@ As mentioned above, the objective is for you to be able to learn and showcase th
 
 This is hands-on and will be hands on keyboard. However, once complete, this will be running in your subscription and always readily available. The Pet Store Application and Pet Store Service are built with Java and Spring Boot. You're welcome to import these into your IDE of choice, write code and/or contribute back, however that is not mandatory for these guides. As mentioned above, you can use Azure DevOps Pipelines and GitHub Actions to handle the build & deploys for you.
 
-> 📝 Please Note, you **will need** an Azure Subscription and GitHub account for these guides
+> 📝 Please Note, you **will need** an Azure Subscription and GitHub account for these guides. If not, you you can sign up [here](https://azure.microsoft.com/en-us/) to get started. 
 
 ## [00 - Setup your environment](00-setup-your-environment/README.md)
 
