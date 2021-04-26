@@ -78,7 +78,7 @@ spec:
         "beta.kubernetes.io/os": linux
       containers:
       - name: petstoreservice
-        image: petstorecr.azurecr.io/petstoreservice:latest
+        image: azurepetstorecr.azurecr.io/petstoreservice:latest
         resources:
           requests:
             cpu: 100m
@@ -88,6 +88,11 @@ spec:
             memory: 256Mi
         ports:
         - containerPort: 8080
+        env:
+        - name: PETSTORESERVICE_SERVER_PORT
+          value: 8080
+        - name: PETSTORESERVICE_AI_INSTRUMENTATION_KEY
+          value: ""
 ---
 apiVersion: v1
 kind: Service
@@ -104,7 +109,7 @@ spec:
 
 12. Deploy your Kubernetes configuration to AKS (You can run this command any time you want to deploy updates to be re orchestrated by K8S/AKS)
 
-	`kubectl apply -f deployment.yaml`
+	`kubectl apply -f deployment.yml`
 
 	If successful you will be able to access the AKS cluster via the Service Load Balancer configured above. Since this is dynamic, run the following
 
