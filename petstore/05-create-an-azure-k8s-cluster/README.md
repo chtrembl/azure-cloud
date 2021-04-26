@@ -121,7 +121,9 @@ spec:
   
 	```
 	curl http://40.88.201.193/v2/pet/findByStatus?status=available
+    ```
 
+    ```json
 	[
    {
       "id":1,
