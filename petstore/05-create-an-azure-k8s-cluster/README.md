@@ -120,45 +120,11 @@ spec:
 	Then access petstoreservice via the ipaddress (40.88.201.193 in my case)
   
 	```
-	curl http://40.88.201.193/v2/pet/findByStatus?status=available
+	curl http://40.88.201.193/v2/pet/findByStatus?status=available | json_pp
     ```
-
-    ```json
-	[
-   {
-      "id":1,
-      "category":{
-         "id":1,
-         "name":"Dog"
-      },
-      "name":"Afador",
-      "photoURL":"https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-breeds/afador.jpg?raw=true",
-      "tags":[
-         {
-            "id":1,
-            "name":"doggie"
-         }
-      ],
-      "status":"available"
-   },
-   {
-      "id":2,
-      "category":{
-         "id":1,
-         "name":"Dog"
-      },
-      "name":"American Bulldog",
-      "photoURL":"https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-breeds/american-bulldog.jpg?raw=true",
-      "tags":[
-         {
-            "id":1,
-            "name":"doggie"
-         }
-      ],
-      "status":"available"
-   }...
-]
-    ```
+    You should see something similar to the below image:
+s
+    ![](images/json.png)
 
 >  *If your not able to access your Service Load Balancer, something may have went wrong with the deployment. You can run the following command to get some insight, if you see something in STATUS other than RUNNING, you will need to investigate by getting the pod details and troubleshooting, seen below...*
 
