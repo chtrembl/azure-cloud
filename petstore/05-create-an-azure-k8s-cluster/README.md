@@ -10,7 +10,7 @@ Lets get an AKS Cluster provisioned in the same Resource Group as your other ser
 
 ## Provision AKS via Azure CLI
 
-> 📝 Please Note, We will be using the [Azure CLI](https://docs.microsoft.com/en-US/cli/azure/install-azure-cli?view=azure-cli-latest) here to complete all of the necessary steps. The CLI is handy and often used for scripting tasks.
+> 📝 Please Note, We will be using the [Azure CLI](https://docs.microsoft.com/en-US/cli/azure/install-azure-cli?view=azure-cli-latest) here to complete all of the necessary steps. The CLI is handy and often used for scripting tasks. Also make sure you completed 1. Push the Pet Store Service Docker Image to Azure Container Registry from  [02 - Push the Docker Images to Azure Container Registy (Local Development Only)](../02-push-the-docker-images-to-acr/README.md)
 
 1. Login to your Azure account
 
@@ -55,7 +55,7 @@ Lets get an AKS Cluster provisioned in the same Resource Group as your other ser
   
 	`az aks get-credentials --resource-group=<yourresourcegroup> --name=azurepetstore-akscluster`
  
-11. Using VI or VSC etc... create a deployment.yaml in your petstoreservice/ root with the following contents and save... This deployment yaml is pretty simplified. There is a Deployment to configure Kubernetes with 1 replica of the petstoreservice Docker Image that we built above (Ultimately our running Docker image is a Kubernetes Container) We have configured container resources as well, and we know our Spring Boot petstoreservice will listen to HTTP requests on 8080. We will want to access these containers externally, so we also configure a Kubernetes Service (LoadBalancer) to expose our container. Instead of exposing it on port 8080, we will target port 80.
+11. Using VI or VSC etc... create a deployment.yaml in your petstoreservice/ root with the following contents and save... (or use the existing one) This deployment yml is pretty simplified. There is a Deployment to configure Kubernetes with 1 replica of the petstoreservice Docker Image that we built above (Ultimately our running Docker image is a Kubernetes Container) We have configured container resources as well, and we know our Spring Boot petstoreservice will listen to HTTP requests on 8080. We will want to access these containers externally, so we also configure a Kubernetes Service (LoadBalancer) to expose our container. Instead of exposing it on port 8080, we will target port 80.
 
 ```vi deployment.yml```
 
@@ -158,4 +158,4 @@ kubectl logs --follow <pod names here>
 
 
 ---
-➡️ Next guide: [06 - Configure Azure DevOps Pipeline for CI/CD into Azure Kubernetes Service](../06-configure-devops-pipeline-for-ci-cdREADME.md)
+➡️ Next guide: [06 - Configure Azure DevOps Pipeline for CI/CD into Azure Kubernetes Service](../06-configure-devops-pipeline-for-ci-cd/README.md)
