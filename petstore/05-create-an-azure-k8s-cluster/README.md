@@ -57,5 +57,100 @@ Lets get an AKS Cluster provisioned in the same Resource Group as your other ser
  
 11. Using VI or VSC etc... create a deployment.yaml in your petstoreservice/ root with the following contents and save... This deployment yaml is pretty simplified. There is a Deployment to configure Kubernetes with 1 replica of the petstoreservice Docker Image that we built above (Ultimately our running Docker image is a Kubernetes Container) We have configured container resources as well, and we know our Spring Boot petstoreservice will listen to HTTP requests on 8080. We will want to access these containers externally, so we also configure a Kubernetes Service (LoadBalancer) to expose our container. Instead of exposing it on port 8080, we will target port 80.
 
+```vi deployment.yml```
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: petstoreservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: petstoreservice
+  template:
+    metadata:
+      labels:
+        app: petstoreservice
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: petstoreservice
+        image: petstorecr.azurecr.io/petstoreservice:latest
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: petstoreservice
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: petstoreservice
+```
+
+12. Deploy your Kubernetes configuration to AKS (You can run this command any time you want to deploy updates to be re orchestrated by K8S/AKS)
+
+	`kubectl apply -f deployment.yaml`
+
+	If successful you will be able to access the AKS cluster via the Service Load Balancer configured above. Since this is dynamic, run the following
+
+	`kubectl get services -o jsonpath={.items[*].status.loadBalancer.ingress[0].ip} --namespace=default`
+ 
+	This will output the Service Load Balancer IP address, 52.191.95.150 for example...
+
+	Then access petstore api via the ipaddress (52.191.95.150 in my case)
+  
+	```
+	curl http://52.191.95.150:8080/v1/pets
+
+	{ "name" : "name", "id" : 0, "tag" : "tag" }
+	```
+
+>  *If your not able to access your Service Load Balancer, something may have went wrong with the deployment. You can run the following command to get some insight, if you see something in STATUS other than RUNNING, you will need to investigate by getting the pod details and troubleshooting, seen below...*
+
+>
+ ```
+~/dev/git/petstore$ kubectl get all
+NAME READY STATUS RESTARTS AGE
+pod/petstoreapi-77c556d945-btb65 0/1 ImagePullBackOff 0 14s
+
+~/dev/git/petstore$ kubectl describe pod/petstoreapi-77c556d945-btb65
+  
+
+Warning Failed 11s (x3 over 53s) kubelet, aks-nodepool1-56647556-vmss000001 Failed to pull image "petstoreapi:v1": rpc error: code = Unknown desc = Error response from daemon: pull access denied for petstoreapi, repository does not exist or may require 'docker login': denied: requested access to the resource is denied
+
+```
+
+>  *In the above, ImagePullBackOff indicated that the image could not be pulled from the Azure Container registry, checking permissions and container image definition in deployment.yaml usually resolves...*
+
+  
+
+13. You can view the application logs from the Spring Boot running container via the Azure Portal. If you head to the Azure Portal > Kubernetes Services and select the petstore-akscluster, there will be an Insights link. Select the Containers tab followed by the running container "petstoreapi" from the table below (we only have 1). You can the select "View container logs" which will show standard out from the Spring Boot petstoreapi container.
+
+![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/petstore/insights1.png?raw=true)
+
+  ![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/petstore/insights2.png?raw=true)
+
+*Note, you can also use kubectl to tail your pod application logs*
+```
+kubectl get all
+kubectl logs --follow <pod names here>
+```
+
+
 ---
 ➡️ Next guide: [06 - Configure Azure DevOps Pipeline for CI/CD into Azure Kubernetes Service](../06-configure-devops-pipeline-for-ci-cdREADME.md)
