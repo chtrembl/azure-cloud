@@ -8,7 +8,7 @@ trigger:
     - master
   paths:
     include:
-    - petstoreservice/*
+    - petstore/petstoreservice/*
 
 resources:
 - repo: self
@@ -19,7 +19,7 @@ variables:
   dockerRegistryServiceConnection: 'c304171a-fe32-4660-88eb-a61afeabfb8a'
   imageRepository: 'petstoreservice'
   containerRegistry: 'petstorecr.azurecr.io'
-  dockerfilePath: 'petstoreservice/Dockerfile'
+  dockerfilePath: 'petstore/petstoreservice/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: '$(crImagePullSecret)'
 
@@ -44,13 +44,13 @@ stages:
     - task: Maven@3
       displayName: Build Spring Boot Jar
       inputs:
-        mavenPomFile: 'petstoreservice/pom.xml'
+        mavenPomFile: 'petstore/petstoreservice/pom.xml'
         mavenOptions: '-Xmx3072m'
         javaHomeOption: 'JDKVersion'
         jdkVersionOption: '1.8'
         jdkArchitectureOption: 'x64'
         publishJUnitResults: true
-        testResultsFiles: 'petstoreservice/target/surefire-reports/TEST-*.xml'
+        testResultsFiles: 'petstore/petstoreservice/target/surefire-reports/TEST-*.xml'
         codeCoverageToolOption: 'jaCoCo'
         goals: 'package'
     - task: Docker@2
