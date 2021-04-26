@@ -68,9 +68,9 @@ Prerequisites and environment setup (Optionaly you can build/deploy locally)
 
    Configure API Management in front of PetStoreService
 
-## [10 - Configure API Management in front of PetStoreService](10-configure-b2c-for-petstoreapp-identity-management/README.md)
+## [10 - Configure B2C for PetStoreApp Identity Management](10-configure-b2c-for-petstoreapp-identity-management/README.md)
 
-   Configure API Management in front of PetStoreService
+   Configure B2C for PetStoreApp Identity Management
 
 ## [11 - Store Keys in Azure Key Vault](11-stor-keys-in-azure-key-vault/README.md)
 
