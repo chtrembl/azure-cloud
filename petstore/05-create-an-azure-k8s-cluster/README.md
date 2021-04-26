@@ -129,11 +129,11 @@ spec:
 > 📝 Please Note, If your not able to access your Service Load Balancer, something may have went wrong with the deployment. You can run the following command to get some insight, if you see something in STATUS other than RUNNING, you will need to investigate by getting the pod details and troubleshooting, seen below...*
 
     ```
-    ~/dev/git/petstore$ kubectl get all
+    ~/dev/git/azure-cloud/petstore/petstoreservice$ kubectl get all
     NAME READY STATUS RESTARTS AGE
     pod/petstoreservice-77c556d945-btb65 0/1 ImagePullBackOff 0 14s
 
-    ~/dev/git/petstore$ kubectl describe pod/petstoreservice-77c556d945-btb65
+    ~/dev/git/azure-cloud/petstore/petstoreservice$ kubectl describe pod/petstoreservice-77c556d945-btb65
     
 
     Warning Failed 11s (x3 over 53s) kubelet, aks-nodepool1-56647556-vmss000001 Failed to pull image "petstoreservice:v1": rpc error: code = Unknown desc = Error response from daemon: pull access denied for petstoreservice, repository does not exist or may require 'docker login': denied: requested access to the resource is denied
@@ -142,7 +142,6 @@ spec:
 
 > 📝 Please Note, In the above, ImagePullBackOff indicated that the image could not be pulled from the Azure Container registry, checking permissions and container image definition in deployment.yaml usually resolves... You can view all of these messages and details within the Azure Portal as well via logging as seen below.
 
-  
 13.  You can view the application logs from the Spring Boot running container via the Azure Portal. If you head to the Azure Portal > Kubernetes Services and select the petstore-akscluster, there will be an Insights link. Select the Containers tab followed by the running container "petstoreservice" from the table below (we only have 1). You can the select "View container logs" which will show standard out from the Spring Boot petstoreservice container.
 
 Navigate to the PetStoreService Pod Container within your AKS Cluster
