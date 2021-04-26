@@ -6,9 +6,9 @@ Lets get an AKS Cluster provisioned in the same Resource Group as your other ser
 
 > 📝 Please Note, You can use AZ CLI or Azure Portal to do this. If you didn't complete the first two guides, 01-build-the-docker-images and 02-push-the-docker-images-to-acr and/or do not have a local environment for building Java applications and pushing Docker Images, you will want to provision an AKS Cluster via Azure Portal and let Azure DevOps Piplelines handle the CI/CD for you (next guide). Complete the first step within Azure Portal below and then move on to the next guide. Otherwise, skip the Azure Portal AKS provisioning and follow along to build/deploy/provision locally.
 
-##Provision AKS via Azure Portal
+## Provision AKS via Azure Portal
 
-##Provision AKS via Azure CLI
+## Provision AKS via Azure CLI
 
 > 📝 Please Note, We will be using the [Azure CLI](https://docs.microsoft.com/en-US/cli/azure/install-azure-cli?view=azure-cli-latest) here to complete all of the necessary steps. The CLI is handy and often used for scripting tasks.
 
