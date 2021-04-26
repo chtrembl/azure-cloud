@@ -56,6 +56,26 @@ Prerequisites and environment setup (Optionaly you can build/deploy locally)
 
    Configure Azure DevOps Pipeline for CI/CD into Azure Kubernetes Service
 
+## [07 - Connect PetStoreApp and PetStoreService Together](07-connect-petstoreapp-and-petstoreservice-together/README.md)
+
+   Connect PetStoreApp and PetStoreService Together
+
+## [08 - Configure Apps to use Application Insights](08-configure-apps-to-use-application-insights/README.md)
+
+   Configure Apps to use Application Insights
+
+## [09 - Configure API Management in front of PetStoreService](09-configure-apim-in-front-of-petstoreservice/README.md)
+
+   Configure API Management in front of PetStoreService
+
+## [10 - Configure API Management in front of PetStoreService](10-configure-b2c-for-petstoreapp-identity-management/README.md)
+
+   Configure API Management in front of PetStoreService
+
+## [11 - Store Keys in Azure Key Vault](11-stor-keys-in-azure-key-vault/README.md)
+
+   Store Keys in Azure Key Vault
+
 ---
 
 ## Legal Notices

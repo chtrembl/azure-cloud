@@ -107,6 +107,8 @@ spec:
     app: petstoreservice
 ````
 
+> 📝 Please Note, you'll notice above that we are injective two env variables to the container, similar to what we did with App Service Configuration. The Pet Store Service is coded to send Telementry to Application Insights, however since we havent yet gotten to that guide, we are disabling it by injecting an empty key.
+
 12. Deploy your Kubernetes configuration to AKS (You can run this command any time you want to deploy updates to be re orchestrated by K8S/AKS)
 
 	`kubectl apply -f deployment.yml`
@@ -144,7 +146,7 @@ spec:
 
 13.  You can view the application logs from the Spring Boot running container via the Azure Portal. If you head to the Azure Portal > Kubernetes Services and select the petstore-akscluster, there will be an Insights link. Select the Containers tab followed by the running container "petstoreservice" from the table below (we only have 1). You can the select "View container logs" which will show standard out from the Spring Boot petstoreservice container.
 
-Navigate to the PetStoreService Pod Container within your AKS Cluster
+Navigate to the petstoreservice Deployment within your AKS Cluster
 
 You should see something similar to the below image:
 
