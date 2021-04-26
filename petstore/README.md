@@ -52,7 +52,7 @@ Prerequisites and environment setup (Optionaly you can build/deploy locally)
 
    Create an Azure Kubernetes Cluster
 
-## [06 - Configure Azure DevOps Pipeline for CI/CD into Azure Kubernetes Service](06-configure-devops-pipeline-for-ci-cd/README.md)
+## [06 - Configure Azure DevOps Pipeline for CI/CD into Azure Kubernetes Service](06-configure-ado-pipeline-for-ci-cd-into-aks/README.md)
 
    Configure Azure DevOps Pipeline for CI/CD into Azure Kubernetes Service
 
@@ -72,7 +72,7 @@ Prerequisites and environment setup (Optionaly you can build/deploy locally)
 
    Configure B2C for PetStoreApp Identity Management
 
-## [11 - Store Keys in Azure Key Vault](11-stor-keys-in-azure-key-vault/README.md)
+## [11 - Store Keys in Azure Key Vault](11-store-keys-in-azure-key-vault/README.md)
 
    Store Keys in Azure Key Vault
 
