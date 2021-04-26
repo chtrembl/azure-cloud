@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: petstoreservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: petstoreservice
+  template:
+    metadata:
+      labels:
+        app: petstoreservice
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: petstoreservice
+        image: petstorecr.azurecr.io/petstoreservice
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 8080
