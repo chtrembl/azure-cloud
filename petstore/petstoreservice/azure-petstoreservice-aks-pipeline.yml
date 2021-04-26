@@ -8,7 +8,7 @@ trigger:
     - master
   paths:
     include:
-    - petstoreservice/*
+    - petstore/petstoreservice/*
 
 resources:
 - repo: self
@@ -16,10 +16,10 @@ resources:
 variables:
 
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'dbfef104-061f-4584-b25e-222fcf745a2c'
+  dockerRegistryServiceConnection: 'c304171a-fe32-4660-88eb-a61afeabfb8a'
   imageRepository: 'petstoreservice'
   containerRegistry: 'petstorecr.azurecr.io'
-  dockerfilePath: 'petstoreservice/Dockerfile'
+  dockerfilePath: 'petstore/petstoreservice/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: '$(crImagePullSecret)'
 
@@ -44,13 +44,13 @@ stages:
     - task: Maven@3
       displayName: Build Spring Boot Jar
       inputs:
-        mavenPomFile: 'petstoreservice/pom.xml'
+        mavenPomFile: 'petstore/petstoreservice/pom.xml'
         mavenOptions: '-Xmx3072m'
         javaHomeOption: 'JDKVersion'
         jdkVersionOption: '1.8'
         jdkArchitectureOption: 'x64'
         publishJUnitResults: true
-        testResultsFiles: 'petstoreservice/target/surefire-reports/TEST-*.xml'
+        testResultsFiles: 'petstore/petstoreservice/target/surefire-reports/TEST-*.xml'
         codeCoverageToolOption: 'jaCoCo'
         goals: 'package'
     - task: Docker@2
@@ -95,8 +95,8 @@ stages:
               action: deploy
               kubernetesServiceConnection: petstoreservice-akscluster-default
               manifests: |
-                $(Pipeline.Workspace)/manifests/petstoreservice-deployment.yml
-                $(Pipeline.Workspace)/manifests/petstoreservice-service.yml
+                $(Pipeline.Workspace)/petstore/petstoreservice/petstoreservice-deployment.yml
+                $(Pipeline.Workspace)/petstore/petstoreservice/petstoreservice-service.yml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
