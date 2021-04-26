@@ -56,8 +56,6 @@ Lets get an AKS Cluster provisioned in the same Resource Group as your other ser
 	`az aks get-credentials --resource-group=<yourresourcegroup> --name=azurepetstore-akscluster`
  
 11. Using VI or VSC etc... create a deployment.yaml in your petstoreservice/ root with the following contents and save... This deployment yaml is pretty simplified. There is a Deployment to configure Kubernetes with 1 replica of the petstoreservice Docker Image that we built above (Ultimately our running Docker image is a Kubernetes Container) We have configured container resources as well, and we know our Spring Boot petstoreservice will listen to HTTP requests on 8080. We will want to access these containers externally, so we also configure a Kubernetes Service (LoadBalancer) to expose our container. Instead of exposing it on port 8080, we will target port 80.
-```
-
 
 ---
 ➡️ Next guide: [06 - Configure Azure DevOps Pipeline for CI/CD into Azure Kubernetes Service](../06-configure-devops-pipeline-for-ci-cdREADME.md)
