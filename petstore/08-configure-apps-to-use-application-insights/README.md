@@ -139,7 +139,7 @@ In this guide we will look at what it takes to get your Spring Boot Applications
 
     Commit these changes and run your Azure DevOps Pipeline
 
-    > 📝 Please Note, At this point your Applications should be pushing data to Application Insights. You can however read below to see how it all works and/or see how to query data.
+    > 📝 Please Note, At this point your Applications should be pushing data to Application Insights. You can however read below to see how it all works within the PetStoreApp and/or see how to query data.
 
 	Add a logback-spring.xml with the following contents which configures an ApplicationInsightsAppender which is responsible for pushing all of your log data into Azure Monitor, automagically for you. These will appear as Trace's in Azure Monitor.
 
@@ -299,6 +299,18 @@ In this guide we will look at what it takes to get your Spring Boot Applications
 	// Track an Exception
 	this.sessionUser.getTelemetryClient().trackException(new NullPointerException("sample null pointer"));
 	```
+
+    Then when you make a REST call, pass the session-id downstream so that it can be picked up in the PetStoreService and logged just as we've done in the PetStoreApp..
+	
+    ```java
+			List<Pet> pets = this.webClient.get().uri("/v2/pet/findByStatus?status={status}", "available")
+					.header("session-id", this.sessionUser.getSessionId()).accept(MediaType.APPLICATION_JSON)
+					.header("Ocp-Apim-Subscription-Key", this.containerEnvironment.getPetStoreServiceSubscriptionKey())
+					.header("Ocp-Apim-Trace", "true").retrieve()
+					.bodyToMono(new ParameterizedTypeReference<List<Pet>>() {
+					}).block();
+    ```
+
  - **View Application Insights > Transaction Search**
 First you will want to hit your application as a couple of different users (different sessions) to generate Transaction Data in Azure Monitor (you can use the PetStoreApp seen [here](https://github.com/chtrembl/Azure/tree/master/petstoreapp)  then head to Azure Portal > Application Insights.
 
@@ -321,19 +333,19 @@ First you will want to hit your application as a couple of different users (diff
 
     You should see something similar to the below image:
 
-    ![](images/ai5.png)
+    ![](images/ai15.png)
 
     Click Dog Breeds
 
     You should see something similar to the below image:
 
-    ![](images/ai6.png)
+    ![](images/ai16.png)
 
     Click on a Dog
 
     You should see something similar to the below image:
 
-    ![](images/ai7.png)
+    ![](images/ai17.png)
 
 	Head to Application Inisghts > Logs and construct a new query:
     
