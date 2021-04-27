@@ -125,7 +125,7 @@ In this guide we will look at what it takes to get your Spring Boot Applications
         valueFrom:
             secretKeyRef:
                 name: aisecretkey
-                key: secret`
+                key: secret
     ```
 
     > 📝 Please Note, if **you are not** using Kubernetes secrets, your manifests/petstoreservice-deployment.yml should look like this
@@ -156,7 +156,7 @@ In this guide we will look at what it takes to get your Spring Boot Applications
     <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>
-                %clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} application=PetStore session_Id=%X{session_Id} containerHostName=%X{containerHostName} | %m%n%wEx
+                %clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} application=PetStoreApp session_Id=%X{session_Id} containerHostName=%X{containerHostName} | %m%n%wEx
             </Pattern>
         </layout>
     </appender>
@@ -277,7 +277,10 @@ In this guide we will look at what it takes to get your Spring Boot Applications
 	this.sessionUser.getTelemetryClient().getContext().getSession().setIsNewSession(true);
 	this.sessionUser.getTelemetryClient().getContext().getSession().setId(this.sessionUser.getSessionId());	
 	// Track an Event
-	this.sessionUser.getTelemetryClient().trackEvent(String.format("user %s session %s login", this.sessionUser.getName(), this.sessionUser.getSessionId()));
+		this.sessionUser.getTelemetryClient()
+					.trackEvent(String.format("PetStoreApp %s logged in, container host: %s",
+							this.sessionUser.getName(), this.containerEnvironment.getContainerHostName()));
+
 	MDC.put("session_Id", this.sessionUser.getSessionId());
 	```
 	And this same model can be used throughout your application's MVC flow...
@@ -312,28 +315,47 @@ First you will want to hit your application as a couple of different users (diff
     ![](images/ai5.png)
 
  - **Write Custom Log Queries (Kusto (KQL) for common use case**
-	First you will want to hit your application as a couple of different users (different sessions) to generate Transaction Data in Azure Monitor (you can use the PetStoreApp seen [here](https://github.com/chtrembl/Azure/tree/master/petstoreapp)  then head to Azure Portal > Application Insights.
+	Often times it is beneficial to get a transactional flow based on user activity. You can do this by individual transaction types (Requests, Page Views, Traces etc...) or perhaps you want to combine results across various sources. Perhaps you have a correlated id/session id that spans multiple application sources (web application and N micro services) Since our Spring boot application is logging the session id (this is in the PetStoreApp footer) for Traces and Events, we can easily capture this via Kusto Queries.
 
-	By Selecting Log's you will be presented with a query view containing various queries on the different tables of data. You can also build your own. 
+	First hit the PetStoreApp and navigate around. There isnt a whole lot we can do yet because we havent enabled B2C, but we can certainly navigate as a Guest user and make a service call for Dog Breeds to the PetStoreService. This session id will be correlated across all of our applications (PetStoreApp and PetStoreService)
 
-	Often times it is beneficial to get a transactional flow based on user activity. You can do this by individual transaction types (Requests, Page Views, Traces etc...) or perhaps you want to combine results across various sources. Perhaps you have a correlated id/session id that spans multiple application sources (web application and N micro services) Since our Spring boot application is logging the JSESSION ID for Traces and Events, we can easily capture this via Kusto Queries.
+    You should see something similar to the below image:
 
-	First grab a session id from a user of concern or an exception etc... or your own JSESSION ID from your browser cookie viewer, we will use this to find our transactions. (Each server side session will drop this JSESSION ID cookie on the client)
+    ![](images/ai5.png)
 
-	![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/applicationinsights/ai6.png?raw=true)
+    Click Dog Breeds
+
+    You should see something similar to the below image:
+
+    ![](images/ai6.png)
+
+    Click on a Dog
+
+    You should see something similar to the below image:
+
+    ![](images/ai7.png)
 
 	Head to Application Inisghts > Logs and construct a new query:
+    
+    Remember use the session_id matching the session value in your footer.
 
 	```sql
-	search in (traces, customEvents) session_Id:"490439728D226DD5AC32D10CCC76E0A4"  or customDimensions.session_Id:"490439728D226DD5AC32D10CCC76E0A4"
+	search in (traces, customEvents) session_Id:"27938080E1283EC72FBBFD6100104884"  or customDimensions.session_Id:"27938080E1283EC72FBBFD6100104884"
 	| extend detail = strcat(name, message)
 	| order  by timestamp asc
 	```
 	This will query all Trace Data and Custom Event Data where session_Id matches (Put your session_Id in and remember we used MDC attribute to log all of our Transactions with session_Id to ensure Azure Montior would index accordingly). We are searching the Trace table (all of our Spring Boot Application Logs, as well as Custom Events, which remember is the TelemetryClient that we are programatically working with). When we log session_Id as Trace from our Application Logs, it appears as customDimension Data (Azure doesn't know about it) So we need to explicitly extract it. We are also creating a new result field called "detail" which will either map to the Application Log message or the TelemetryClient message. This makes readability much cleaner having it in one column. Now Execute the query and you will see an Ascending display of data detailing what the user for this JSESSION ID did during their time on the Application. (What paths they took, exceptions that occurred etc...) You can also use an ID that spans N Application/Microservices. This is just scratching the surface what you can do with Kusto.
    
+    You will see the PetStoreApp and PetStoreService (N-Tier Correlated Telemetry) for this user experience above (Navigating around)
+
     You should see something similar to the below image:
 
-    ![](images/ai8.png)
+    ![](images/ai14.png)
 
+    Things you can now do now with this guide
+
+    ☑️ Kubernetes Secrets
+
+    ☑️ N-Tier Correlated Telementry with Application Insights using Kusto Query Language
 ---
 ➡️ Next guide: [09 - Configure API Management in front of PetStoreService](../09-configure-apim-in-front-of-petstoreservice/README.md)
