@@ -20,7 +20,7 @@ Within your DevOps Organziation, lets create a new Pipeline. Essentially what we
 
 You should see something similar to the below image:
 
-![](images/ado1.png)
+![](images/ado_1.png)
 
 Select GitHub (Where your fork/clone is)
 
