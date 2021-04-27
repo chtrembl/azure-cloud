@@ -180,5 +180,9 @@ kubectl get all
 kubectl logs --follow <pod names here>
 ```
 
+Things you can now do now with this guide
+
+☑️ Create a Kubernetes Cluster and Administer it
+
 ---
 ➡️ Next guide: [06 - Configure Azure DevOps Pipeline for CI/CD into Azure Kubernetes Service](../06-configure-ado-pipeline-for-ci-cd-into-aks/README.md)
