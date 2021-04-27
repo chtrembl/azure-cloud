@@ -109,24 +109,32 @@ In this guide we will look at what it takes to get your Spring Boot Applications
     ```
     kubectl create secret generic aisecretkey --from-literal=secret=<your secret here>
     ```
-    This will pesist the PETSTORESERVICE_AI_INSTRUMENTATION_KEY into Azure Kubernetes Cluster Secrets.
+    This will pesist the PETSTORESERVICE_AI_INSTRUMENTATION_KEY into Azure Kubernetes Cluster Secrets and the value will be injected to the container environment at runtime as an environment variable.
 
     You should see something similar to the below image:
 
     ![](images/aks.png)
 
-    You should see something similar to the below image:
+    > 📝 Please Note, if **you are** using Kubernetes secrets, your manifests/petstoreservice-deployment.yml should look like this
 
-    ![](images/ai13.png)
+    ```
+      env:
+      - name: PETSTORESERVICE_SERVER_PORT
+        value: "8080"
+      - name: PETSTORESERVICE_AI_INSTRUMENTATION_KEY
+        valueFrom:
+            secretKeyRef:
+                name: aisecretkey
+                key: secret`
+    ```
 
-    Update your petstoreservice-deployment.yml file to now inject ```aiInstrumentationKey``` 
-
+    > 📝 Please Note, if **you are not** using Kubernetes secrets, your manifests/petstoreservice-deployment.yml should look like this
     ```
         env:
           - name: PETSTORESERVICE_SERVER_PORT
             value: "8080"
           - name: PETSTORESERVICE_AI_INSTRUMENTATION_KEY
-            value: "${aiInstrumentationKey}"
+            value: "<your instrumentation key here>"
     ```
 
     Commit these changes and run your Azure DevOps Pipeline
@@ -134,6 +142,7 @@ In this guide we will look at what it takes to get your Spring Boot Applications
     > 📝 Please Note, At this point your Applications should be pushing data to Application Insights. You can however read below to see how it all works and/or see how to query data.
 
 	Add a logback-spring.xml with the following contents which configures an ApplicationInsightsAppender which is responsible for pushing all of your log data into Azure Monitor, automagically for you. These will appear as Trace's in Azure Monitor.
+
 	```xml
 	<?xml version="1.0" encoding="UTF-8"?>
 	<configuration>
@@ -147,7 +156,7 @@ In this guide we will look at what it takes to get your Spring Boot Applications
     <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>
-                %clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} application=PetStoreService session_Id=%X{session_Id} containerHostName=%X{containerHostName} | %m%n%wEx
+                %clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} application=PetStore session_Id=%X{session_Id} containerHostName=%X{containerHostName} | %m%n%wEx
             </Pattern>
         </layout>
     </appender>
@@ -157,7 +166,8 @@ In this guide we will look at what it takes to get your Spring Boot Applications
 	</configuration>
 	```
 	Update your maven pom.xml to pull in the Azure dependencies needed to push log data and API for Custom Application Instrumentation.
-	```xml
+	
+    ```xml
 	<dependency>
 		<groupId>com.microsoft.azure</groupId>
 		<artifactId>applicationinsights-spring-boot-starter</artifactId>
@@ -170,7 +180,7 @@ In this guide we will look at what it takes to get your Spring Boot Applications
 	</dependency>
 	```
 	The ApplicationInsightsAppender alone is enough to push some default Spring Boot data such as Page Request Transaction Data and Trace Transaction Data into Azure Monitor, however there is often times a need to capture Custom Events and Exceptions as well. Perhaps you'll want to tie all of these transactions together with a Session ID or Correlation ID (for multiple services/resources leveraging the Application Insights instance) to get a full user flow for a specific user etc... (As mentioned early on in this document)
- You can do this with 
+    You can do this with 
 	
 	```java
 	import com.microsoft.applicationinsights.TelemetryClient;
