@@ -57,4 +57,4 @@ Things you can now do now with this guide
 ☑️ Administration of Azure Container Registry, pushing of Docker Images
 
 ---
-➡️ Next guide: [03 - Configure App Service for continuous deployment](../03-configure-app-service-for-c/README.md)
+➡️ Next guide: [03 - Configure App Service for continuous deployment](../03-configure-app-service-for-cd/README.md)
