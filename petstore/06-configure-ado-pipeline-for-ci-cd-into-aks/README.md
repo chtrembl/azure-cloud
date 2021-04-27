@@ -4,6 +4,8 @@ __This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.
 
 In this section, we'll Configure an Azure DevOps Pipeline for Pet Store Service CI/CD into Azure Kubernetes Service
 
+> 📝 Please Note, We will assume you have forked the azure-cloud repository, it is the easiest way to get going. Also, your application.yml for both PetStoreApp and PetStoreService, located in src/main/resources/application.yml of both projects, should have all of the Azure properties commented out. They may be uncommented becasue I am using the full deployment against this repository. You will want to comment them for now and slowly uncomment them as we progress through the guides, each guide will inform you. If you have not already done so, login to your GitHub account, head to https://github.com/chtrembl/azure-cloud, select Fork, select your GitHub account.
+
 By now you have a CI/CD GitHub Action that you can experiment with. This guide will give you a DevOps Pipeline with very similar tasks. We will then tie them together.
 
 This Pipeline will execute on any commit to petstoreapp, executing security scanning using Cred Scan, create a version file with build meta data (useful at runtime), execute unit test/code coverage (useful for dashboard metrics) and last but not least compile Compile the Spring Boot Pet Store Service, build the Docker Image and Deploy into AKS.

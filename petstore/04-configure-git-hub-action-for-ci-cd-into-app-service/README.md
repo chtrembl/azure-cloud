@@ -12,7 +12,7 @@ You should see something similar to the below image:
 
 Head to GitHub. By now you should have already cloned or forked https://github.com/chtrembl/azure-cloud and are working in the same repository structure within your GitHub account
 
-> 📝 Please Note, We will assume you have forked the azure-cloud repository, it is the easiest way to get going
+> 📝 Please Note, We will assume you have forked the azure-cloud repository, it is the easiest way to get going. Also, your application.yml for both PetStoreApp and PetStoreService, located in src/main/resources/application.yml of both projects, should have all of the Azure properties commented out. They may be uncommented becasue I am using the full deployment against this repository. You will want to comment them for now and slowly uncomment them as we progress through the guides, each guide will inform you. If you have not already done so, login to your GitHub account, head to https://github.com/chtrembl/azure-cloud, select Fork, select your GitHub account.
 
 Login to your GitHub account, head to https://github.com/chtrembl/azure-cloud, select Fork, select your GitHub account.
 

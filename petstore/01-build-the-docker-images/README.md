@@ -5,6 +5,8 @@ In this section, we'll build the Docker Images and run them locally
 
 > 📝 Please Note, if you're planning to complete this guide, we assume you have Java JDK 13+, Maven, Docker Desktop and Azure CLI installed.
 
+> 📝 Please Note, We will assume you have forked the azure-cloud repository, it is the easiest way to get going. Also, your application.yml for both PetStoreApp and PetStoreService, located in src/main/resources/application.yml of both projects, should have all of the Azure properties commented out. They may be uncommented becasue I am using the full deployment against this repository. You will want to comment them for now and slowly uncomment them as we progress through the guides, each guide will inform you. If you have not already done so, login to your GitHub account, head to https://github.com/chtrembl/azure-cloud, select Fork, select your GitHub account.
+
 From your terminal, clone this repository: https://github.com/chtrembl/azure-cloud and set azure-cloud/petstore as your working directory
 
 Run the following four commands to ensure your envrionment is good to go. 
