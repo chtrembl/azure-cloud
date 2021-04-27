@@ -90,12 +90,12 @@ stages:
               secretType: dockerRegistry
               secretName: $(imagePullSecret)
               dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
-              kubernetesServiceConnection: petstoreservice-akscluster-default
+              kubernetesServiceConnection: azurepetstoreservice-akscluster-default
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
             inputs:
               action: deploy
-              kubernetesServiceConnection: petstoreservice-akscluster-default
+              kubernetesServiceConnection: azurepetstoreservice-akscluster-default
               manifests: |
                 $(Pipeline.Workspace)/manifests/petstoreservice-deployment.yml
                 $(Pipeline.Workspace)/manifests/petstoreservice-service.yml
