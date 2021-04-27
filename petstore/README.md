@@ -72,10 +72,6 @@ Prerequisites and environment setup (Optionaly you can build/deploy locally)
 
    Configure B2C for PetStoreApp Identity Management
 
-## [11 - Store Keys in Azure Key Vault](11-store-keys-in-azure-key-vault/README.md)
-
-   Store Keys in Azure Key Vault
-
 ---
 
 ## Legal Notices

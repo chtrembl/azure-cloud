@@ -86,11 +86,15 @@ In this guide we will look at what it takes to get your Spring Boot Applications
 
  - **Enable/Configure Spring Boot Application Code**
 
-    Update your PetStoreApp and PetStoreService to now use the follow environment variable:
+    Update your PetStoreApp and PetStoreService application.yml to now use the follow environment variable:
 
-    ```PETSTORESERVICE_AI_INSTRUMENTATION_KEY=<your application insights instrumentation key from the screenshot above>```
+    ```
+    azure:
+        application-insights:
+            instrumentation-key: ${PETSTOREAPP_AI_INSTRUMENTATION_KEY}
+    ```
 
-    > 📝 Please Note, by adding PETSTORESERVICE_AI_INSTRUMENTATION_KEY to the App Service & Kubernetes Container Configuration, everything will just work, the PetStoreApp and PetStoreService will start pushing telementry into Application Insights. You can however read below to see how it all works.
+    > 📝 Please Note, by adding PETSTORESERVICE_AI_INSTRUMENTATION_KEY to the App Service & Kubernetes Container Configuration, the application code will just work, the PetStoreApp and PetStoreService will start pushing telementry into Application Insights, you won't need to write any code. You can however read below to see how it all works.
 
     Head to Azure Portal and update Azure App Service Configuration for PetStoreApp (No code change needed and App Container will automagically restart with changes taking effect)
 
@@ -98,7 +102,18 @@ In this guide we will look at what it takes to get your Spring Boot Applications
 
     ![](images/ai12.png)
 
-    Head to Azure DevOps Pipelines and add another envrionment variable secret to your pipeline called ```aiInstrumentationKey``` and paste in your instrumentation key as you did anove with App Service. 
+    Head to GitHub and view manifests/petstoreservice-deployment.yml. Remember this is the manifest that tells Azure Kubernetes Cluster our desired state. You'll notice that PETSTORESERVICE_AI_INSTRUMENTATION_KEY references a secretKeyRef. Since my project is publicly available, I do not want to persist sensitive data in source control. Instead I am persisting the PETSTORESERVICE_AI_INSTRUMENTATION_KEY value in Azure Kubernetes Secrets. (For App Service we store this in App Service Configuration) You have a decision to make, you can source your value right in value: "" within your deployment.yml instead of going through the secret process (if your repository is private). Up to you. Below are the steps to create a Kubernetes Secret.
+
+    From the Azure CLI run the following
+
+    ```
+    kubectl create secret generic aisecretkey --from-literal=secret=<your secret here>
+    ```
+    This will pesist the PETSTORESERVICE_AI_INSTRUMENTATION_KEY into Azure Kubernetes Cluster Secrets.
+
+    You should see something similar to the below image:
+
+    ![](images/aks.png)
 
     You should see something similar to the below image:
 
