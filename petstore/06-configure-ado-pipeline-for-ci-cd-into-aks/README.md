@@ -4,19 +4,19 @@ __This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.
 
 In this section, we'll Configure an Azure DevOps Pipeline for Pet Store Service CI/CD into Azure Kubernetes Service
 
-By now you have a CI/CD GitHub Action that you can expirement with. This guide will give you a DevOps Pipeline with very similar tasks. We will then tie them together.
+By now you have a CI/CD GitHub Action that you can experiment with. This guide will give you a DevOps Pipeline with very similar tasks. We will then tie them together.
 
-This Pipeline will execute on any commit to petstoreapp, executing security scannning using Cred Scan, create a version file with build meta data (useful at runtime), execute unit test/code coverage (useful for dashboard metrics) and last but not least compile Compile the Spring Boot Pet Store Service, build the Docker Image and Deploy into AKS.
+This Pipeline will execute on any commit to petstoreapp, executing security scanning using Cred Scan, create a version file with build meta data (useful at runtime), execute unit test/code coverage (useful for dashboard metrics) and last but not least compile Compile the Spring Boot Pet Store Service, build the Docker Image and Deploy into AKS.
 
 https://github.com/chtrembl/azure-cloud
 
-Head to Azure DevOps and create and organziation & project if you do not have one (I have an organization called chtrembl and a project called PetStore) and lets get started.
+Head to Azure DevOps and create and organization & project if you do not have one (I have an organization called chtrembl and a project called PetStore) and lets get started.
 
 As we did with the GitHub Action, I have the manifests files already created here https://github.com/chtrembl/azure-cloud/tree/main/manifests, Although we can't simply import them, we can reuse them. I will walk you through that below. 
 
 > 📝 Please Note, by now, https://github.com/chtrembl/azure-cloud should be forked.
 
-Within your DevOps Organziation, lets create a new Pipeline. Essentially what we are doing here is asking DevOps to setup the connectors to AKS for us, we will then use this meta data and paste into the manifests from https://github.com/chtrembl/azure-cloud/tree/main/manifests
+Within your DevOps Organization, lets create a new Pipeline. Essentially what we are doing here is asking DevOps to setup the connectors to AKS for us, we will then use this meta data and paste into the manifests from https://github.com/chtrembl/azure-cloud/tree/main/manifests
 
 You should see something similar to the below image:
 
@@ -59,7 +59,7 @@ Validate and configure, what you will see if a pre generated yml deployment file
     - Make note of your imagePullSecret
     - Make note of your dockerRegistryServiceConnection
 
-> 📝 Please Note, At this point Azure DevOps was kind enough to create service connections to Azure Container Registry and AKS for us, automagically. You can see these under Settings > Service Connections, if curious you can take a look (do this in another tab so you dont lose your current work)
+> 📝 Please Note, At this point Azure DevOps was kind enough to create service connections to Azure Container Registry and AKS for us, automagically. You can see these under Settings > Service Connections, if curious you can take a look (do this in another tab so you don't lose your current work)
 
 You should see something similar to the below image:
 
@@ -73,7 +73,7 @@ You should see something similar to the below image:
 
 ![](images/ado6.png)
 
-Azure DevOps is asking for your consent on file name of this deployment pipeline along with contents. I like to change the path to manifests/soemthing-more meaningful, for example azure-petstoreservice-ci-cd-to-aks-pipeline or azure-petstoreservice-pipeline. If you are cloning/forking, you will have to pick a different name, Azure DevOps unfortunatley wont commit on an existing version.
+Azure DevOps is asking for your consent on file name of this deployment pipeline along with contents. I like to change the path to manifests/something-more meaningful, for example azure-petstoreservice-ci-cd-to-aks-pipeline or azure-petstoreservice-pipeline. If you are cloning/forking, you will have to pick a different name, Azure DevOps unfortunately won't commit on an existing version.
 
 Now for the tricky part, remove all of the body contents from the inline editor and paste in the contents from https://github.com/chtrembl/azure-cloud/blob/main/manifests/azure-petstoreservice-ci-cd-to-aks-pipeline.yml
 
@@ -82,7 +82,7 @@ I am going to go through each line you want to review and/or change and why
  - line 11 make sure you are executing this pipeline on only changes from petstore/petstoreservice (no need to trigger on petstoreapp changes etc...) (if your cloning/forking this should not change)
  - line 19 overwrite dockerRegistryServiceConnection with the id you copied above
  - line 20 verify imageRepository matches your Azure Container Registry/Image Repository (if your cloning/forking this should not change)
- - line 21 verify your containerRegistry is the one configured in guide guide 00-setup-your-environment (if your cloning/forking this should not change)
+ - line 21 verify your containerRegistry is the one configured in guide 00-setup-your-environment (if your cloning/forking this should not change)
  - line 22 verify your path is correct to the Dockefile (if your cloning/forking this should not change)
  - line 24 overwrite imagePullSecret with '$(crImagePullSecret)', we will inject this sensitive value as a pipeline secret below
  - line 89 kubernetesServiceConnection should match your service connection that you made in the previous dialog and can view in your settings/service connections
@@ -90,7 +90,7 @@ I am going to go through each line you want to review and/or change and why
  - line 100 Azure DevOps Pipelines will create a generic deployment file for you, we are using this one (it's part of your clone/fork) for better naming (just imagine you have multiple pipelines someday)
  - line 101 Azure DevOps Pipelines will create a generic service file for you, we are using this one (it's part of your clone/fork) for better naming (just imagine you have multiple pipelines someday)
  
-After you are done editing (dont worry this file will vet versioned in GitHub in the next dialog and you can always make changes at any time)
+After you are done editing (don't worry this file will vet versioned in GitHub in the next dialog and you can always make changes at any time)
 
 Click Save and run
 
@@ -110,7 +110,7 @@ You should see something similar to the below image:
 
 ![](images/ado9.png)
 
-It's gping to source a manifests/deployment.yml and manifests/service.yml for you in GitHub. You can safely remove those in favor of the ones that are preexisting for you.
+Azure DevOps is going to source a manifests/deployment.yml and manifests/service.yml for you in GitHub. You can safely remove those in favor of the ones that are preexisting for you.
 
 At this point the build will run, and it will also run any time you make a commit to petstore/petstore service. 
 
@@ -118,7 +118,7 @@ At this point the build will run, and it will also run any time you make a commi
 
 While this failing build is running, double check your manfiests/petstoreservice-deployment.yml and manifests/petstoreservice-service.yml
 
-You'll want to make sure your using your Azure Container Registry. (I should of probably externalized these but for now you can update them to reflect your own)  
+You'll want to make sure you're using your Azure Container Registry. (I should of probably externalized these but for now you can update them to reflect your own)  
 
 ```containers:
       - name: petstoreservice
@@ -141,6 +141,10 @@ You should see something similar to the below image:
 
 > 📝 Please Note, Now when you inspect the pipeline, if you scroll all the way down to the bottom of the Deploy to Kubernetes cluster, you will see the Load Balancer IP Address, this will also match your kubectl commands as well if your working on the Azure CLI.
 
+You should see something similar to the below image:
+
+![](images/ado13.png)
+
 Lets do a curl 
 
 ```
@@ -153,7 +157,7 @@ You should see something similar to the below image:
 
 You will see the build id (matches Azure Container Registry) as well as the container runtime too!
 
-This is handy to ensure what your viewing at runtime within your application is what mathces what was just built :)
+This is handy to ensure what your viewing at runtime within your application is what matches what was just built :)
 
 Head to Azure Portal, find your AKS Cluster, view workloads and you'll see the same matching pod as depicted in your curl results
 
