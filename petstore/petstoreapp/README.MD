@@ -12,13 +12,13 @@ Other optional aruments that you can specify to do certain things that get cover
 
     - enable Application Inisghts
 
-        ```-e PETSTOREAPP_AI_INSTRUMENTATION_KEY=<your key here>```
+```-e PETSTOREAPP_AI_INSTRUMENTATION_KEY=<your key here>```
 
 
     - enable APIM Management and pass along a subscription key in the REST calls
 
-        ```-e PETSTORESERVICE_SUBSCRIPTION_KEY=<your key here>```
+```-e PETSTORESERVICE_SUBSCRIPTION_KEY=<your key here>```
 
     - enable AAD B2C
 
-        ```-e PETSTOREAPP_B2C_TENANT=<your tenant here> -e PETSTOREAPP_B2C_CLIENT_ID=<your client id here> -e PETSTOREAPP_B2C_CLIENT_SECRET=<your client secret here> -e PETSTOREAPP_B2C_REPLY_URL=<your b2c reply uel here> -e PETSTOREAPP_B2C_LOGOUT_URL=<your b2c logout uel here>```
+```-e PETSTOREAPP_B2C_TENANT=<your tenant here> -e PETSTOREAPP_B2C_CLIENT_ID=<your client id here> -e PETSTOREAPP_B2C_CLIENT_SECRET=<your client secret here> -e PETSTOREAPP_B2C_REPLY_URL=<your b2c reply uel here> -e PETSTOREAPP_B2C_LOGOUT_URL=<your b2c logout uel here>```
