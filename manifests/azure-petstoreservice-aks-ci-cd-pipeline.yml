@@ -38,11 +38,14 @@ stages:
  
   - job: Build
     displayName: Build App
+    variables:
+      compileDate: $(Get-Date -Format yyyyMMddhhmmss)
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-    - script: echo -n -e "{\"version\":\"$(Build.BuildNumber)\",\"date\":\"$(Date:MMddyy)\"}" > petstore/petstoreservice/src/main/resources/version.json
+    - script: echo -n -e "{\"version\":\"$(Build.BuildNumber)\",\"date\":\"$(compileDate)\"}" > petstore/petstoreservice/src/main/resources/version.json
     - task: Maven@3
+      continueOnError: true 
       displayName: Build Spring Boot Jar
       inputs:
         mavenPomFile: 'petstore/petstoreservice/pom.xml'
