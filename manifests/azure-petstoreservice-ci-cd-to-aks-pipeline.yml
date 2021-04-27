@@ -22,7 +22,6 @@ variables:
   dockerfilePath: 'petstore/petstoreservice/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: '$(crImagePullSecret)'
-  applicationInsightsInstrumentationKey: '$(aiInstrumentationKey)'
 
 stages:
 - stage: Build
@@ -43,7 +42,7 @@ stages:
       vmImage: 'ubuntu-latest'
     steps:
     - script: echo -n -e "{\"version\":\"$(Build.BuildNumber) - $(tag)\"}" > petstore/petstoreservice/src/main/resources/version.json
-    - script: echo $(AIINSTRUMENTATIONKEY)
+
     - task: Maven@3
       continueOnError: true 
       displayName: Build Spring Boot Jar
