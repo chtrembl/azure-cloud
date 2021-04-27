@@ -10,6 +10,6 @@ You are also welcome to build/deploy it outside if the Azure Pet Store Reference
 
 Other optional aruments that you can specify to do certain things that get covered int the Azure Pet Store Reference Guide(s) like:
 
-    - enable Application Inisghts (empty and disabled by default)
+- enable Application Inisghts (empty and disabled by default)
 
-        ```-e PETSTOREAPP_AI_INSTRUMENTATION_KEY=<your key here>```
+```-e PETSTOREAPP_AI_INSTRUMENTATION_KEY=<your key here>```
