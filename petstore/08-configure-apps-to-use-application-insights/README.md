@@ -77,12 +77,39 @@ In this guide we will look at what it takes to get your Spring Boot Applications
     ![](images/ai3.png)
 
  - **Enable/Configure Spring Boot Application Code**
-		Update your application.yml or application.properties with the instrumentation key, this will be used by the Azure Spring Boot starter to push data into Azure Monitor.
-	```yml
-	azure:
-		application-insights:
-			instrumentation-key: <enter from above>
-	```
+
+    Update your PetStoreApp and PetStoreService to now use the follow environment variable:
+
+    ```PETSTORESERVICE_AI_INSTRUMENTATION_KEY=<your application insights instrumentation key from the screenshot above>```
+
+    > 📝 Please Note, by adding PETSTORESERVICE_AI_INSTRUMENTATION_KEY to the App Service & Kubernetes Container Configuration, everything will just work, the PetStoreApp and PetStoreService will start pushing telementry into Application Insights. You can however read below to see how it all works.
+
+    Head to Azure Portal and update Azure App Service Configuration for PetStoreApp (No code change needed and App Container will automagically restart with changes taking effect)
+
+    You should see something similar to the below image:
+
+    ![](images/ai12.png)
+
+    Head to Azure DevOps Pipelines and add another envrionment variable secret to your pipeline called ```aiInstrumentationKey``` and paste in your instrumentation key as you did anove with App Service. 
+
+    You should see something similar to the below image:
+
+    ![](images/ai13.png)
+
+    Update your petstoreservice-deployment.yml file to now inject ```aiInstrumentationKey``` 
+
+    ```
+        env:
+          - name: PETSTORESERVICE_SERVER_PORT
+            value: "8080"
+          - name: PETSTORESERVICE_AI_INSTRUMENTATION_KEY
+            value: "${aiInstrumentationKey}"
+    ```
+
+    Commit these changes and run your Azure DevOps Pipeline
+
+    > 📝 Please Note, At this point your Applications should be pushing data to Application Insights. You can however read below to see how it all works and/or see how to query data.
+
 	Add a logback-spring.xml with the following contents which configures an ApplicationInsightsAppender which is responsible for pushing all of your log data into Azure Monitor, automagically for you. These will appear as Trace's in Azure Monitor.
 	```xml
 	<?xml version="1.0" encoding="UTF-8"?>
@@ -94,13 +121,13 @@ In this guide we will look at what it takes to get your Spring Boot Applications
 	<conversionRule  conversionWord="clr"  converterClass="org.springframework.boot.logging.logback.ColorConverter"  />
 	<conversionRule  conversionWord="wex"  converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"  />
 	<conversionRule  conversionWord="wEx"  converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"  />
-	<appender  name="consoleAppender"  class="ch.qos.logback.core.ConsoleAppender">
-	<layout  class="ch.qos.logback.classic.PatternLayout">
-	<Pattern>
-            %clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} session_Id=%X{session_Id} | %m%n%wEx
-    </Pattern>
-	</layout>
-	</appender>
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                %clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%5p) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} application=PetStoreService session_Id=%X{session_Id} containerHostName=%X{containerHostName} | %m%n%wEx
+            </Pattern>
+        </layout>
+    </appender>
 	<root  level="info">
 	<appender-ref  ref="aiAppender"  />
 	</root>
@@ -142,40 +169,75 @@ In this guide we will look at what it takes to get your Spring Boot Applications
 
 	import com.microsoft.applicationinsights.TelemetryClient;
 
-	@Component
-	@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
-	@SuppressWarnings("serial")
-	public class User implements Serializable {
-		private String name = null;
-		private String sessionId = null;
+	package com.chtrembl.petstoreapp.model;
 
-		@Autowired
-		private TelemetryClient telemetryClient;
+    import java.io.Serializable;
+    import java.util.List;
 
-		public void setName(String name) {
-			this.name = name;
-		}
+    import javax.annotation.PostConstruct;
 
-		public String getName() {
-			return name;
-		}
+    import org.springframework.beans.factory.annotation.Autowired;
+    import org.springframework.context.annotation.Scope;
+    import org.springframework.context.annotation.ScopedProxyMode;
+    import org.springframework.stereotype.Component;
 
-		public String getSessionId() {
-			return sessionId;
-		}
+    import com.microsoft.applicationinsights.TelemetryClient;
 
-		public void setSessionId(String sessionId) {
-			this.sessionId = sessionId;
-		}
+    @Component
+    @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
+    @SuppressWarnings("serial")
+    public class User implements Serializable {
+        private String name = "Guest";
+        private String sessionId = null;
 
-		public TelemetryClient getTelemetryClient() {
-			return this.telemetryClient;
-		}
-	}
+        // intentionally avoiding spring cache to ensure service calls are made each
+        // time to show Telemetry with APIM requests
+        private List<Pet> pets;
+
+        @Autowired(required = false)
+        private transient TelemetryClient telemetryClient;
+
+        @PostConstruct
+        private void initialize() {
+            if (this.telemetryClient == null) {
+                this.telemetryClient = new com.chtrembl.petstoreapp.service.TelemetryClient();
+            }
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getSessionId() {
+            return sessionId;
+        }
+
+        public void setSessionId(String sessionId) {
+            this.sessionId = sessionId;
+        }
+
+        public TelemetryClient getTelemetryClient() {
+            return this.telemetryClient;
+        }
+
+        public List<Pet> getPets() {
+            return pets;
+        }
+
+        public synchronized void setPets(List<Pet> pets) {
+            this.pets = pets;
+        }
+    }
 
 	```
+
 	Then when you authenticate a new user
-	```java
+	
+    ```java
 	@Autowired
 	private User sessionUser;
 	...

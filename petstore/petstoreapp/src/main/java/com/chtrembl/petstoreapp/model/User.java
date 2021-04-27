@@ -20,7 +20,7 @@ public class User implements Serializable {
 	private String sessionId = null;
 
 	// intentionally avoiding spring cache to ensure service calls are made each
-	// time to show telemetry with APIM requests
+	// time to show Telemetry with APIM requests
 	private List<Pet> pets;
 
 	@Autowired(required = false)
