@@ -22,6 +22,7 @@ variables:
   dockerfilePath: 'petstore/petstoreservice/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: '$(crImagePullSecret)'
+  applicationInsightsInstrumentationKey: '$(aiInstrumentationKey)'
 
 stages:
 - stage: Build
