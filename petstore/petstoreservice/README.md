@@ -1,4 +1,4 @@
-# OpenAPI generated server
+# OpenAPI generated server 
 
 Spring Boot Server 
 
