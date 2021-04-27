@@ -23,14 +23,8 @@ public class TestingWebApplicationTests {
 	private MockMvc mockMvc;
 
 	@Test
-	public void shouldReturnAPIVersionMessage() throws Exception {
+	public void shouldReturnVersion() throws Exception {
 		this.mockMvc.perform(get("/v2/info")).andDo(print()).andExpect(status().isOk())
-				.andExpect(content().string(containsString("welcome to the petstore api version")));
-	}
-
-	@Test
-	public void shouldReturnAuthor() throws Exception {
-		this.mockMvc.perform(get("/v2/info")).andDo(print()).andExpect(status().isOk())
-				.andExpect(content().string(containsString("Chris Tremblay")));
+				.andExpect(content().string(containsString("version")));
 	}
 }
