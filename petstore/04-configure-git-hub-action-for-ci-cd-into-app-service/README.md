@@ -143,6 +143,8 @@ Things you can now do now with this guide
 
 ☑️ GitHub Action to CI/CD into App Service, showcasing the details behind building/deploying and the associated meta data reflecting within the running application
 
+☑️ Build Meta Data appears within your running application which matches the container configuration reflected in your App Service
+
 
 > 📝 Please Note, if you're interested in viewing the web hook that got created, **automagically**, when Container Configuration was updated to sync with Azure Container Registry, you can view these under the Azure Container Registry as seen below.
 

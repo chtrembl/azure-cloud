@@ -165,5 +165,14 @@ You should see something similar to the below image:
 
 ![](images/aks.png)
 
+Things you can now do now with this guide
+
+☑️ CI/CD to your Kubernetes Cluster using Azure DevOps Pipelines
+
+☑️ DevOps code coverage/unit test coverage reporting within Azure DevOps
+
+☑️ Build Meta Data appears within your running application which matches the container configuration reflected in your Kubernetes Cluster
+
+
 ---
 ➡️ Next guide: [07 - Connect PetStoreApp and PetStoreService together](../07-connect-petstoreapp-and-petstoreservice-together/README.md)
