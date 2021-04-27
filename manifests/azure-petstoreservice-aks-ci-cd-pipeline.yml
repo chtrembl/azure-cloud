@@ -5,7 +5,7 @@
 trigger:
   branches:
     include:
-    - master
+    - main
   paths:
     include:
     - petstore/petstoreservice/*
@@ -41,8 +41,7 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-    - script: echo -n -e "{\"version\":\"$(Build.BuildNumber)\",\"date\":\"$(date '+%m-%d-%Y %H:%M:%S')\"}" > petstore/petstoreservice/src/main/resources/version.json
-    - script: cat petstore/petstoreservice/src/main/resources/version.json
+    - script: echo -n -e "{\"version\":\"$(Build.BuildNumber)\",\"date\":\"$(Date:MMddyy)\"}" > petstore/petstoreservice/src/main/resources/version.json
     - task: Maven@3
       displayName: Build Spring Boot Jar
       inputs:
