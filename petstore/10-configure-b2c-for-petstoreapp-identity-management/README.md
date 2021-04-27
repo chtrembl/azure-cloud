@@ -5,4 +5,4 @@ __This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.
 ## Coming Soon
 
 ---
-➡️ Next guide: [11 - Store keys in Azure Key Vault](../11-store-keys-in-azure-key-vault/README.md)
+
