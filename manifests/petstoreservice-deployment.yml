@@ -30,4 +30,7 @@ spec:
           - name: PETSTORESERVICE_SERVER_PORT
             value: "8080"
           - name: PETSTORESERVICE_AI_INSTRUMENTATION_KEY
-            value: "$(AIINSTRUMENTATIONKEY)"
+            valueFrom:
+              secretKeyRef:
+                name: petstoreServiceAIIntrumentationKey
+                key: secret
