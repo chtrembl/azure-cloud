@@ -139,6 +139,8 @@ If successful you can head to a browser and visit your FQDN Azure App Service UR
 
 🎉Congratulations, you now have Pet Store App Continuously Deploying into your App Service each and every time an image is pushed to Azure Container Registry from your Git Hub Action. Notice the Date/Version within your App Service HTML Footer (seen in browser) matches the Git Hub Action Build Meta Data.
 
+> 📝 Please Note,  Enable application logging (Linux/Container) so that logs start aggregating for you. To enable application logging for Linux apps or custom container apps in the Azure portal, navigate to your app and select App Service logs. In Application logging, select File System. In Quota (MB), specify the disk quota for the application logs. In Retention Period (Days), set the number of days the logs should be retained. When finished, select Save. This will comein handy when you start experimenting with Application Insights.
+
 Things you can now do now with this guide
 
 ☑️ GitHub Action to CI/CD into App Service, showcasing the details behind building/deploying and the associated meta data reflecting within the running application
