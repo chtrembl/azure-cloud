@@ -79,16 +79,16 @@ Now for the tricky part, remove all of the body contents from the inline editor 
 
 I am going to go through each line you want to review and/or change and why
 
- - 11 make sure you are executing this pipeline on only changes from petstore/petstoreservice (no need to trigger on petstoreapp changes etc...) (if your cloning/forking this should not change)
- - 19 overwrite dockerRegistryServiceConnection with the id you copied above
- - 20 verify imageRepository matches your Azure Container Registry/Image Repository (if your cloning/forking this should not change)
- - 21 verify your containerRegistry is the one configured in guide guide 00-setup-your-environment (if your cloning/forking this should not change)
- - 22 verify your path is correct to the Dockefile (if your cloning/forking this should not change)
- - 24 overwrite imagePullSecret with '$(crImagePullSecret)', we will inject this sensitive value as a pipeline secret below
- - 89 kubernetesServiceConnection should match your service connection that you made in the previous dialog and can view in your settings/service connections
- - 98 kubernetesServiceConnection should match your service connection that you made in the previous dialog and can view in your settings/service connections
- - 100 Azure DevOps Pipelines will create a generic deployment file for you, we are using this one (it's part of your clone/fork) for better naming (just imagine you have multiple pipelines someday)
- - 101 Azure DevOps Pipelines will create a generic service file for you, we are using this one (it's part of your clone/fork) for better naming (just imagine you have multiple pipelines someday)
+ - line 11 make sure you are executing this pipeline on only changes from petstore/petstoreservice (no need to trigger on petstoreapp changes etc...) (if your cloning/forking this should not change)
+ - line 19 overwrite dockerRegistryServiceConnection with the id you copied above
+ - line 20 verify imageRepository matches your Azure Container Registry/Image Repository (if your cloning/forking this should not change)
+ - line 21 verify your containerRegistry is the one configured in guide guide 00-setup-your-environment (if your cloning/forking this should not change)
+ - line 22 verify your path is correct to the Dockefile (if your cloning/forking this should not change)
+ - line 24 overwrite imagePullSecret with '$(crImagePullSecret)', we will inject this sensitive value as a pipeline secret below
+ - line 89 kubernetesServiceConnection should match your service connection that you made in the previous dialog and can view in your settings/service connections
+ - line 98 kubernetesServiceConnection should match your service connection that you made in the previous dialog and can view in your settings/service connections
+ - line 100 Azure DevOps Pipelines will create a generic deployment file for you, we are using this one (it's part of your clone/fork) for better naming (just imagine you have multiple pipelines someday)
+ - line 101 Azure DevOps Pipelines will create a generic service file for you, we are using this one (it's part of your clone/fork) for better naming (just imagine you have multiple pipelines someday)
  
 After you are done editing (dont worry this file will vet versioned in GitHub in the next dialog and you can always make changes at any time)
 
