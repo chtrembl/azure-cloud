@@ -45,49 +45,131 @@ Below we will walk through the process of getting things configured for this to 
 
 3. Demo
 
-## 2.  Create an Azure Active Directory B2C Tenant and configure an App Registration
+1.  Create an Azure Active Directory B2C Tenant and configure an App Registration
 
- 1. Head to Azure Portal https://ms.portal.azure.com and search for Azure Active Directory B2C and select Create. This will allow us to create a new Directory/Tenant which we will use to manage our user's of the Rhody Pet Store Spring Boot Application.  ![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/petstoreapp/ap1.png?raw=true)
- 
- 2. Select the first option Create a new Azure AD B2C Tenant. (In this tutorial, we will want to manage our users in a separate isolated tenant)
-![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/petstoreapp/ap2.png?raw=true)
+Head to Azure Portal https://ms.portal.azure.com and search for Azure Active Directory B2C and select Create. This will allow us to create a new Directory/Tenant which we will use to manage our user's of the Azure Pet Store Spring Boot Application.
 
- 3. Select Create a directory. You can give your tenant an Organization Name and a Domain, that will be used in the user flows that we mentioned above (Sign In, Sign out etc...)   ![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/petstoreapp/ap3.png?raw=true)
+You should see something similar to the below image:
+
+![](images/ap1.png)
  
- 4. Confirm your settings and select Create, this will take a few minutes to provision ![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/petstoreapp/ap4.png?raw=true)
+Select the first option Create a new Azure AD B2C Tenant. (In this tutorial, we will want to manage our users in a separate isolated tenant)
+
+You should see something similar to the below image:
+
+![](images/ap2.png)
+
+Select Create a directory. You can give your tenant an Organization Name and a Domain, that will be used in the user flows that we mentioned above (Sign In, Sign out etc...)
+
+You should see something similar to the below image:
+
+![](images/ap3.png)
+
+Confirm your settings and select Create, this will take a few minutes to provision 
+
+You should see something similar to the below image:
+
+![](images/ap4.png)
  
- 5. In the top rigght, toggle directories and select your newly created Directory/Tenant, ![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/petstoreapp/ap5_1.png?raw=true)
+In the top rigght, toggle directories and select your newly created Directory/Tenant
+
+You should see something similar to the below image:
+
+![](images/ap5.png)
   
- 6. Once you are in the new directory, search for Azure Active Directory ![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/petstoreapp/ap6.png?raw=true)
+Once you are in the new directory, search for Azure Active Directory
+
+You should see something similar to the below image:
+
+![](images/ap6.png)
  
- 7. This will show you the details of your newly created Directory/Tenant![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/petstoreapp/ap7.png?raw=true)
+This will show you the details of your newly created Directory/Tenant
+
+You should see something similar to the below image:
+
+![](images/ap7.png)
+
+Select App Registrations
+
+You should see something similar to the below image:
+
+![](images/ap8.png)
+
+Register the Azure Pet Store Application that we are building. Notice the redirect URI, this is Spring Boot Application that Azure will send request(s) to. You may want to use http://localhost:8080 if you are testing locally. I have the Azure Pet Store Application running in an Azure Container already, hence the reason for not using localhost.
+
+You should see something similar to the below image:
+
+![](images/ap9.png)
+
+> 📝 Please Note, After registering, take note of the meta data, you will need this when configuring the Spring Boot Application
+
+You should see something similar to the below image:
+
+![](images/ap10.png)
   
- 8. Select App Registrations ![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/petstoreapp/ap8.png?raw=true)
+To further configure and view users etc... search for Azure AD B2C (Note, you could of also done the previous registration through this flow as well)
+
+You should see something similar to the below image:
+
+![](images/ap11.png)
+
   
- 9. Register the Rhody Pet Store Application that we are building. Notice the redirect URI, this is Spring Boot Application that Azure will send request(s) to. You may want to use http://localhost:8080 if you are testing locally. I have the Rhody Pet Store Application running in an Azure Container already, hence the reason for not using localhost.![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/petstoreapp/ap9.png?raw=true)
-  
- 10. ***After registering, take note of the meta data, you will need this when configuring the Spring Boot Application*** ![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/petstoreapp/ap10.png?raw=true)
-  
- 11. To further configure and view users etc... search for Azure AD B2C (Note, you could of also done the previous registration through this flow as well)![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/petstoreapp/ap11.png?raw=true)
-  
- 12. Select Applications (Legacy)![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/petstoreapp/ap12.png?raw=true)
- 13. You will notice the application "rhodypetstoreapp" from the registration previously created above. Select it.![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/petstoreapp/ap13.png?raw=true)
- 14. Select Yes for Web App (We are configuring for an externally facing Spring Boot Application) and Yes for implicit flow to ensure our Spring Boot Application can use Open Id Connect to Sign In.
-  ![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/petstoreapp/ap14.png?raw=true)
-  
- 15. Select Keys and Generate Key
-***(Keep your newly generated key handy, you will not see it again, and will need it when configuring the Rhody Pet Store Spring Boot Application)***
-     ![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/petstoreapp/ap15.png?raw=true)
+Select Applications (Legacy)
+
+You should see something similar to the below image:
+
+![](images/ap12.png)
+
+You will notice the application "rhodypetstoreapp" from the registration previously created above. Select it.
+
+You should see something similar to the below image:
+
+![](images/ap13.png)
+
+Select Yes for Web App (We are configuring for an externally facing Spring Boot Application) and Yes for implicit flow to ensure our Spring Boot Application can use Open Id Connect to Sign In.
+
+You should see something similar to the below image:
+
+![](images/ap14.png)
+
+Select Keys and Generate Key
+
+> 📝 Please Note, Keep your newly generated key handy, you will not see it again, and will need it when configuring the Azure Pet Store Spring Boot Application
+
+You should see something similar to the below image:
+
+![](images/ap15.png)
      
- 16. Select User Flows, here you will create 3 flows (Sign Up/Sign In, Profile Editing and Password Reset) These are the flows that are being offloaded to Azure Identity Management. ![sdsd](https://github.com/chtrembl/staticcontent/blob/master/petstoreapp/ap16.png?raw=true)
- 17. Go through all three flows below, and select the User Claims necessary. This is the meta data associated with each user. I have selected all, for tutorial purposes, and display all claims within the Rhody Pet Store Spring Boot Application. 
-![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/petstoreapp/ap17.png?raw=true)
+Select User Flows, here you will create 3 flows (Sign Up/Sign In, Profile Editing and Password Reset) These are the flows that are being offloaded to Azure Identity Management. 
 
- 19. Enter a name for each flow and create, here we are using "signupsignin", this will get referenced in the Rhody Pet Store Application ![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/petstoreapp/ap18.png?raw=true)
+You should see something similar to the below image:
+
+![](images/ap16.png)
+     
+Go through all three flows below, and select the User Claims necessary. This is the meta data associated with each user. I have selected all, for tutorial purposes, and display all claims within the Rhody Pet Store Spring Boot Application. 
+
+You should see something similar to the below image:
+
+![](images/ap17.png)
+
+Enter a name for each flow and create, here we are using "signupsignin", this will get referenced in the Rhody Pet Store Application 
+
+You should see something similar to the below image:
+
+![](images/ap18.png)
  
- 20. Enter a name for each flow and create, here we are using "profileediting", this will get referenced in the Rhody Pet Store Application ![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/petstoreapp/ap19.png?raw=true)
- 21. Enter a name for each flow and create, here we are using "passwordreset", this will get referenced in the Rhody Pet Store Application   ![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/petstoreapp/ap20.png?raw=true)
- 
+Enter a name for each flow and create, here we are using "profileediting", this will get referenced in the Rhody Pet Store Application
+
+You should see something similar to the below image:
+
+![](images/ap19.png)
+
+Enter a name for each flow and create, here we are using "passwordreset", this will get referenced in the Rhody Pet Store Application
+
+You should see something similar to the below image:
+
+![](images/ap20.png)
+
 ## 3. Configure the Spring Boot Application to properly authenticate sign-up, sign-in and edit users 
 
 Since we are not managing identity ourselves, we can avoid configuring Spring Security to use Pre Authentication and configuring an Authentication Manager ourselves etc... Instead we can just @EnableSpringSecurity and wire up the and AADB2COidcLoginConfigurer
