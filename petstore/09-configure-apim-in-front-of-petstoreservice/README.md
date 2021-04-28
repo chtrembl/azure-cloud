@@ -41,7 +41,7 @@ We are going to configure PetStoreApp to integrate with the new PetStore API tha
 
 ## 2. Create and Configure Azure API Management Service
 
-Head to Azure Portal and Search for API Management Services and Create a New Instnace using the following data, the defaults for the remaining tabs are fine. Select Review + create.
+Head to Azure Portal and Search for API Management Services and Create a New Instance using the following data, the defaults for the remaining tabs are fine. Select Review + create.
  
 You should see something similar to the below image:
 
@@ -61,7 +61,7 @@ You should see something similar to the below image:
 
 ![](images/apim3.png)
 
-Fill in the details and paste in your Open API specification from the Azure Kubernetes Service where your App Servicd is running
+Fill in the details and paste in your Open API specification from the Azure Kubernetes Service where your App Service is running
 
 You can use the following URL https://petstore.swagger.io/v2/swagger.json if you would like
 
@@ -97,7 +97,7 @@ You should see something similar to the below image:
 
 ![](images/apim8.png)
 
-> 📝 Please Note, At this point we are able to interacti with our Azure Kubernetes PetStoreService via API Management using a generic Test Subscription. There is much more we can do with policies, tranformations, mocks etc... We are just scratching the surface
+> 📝 Please Note, At this point we are able to interact with our Azure Kubernetes PetStoreService via API Management using a generic Test Subscription. There is much more we can do with policies, tranformations, mocks etc... We are just scratching the surface
   
 ## 3. Create and Configure a Product
 
@@ -143,7 +143,7 @@ You should see something similar to the below image:
 
 ![](images/apim16.png)
 
-Below shows Developer Portal View (This is the default skinned Portal, this can be custoized/themed to your liking, this is the view where API developers/owners developing API's will work)
+Below shows Developer Portal View (This is the default skinned Portal, this can be customized/themed to your liking, this is the view where API developers/owners developing API's will work)
 
 You should see something similar to the below image:
 
@@ -222,7 +222,7 @@ You should see something similar to the below image:
 
 ![](images/apim23.png)
 
-Pretty cool huh? Now head over to Azure Portal > Application Insights Failures and lets check the Telemtry to see what happens. As you can see, the 429 Exception gets indexed. (alerts etc... can be configured to act on this)
+Pretty cool huh? Now head over to Azure Portal > Application Insights Failures and lets check the Telemetry to see what happens. As you can see, the 429 Exception gets indexed. (alerts etc... can be configured to act on this)
 
 You should see something similar to the below image:
 
@@ -232,7 +232,7 @@ Things you can now do now with this guide
 
 ☑️ Configuring API Management & Importing Open API's
 
-☑️ Creating Products/Subcriptions with Rate Limits
+☑️ Creating Products/Subscriptions with Rate Limits
 
 ☑️ Verifying Rate Limit Exhaustion
 
