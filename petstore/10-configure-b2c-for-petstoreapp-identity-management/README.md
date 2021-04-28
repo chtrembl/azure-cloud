@@ -327,7 +327,7 @@ Head to your Azure Pet Store App
 
 You should see something similar to the below image:
 
-![](images/public.png)
+![](images/publicview.png)
 
 Sign in flow (new user registration as well)
 
@@ -345,7 +345,7 @@ You should see something similar to the below image:
 
 You should see something similar to the below image:
 
-![](images/authenticated.png)
+![](images/authenticatedview.png)
 
 Back in Azure Portal you can view the registered users in your App Registration
 
