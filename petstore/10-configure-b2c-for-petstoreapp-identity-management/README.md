@@ -351,7 +351,7 @@ Back in Azure Portal you can view the registered users in your App Registration
 
 You should see something similar to the below image:
 
-![](images/app22.png)
+![](images/ap22.png)
 
 Things you can now do now with this guide
 
