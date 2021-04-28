@@ -177,55 +177,60 @@ You should see something similar to the below image:
 Since we are not managing identity ourselves, we can avoid configuring Spring Security to use Pre Authentication and configuring an Authentication Manager ourselves etc... Instead we can just @EnableSpringSecurity and wire up the and AADB2COidcLoginConfigurer
 inside our WebSecurityConfigurerAdapter. By doing so, on successful Sign Ins, Azure will send along grant type and code to our Azure Pet Store Application and the Spring Security/Filter Chain Flow will grab these values and request/construct tokens for us. With the JWT token, we have access to the claims managed by Azure Active Directory.
 
-In no particular order, you will want to add the following to your newly generated Petstore Pet Store Spring Boot Application. ***You can also pull the completed project from [https://github.com/chtrembl/petstoreapp](https://github.com/chtrembl/petstoreapp)*** 
+In no particular order, you will want to add the following to your newly generated Petstore Pet Store Spring Boot Application. 
 
-Create WebSecurityConfiguration.java as seen below. This will wire up the Microsoft AADB2COidcLoginConfigurer as our securtity configurer and resolve our Azure flows for us.  The other unique thing to notice is the configure methods. Our Azure Pet Store Application will have 2 publicly accessible pages (login landing page and the dogbreeds page configured in our HttpSecurity) and all others will require authentication. We also need to permit all access to our static resources (configured in our WebSecurity) as they are used by the publicly accessible login landing page.  The Azure Pet Store Presentation was built with Bootstrap, hence the need to permit that. CSRF is disabled for this tutorial, however it is not advised to disable CSRF in a real live application (internal or external). 
+You can also fork/clone the completed project from [https://github.com/chtrembl/azure-cloud/tree/main/petstore/petstoreapp](https://github.com/chtrembl/azure-cloud/tree/main/petstore/petstoreapp) 
+
+Create WebSecurityConfiguration.java as seen below. This will wire up the Microsoft AADB2COidcLoginConfigurer as our securtity configurer and resolve our Azure flows for us. The other unique thing to notice is the configure methods. Our Azure Pet Store Application will have 2 publicly accessible pages (login landing page and the dogbreeds page configured in our HttpSecurity) and all others will require authentication. We also need to permit all access to our static resources (configured in our WebSecurity) as they are used by the publicly accessible login landing page.  The Azure Pet Store Presentation was built with Bootstrap, hence the need to permit that. CSRF is disabled for this tutorial, however it is not advised to disable CSRF in a real live application (internal or external). 
 
 ````java
 package com.chtrembl.petstoreapp.security;
 
-import com.microsoft.azure.spring.autoconfigure.b2c.AADB2COidcLoginConfigurer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+import com.chtrembl.petstoreapp.model.ContainerEnvironment;
+
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+	private static Logger logger = LoggerFactory.getLogger(WebSecurityConfiguration.class);
 
-    private final AADB2COidcLoginConfigurer configurer;
+	@Autowired(required = false)
+	private AADB2COidcLoginConfigurerWrapper aadB2COidcLoginConfigurerWrapper = null;
 
-    public WebSecurityConfiguration(AADB2COidcLoginConfigurer configurer) {
-        this.configurer = configurer;
-    }
+	@Autowired
+	private ContainerEnvironment containeEnvironment;
 
-    
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web
-                .ignoring()
-                .antMatchers( "/*.css", "/*.js", "/*.png", "/bootstrap-4.5.0-dist/**");
-    }
-    
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                .antMatchers("/login").permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .apply(configurer)
-                .and()
-                .oauth2Login()
-				.loginPage("/login")
-				.and()
-				.csrf().disable()
-        ;
-    }
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		if (this.aadB2COidcLoginConfigurerWrapper != null
+				&& this.aadB2COidcLoginConfigurerWrapper.getConfigurer() != null) {
+			web.ignoring().antMatchers("/content/**");
+		}
+	}
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+
+		if (this.aadB2COidcLoginConfigurerWrapper != null
+				&& this.aadB2COidcLoginConfigurerWrapper.getConfigurer() != null) {
+
+			http.authorizeRequests().antMatchers("/dogbreed*").permitAll().antMatchers("/login").permitAll()
+					.anyRequest().authenticated().and().apply(this.aadB2COidcLoginConfigurerWrapper.getConfigurer())
+					.and().oauth2Login().loginPage("/login").and().csrf().disable();
+
+			this.containeEnvironment.setSecurityEnabled(true);
+		} else {
+			logger.warn(
+					"azure.activedirectory.b2c.tenant, azure.activedirectory.b2c.client-id, azure.activedirectory.b2c.client-secret and azure.activedirectory.b2c.logout-success-url must be set for Azure B2C Authentication to be enabled, considering configuring Azure B2C App Registration if you would like to authenticate users.");
+		}
+	}
 }
-
-
 ````   
 
 Create WebController.java as seen below. There are 2 GET request mapping handlers, login (public landing) and everything else, that in this case, will just route to the home Thymeleaf view. We also use @ModelAttribute to initializeModel on each Threads incoming GET Request. This will ensure that each Thymeleaf view has User Claims, if they exist.
@@ -263,15 +268,33 @@ public class WebController {
 		return "home";
 	}
 }
-
-
 ````
 
-You will also notice login.html that presents a Welcome Guest, and prompts visitors to sign/up sign in, along with any other public accessible content. There is a home.html that is used for all authenticated requests, which presents user claims for this tutorial, among other links to Update Profile, Reset Password and Logout. Since we know about authenticated users, we can display a friendly message.
+You will also notice header.html that presents a Welcome Guest, and prompts visitors to sign/up sign in, along with any other public accessible content. There is a home.html that is used for all authenticated requests, which presents user claims for this tutorial, among other links to Update Profile, Reset Password and Logout. Since we know about authenticated users, we can display a friendly message.
 
-      Welcome <span th:text="${name}">
+```
+<nav class="my-2 my-md-0 mr-md-3">
+    Welcome <span th:text="${userName}">
+</nav>
+<div th:if="${user} != null">
+    <a class="p-2 text-dark"
+        href="/oauth2/authorization/B2C_1_profileediting">Edit Profile</a>
+    <a class="p-2 text-dark"
+        href="/oauth2/authorization/B2C_1_passwordreset">Reset Password</a>
+    <a class="p-2 text-dark" href="/claims">View AD Claims</a>
+    <form style="display: inline" method="post" action="/logout">
+        <button class="btn btn-outline-primary" type="submit">Log
+            out</button>
+    </form>
+</div>
+<div th:if="${user} == null">
+    <div th:if="${containerEnvironment.securityEnabled}">
+        <a class="btn btn-outline-primary" href="/oauth2/authorization/B2C_1_signupsignin">Sign up / Sign in</a>
+    </div>
+</div>
+```
 
-Lastly, you will need to update your application.properties or application.yml. I have left mine out of the repository as part of my .gitignore because it contains sensitive information to my tenant, but this is the place where your configurations lives (ideally we would externalize this in a real application such as Spring Cloud). You can use the snippet below filling in the blanks. Use tenant. client-id from the screenshots above. client-secret will be the generated key that you saved earlier. The url's will be localhost for local development or fully qualified for Cloud deployments.
+Lastly, you will need to update your application.properties or application.yml, this is the place where your configurations lives (ideally we would externalize this in a real application such as Spring Cloud Config). You can use the snippet below filling in the blanks. Use tenant. client-id from the screenshots above. client-secret will be the generated key that you saved earlier. The url's will be localhost for local development or fully qualified for Cloud deployments.
 
 ````yaml
 #logging:
@@ -280,45 +303,59 @@ Lastly, you will need to update your application.properties or application.yml. 
 azure:
   activedirectory:
     b2c:
-      tenant: realctremblayb2c
+      tenant: ${PETSTOREAPP_B2C_TENANT}
       oidc-enabled: true
-      client-id: 
-      client-secret: 
-      reply-url: http://localhost:8080/home
-      logout-success-url: http://localhost:8080/home
+      client-id: ${PETSTOREAPP_B2C_CLIENT_ID}
+      client-secret: ${PETSTOREAPP_B2C_CLIENT_SECRET}
+      reply-url: ${PETSTOREAPP_B2C_REPLY_URL}
+      logout-success-url: ${PETSTOREAPP_B2C_LOGOUT_URL}
       user-flows:
         sign-up-or-sign-in: B2C_1_signupsignin
         profile-edit: B2C_1_profileediting
         password-reset: B2C_1_passwordreset
-
 ````
+
+Update your Azure Pet Store App Configuration to reflect these new properties as well.
+
+You should see something similar to the below image:
+
+![](images/appservice.png)
 
 ## 4. Demo
-````
-mvn clean package
-mvn spring-boot:run
-````
 
-visit http://localhost:8080 (or if your deploying to cloud go there)
+Head to your Azure Pet Store App
 
-![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/petstoreapp/app1.png?raw=true)
+You should see something similar to the below image:
 
-Sign in flow ***(Note you can customize this in Azure to use your own .css etc...)***
-![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/petstoreapp/app2.png?raw=true)
+![](images/public.png)
+
+Sign in flow (new user registration as well)
+
+> 📝 Please Note, you can customize this in Azure to use your own .css etc...
 
 Fill out and submit...
 
-![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/petstoreapp/app3.png?raw=true)
+You should see something similar to the below image:
 
-![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/petstoreapp/app4.png?raw=true)
+![](images/app3.png)
 
-Sign Out...
-![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/petstoreapp/app5.png?raw=true)
+You should see something similar to the below image:
 
-Head back to Azure Portal > Azure AD B2C and view/administer user's that have been created via the Rhody Pet Store Application
+![](images/app4.png)
 
-![enter image description here](https://github.com/chtrembl/staticcontent/blob/master/petstoreapp/ap22.png?raw=true)
+You should see something similar to the below image:
 
+![](images/authenticated.png)
+
+Back in Azure Portal you can view the registered users in your App Registration
+
+You should see something similar to the below image:
+
+![](images/app22.png)
+
+Things you can now do now with this guide
+
+☑️ Configuring Azure Active Directory B2C within your application
 
 ---
 
