@@ -337,11 +337,11 @@ Fill out and submit...
 
 You should see something similar to the below image:
 
-![](images/app3.png)
+![](images/app2.png)
 
 You should see something similar to the below image:
 
-![](images/app4.png)
+![](images/app3.png)
 
 You should see something similar to the below image:
 
