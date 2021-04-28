@@ -53,6 +53,9 @@ public class PetStoreServiceImpl implements PetStoreService {
 			return pets;
 		} catch (WebClientException wce) {
 			this.sessionUser.getTelemetryClient().trackException(wce);
+			this.sessionUser.getTelemetryClient().trackEvent(
+					String.format("PetStoreApp %s received %s, container host: %s", this.sessionUser.getName(),
+							wce.getMessage(), this.containerEnvironment.getContainerHostName()));
 			// little hack to visually show the error message within our Azure Pet Store
 			// Reference Guide (Academic Tutorial)
 			Pet pet = new Pet();
