@@ -202,5 +202,41 @@ You should see something similar to the below image:
 
 Now update your App Service App Configuration to specify the API Management Gateway URL and the API Management Subscription ID so that Pet Store App can pass this data to API Management instead of Azure Kubernetes Service directly.
 
----
+```
+PETSTORESERVICE_URL
+PETSTORESERVICE_SUBSCRIPTION_KEY
+```
+
+You should see something similar to the below image:
+
+![](images/apim21.png)
+
+Now visit the PetStoreApp and hit the Dog Breeds URL, should be business as usual...
+
+You should see something similar to the below image:
+
+![](images/apim22.png)
+
+Now refresh the page 6 times within 30 seconds, you should get a 529
+
+You should see something similar to the below image:
+
+![](images/apim23.png)
+
+Pretty cool huh? Now head over to Azure Portal > Application Insights Failures and lets check the Telemtry to see what happens. As you can see, the 429 Exception gets indexed. (alerts etc... can be configured to act on this)
+
+You should see something similar to the below image:
+
+![](images/apim24.png)
+
+Things you can now do now with this guide
+
+☑️ Configuring API Management & Importing Open API's
+
+☑️ Creating Products/Subcriptions with Rate Limits
+
+☑️ Verifying Rate Limit Exhaustion
+
+☑️ N-Tier Correlated Telementry including these Rate Limit Exceptions
+
 ➡️ Next guide: [10 - Configure B2C for PetStoreApp Identity Management](../10-configure-b2c-for-petstoreapp-identity-management/README.md)
