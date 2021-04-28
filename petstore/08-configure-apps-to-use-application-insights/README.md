@@ -5,6 +5,10 @@ __This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.
 > 📝 Please Note, We will assume you have forked the azure-cloud repository, it is the easiest way to get going. Also, your application.yml for both PetStoreApp and PetStoreService, located in src/main/resources/application.yml of both projects, should now have only the Azure Application Insight properties uncommented. All of the other Azure properties should be commented out. They may be uncommented becasue I am using the full deployment against this repository. You will want to comment them for now and slowly uncomment them as we progress through the guides, each guide will inform you. If you have not already done so, login to your GitHub account, head to https://github.com/chtrembl/azure-cloud, select Fork, select your GitHub account.
 
 ```
+petstore:
+  service:
+    url: ${PETSTORESERVICE_URL}
+
 azure:
   application-insights:
       instrumentation-key: ${PETSTOREAPP_AI_INSTRUMENTATION_KEY}
@@ -40,7 +44,7 @@ A Web Application/Microservice of this type can/will offer the following types o
 -   **Dependency**  -  [Calls from your server application](https://docs.microsoft.com/en-us/azure/azure-monitor/app/asp-net-dependencies)  to other services such as REST APIs or databases, and AJAX calls from your  [client code](https://docs.microsoft.com/en-us/azure/azure-monitor/app/javascript).
 -   **Availability**  - Results of  [availability tests](https://docs.microsoft.com/en-us/azure/azure-monitor/app/monitor-web-app-availability).
 
-*Note the above was taken from [Azure Monitor](https://docs.microsoft.com/en-us/azure/azure-monitor/overview)*
+> 📝 Please Note, the above was taken from [Azure Monitor](https://docs.microsoft.com/en-us/azure/azure-monitor/overview)
 
 ## Guide
 In this guide we will look at what it takes to get your Spring Boot Applications (PetStoreApp & PetStore Service) configured to use these Azure Monitor features. We will cover the following:
@@ -61,7 +65,7 @@ In this guide we will look at what it takes to get your Spring Boot Applications
         
     -   If you need to make custom API calls to track events/dependencies not captured by default with agent-based monitoring, you would need to use this method. Check out the  [API for custom events and metrics article](https://docs.microsoft.com/en-us/azure/azure-monitor/app/api-custom-events-metrics)  to learn more. This is also currently the only supported option for Linux based workloads.
 
-*Note the above was taken from [Enable Application Insights](https://docs.microsoft.com/en-us/azure/azure-monitor/app/azure-web-apps?tabs=net)*
+> 📝 Please Note, the above was taken from [Enable Application Insights](https://docs.microsoft.com/en-us/azure/azure-monitor/app/azure-web-apps?tabs=net)
 
  - **Enable/Configure Azure Application Insights**
  

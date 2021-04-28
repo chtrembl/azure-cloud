@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientException;
 
+import com.chtrembl.petstoreapp.model.Category;
 import com.chtrembl.petstoreapp.model.ContainerEnvironment;
 import com.chtrembl.petstoreapp.model.Pet;
 import com.chtrembl.petstoreapp.model.User;
@@ -34,10 +35,12 @@ public class PetStoreServiceImpl implements PetStoreService {
 
 	@Override
 	public Collection<Pet> getPets() {
+		List<Pet> pets = new ArrayList();
+
 		this.sessionUser.getTelemetryClient().trackEvent(String.format(
 				"PetStoreApp %s is requesting to retrieve pets from the PetStoreService", this.sessionUser.getName()));
 		try {
-			List<Pet> pets = this.webClient.get().uri("/v2/pet/findByStatus?status={status}", "available")
+			pets = this.webClient.get().uri("/v2/pet/findByStatus?status={status}", "available")
 					.header("session-id", this.sessionUser.getSessionId()).accept(MediaType.APPLICATION_JSON)
 					.header("Ocp-Apim-Subscription-Key", this.containerEnvironment.getPetStoreServiceSubscriptionKey())
 					.header("Ocp-Apim-Trace", "true").retrieve()
@@ -50,7 +53,15 @@ public class PetStoreServiceImpl implements PetStoreService {
 			return pets;
 		} catch (WebClientException wce) {
 			this.sessionUser.getTelemetryClient().trackException(wce);
+			// little hack to visually show the error message within our Azure Pet Store
+			// Reference Guide (Academic Tutorial)
+			Pet pet = new Pet();
+			pet.setName(wce.getMessage());
+			pet.setPhotoURL("");
+			pet.setCategory(new Category());
+			pet.setId((long) 0);
+			pets.add(pet);
 		}
-		return new ArrayList<Pet>();
+		return pets;
 	}
 }

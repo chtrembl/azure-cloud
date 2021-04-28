@@ -4,8 +4,8 @@
 petstore:
   service:
     url: ${PETSTORESERVICE_URL}
-#    subscription:
-#      key: ${PETSTORESERVICE_SUBSCRIPTION_KEY}
+    subscription:
+      key: ${PETSTORESERVICE_SUBSCRIPTION_KEY}
 server:
   port: ${PETSTOREAPP_SERVER_PORT}
 azure:
