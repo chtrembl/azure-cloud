@@ -127,7 +127,7 @@ spec:
   
 	```
 	curl http://40.88.201.193/v2/pet/findByStatus?status=available | json_pp
-    ```
+  ```
     You should see something similar to the below image:
 
     ![](images/json.png)

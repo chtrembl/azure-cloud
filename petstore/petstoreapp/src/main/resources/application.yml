@@ -9,18 +9,18 @@ petstore:
 server:
   port: ${PETSTOREAPP_SERVER_PORT}
 azure:
-#  activedirectory:
-#    b2c:
-#      tenant: ${PETSTOREAPP_B2C_TENANT}
-#      oidc-enabled: true
-#      client-id: ${PETSTOREAPP_B2C_CLIENT_ID}
-#      client-secret: ${PETSTOREAPP_B2C_CLIENT_SECRET}
-#      reply-url: ${PETSTOREAPP_B2C_REPLY_URL}
-#      logout-success-url: ${PETSTOREAPP_B2C_LOGOUT_URL}
-#      user-flows:
-#        sign-up-or-sign-in: B2C_1_signupsignin
-#        profile-edit: B2C_1_profileediting
-#        password-reset: B2C_1_passwordreset
+  activedirectory:
+    b2c:
+      tenant: ${PETSTOREAPP_B2C_TENANT}
+      oidc-enabled: true
+      client-id: ${PETSTOREAPP_B2C_CLIENT_ID}
+      client-secret: ${PETSTOREAPP_B2C_CLIENT_SECRET}
+      reply-url: ${PETSTOREAPP_B2C_REPLY_URL}
+      logout-success-url: ${PETSTOREAPP_B2C_LOGOUT_URL}
+      user-flows:
+        sign-up-or-sign-in: B2C_1_signupsignin
+        profile-edit: B2C_1_profileediting
+        password-reset: B2C_1_passwordreset
   application-insights:
       instrumentation-key: ${PETSTOREAPP_AI_INSTRUMENTATION_KEY}
 management:
