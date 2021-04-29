@@ -4,8 +4,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <style>
+      figure {
+        width: intrinsic;
+      }
 
-{% seo %}
+      .thumbnail {
+        width: 10%;
+        object-fit:cover;
+        border-radius:50%;
+        opacity:80%;
+      }
+    </style>
+    
+    {% seo %}
     <link rel="stylesheet" href="{{ "/assets/css/style.css?v=" | append: site.github.build_revision | relative_url }}">
     <!--[if lt IE 9]>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -18,7 +31,7 @@
         
         {% if site.logo %}
           <div style="padding-bottom:40px;">
-            <img src="{{site.logo | relative_url}}" style="object-fit:cover;border-radius:50%;opacity:80%;" alt="Logo" />
+            <img src="{{site.logo | relative_url}}" alt="Logo" class="thumbnail" />
           </div>
         {% endif %}
 
