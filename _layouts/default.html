@@ -31,8 +31,8 @@
     <![endif]-->
   </head>
   <body>
-    <div class="wrapper">
-      <header>
+    <div class="wrapper" style="width:1000px !important;">
+      <header style="width:200px !important;" >
         <h1><a href="{{ "/" | absolute_url }}">{{ site.name | default: site.github.repository_name }}</a></h1>
         <div class="title">{{ site.title }}</div>
         {% if site.logo %}
@@ -60,7 +60,7 @@
         </ul>
         {% endif %}
       </header>
-      <section>
+      <section style="width:700px !important;">
 
       {{ content }}
 
