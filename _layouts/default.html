@@ -11,7 +11,7 @@
       }
 
       .thumbnail {
-        width: 10%;
+        width: 60%;
         object-fit:cover;
         border-radius:50%;
         opacity:80%;
@@ -30,7 +30,7 @@
         <h1><a href="{{ "/" | absolute_url }}">{{ site.title | default: site.github.repository_name }}</a></h1>
         
         {% if site.logo %}
-          <div style="padding-bottom:40px;">
+          <div style="padding-bottom:20px;">
             <img src="{{site.logo | relative_url}}" alt="Logo" class="thumbnail" />
           </div>
         {% endif %}
