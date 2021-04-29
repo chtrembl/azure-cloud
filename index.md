@@ -1,4 +1,4 @@
-## <img style="width:5%;" src="azure.svg"> Portfolio
+## <img style="width:6%;" src="azure.svg"> Portfolio
 
 ---
 
