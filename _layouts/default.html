@@ -20,6 +20,7 @@
       .title {
         margin-top: -20px;
         margin-bottom: 20px;
+        font-weight: bold;"
       }
     </style>
     
@@ -33,7 +34,7 @@
     <div class="wrapper">
       <header>
         <h1><a href="{{ "/" | absolute_url }}">{{ site.name | default: site.github.repository_name }}</a></h1>
-        <div style="font-weight:bold;">{{ site.title }}</div>
+        <div class="title">{{ site.title }}</div>
         {% if site.logo %}
           <div style="padding-bottom:20px;">
             <img src="{{site.logo | relative_url}}" alt="Logo" class="thumbnail" />
