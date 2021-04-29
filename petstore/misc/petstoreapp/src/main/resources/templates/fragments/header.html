@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+	<div th:fragment="header">
+
+		<diV
+			class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+			<h5 class="my-0 mr-md-auto font-weight-normal">
+				<img
+					src="https://github.com/chtrembl/staticcontent/blob/master/petstoreapp/rhody.png?raw=true"
+					class="rhodyimagesmall" /><a class="p-2 text-dark"
+					href="/">Rhody Pet Store</a>
+			</h5>
+			<nav class="my-2 my-md-0 mr-md-3">
+				Welcome <span th:text="${userName}">
+			</nav>
+			<div th:if="${user} != null">
+				<a class="p-2 text-dark"
+					href="/oauth2/authorization/B2C_1_profileediting">Edit Profile</a>
+				<a class="p-2 text-dark"
+					href="/oauth2/authorization/B2C_1_passwordreset">Reset Password</a>
+				<a class="p-2 text-dark" href="/claims">View AD Claims</a>
+				<form style="display: inline" method="post" action="/logout">
+					<button class="btn btn-outline-primary" type="submit">Log
+						out</button>
+				</form>
+			</div>
+			<div th:if="${user} == null">
+				<div th:if="${containerEnvironment.securityEnabled}">
+  					<a class="btn btn-outline-primary" href="/oauth2/authorization/B2C_1_signupsignin">Sign up / Sign in</a>
+	  			</div>
+  			</div>
+  		</div>
+	</div>
+</body>
+</html>

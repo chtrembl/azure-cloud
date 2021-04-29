@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="generator" content="Jekyll v4.0.1">
+	<title>Rhody Pet Store</title>
+	<!-- Bootstrap core CSS -->
+	<link href="content/bootstrap-4.5.0-dist/css/bootstrap.css" rel="stylesheet">
+	<link href="content/petstoreapp.css" rel="stylesheet"> </head>
+
+<body>
+	<div lang="en" th:replace="fragments/header :: header"></div>
+	<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+		<h1 class="display-4">
+			<img
+				src="content/rhody.png"
+				class="rhodyimagelarge" />Rhody Pet Store
+		</h1>
+		<p />
+		<table class="table">
+			<div th:if="${pets} != null">
+				<tr th:each="pet, iStat : ${pets}">
+					<td>
+						<figure> <img class="thumbnail" th:src="@{${pet.photoURL}}" /> </figure>
+						<div>
+							<a th:href="@{'/dogbreeddetails?id=' + ${pet.id}}" style="font-weight: bold; text-decoration: none; color: black;"><span th:text="${pet.name}" /> </div>
+					</td>
+				</tr>
+			</div>
+		</table>
+	</div>
+	<div lang="en" th:replace="fragments/footer :: footer"></div>
+</body>
+
+</html>

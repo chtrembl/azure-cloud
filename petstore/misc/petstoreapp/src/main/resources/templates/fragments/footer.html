@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+	<div th:fragment="footer">
+
+		<div class="container">
+			<footer class="pt-4 my-md-5 pt-md-5 border-top">
+				<div class="row">
+					<div class="col-12 col-md">
+						<small class="d-block mb-3 text-muted">&copy; <span
+							th:text="${containerEnvironment.year}" /> Rhody Pet Store<br />
+							container:<br/>
+							<span th:text="${containerEnvironment.containerHostName}" /><br/>
+							version:<br/>
+							<span th:text="${containerEnvironment.appVersion}" /></br>
+							date:<br/>
+							<span th:text="${containerEnvironment.appDate}" /></br>
+							session:<br/>
+							<span th:text="${sessionId}" />
+							
+						</small>
+					</div>
+					<div class="col-6 col-md">
+						<h5>Shop Dogs</h5>
+						<ul class="list-unstyled text-small">
+							<li><a class="text-muted" href="/dogbreeds">Dog Breeds</a></li>
+							<li><a class="text-muted" href="#">Dog Toys</a></li>
+							<li><a class="text-muted" href="#">Dog Food</a></li>
+						</ul>
+					</div>
+					<div class="col-6 col-md">
+						<h5>Shop Cats</h5>
+						<ul class="list-unstyled text-small">
+							<li><a class="text-muted" href="#">Cat Toys</a></li>
+							<li><a class="text-muted" href="#">Cat Food</a></li>
+						</ul>
+					</div>
+					<div class="col-6 col-md">
+						<h5>Shop Fish</h5>
+						<ul class="list-unstyled text-small">
+							<li><a class="text-muted" href="#">Fish Toys</a></li>
+							<li><a class="text-muted" href="#">Fish Food</a></li>
+						</ul>
+					</div>
+				</div>
+			</footer>
+		</div>
+
+	</div>
+</body>
+</html>
+

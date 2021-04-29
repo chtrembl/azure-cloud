@@ -1,0 +1,45 @@
+#logging:
+#  level:
+#    org.springframework.security: DEBUG
+petstore:
+  service:
+    url: ${PETSTORESERVICE_URL}
+    subscription:
+      key: ${PETSTORESERVICE_SUBSCRIPTION_KEY}
+server:
+  port: ${PETSTOREAPP_SERVER_PORT}
+azure:
+  activedirectory:
+    b2c:
+      tenant: ${PETSTOREAPP_B2C_TENANT}
+      oidc-enabled: true
+      client-id: ${PETSTOREAPP_B2C_CLIENT_ID}
+      client-secret: ${PETSTOREAPP_B2C_CLIENT_SECRET}
+      reply-url: ${PETSTOREAPP_B2C_REPLY_URL}
+      #https://rhodypetstore.azurewebsites.net/home on Azure or Windows localhost http://localhost:8080/home
+      logout-success-url: ${PETSTOREAPP_B2C_LOGOUT_URL}
+      #https://rhodypetstore.azurewebsites.net/home on Azure or Windows localhost http://localhost:8080/home
+      user-flows:
+        sign-up-or-sign-in: B2C_1_signupsignin
+        profile-edit: B2C_1_profileediting
+        password-reset: B2C_1_passwordreset
+  application-insights:
+      instrumentation-key: ${PETSTOREAPP_AI_INSTRUMENTATION_KEY}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"       
+  trace:
+    http:
+      enabled: true 
+  endpoint:
+    httptrace:
+      enabled: true
+spring:
+  application:
+    name: petstoreapp
+  thymeleaf:
+    cache: false  
+
+ 

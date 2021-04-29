@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: petstoreapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: petstoreapi
+  template:
+    metadata:
+      labels:
+        app: petstoreapi
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: petstoreapi
+        image: petstorecr.azurecr.io/petstoreapi:32
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: petstoreapi
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: petstoreapi

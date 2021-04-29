@@ -1,0 +1,34 @@
+.bd-placeholder-img {
+	font-size: 1.125rem;
+	text-anchor: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+@media ( min-width : 768px) {
+	.bd-placeholder-img-lg {
+		font-size: 3.5rem;
+	}
+}
+
+.rhodyimagesmall {
+	width: 40px;
+	height: 40px;
+	opacity: 80%;
+}
+
+.rhodyimagelarge {
+	width: 80px;
+	height: 80px;
+	opacity: 80%;
+}
+
+figure {
+	width: intrinsic;
+}
+
+.thumbnail {
+	width: 10%;
+}
