@@ -2,9 +2,10 @@ name: Chris Tremblay
 title: Azure App Dev Evangelist
 logo: "https://christremblay.com/images/chris_tremblay_thumbnail_large.jpg"
 description: >
-  <a href="https://christremblay.com">christremblay.com</a> 
-  <br><br>
-  <a href="https://www.linkedin.com/in/chris-tremblay-0536a23/">LinkedIn</a> 
-  
+ <a href="https://www.linkedin.com/in/chris-tremblay-0536a23/">LinkedIn</a> 
+ <br>
+ <a href="mailto:chtrembl@microsoft.com">chris.tremblay@microsoft.com</a>
+ <br>
+ <a href="https://christremblay.com">christremblay.com</a> 
 theme: jekyll-theme-minimal
 google_analytics: UA-000000-0 # your Google Analytics tracking ID here
