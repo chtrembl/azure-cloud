@@ -1,8 +1,8 @@
-## <img src="azure.svg"> Azure Portfolio
+## <img style="width:5%;" src="azure.svg"> Portfolio
 
 ---
 
-### Category Name 1 
+### Azure Pet Store Reference Guide
 
 [Project 1 Title](/sample_page)
 <img src="images/dummy_thumbnail.jpg?raw=true"/>
