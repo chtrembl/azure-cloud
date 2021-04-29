@@ -1,4 +1,4 @@
-## Portfolio
+## <img src="azure.svg"> Azure Portfolio
 
 ---
 
