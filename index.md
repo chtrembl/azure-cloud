@@ -12,8 +12,4 @@ Often, it is handy to have an N-Tiered Azure architected deployment ready to go,
 you can visit the live deployment here: <a href="https://azurepetstore.azurewebsites.net">https://azurepetstore.azurewebsites.net</a>
 
 ---
-
 [Miscellaneous  Tutorials](/azure-cloud/misc)
-
----
-
