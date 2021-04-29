@@ -4,7 +4,6 @@ Often, it is handy to have an N-Tiered Azure architected deployment ready to go,
 
 ## try the live deployment here http://azurepetstore.azurewebsites.net
 
-
 ![](https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstore_architecture.png?raw=true)
   
 As mentioned above, the objective is for you to be able to learn and showcase the many uses of App Dev Services within Azure. Below are some of the useful scenarios that are currently available in these guides. 
