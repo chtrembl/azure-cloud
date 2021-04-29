@@ -2,7 +2,7 @@
 
 ---
 
-### My Azure Tutorials & Guides
+### My Azure Demos, Tutorials & Guides
 
 [ Pet Store Reference Guide](/azure-cloud/petstore)
 <img src="https://github.com/chtrembl/azure-cloud/raw/main/petstore/petstore_architecture.png?raw=true"/>
