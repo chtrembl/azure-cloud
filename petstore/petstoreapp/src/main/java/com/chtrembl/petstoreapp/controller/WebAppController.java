@@ -152,8 +152,8 @@ public class WebAppController {
 	@GetMapping(value = "/*")
 	public String home(Model model, OAuth2AuthenticationToken token, HttpServletRequest request)
 			throws URISyntaxException {
-		logger.info(String.format("PetStoreApp %s is being routed to home view session %s", this.sessionUser.getName(),
-				this.sessionUser.getSessionId()));
+		logger.info(String.format("PetStoreApp %s requested and %s is being routed to home view session %s",
+				request.getRequestURI(), this.sessionUser.getName(), this.sessionUser.getSessionId()));
 		PageViewTelemetry pageViewTelemetry = new PageViewTelemetry();
 		pageViewTelemetry.setUrl(new URI(request.getRequestURL().toString()));
 		pageViewTelemetry.setName("default");

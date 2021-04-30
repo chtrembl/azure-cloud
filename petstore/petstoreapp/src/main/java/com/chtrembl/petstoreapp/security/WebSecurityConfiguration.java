@@ -25,6 +25,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		if (this.aadB2COidcLoginConfigurerWrapper != null
 				&& this.aadB2COidcLoginConfigurerWrapper.getConfigurer() != null) {
 			web.ignoring().antMatchers("/content/**");
+			web.ignoring().antMatchers("/.well-known/**");
 		}
 	}
 
@@ -34,9 +35,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		if (this.aadB2COidcLoginConfigurerWrapper != null
 				&& this.aadB2COidcLoginConfigurerWrapper.getConfigurer() != null) {
 
-			http.authorizeRequests().antMatchers("/dogbreed*").permitAll().antMatchers("/login").permitAll()
-					.anyRequest().authenticated().and().apply(this.aadB2COidcLoginConfigurerWrapper.getConfigurer())
-					.and().oauth2Login().loginPage("/login").and().csrf().disable();
+			http.authorizeRequests().antMatchers("/").permitAll().antMatchers("/dogbreed*").permitAll()
+					.antMatchers("/login").permitAll().anyRequest().authenticated().and()
+					.apply(this.aadB2COidcLoginConfigurerWrapper.getConfigurer()).and().oauth2Login()
+					.loginPage("/login").and().csrf().disable();
 
 			this.containeEnvironment.setSecurityEnabled(true);
 		} else {
