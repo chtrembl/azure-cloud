@@ -4,7 +4,7 @@ __This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.
 
 In this section, we'll Configure App Service for continuous deployments of Azure Container Registry Docker image updates
 
-> 📝 Please Note, We will assume you have forked the azure-cloud repository, it is the easiest way to get going. Also, your application.yml for both PetStoreApp and PetStoreService, located in src/main/resources/application.yml of both projects, should have all of the Azure properties commented out. They may be uncommented becasue I am using the full deployment against this repository. You will want to comment them for now and slowly uncomment them as we progress through the guides, each guide will inform you. If you have not already done so, login to your GitHub account, head to https://github.com/chtrembl/azure-cloud, select Fork, select your GitHub account.
+> 📝 Please Note, We will assume you have forked the azure-cloud repository, it is the easiest way to get going. Also, both PetStoreApp and PetStoreService use a Spring Boot file called application.yml to drive the functionality/configuration of these applications with is located in src/main/resources/application.yml of both projects. By default, this file has all of the properties that are needed throughout the guides commented out. This means that the applications will start automatically without having to configure anything. As you progress through the guides, each one will inform you of what properties to uncomment and configure within your environment. If you have not already done so, login to your GitHub account, head to https://github.com/chtrembl/azure-cloud, select Fork, select your GitHub account.
 
 We are going to use Web Hooks to deploy the latest Azure Container Registry Docker image for *Pet Store App*.
 
@@ -17,17 +17,6 @@ You should see something similar to the below image:
 ![](images/petstoreapp_app0.png)
 
 > 📝 Please Note, the URL listed is how we will be accessing our Pet Store App. If you visit that URL in a browser, you should see a generic App Service Page, deployed from a generic Azure Docker image. Keep this URL handy.
-
-Select Configuration and add two Application Settings, be sure to click Save.
-
- 1. PETSTOREAPP_SERVER_PORT=8080
- 2. PETSTORESERVICE_URL=THE_URL_FROM_THE_SCREENSHOT_ABOVE 
-
-You should see something similar to the below image:
-
-![](images/petstoreapp_app2.png)
-
-> 📝 Please Note, the port is needed to tell App Service where to find our Spring Boot Pet Store App (remember it is running on port 8080). The URL will be the Pet Store Service URL where our Pet Store App will retrieve data from. We have not yet deployed that Pet Store Service to Azure Kubernetes Service, so we can put anything in here for now. We won't be using it just yet so this is really just a placeholder so the Pet Store App starts up without issues.
 
 Select Container Settings (Classic)
 
