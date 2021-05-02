@@ -8,16 +8,35 @@ Often times, web applications (or parts of web applications) will need to be pro
 
 Live application can be found here [http://azurepetstore.azurewebsites.net/](http://azurepetstore.azurewebsites.net/)
 
-> 📝 Please Note, We will assume you have forked the azure-cloud repository, it is the easiest way to get going. Also, your application.yml for both PetStoreApp and PetStoreService, located in src/main/resources/application.yml of both projects, should now have all the Azure Application Insight properties uncommented. If you have not already done so, login to your GitHub account, head to https://github.com/chtrembl/azure-cloud, select Fork, select your GitHub account.
+> 📝 Please Note, We will assume you have forked the azure-cloud repository, it is the easiest way to get going. Also, both PetStoreApp and PetStoreService use a Spring Boot file called application.yml to drive the functionality/configuration of these applications with is located in src/main/resources/application.yml of both projects. By default, this file has all of the properties that are needed throughout the guides commented out. This means that the applications will start automatically without having to configure anything. As you progress through the guides, each one will inform you of what properties to uncomment and configure within your environment. If you have not already done so, login to your GitHub account, head to https://github.com/chtrembl/azure-cloud, select Fork, select your GitHub account.
+
+If your are still connecting to the PetStoreService, continue to update src/main/resources/application.yml to uncomment the following. By uncommenting, this tells the Spring Boot Java Runtime to look for a petstore.service.url and if you set one ```PETSTORESERVICE_URL``` as a container setting, it will get injected at runtime initialization.
 
 ```
 petstore:
   service:
     url: ${PETSTORESERVICE_URL}
+```
+
+If your are still connecting to the Application Insights, continue to update src/main/resources/application.yml to uncomment the following. By uncommenting, this tells the Spring Boot Java Runtime to look for an azure.application-insights.instrumentation-key and if you set ```PETSTOREAPP_AI_INSTRUMENTATION_KEY``` as a container setting, it will get injected at runtime initialization.
+
+```
+azure:
+  application-insights:
+      instrumentation-key: ${PETSTOREAPP_AI_INSTRUMENTATION_KEY}
+```
+
+Also update src/main/resources/application.yml to uncomment the following. By uncommenting, this tells the Spring Boot Java Runtime to look for an petstore.subscription.key and if you set ```PETSTORESERVICE_SUBSCRIPTION_KEY``` as a container setting, it will get injected at runtime initialization. This enables PetStoreApp to call APIM with a valid subscription key for authentication.
+
+```
+petstore:
     subscription:
       key: ${PETSTORESERVICE_SUBSCRIPTION_KEY}
-server:
-  port: ${PETSTOREAPP_SERVER_PORT}
+```
+
+Update src/main/resources/application.yml to uncomment the following. By uncommenting, this tells the Spring Boot Java Runtime to look for all of the B2C properties and if you set ```PETSTOREAPP_B2C_TENANT```, ```PETSTOREAPP_B2C_CLIENT_ID```, ```PETSTOREAPP_B2C_CLIENT_SECRET```, ```PETSTOREAPP_B2C_REPLY_URL``` and ```PETSTOREAPP_B2C_LOGOUT_URL```  as 	container settings, they will get injected at runtime initialization. This enables PetStoreApp to authenticate users with B2C.
+
+```
 azure:
   activedirectory:
     b2c:
@@ -31,8 +50,6 @@ azure:
         sign-up-or-sign-in: B2C_1_signupsignin
         profile-edit: B2C_1_profileediting
         password-reset: B2C_1_passwordreset
-  application-insights:
-      instrumentation-key: ${PETSTOREAPP_AI_INSTRUMENTATION_KEY}
 ```
 
 Below we will walk through the process of getting things configured for this to work.
