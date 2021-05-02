@@ -6,6 +6,14 @@ __This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.
 
 Remember that Kubernetes Load Balancer IP Address from the previous guide? Update your App Service Configuration Setting for ```PETSTORESERVICE_URL``` to reflect it, and save it (Container Restart will happen automagically)
 
+Also update src/main/resources/application.yml to uncomment the following. By uncomennting, this tells the Spring Boot Java Runtime to look for a petstore.service.url and if you set one ```PETSTORESERVICE_URL``` as a container setting, it will get injected at runtime initialization.
+
+```
+petstore:
+  service:
+    url: ${PETSTORESERVICE_URL}
+```
+
 You should see something similar to the below image:
 
 ![](images/appservice1.png)
