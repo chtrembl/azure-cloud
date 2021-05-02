@@ -22,7 +22,7 @@ You should see something similar to the below image:
 
 ![](images/gh1.png)
 
-Head to Settings > Secrets, Add a secret to store the Azure Container Registry Secret from above. Create a PETSTORESECRET, and paste in password from above.
+Head to Settings > Secrets, Add a secret to store the Azure Container Registry Secret from above. Create a PETSTORECRSECRET, and paste in password from above.
 
 You should see something similar to the below image:
 
