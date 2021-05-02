@@ -8,18 +8,30 @@ __This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.
 
 ***Note, more on monetizing, oAuth, Deployments and Versioning to be covered in the future***
 
-> 📝 Please Note, We will assume you have forked the azure-cloud repository, it is the easiest way to get going. Also, your application.yml for both PetStoreApp and PetStoreService, located in src/main/resources/application.yml of both projects, should now have only the Azure Application Insight properties uncommented as well as the petstore properties. All of the other Azure properties should be commented out. They may be uncommented becasue I am using the full deployment against this repository. You will want to comment them for now and slowly uncomment them as we progress through the guides, each guide will inform you. If you have not already done so, login to your GitHub account, head to https://github.com/chtrembl/azure-cloud, select Fork, select your GitHub account.
+> 📝 Please Note, We will assume you have forked the azure-cloud repository, it is the easiest way to get going. Also, both PetStoreApp and PetStoreService use a Spring Boot file called application.yml to drive the functionality/configuration of these applications with is located in src/main/resources/application.yml of both projects. By default, this file has all of the properties that are needed throughout the guides commented out. This means that the applications will start automatically without having to configure anything. As you progress through the guides, each one will inform you of what properties to uncomment and configure within your environment. If you have not already done so, login to your GitHub account, head to https://github.com/chtrembl/azure-cloud, select Fork, select your GitHub account.
+
+If your are still connecting to the PetStoreService, continue to update src/main/resources/application.yml to uncomment the following. By uncomennting, this tells the Spring Boot Java Runtime to look for a petstore.service.url and if you set one ```PETSTORESERVICE_URL``` as a container setting, it will get injected at runtime initialization.
 
 ```
 petstore:
   service:
     url: ${PETSTORESERVICE_URL}
-    subscription:
-      key: ${PETSTORESERVICE_SUBSCRIPTION_KEY}
+```
 
+If your are still connecting to the Application Insights, continue to update src/main/resources/application.yml to uncomment the following. By uncomennting, this tells the Spring Boot Java Runtime to look for an azure.application-insights.instrumentation-key and if you set ```PETSTOREAPP_AI_INSTRUMENTATION_KEY``` as a container setting, it will get injected at runtime initialization.
+
+```
 azure:
   application-insights:
       instrumentation-key: ${PETSTOREAPP_AI_INSTRUMENTATION_KEY}
+```
+
+Also update src/main/resources/application.yml to uncomment the following. By uncomennting, this tells the Spring Boot Java Runtime to look for an petstore.subscription.key and if you set ```PETSTORESERVICE_SUBSCRIPTION_KEY``` as a container setting, it will get injected at runtime initialization. This enables PetStoreApp to call APIM with a valid subscription key for authentication.
+
+```
+petstore:
+    subscription:
+      key: ${PETSTORESERVICE_SUBSCRIPTION_KEY}
 ```
 
 ## 1. Deploy an Open API and ensure its accessible.
