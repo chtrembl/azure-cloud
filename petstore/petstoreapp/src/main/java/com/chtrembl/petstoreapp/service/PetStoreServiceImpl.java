@@ -64,6 +64,16 @@ public class PetStoreServiceImpl implements PetStoreService {
 			pet.setCategory(new Category());
 			pet.setId((long) 0);
 			pets.add(pet);
+		} catch (IllegalArgumentException iae) {
+			// little hack to visually show the error message within our Azure Pet Store
+			// Reference Guide (Academic Tutorial)
+			Pet pet = new Pet();
+			pet.setName("petstore.service.url:${PETSTORESERVICE_URL} needs to be enabled for this service to work"
+					+ iae.getMessage());
+			pet.setPhotoURL("");
+			pet.setCategory(new Category());
+			pet.setId((long) 0);
+			pets.add(pet);
 		}
 		return pets;
 	}
