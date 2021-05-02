@@ -8,6 +8,8 @@ Head to Azure Portal and find your Container Registry (as seen below, that was p
 
 You should see something similar to the below image:
 
+> 📝 Please Note, you will have to enable Admin user
+
 ![](images/cr1.png)
 
 Head to GitHub. By now you should have already cloned or forked https://github.com/chtrembl/azure-cloud and are working in the same repository structure within your GitHub account
