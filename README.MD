@@ -6,4 +6,4 @@
 
 > You can view the live deployment here https://azurepetstore.com/
 
-Thank you
+Thank you, Chris
