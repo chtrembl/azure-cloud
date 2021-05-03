@@ -5,4 +5,3 @@
    Extensive Demo's & Step by Step Tutorial's for a Hypothetical Azure Pet Store Application walking you thorugh many Azure services and development scenarios using pre built Web Applications and Web Services.
 
 > You can view the live deployment here https://azurepetstore.com/
-
