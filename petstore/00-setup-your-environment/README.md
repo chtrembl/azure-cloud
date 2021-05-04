@@ -36,7 +36,7 @@ If you head over to your Azure Resource Group (once completed) You should see so
 
 ![](images/deployment2.png)
 
-*Please note, if your not interested in building/deploying locally, you can certainly skip ahead and leverage Azure DevOps Pipelines and GitHub Actions to do the build & deploys for you. Once you complete the first step of Deploying to Azure above, you can jump head to (../03-configure-app-service-for-cd/README.md)*
+> 📝 Please note, if your not interested in building/deploying locally, you can certainly skip ahead and leverage Azure DevOps Pipelines and GitHub Actions to do the build & deploys for you. Once you complete the first step of Deploying to Azure above, you can jump head to [03-configure-app-service-for-cd](../03-configure-app-service-for-cd/README.md)
 
 ## Prerequisites (Local Development Only)
 
