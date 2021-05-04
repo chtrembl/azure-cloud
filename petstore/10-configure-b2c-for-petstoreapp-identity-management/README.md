@@ -8,7 +8,7 @@ Often times, web applications (or parts of web applications) will need to be pro
 
 Live application can be found here [http://azurepetstore.azurewebsites.net/](http://azurepetstore.azurewebsites.net/)
 
-> 📝 Please Note, We will assume you have forked the azure-cloud repository, it is the easiest way to get going. Also, both PetStoreApp and PetStoreService use a Spring Boot file called application.yml to drive the functionality/configuration of these applications with is located in src/main/resources/application.yml of both projects. By default, this file has all of the properties that are needed throughout the guides commented out. This means that the applications will start automatically without having to configure anything. As you progress through the guides, each one will inform you of what properties to uncomment and configure within your environment. If you have not already done so, login to your GitHub account, head to https://github.com/chtrembl/azure-cloud, select Fork, select your GitHub account.
+> 📝 Please Note, We will assume you have forked the azure-cloud repository, it is the easiest way to get going (for instructions on this view the "**Forking the azure-cloud**" section in [00-setup-your-environment](../00-setup-your-environment/README.md). Also, both PetStoreApp and PetStoreService use a Spring Boot Application properties file named application.yml to drive the functionality/configuration of these applications which is located in src/main/resources/application.yml of both projects. By default, this file has all of the properties that are needed throughout the guides, and by default are commented out. This means that the applications will start automatically without having to configure anything. As you progress through the guides, each guide will inform you of what properties to uncomment and configure within your environment. If you have not already done so, login to your GitHub account, head to https://github.com/chtrembl/azure-cloud, and fork.
 
 If your are still connecting to the PetStoreService, continue to update src/main/resources/application.yml to uncomment the following. By uncommenting, this tells the Spring Boot Java Runtime to look for a petstore.service.url and if you set one ```PETSTORESERVICE_URL``` as a container setting, it will get injected at runtime initialization.
 
@@ -373,6 +373,3 @@ You should see something similar to the below image:
 Things you can now do now with this guide
 
 ☑️ Configuring Azure Active Directory B2C within your application
-
----
-
