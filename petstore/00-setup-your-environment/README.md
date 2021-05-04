@@ -61,12 +61,25 @@ copy the contents of the key to your clipboard (using your path to your id_rsa.p
 more  C:\Users\chtrembl/.ssh/id_rsa.pub
 ```
 
-With the contents of id_rsa.pub on your clipboard, head to your GitHub Profile > Settings and loca
+With the contents of id_rsa.pub on your clipboard, head to your GitHub Profile > Settings and locate SSH Keys to add a new one. Paste in your clipboard key and give it a name and Save.
 
 You should see something similar to the below image:
 
 ![](images/gh2.png)
 
+Your now able to point your GitHub Clone, of the https://github.com/chtrembl/azure-cloud Fork, to the upstream https://github.com/chtrembl/azure-cloud Repo. Allowing your to work on your fork while still fetching upstream changes.
+
+```
+git remote add upstream git@github.com:chtrembl/azure-cloud.git
+```
+
+Now to pull https://github.com/chtrembl/azure-cloud changes at any point in time
+
+```
+git rebase upstream/main
+```
+
+This will put any changes you may have, on top of the latest from https://github.com/chtrembl/azure-cloud and you can push into your origin as you normally would
 
 ## Creating Azure Resources
 
