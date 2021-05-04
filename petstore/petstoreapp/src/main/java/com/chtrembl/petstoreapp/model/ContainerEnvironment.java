@@ -33,11 +33,14 @@ public class ContainerEnvironment implements Serializable {
 
 	private boolean securityEnabled = false;
 
-	@Value("${petstore.service.url:@null}")
+	@Value("${petstore.service.url:}")
 	private String petStoreServiceURL;
 
-	@Value("${petstore.service.subscription.key:@null}")
+	@Value("${petstore.service.subscription.key:}")
 	private String petStoreServiceSubscriptionKey;
+
+	@Value("${ga.tracking.id:}")
+	private String gaTrackingId;
 
 	@PostConstruct
 	private void initialize() throws JoranException {
@@ -130,6 +133,14 @@ public class ContainerEnvironment implements Serializable {
 
 	public void setSecurityEnabled(boolean securityEnabled) {
 		this.securityEnabled = securityEnabled;
+	}
+
+	public String getGaTrackingId() {
+		return gaTrackingId;
+	}
+
+	public void setGaTrackingId(String gaTrackingId) {
+		this.gaTrackingId = gaTrackingId;
 	}
 
 }
