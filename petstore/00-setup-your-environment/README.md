@@ -20,6 +20,7 @@ You should see something similar to the below image:
 
 ![](images/fork.png)
 
+clone this fork in your tool of choice (GitHub Dekstop or command line)
 
 ## Creating Azure Resources
 
