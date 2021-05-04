@@ -20,7 +20,46 @@ You should see something similar to the below image:
 
 ![](images/fork.png)
 
-clone this fork in your tool of choice (GitHub Dekstop or command line)
+Clone this fork in your tool of choice (GitHub Dekstop or command line)
+
+Either 
+
+![](images/gh.png)
+
+or
+
+```
+git clone git@github.com:youralias/azure-cloud.git
+```
+
+Make sure you have an SSH key defined within your GitHub Settings
+
+```
+ssh-keygen -t rsa -b 4096 -C "youremailaddress"
+```
+
+You should see somthing like the following (if you do not yet have a key, following the instructions and enter a pasphrase) 
+
+```
+ssh-keygen -t rsa -b 4096 -C "chtrembl@microsoft.com"
+Generating public/private rsa key pair.
+Enter file in which to save the key (C:\Users\chtrembl/.ssh/id_rsa):
+Created directory 'C:\Users\chtrembl/.ssh'.
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in C:\Users\chtrembl/.ssh/id_rsa.
+Your public key has been saved in C:\Users\chtrembl/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:RiO8...
+```
+
+If you are prompted with a warning that this key already exists, then cancel that task 'n' and move on to the next step
+
+copy the contents of the key to your clipboard (using your path to your id_rsa.pub
+
+```
+more  C:\Users\chtrembl/.ssh/id_rsa.pub
+```
 
 ## Creating Azure Resources
 
