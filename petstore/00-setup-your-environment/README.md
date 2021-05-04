@@ -14,6 +14,11 @@ In this section, we'll begin to set up your environment both for local developme
 
 Forking this repository is probably the easiest way to get started ensuring that you're able to make changes as needed while also easily fetching future changes as the become available. I also encourage pull requests for documentation change request(s), defect(s) and feature suggestions :)
 
+Head to https://github.com/chtrembl/azure-cloud and select Fork in the top right
+
+You should see something similar to the below image:
+
+![](images/fork.png)
 
 
 ## Creating Azure Resources
