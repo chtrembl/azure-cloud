@@ -36,7 +36,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 				&& this.aadB2COidcLoginConfigurerWrapper.getConfigurer() != null) {
 
 			http.authorizeRequests().antMatchers("/").permitAll().antMatchers("/dogbreed*").permitAll()
-					.antMatchers("/login").permitAll().anyRequest().authenticated().and()
+					.antMatchers("/login*").permitAll().anyRequest().authenticated().and()
 					.apply(this.aadB2COidcLoginConfigurerWrapper.getConfigurer()).and().oauth2Login()
 					.loginPage("/login").and().csrf().disable();
 
