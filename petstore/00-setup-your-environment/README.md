@@ -61,6 +61,13 @@ copy the contents of the key to your clipboard (using your path to your id_rsa.p
 more  C:\Users\chtrembl/.ssh/id_rsa.pub
 ```
 
+With the contents of id_rsa.pub on your clipboard, head to your GitHub Profile > Settings and loca
+
+You should see something similar to the below image:
+
+![](images/gh2.png)
+
+
 ## Creating Azure Resources
 
 To save time, we have an ARM template to get a few Azure resources created:
