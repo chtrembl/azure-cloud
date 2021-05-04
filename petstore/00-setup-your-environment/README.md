@@ -67,7 +67,7 @@ You should see something similar to the below image:
 
 ![](images/gh2.png)
 
-Your now able to point your GitHub Clone, of the https://github.com/chtrembl/azure-cloud Fork, to the upstream https://github.com/chtrembl/azure-cloud Repo. Allowing your to work on your fork while still fetching upstream changes.
+You're now able to update your GitHub Clone, of the https://github.com/chtrembl/azure-cloud Fork, with updates from he upstream https://github.com/chtrembl/azure-cloud Repo which allows you to work on your fork while still fetching upstream changes, when needed.
 
 ```
 git remote add upstream git@github.com:chtrembl/azure-cloud.git
