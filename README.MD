@@ -7,6 +7,4 @@
 > You can view the live deployment here https://azurepetstore.com/
 
 Thank you,
-Chris Tremblay
-
-:)
+Chris Tremblay :)
