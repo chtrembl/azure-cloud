@@ -98,8 +98,8 @@ stages:
               action: deploy
               kubernetesServiceConnection: azurepetstore-akscluster-default
               manifests: |
-                $(Pipeline.Workspace)/manifests/petstoreservice-deployment.yml
-                $(Pipeline.Workspace)/manifests/petstoreservice-service.yml
+                $(Pipeline.Workspace)/manifests/petstoreservice-deployment-everything-enabled.yml
+                $(Pipeline.Workspace)/manifests/petstoreservice-service-everything-enabled.yml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |

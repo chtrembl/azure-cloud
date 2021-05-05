@@ -29,3 +29,10 @@ spec:
         env:
           - name: PETSTORESERVICE_SERVER_PORT
             value: "8080"
+          - name: spring.config.name
+            value: application_with_everything_enabled
+          - name: PETSTORESERVICE_AI_INSTRUMENTATION_KEY
+            valueFrom:
+              secretKeyRef:
+                name: aisecretkey
+                key: secret
