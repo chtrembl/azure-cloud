@@ -29,7 +29,7 @@ public class RedirectFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 
-		petStoreRequest.setReferer(((HttpServletRequest) request).getHeader("Referrer"));
+		petStoreRequest.setHost(((HttpServletRequest) request).getHeader("Host"));
 		chain.doFilter(request, response);
 	}
 

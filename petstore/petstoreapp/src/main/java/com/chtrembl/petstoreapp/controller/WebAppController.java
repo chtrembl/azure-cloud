@@ -70,7 +70,7 @@ public class WebAppController {
 
 		model.addAttribute("sessionId", this.sessionUser.getSessionId());
 
-		model.addAttribute("referer", this.petStoreRequest.getReferer());
+		model.addAttribute("host", this.petStoreRequest.getHost());
 		MDC.put("session_Id", this.sessionUser.getSessionId());
 	}
 

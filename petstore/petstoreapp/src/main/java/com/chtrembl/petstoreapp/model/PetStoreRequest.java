@@ -14,13 +14,13 @@ import org.springframework.stereotype.Component;
 public class PetStoreRequest implements Serializable {
 	private static Logger logger = LoggerFactory.getLogger(PetStoreRequest.class);
 
-	private String referer;
+	private String host;
 
-	public String getReferer() {
-		return referer;
+	public String getHost() {
+		return host;
 	}
 
-	public void setReferer(String referer) {
-		this.referer = referer;
+	public void setHost(String host) {
+		this.host = host;
 	}
 }
