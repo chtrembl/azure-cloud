@@ -41,6 +41,7 @@ public class RedirectFilter implements Filter {
 			if (!this.host.equals(incomingHost)) {
 				logger.info("redirecting user to " + this.host);
 				((HttpServletResponse) response).sendRedirect("https://" + this.host);
+				return;
 			}
 		}
 		chain.doFilter(request, response);
