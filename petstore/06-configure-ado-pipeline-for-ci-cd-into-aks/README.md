@@ -20,6 +20,8 @@ As we did with the GitHub Action, I have the manifests files already created her
 
 Within your DevOps Organization, lets create a new Pipeline. Essentially what we are doing here is asking DevOps to setup the connectors to AKS for us, we will then use this meta data and paste into the manifests from https://github.com/chtrembl/azure-cloud/tree/main/manifests
 
+> 📝 Please Note, if you havent isntalled the Security Dev Tools in your DevOps Organization, please head to the Marketplace and install it, its quick and needed for the security tasks to run in your Pipeline. https://marketplace.visualstudio.com/items?itemName=securedevelopmentteam.vss-secure-development-tools
+
 You should see something similar to the below image:
 
 ![](images/ado_1.png)
