@@ -131,6 +131,8 @@ You'll want to make sure you're using your Azure Container Registry. (I should o
 
 Re run the failed pipeline. Once successful you can then regression test.
 
+> 📝 Please Note, if your build is still failing you may beed to troubleshoot the pipeline logs and/or verify that the petstoreservice image was pushed to your azure container registry, also verify your deployment manifests are using your container registry that you created in the first guide [00 - Setup your environment](../00-setup-your-environment/README.md) If your still having issues you will want to head to Azure Portal > Kubernetes Services (find your cluster) and under Kubernetes Resources > Workloads you can drill into the petstoreservice and view pod logs and image pull/deploy status etc..
+
 I like to renane my Pipelines to something more meaningful, you can do so by hovering over the pipeline (there will be an ellipse on the right and select rename)
 
 You should see something similar to the below image:
