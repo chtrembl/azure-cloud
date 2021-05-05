@@ -65,7 +65,7 @@ Validate and configure, what you will see if a pre generated yml deployment file
 
 You should see something similar to the below image:
 
-![](images/ad010.png)
+![](images/ado10.png)
 
 Anyways, back to this pre generated yml file, its a good start but we want to do more than just deploy. We want to run Cred Scan, Unit Test, Create a version file with Build Meta Data, Compile, Build Docker Image, Push Docker Image and then Deploy to Azure Kubernetes Service. So we will leverage the manifests from https://github.com/chtrembl/azure-cloud/tree/main/manifests 
 
