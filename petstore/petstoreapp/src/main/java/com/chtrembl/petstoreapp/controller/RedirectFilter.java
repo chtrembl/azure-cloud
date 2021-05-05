@@ -17,6 +17,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+/**
+ * Second Filter in the chain to redirect traffic if needed. For the scenario
+ * where a front facing web server sits in front of the deployed PaaS App
+ * Service. Perhaps you want to enforce users hit the domain instead of the App
+ * Service FQDN, just inject the host property and this filter will kick in.
+ */
 @Component
 @Order(2)
 public class RedirectFilter implements Filter {

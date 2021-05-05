@@ -18,6 +18,9 @@ import com.microsoft.applicationinsights.telemetry.SeverityLevel;
 import com.microsoft.applicationinsights.telemetry.Telemetry;
 import com.microsoft.applicationinsights.telemetry.TraceTelemetry;
 
+/**
+ * Stub for overriding during Unit Testing. (Should really live in Test package)
+ */
 public class TelemetryClient extends com.microsoft.applicationinsights.TelemetryClient {
 	private static String message = "azure.application-insights.instrumentation-key not found, considering configuring Application Inisghts if you would like to track Telemtry.";
 	private static Logger logger = LoggerFactory.getLogger(TelemetryClient.class);

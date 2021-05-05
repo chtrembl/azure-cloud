@@ -1,5 +1,8 @@
 package com.chtrembl.petstoreapp.service;
 
+/**
+ * Implementation for service calls to the APIM/AKS
+ */
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

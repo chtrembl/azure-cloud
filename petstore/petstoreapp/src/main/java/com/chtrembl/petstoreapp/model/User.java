@@ -12,6 +12,10 @@ import org.springframework.stereotype.Component;
 
 import com.microsoft.applicationinsights.TelemetryClient;
 
+/**
+ * Session based for each user, each user will also have a unique Telemetry
+ * Client instance.
+ */
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 @SuppressWarnings("serial")

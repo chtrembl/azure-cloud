@@ -24,6 +24,10 @@ import com.chtrembl.petstoreapp.model.User;
 import com.chtrembl.petstoreapp.service.PetStoreService;
 import com.microsoft.applicationinsights.telemetry.PageViewTelemetry;
 
+/**
+ * Web Controller for all of the model/presentation construction and various
+ * endpoints
+ */
 @Controller
 public class WebAppController {
 	private static Logger logger = LoggerFactory.getLogger(WebAppController.class);

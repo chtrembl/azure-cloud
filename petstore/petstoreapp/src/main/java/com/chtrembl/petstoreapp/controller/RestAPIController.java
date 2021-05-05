@@ -6,6 +6,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.chtrembl.petstoreapp.model.User;
 
+/**
+ * REST controller to facilitate REST calls such as session keep alives
+ * (progressive web apps)
+ *
+ */
 @RestController
 public class RestAPIController {
 

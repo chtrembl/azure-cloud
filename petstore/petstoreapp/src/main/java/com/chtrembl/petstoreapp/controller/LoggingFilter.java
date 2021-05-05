@@ -15,6 +15,11 @@ import org.springframework.stereotype.Component;
 
 import com.chtrembl.petstoreapp.model.ContainerEnvironment;
 
+/**
+ * First Filter in the chain to set some MDC data for logging purposes, since
+ * this is statis data, nothing request scope (yet), this could be moved to the
+ * logging context singleton.
+ */
 @Component
 @Order(1)
 public class LoggingFilter implements Filter {

@@ -10,6 +10,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 import com.chtrembl.petstoreapp.model.ContainerEnvironment;
 
+/**
+ * Wire up Spring Security
+ */
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	private static Logger logger = LoggerFactory.getLogger(WebSecurityConfiguration.class);

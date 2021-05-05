@@ -22,6 +22,9 @@ import com.microsoft.applicationinsights.core.dependencies.google.common.io.Char
 
 import ch.qos.logback.core.joran.spi.JoranException;
 
+/**
+ * Singleton to store container state
+ */
 @SuppressWarnings("serial")
 @Component
 public class ContainerEnvironment implements Serializable {
