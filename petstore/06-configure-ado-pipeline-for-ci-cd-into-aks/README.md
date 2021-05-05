@@ -94,11 +94,11 @@ I am going to go through each line you want to review and/or change and why
  
 After you are done editing (don't worry this file will vet versioned in GitHub in the next dialog and you can always make changes at any time)
 
-Click Save and run
-
 You should see something similar to the below image:
 
 ![](images/ado7.png)
+
+Click on Variables
 
 Enter the ```crImagePullSecret``` secret with the sensitive value that was auto generated, to inject every time this pipeline executes
 
