@@ -44,3 +44,4 @@ ga:
   tracking:
     id: ${GA_TRACKING_ID}
  
+host: ${HOST}
