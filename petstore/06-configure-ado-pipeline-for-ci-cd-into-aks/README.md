@@ -91,8 +91,8 @@ I am going to go through each line you want to review and/or change and why
  - line 24 overwrite imagePullSecret with '$(crImagePullSecret)', we will inject this sensitive value as a pipeline secret below
  - line 90 kubernetesServiceConnection should match your service connection that you made in the previous dialog and can view in your settings/service connections
  - line 99 kubernetesServiceConnection should match your service connection that you made in the previous dialog and can view in your settings/service connections
- - line 100 Azure DevOps Pipelines will create a generic deployment file for you, we are using this one (it's part of your clone/fork) for better naming (just imagine you have multiple pipelines someday)
- - line 101 Azure DevOps Pipelines will create a generic service file for you, we are using this one (it's part of your clone/fork) for better naming (just imagine you have multiple pipelines someday)
+ - line 101 Azure DevOps Pipelines will create a generic deployment file for you (you can safely delete once it does), for line 101 make sure it reads  **$(Pipeline.Workspace)/manifests/petstoreservice-deployment.yml**, you will want to use this one as it is structured to disable the various functionality that we will enable in the subsequent guides
+ - line 102 Azure DevOps Pipelines will create a generic service file for you (you can safely delete once it does), for line 102 make sure it reads  **$(Pipeline.Workspace)/manifests/petstoreservice-service.yml**, you will want to use this one as it is structured to disable the various functionality that we will enable in the subsequent guides
  
 After you are done editing (don't worry this file will vet versioned in GitHub in the next dialog and you can always make changes at any time)
 
