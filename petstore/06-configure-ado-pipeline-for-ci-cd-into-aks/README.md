@@ -98,7 +98,7 @@ You should see something similar to the below image:
 
 ![](images/ado7.png)
 
-Click on Variables
+Click on Variables > New variable
 
 Enter the ```crImagePullSecret``` secret with the sensitive value that was auto generated, to inject every time this pipeline executes
 
