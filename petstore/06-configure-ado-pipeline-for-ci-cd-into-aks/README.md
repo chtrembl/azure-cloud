@@ -20,6 +20,8 @@ As we did with the GitHub Action, I have the manifests files already created her
 
 Within your DevOps Organization, lets create a new Pipeline. Essentially what we are doing here is asking DevOps to setup the connectors to AKS for us, we will then use this meta data and paste into the manifests from https://github.com/chtrembl/azure-cloud/tree/main/manifests
 
+> 📝 Please Note, if you havent isntalled the Security Dev Tools in your DevOps Organization, please head to the Marketplace and install it, its quick and needed for the security tasks to run in your Pipeline. https://marketplace.visualstudio.com/items?itemName=securedevelopmentteam.vss-secure-development-tools
+
 You should see something similar to the below image:
 
 ![](images/ado_1.png)
@@ -81,24 +83,24 @@ Now for the tricky part, remove all of the body contents from the inline editor 
 
 I am going to go through each line you want to review and/or change and why
 
- - line 11 make sure you are executing this pipeline on only changes from petstore/petstoreservice (no need to trigger on petstoreapp changes etc...) (if your cloning/forking this should not change)
+ - line 11 make sure you are executing this pipeline on only changes from petstore/petstoreservice/* (no need to trigger on petstoreapp changes etc...) (if your cloning/forking this should not change)
  - line 19 overwrite dockerRegistryServiceConnection with the id you copied above
- - line 20 verify imageRepository matches your Azure Container Registry/Image Repository (if your cloning/forking this should not change)
- - line 21 verify your containerRegistry is the one configured in guide 00-setup-your-environment (if your cloning/forking this should not change)
+ - line 20 verify imageRepository matches your Azure Container Registry/Image Repository (keep this as petstoreservice)
+ - line 21 verify your containerRegistry is the one configured in guide 00-setup-your-environment (this should match your container registry)
  - line 22 verify your path is correct to the Dockefile (if your cloning/forking this should not change)
  - line 24 overwrite imagePullSecret with '$(crImagePullSecret)', we will inject this sensitive value as a pipeline secret below
- - line 89 kubernetesServiceConnection should match your service connection that you made in the previous dialog and can view in your settings/service connections
- - line 98 kubernetesServiceConnection should match your service connection that you made in the previous dialog and can view in your settings/service connections
+ - line 90 kubernetesServiceConnection should match your service connection that you made in the previous dialog and can view in your settings/service connections
+ - line 99 kubernetesServiceConnection should match your service connection that you made in the previous dialog and can view in your settings/service connections
  - line 100 Azure DevOps Pipelines will create a generic deployment file for you, we are using this one (it's part of your clone/fork) for better naming (just imagine you have multiple pipelines someday)
  - line 101 Azure DevOps Pipelines will create a generic service file for you, we are using this one (it's part of your clone/fork) for better naming (just imagine you have multiple pipelines someday)
  
 After you are done editing (don't worry this file will vet versioned in GitHub in the next dialog and you can always make changes at any time)
 
-Click Save and run
-
 You should see something similar to the below image:
 
 ![](images/ado7.png)
+
+Click on Variables > New variable
 
 Enter the ```crImagePullSecret``` secret with the sensitive value that was auto generated, to inject every time this pipeline executes
 
