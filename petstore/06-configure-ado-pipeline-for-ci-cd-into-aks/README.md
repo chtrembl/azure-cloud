@@ -81,7 +81,7 @@ Now for the tricky part, remove all of the body contents from the inline editor 
 
 I am going to go through each line you want to review and/or change and why
 
- - line 11 make sure you are executing this pipeline on only changes from petstore/petstoreservice (no need to trigger on petstoreapp changes etc...) (if your cloning/forking this should not change)
+ - line 11 make sure you are executing this pipeline on only changes from petstore/petstoreservice/* (no need to trigger on petstoreapp changes etc...) (if your cloning/forking this should not change)
  - line 19 overwrite dockerRegistryServiceConnection with the id you copied above
  - line 20 verify imageRepository matches your Azure Container Registry/Image Repository (if your cloning/forking this should not change)
  - line 21 verify your containerRegistry is the one configured in guide 00-setup-your-environment (if your cloning/forking this should not change)
