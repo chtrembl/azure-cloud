@@ -84,7 +84,7 @@ I am going to go through each line you want to review and/or change and why
  - line 11 make sure you are executing this pipeline on only changes from petstore/petstoreservice/* (no need to trigger on petstoreapp changes etc...) (if your cloning/forking this should not change)
  - line 19 overwrite dockerRegistryServiceConnection with the id you copied above
  - line 20 verify imageRepository matches your Azure Container Registry/Image Repository (if your cloning/forking this should not change)
- - line 21 verify your containerRegistry is the one configured in guide 00-setup-your-environment (if your cloning/forking this should not change)
+ - line 21 verify your containerRegistry is the one configured in guide 00-setup-your-environment (this should match your container registry)
  - line 22 verify your path is correct to the Dockefile (if your cloning/forking this should not change)
  - line 24 overwrite imagePullSecret with '$(crImagePullSecret)', we will inject this sensitive value as a pipeline secret below
  - line 90 kubernetesServiceConnection should match your service connection that you made in the previous dialog and can view in your settings/service connections
