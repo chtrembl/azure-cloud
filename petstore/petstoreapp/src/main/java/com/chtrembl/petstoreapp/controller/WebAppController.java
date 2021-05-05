@@ -20,6 +20,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 
 import com.chtrembl.petstoreapp.model.ContainerEnvironment;
 import com.chtrembl.petstoreapp.model.Pet;
+import com.chtrembl.petstoreapp.model.PetStoreRequest;
 import com.chtrembl.petstoreapp.model.User;
 import com.chtrembl.petstoreapp.service.PetStoreService;
 import com.microsoft.applicationinsights.telemetry.PageViewTelemetry;
@@ -30,6 +31,9 @@ public class WebAppController {
 
 	@Autowired
 	private ContainerEnvironment containerEnvironment;
+
+	@Autowired
+	private PetStoreRequest petStoreRequest;
 
 	@Autowired
 	private PetStoreService petStoreService;
@@ -65,6 +69,8 @@ public class WebAppController {
 		model.addAttribute("containerEnvironment", this.containerEnvironment);
 
 		model.addAttribute("sessionId", this.sessionUser.getSessionId());
+
+		model.addAttribute("referer", this.petStoreRequest.getReferer());
 		MDC.put("session_Id", this.sessionUser.getSessionId());
 	}
 

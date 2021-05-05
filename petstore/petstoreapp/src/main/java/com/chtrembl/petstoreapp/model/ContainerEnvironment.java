@@ -142,5 +142,4 @@ public class ContainerEnvironment implements Serializable {
 	public void setGaTrackingId(String gaTrackingId) {
 		this.gaTrackingId = gaTrackingId;
 	}
-
 }

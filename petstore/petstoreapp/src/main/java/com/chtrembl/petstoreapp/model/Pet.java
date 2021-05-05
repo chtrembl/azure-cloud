@@ -1,5 +1,6 @@
 package com.chtrembl.petstoreapp.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -10,8 +11,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
+@SuppressWarnings("serial")
 @Component
-public class Pet {
+public class Pet implements Serializable {
 	@JsonProperty("id")
 	private Long id;
 
