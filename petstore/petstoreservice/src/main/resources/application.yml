@@ -3,8 +3,8 @@ springfoxdocumentation:
     v2:
       path: /api-docs
       
-server:
-  port: ${PETSTORESERVICE_SERVER_PORT}
+#server:
+#  port: ${PETSTORESERVICE_SERVER_PORT}
   
 spring:
   jackson:
