@@ -30,9 +30,9 @@ Go through the "Create an AKS CLuster" steps here https://docs.microsoft.com/en-
 
 4. You should arleady have an Azure Container Registry that you have been using for all of the previous guides. If so, skip this step. If not, create an Azure Container Registry (ACR) to hold our Docker images
 	  
-		```az acr create --resource-group <yourresourcegroup> --location eastus
+	```az acr create --resource-group <yourresourcegroup> --location eastus
 
-		--name azurepetstorecr --sku Basic```
+	--name azurepetstorecr --sku Basic```
 
 5. Set the Azure Container Registry to use
 
