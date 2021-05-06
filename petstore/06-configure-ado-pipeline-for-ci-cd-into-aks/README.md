@@ -91,8 +91,8 @@ I am going to go through each line you want to review and/or change and why
  - line 24 overwrite imagePullSecret with '$(crImagePullSecret)', we will inject this sensitive value as a pipeline secret below
  - line 90 kubernetesServiceConnection should match your service connection that you made in the previous dialog and can view in your settings/service connections
  - line 99 kubernetesServiceConnection should match your service connection that you made in the previous dialog and can view in your settings/service connections
- - line 100 Azure DevOps Pipelines will create a generic deployment file for you, we are using this one (it's part of your clone/fork) for better naming (just imagine you have multiple pipelines someday)
- - line 101 Azure DevOps Pipelines will create a generic service file for you, we are using this one (it's part of your clone/fork) for better naming (just imagine you have multiple pipelines someday)
+ - line 101 Azure DevOps Pipelines will create a generic deployment file for you (you can safely delete once it does), for line 101 make sure it reads  **$(Pipeline.Workspace)/manifests/petstoreservice-deployment.yml**, you will want to use this one as it is structured to disable the various functionality that we will enable in the subsequent guides
+ - line 102 Azure DevOps Pipelines will create a generic service file for you (you can safely delete once it does), for line 102 make sure it reads  **$(Pipeline.Workspace)/manifests/petstoreservice-service.yml**, you will want to use this one as it is structured to disable the various functionality that we will enable in the subsequent guides
  
 After you are done editing (don't worry this file will vet versioned in GitHub in the next dialog and you can always make changes at any time)
 
@@ -130,6 +130,8 @@ You'll want to make sure you're using your Azure Container Registry. (I should o
 ```
 
 Re run the failed pipeline. Once successful you can then regression test.
+
+> 📝 Please Note, if your build is still failing you may beed to troubleshoot the pipeline logs and/or verify that the petstoreservice image was pushed to your azure container registry, also verify your deployment manifests are using your container registry that you created in the first guide [00 - Setup your environment](../00-setup-your-environment/README.md) If your still having issues you will want to head to Azure Portal > Kubernetes Services (find your cluster) and under Kubernetes Resources > Workloads you can drill into the petstoreservice and view pod logs and image pull/deploy status etc..
 
 I like to renane my Pipelines to something more meaningful, you can do so by hovering over the pipeline (there will be an ellipse on the right and select rename)
 
