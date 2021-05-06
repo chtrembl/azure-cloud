@@ -129,7 +129,7 @@ Go through the "Create an AKS CLuster" steps here https://docs.microsoft.com/en-
     	
 	You should see something similar to the below image:
 
-    	![](images/json.png)
+	![](images/json.png)
 
 	> 📝 Please Note, If your not able to access your Service Load Balancer, something may have went wrong with the deployment. You can run the following command to get some insight, if you see something in STATUS other than RUNNING, you will need to investigate by getting the pod details and troubleshooting, seen below...*
 
