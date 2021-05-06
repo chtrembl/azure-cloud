@@ -84,21 +84,36 @@ public class WebAppController {
 		return "login";
 	}
 
-	@GetMapping(value = "/dogbreeds")
-	public String dogbreeds(Model model, OAuth2AuthenticationToken token, HttpServletRequest request)
-			throws URISyntaxException {
-		logger.info("PetStoreApp /dogbreeds requested, routing to dogbreeds view...");
+	// multiple endpoints to generate some Telemetry and allowing for
+	// differentiation
+	@GetMapping(value = { "/dogbreeds", "/catbreeds", "/fishbreeds" })
+	public String breeds(Model model, OAuth2AuthenticationToken token, HttpServletRequest request,
+			@RequestParam(name = "category") String category) throws URISyntaxException {
 
-		model.addAttribute("pets", this.petStoreService.getPets());
-		return "dogbreeds";
+		// quick validation, should really be done in validators, check for cross side
+		// scripting etc....
+		if (!"Dog".equals(category) && !"Cat".equals(category) && !"Fish".equals(category)) {
+			return "home";
+		}
+		logger.info(String.format("PetStoreApp /breeds requested for %s, routing to breeds view...", category));
+
+		model.addAttribute("pets", this.petStoreService.getPets(category));
+		return "breeds";
 	}
 
-	@GetMapping(value = "/dogbreeddetails")
-	public String dogbreedeetails(Model model, OAuth2AuthenticationToken token, HttpServletRequest request,
-			@RequestParam(name = "id") int id) throws URISyntaxException {
+	@GetMapping(value = "/breeddetails")
+	public String breedeetails(Model model, OAuth2AuthenticationToken token, HttpServletRequest request,
+			@RequestParam(name = "category") String category, @RequestParam(name = "id") int id)
+			throws URISyntaxException {
+
+		// quick validation, should really be done in validators, check for cross side
+		// scripting etc....
+		if (!"Dog".equals(category) && !"Cat".equals(category) && !"Fish".equals(category)) {
+			return "home";
+		}
 
 		if (null == this.sessionUser.getPets()) {
-			this.petStoreService.getPets();
+			this.petStoreService.getPets(category);
 		}
 
 		Pet pet = null;
@@ -110,12 +125,12 @@ public class WebAppController {
 			pet = new Pet();
 		}
 
-		logger.info(String.format("PetStoreApp /dogbreeddetails requested for %s, routing to dogbreeddetails view...",
+		logger.info(String.format("PetStoreApp /breeddetails requested for %s, routing to dogbreeddetails view...",
 				pet.getName()));
 
 		model.addAttribute("pet", pet);
 
-		return "dogbreeddetails";
+		return "breeddetails";
 	}
 
 	@GetMapping(value = "/claims")

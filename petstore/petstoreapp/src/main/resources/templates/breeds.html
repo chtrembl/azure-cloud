@@ -26,7 +26,7 @@
 					<td>
 						<figure> <img class="thumbnail" th:src="@{${pet.photoURL}}" /> </figure>
 						<div>
-							<a th:href="@{'/dogbreeddetails?id=' + ${pet.id}}" style="font-weight: bold; text-decoration: none; color: black;"><span th:text="${pet.name}" /> </div>
+							<a th:href="@{'/breeddetails?id=' + ${pet.id} + '&category=' + ${pet.category.name} }" style="font-weight: bold; text-decoration: none; color: black;"><span th:text="${pet.name}" /> </div>
 					</td>
 				</tr>
 			</div>

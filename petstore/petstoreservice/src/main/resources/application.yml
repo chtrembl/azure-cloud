@@ -339,6 +339,6 @@ data:
       photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/fish-breeds/goldfish.jpg?raw=true"
       tags:
         - id: 1
-          name: "kittie"
+          name: "fishy"
       status: "available"
       

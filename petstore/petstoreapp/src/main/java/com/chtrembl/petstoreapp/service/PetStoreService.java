@@ -8,5 +8,5 @@ import com.chtrembl.petstoreapp.model.Pet;
 
 @Service
 public interface PetStoreService {
-	public Collection<Pet> getPets();
+	public Collection<Pet> getPets(String category);
 }

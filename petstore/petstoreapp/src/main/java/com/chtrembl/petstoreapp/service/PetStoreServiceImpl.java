@@ -6,6 +6,7 @@ package com.chtrembl.petstoreapp.service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
@@ -37,8 +38,8 @@ public class PetStoreServiceImpl implements PetStoreService {
 	}
 
 	@Override
-	public Collection<Pet> getPets() {
-		List<Pet> pets = new ArrayList();
+	public Collection<Pet> getPets(String category) {
+		List<Pet> pets = new ArrayList<Pet>();
 
 		this.sessionUser.getTelemetryClient().trackEvent(String.format(
 				"PetStoreApp %s is requesting to retrieve pets from the PetStoreService", this.sessionUser.getName()));
@@ -49,10 +50,15 @@ public class PetStoreServiceImpl implements PetStoreService {
 					.header("Ocp-Apim-Trace", "true").retrieve()
 					.bodyToMono(new ParameterizedTypeReference<List<Pet>>() {
 					}).block();
+
 			// use this for look up on details page, intentionally avoiding spring cache to
 			// ensure service calls are made each
 			// time to show Telemetry with APIM requests
 			this.sessionUser.setPets(pets);
+
+			// filter this specific request per category
+			pets = pets.stream().filter(pet -> category.equals(pet.getCategory().getName()))
+					.collect(Collectors.toList());
 			return pets;
 		} catch (WebClientException wce) {
 			this.sessionUser.getTelemetryClient().trackException(wce);
