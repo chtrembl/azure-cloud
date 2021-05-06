@@ -61,53 +61,53 @@ Go through the "Create an AKS CLuster" steps here https://docs.microsoft.com/en-
 
 > 📝 Please Note, Make sure to reference your container registry instead of mine image: <yourcontainerregistry>.azurecr.io/petstoreservice:latest
 
-	```vi deployment.yml```
+```vi deployment.yml```
 
-	```
-	apiVersion: apps/v1
-	kind: Deployment
-	metadata:
-	  name: petstoreservice
-	spec:
-	  replicas: 1
-	  selector:
-	    matchLabels:
-	      app: petstoreservice
-	  template:
-	    metadata:
-	      labels:
-		app: petstoreservice
-	    spec:
-	      nodeSelector:
-		"beta.kubernetes.io/os": linux
-	      containers:
-	      - name: petstoreservice
-		image: azurepetstorecr.azurecr.io/petstoreservice:latest
-		resources:
-		  requests:
-		    cpu: 100m
-		    memory: 128Mi
-		  limits:
-		    cpu: 250m
-		    memory: 256Mi
-		ports:
-		- containerPort: 8080
-		env:
-		- name: PETSTORESERVICE_SERVER_PORT
-		  value: 8080
-	---
-	apiVersion: v1
-	kind: Service
-	metadata:
-	  name: petstoreservice
-	spec:
-	  type: LoadBalancer
-	  ports:
-	  - port: 80
-	    targetPort: 8080
-	  selector:
-	    app: petstoreservice
-	````
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: petstoreservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: petstoreservice
+  template:
+    metadata:
+      labels:
+	app: petstoreservice
+    spec:
+      nodeSelector:
+	"beta.kubernetes.io/os": linux
+      containers:
+      - name: petstoreservice
+	image: azurepetstorecr.azurecr.io/petstoreservice:latest
+	resources:
+	  requests:
+	    cpu: 100m
+	    memory: 128Mi
+	  limits:
+	    cpu: 250m
+	    memory: 256Mi
+	ports:
+	- containerPort: 8080
+	env:
+	- name: PETSTORESERVICE_SERVER_PORT
+	  value: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: petstoreservice
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: petstoreservice
+```
 
 > 📝 Please Note, you'll notice above that we are injective two env variables to the container, similar to what we did with App Service Configuration. The Pet Store Service is coded to send Telementry to Application Insights, however since we havent yet gotten to that guide, we are disabling it by injecting an empty key.
 
