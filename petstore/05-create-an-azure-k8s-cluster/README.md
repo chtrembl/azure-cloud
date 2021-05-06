@@ -93,8 +93,6 @@ Go through the "Create an AKS CLuster" steps here https://docs.microsoft.com/en-
 		env:
 		- name: PETSTORESERVICE_SERVER_PORT
 		  value: 8080
-		- name: PETSTORESERVICE_AI_INSTRUMENTATION_KEY
-		  value: ""
 	---
 	apiVersion: v1
 	kind: Service
