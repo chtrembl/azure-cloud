@@ -109,8 +109,6 @@ spec:
     app: petstoreservice
 ```
 
-> 📝 Please Note, you'll notice above that we are injective two env variables to the container, similar to what we did with App Service Configuration. The Pet Store Service is coded to send Telementry to Application Insights, however since we havent yet gotten to that guide, we are disabling it by injecting an empty key.
-
 12. Deploy your Kubernetes configuration to AKS (You can run this command any time you want to deploy updates to be re orchestrated by K8S/AKS)
 
 	`kubectl apply -f deployment.yml`
