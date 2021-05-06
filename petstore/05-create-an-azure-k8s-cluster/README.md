@@ -125,12 +125,13 @@ Go through the "Create an AKS CLuster" steps here https://docs.microsoft.com/en-
   
 	```
 	curl http://40.88.201.193/v2/pet/findByStatus?status=available | json_pp
-  ```
-    You should see something similar to the below image:
+  	```
+    	
+	You should see something similar to the below image:
 
-    ![](images/json.png)
+    	![](images/json.png)
 
-> 📝 Please Note, If your not able to access your Service Load Balancer, something may have went wrong with the deployment. You can run the following command to get some insight, if you see something in STATUS other than RUNNING, you will need to investigate by getting the pod details and troubleshooting, seen below...*
+	> 📝 Please Note, If your not able to access your Service Load Balancer, something may have went wrong with the deployment. You can run the following command to get some insight, if you see something in STATUS other than RUNNING, you will need to investigate by getting the pod details and troubleshooting, seen below...*
 
     ```
     ~/dev/git/azure-cloud/petstore/petstoreservice$ kubectl get all
@@ -141,7 +142,6 @@ Go through the "Create an AKS CLuster" steps here https://docs.microsoft.com/en-
     
 
     Warning Failed 11s (x3 over 53s) kubelet, aks-nodepool1-56647556-vmss000001 Failed to pull image "petstoreservice:v1": rpc error: code = Unknown desc = Error response from daemon: pull access denied for petstoreservice, repository does not exist or may require 'docker login': denied: requested access to the resource is denied
-
     ```
 
 > 📝 Please Note, In the above, ImagePullBackOff indicated that the image could not be pulled from the Azure Container registry, checking permissions and container image definition in deployment.yaml usually resolves... You can view all of these messages and details within the Azure Portal as well via logging as seen below.
