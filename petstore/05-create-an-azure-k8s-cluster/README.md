@@ -92,9 +92,6 @@ spec:
 	    memory: 256Mi
 	ports:
 	- containerPort: 8080
-	env:
-	- name: PETSTORESERVICE_SERVER_PORT
-	  value: 8080
 ---
 apiVersion: v1
 kind: Service
