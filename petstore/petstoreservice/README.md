@@ -13,3 +13,4 @@ Other optional aruments that you can specify to do certain things that get cover
 - enable Application Inisghts (empty and disabled by default)
 
 ```-e PETSTORESERVICE_AI_INSTRUMENTATION_KEY=<your key here>```
+
