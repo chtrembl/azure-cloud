@@ -1,7 +1,6 @@
 FROM mcr.microsoft.com/openjdk/jdk:16-ubuntu
-ENV SSHPASSWORD changeme
 RUN apt-get update -y && apt-get install -y --no-install-recommends openssh-server 
-RUN mkdir -p /run/sshd && echo "root:${SSHPASSWORD}" | chpasswd
+RUN mkdir -p /run/sshd && echo "root:Docker!" | chpasswd
 COPY sshd_config /etc/ssh/ 
 EXPOSE 2222 8080
 ARG JAR_FILE=target/*.jar
