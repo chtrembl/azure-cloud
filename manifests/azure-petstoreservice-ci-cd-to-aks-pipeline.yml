@@ -50,7 +50,7 @@ stages:
         mavenPomFile: 'petstore/petstoreservice/pom.xml'
         mavenOptions: '-Xmx3072m'
         javaHomeOption: 'JDKVersion'
-        jdkVersionOption: '11'
+        jdkVersionOption: '8'
         jdkArchitectureOption: 'x64'
         publishJUnitResults: true
         testResultsFiles: 'petstore/petstoreservice/target/surefire-reports/TEST-*.xml'
