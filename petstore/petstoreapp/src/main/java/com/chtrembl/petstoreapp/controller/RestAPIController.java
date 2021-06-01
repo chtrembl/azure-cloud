@@ -23,7 +23,7 @@ public class RestAPIController {
 		this.sessionUser.getTelemetryClient()
 				.trackEvent(String.format("user %s requesting Contact Us", this.sessionUser.getName()));
 
-		return "Please contact Azure PetStore at 401-555-5555. Thank you, Azure Pet Store Team :) Demo";
+		return "Please contact Azure PetStore at 401-555-5555. Thank you, Azure Pet Store Team :)";
 	}
 
 	@GetMapping("/api/sessionid")
