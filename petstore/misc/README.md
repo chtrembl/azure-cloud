@@ -8,7 +8,7 @@
 
  - [How to develop an Azure Function App with Java and Build/Deploy it to Azure Container Registry/Function App Service](https://github.com/chtrembl/azure-cloud/tree/main/petstore/misc/petstorefunctions)
 
- - [Running Windows and Linux Containers on Windows Server 2019](https://github.com/chtrembl/azure-cloud/main/petstore/WS2019WindowsLinuxContainers.md)
+ - [Running Windows and Linux Containers on Windows Server 2019](https://github.com/chtrembl/azure-cloud/blob/main/petstore/misc/WS2019WindowsLinuxContainers.md)
 
  - [Import and Publish your API with Azure API Management using Products and Rate Limits](https://github.com/chtrembl/azure-cloud/main/petstore/APIManagementOverview.md)
 
