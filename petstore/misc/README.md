@@ -4,7 +4,7 @@
 
  - [How to use Azure Identity and Access Management to secure your Spring Boot Application with Azure Active Directory B2C Spring Boot Starter](https://github.com/chtrembl/azure-cloud/tree/main/petstore/petstoreapp)
 
- - [Blue-Green (A/B) Deployments with Azure App Service are simplified with Deployment Slots](https://github.com/chtrembl/azure-cloud/main/petstore/petstoreapp/BLUEGREEN.md)
+ - [Blue-Green (A/B) Deployments with Azure App Service are simplified with Deployment Slots](https://github.com/chtrembl/azure-cloud/blob/main/petstore/misc/petstoreapp/BLUEGREEN.md)
 
  - [How to develop an Azure Function App with Java and Build/Deploy it to Azure Container Registry/Function App Service](https://github.com/chtrembl/azure-cloud/tree/main/petstore/misc/petstorefunctions)
 
