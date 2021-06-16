@@ -6,7 +6,7 @@
 
  - [Blue-Green (A/B) Deployments with Azure App Service are simplified with Deployment Slots](https://github.com/chtrembl/azure-cloud/blob/master/petstoreapp/BLUEGREEN.md)
 
- - [How to develop an Azure Function App with Java and Build/Deploy it to Azure Container Registry/Function App Service](https://github.com/chtrembl/azure-cloud/tree/master/petstorefunctions)
+ - [How to develop an Azure Function App with Java and Build/Deploy it to Azure Container Registry/Function App Service](https://github.com/chtrembl/azure-cloud/petstore/tree/master/petstorefunctions)
 
  - [Running Windows and Linux Containers on Windows Server 2019](https://github.com/chtrembl/azure-cloud/blob/master/WS2019WindowsLinuxContainers.md)
 
