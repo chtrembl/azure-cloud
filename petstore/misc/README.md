@@ -1,6 +1,6 @@
 # Here you will find various [Azure](https://ms.portal.azure.com/) demos & tutorials that I've put together with Azure Cloud using DevOps, Container Services and other PaaS offerings.
 
- - [How to build a Java Spring Boot Service API with Open API / Swagger, deploy it to Azure Kubernetes Service (AKS) and implement CI/CD pipelines with Azure DevOps (ADO)](https://github.com/chtrembl/azure-cloud/tree/main/petstore)
+ - [How to build a Java Spring Boot Service API with Open API / Swagger, deploy it to Azure Kubernetes Service (AKS) and implement CI/CD pipelines with Azure DevOps (ADO)](https://github.com/chtrembl/azure-cloud/tree/main/petstore/misc/petstore)
 
  - [How to use Azure Identity and Access Management to secure your Spring Boot Application with Azure Active Directory B2C Spring Boot Starter](https://github.com/chtrembl/azure-cloud/tree/main/petstore/petstoreapp)
 
