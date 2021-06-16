@@ -10,7 +10,7 @@
 
  - [Running Windows and Linux Containers on Windows Server 2019](https://github.com/chtrembl/azure-cloud/blob/main/petstore/misc/WS2019WindowsLinuxContainers.md)
 
- - [Import and Publish your API with Azure API Management using Products and Rate Limits](https://github.com/chtrembl/azure-cloud/main/petstore/APIManagementOverview.md)
+ - [Import and Publish your API with Azure API Management using Products and Rate Limits](https://github.com/chtrembl/azure-cloud/blob/main/petstore/misc/APIManagementOverview.md)
 
  - [Use Azure Log Queries & Azure Monitor to analyze and monitor your Spring Boot Applications](https://github.com/chtrembl/azure-cloud/main/petstore/petstoreapp/AzureMonitor.md)
 
