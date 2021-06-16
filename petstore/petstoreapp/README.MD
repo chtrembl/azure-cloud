@@ -24,3 +24,4 @@ Other optional aruments that you can specify to do certain things that get cover
 ```-e PETSTOREAPP_B2C_TENANT=<your tenant here> -e PETSTOREAPP_B2C_CLIENT_ID=<your client id here> -e PETSTOREAPP_B2C_CLIENT_SECRET=<your client secret here> -e PETSTOREAPP_B2C_REPLY_URL=<your b2c reply uel here> -e PETSTOREAPP_B2C_LOGOUT_URL=<your b2c logout uel here>```
 
  
+...
