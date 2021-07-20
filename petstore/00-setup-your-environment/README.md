@@ -76,7 +76,15 @@ git remote add upstream git@github.com:chtrembl/azure-cloud.git
 Now to pull https://github.com/chtrembl/azure-cloud changes at any point in time
 
 ```
-git rebase upstream/main
+git fetch upstream
+```
+
+```
+git checkout main
+```
+
+```
+git merge upstream/main
 ```
 
 This will put any changes you may have, on top of the latest from https://github.com/chtrembl/azure-cloud and you can push into your origin as you normally would
