@@ -1,3 +1,4 @@
+id,category/id,category/name,name,photoURL,tags/0/id,tags/0/name,status
 1,1,Dog,Afador,https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-breeds/afador.jpg?raw=true,1,doggie,available
 2,1,Dog,American Bulldog,https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-breeds/american-bulldog.jpg?raw=true,1,doggie,available
 3,1,Dog,Australian Retriever,https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-breeds/australian-retriever.jpg?raw=true,1,doggie,available
