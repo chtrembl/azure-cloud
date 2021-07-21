@@ -51,4 +51,9 @@ df.createOrReplaceTempView(temp_table_name)
 
 permanent_table_name = "breeds_csv"
 
-df.write.format("parquet").saveAsTable(permanent_table_name)
+# df.write.format("parquet").saveAsTable(permanent_table_name)
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC select * from `breeds_csv` where _c2 == "Fish"
