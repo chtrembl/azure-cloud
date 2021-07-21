@@ -21,5 +21,5 @@ stages:
       - task: PublishBuildArtifacts@1
         inputs:
           PathtoPublish: 'petstore/petstoredataops/PetStoreNotebook.py'
-          ArtifactName: 'drop'
+          ArtifactName: 'workbook'
           publishLocation: 'Container'
