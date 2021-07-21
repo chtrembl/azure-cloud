@@ -20,6 +20,6 @@ stages:
       steps:
       - task: PublishBuildArtifacts@1
         inputs:
-          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          PathtoPublish: 'petstore/petstoredataops/PetStoreNotebook.py'
           ArtifactName: 'drop'
           publishLocation: 'Container'
