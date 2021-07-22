@@ -22,4 +22,14 @@ stages:
         inputs:
           PathtoPublish: 'petstore/petstoredataops/PetStoreNotebook.py'
           ArtifactName: 'workbook'
-          
+          PublishLocation: 'Container'       
+- stage: Deploy
+  displayName: Deploy Stage
+  dependsOn: Build
+  jobs:
+    - job: Deploy
+      steps:
+      - task: deploynotebooks@0
+        inputs:
+          notebooksFolderPath: 'Container'
+          workspaceFolder: '/prod'
