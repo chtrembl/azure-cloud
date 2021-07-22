@@ -35,4 +35,4 @@ stages:
       - task: deploynotebooks@0
         inputs:
           notebooksFolderPath: '/home/vsts/work/1/s/petstore/petstoredataops'
-          workspaceFolder: '/prod'
+          workspaceFolder: '/Shared'
