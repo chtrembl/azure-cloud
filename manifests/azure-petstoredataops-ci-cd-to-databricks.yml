@@ -21,8 +21,7 @@ stages:
       - task: PublishBuildArtifacts@1
         inputs:
           PathtoPublish: 'petstore/petstoredataops'
-          ArtifactName: 'workbook'
-          PublishLocation: 'Container'       
+          ArtifactName: 'workbook'   
 - stage: Deploy
   displayName: Deploy Stage
   dependsOn: Build
@@ -35,5 +34,5 @@ stages:
           token: '- task: configuredatabricks@0   inputs:     url: ''https://adb-5501209530448281.1.azuredatabricks.net/''     token: ''dapi525583a773f6477b0e697781034c1068-3'''
       - task: deploynotebooks@0
         inputs:
-          notebooksFolderPath: 'Container'
+          notebooksFolderPath: 'workbook'
           workspaceFolder: '/prod'
