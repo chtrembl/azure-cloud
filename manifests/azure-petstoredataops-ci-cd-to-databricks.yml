@@ -22,4 +22,4 @@ stages:
         inputs:
           PathtoPublish: 'petstore/petstoredataops/PetStoreNotebook.py'
           ArtifactName: 'workbook'
-          publishLocation: 'Container'
+          
