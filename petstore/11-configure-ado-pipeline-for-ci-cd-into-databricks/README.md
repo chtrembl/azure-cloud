@@ -12,11 +12,9 @@ This guide will walk through the steps needed to apply typical DevOps practices 
 
 And what is DataOps again? From Wiki: DataOps is an automated, process-oriented methodology, used by analytic and data teams, to improve the quality and reduce the cycle time of data analytics. While DataOps began as a set of best practices, it has now matured to become a new and independent approach to data analytics
 
-Lets walk through the steps needed to perform GitHub Trunk based Development, for Python Notebooks, and leverage Azure DevOps Pipelines for Continuous Integration and Deployment into Azure Databricks. We will be be building a Python Notebook that loads PetStore Dog Breed Data and queries/analyzes it. THe objective isnt to dive deep into Databricks/Notebooks but rather leverage basic notebook functionality to show the potential with DataOps practices that can be applied within your organization/team/uses cases etc..
+Lets walk through the steps needed to perform GitHub Trunk based Development, for Python Notebooks, and leverage Azure DevOps Pipelines for Continuous Integration and Deployment into Azure Databricks. We will be be building a Python Notebook that loads PetStore Dog Breed Data and queries/analyzes it. 
 
-Note, The objective here is to show how to apply DevOps practices to the peer collaboration of this Notebook and how to efficiently deploy it to a Databricks workspace
-
-> 📝 Please Note
+> 📝 Please Note, The objective isn't to dive deep into Databricks/Notebooks but rather leverage basic notebook functionality to show the potential with DataOps practices that can be applied within your organization/team/uses cases to work and collaborate more efficiently.
 
 You should see something similar to the below image:
 
