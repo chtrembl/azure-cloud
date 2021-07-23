@@ -34,7 +34,7 @@ stages:
           token: 'dapib5d9247517e4398893a5bfc193e024cc-3'
       - task: startcluster@0
         inputs:
-          clusterid: 'petstoredbcluster'          
+          clusterid: '0720-145135-coup132'          
       - task: deploynotebooks@0
         inputs:
           notebooksFolderPath: '$(System.DefaultWorkingDirectory)/petstore/petstoredataops/notebooks'
