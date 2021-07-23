@@ -30,7 +30,7 @@ stages:
       steps:
       - task: configuredatabricks@0
         inputs:
-          url: 'https://adb-5501209530448281.1.azuredatabricks.net/'
+          url: 'https://adb-5501209530448281.1.azuredatabricks.net'
           token: 'dapib5d9247517e4398893a5bfc193e024cc-3'
       - task: startcluster@0
         inputs:
