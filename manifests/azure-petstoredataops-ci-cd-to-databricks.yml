@@ -31,7 +31,7 @@ stages:
       - task: configuredatabricks@0
         inputs:
           url: 'https://adb-5501209530448281.1.azuredatabricks.net'
-          token: '$(token)'
+          token: $(token)
       - task: startcluster@0
         inputs:
           clusterid: '0720-145135-coup132'          
