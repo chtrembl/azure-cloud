@@ -56,4 +56,4 @@ permanent_table_name = "breeds_csv"
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC select * from `breeds_csv` where _c2 == "Fish"
+# MAGIC select * from `breeds_csv` where _c2 == "Dog"
