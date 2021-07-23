@@ -31,7 +31,7 @@ stages:
       - task: configuredatabricks@0
         inputs:
           url: 'https://adb-5501209530448281.1.azuredatabricks.net/'
-          token: '- task: configuredatabricks@0   inputs:     url: ''https://adb-5501209530448281.1.azuredatabricks.net/''     token: ''dapi525583a773f6477b0e697781034c1068-3'''
+          token: '- task: configuredatabricks@0   inputs:     url: ''https://adb-5501209530448281.1.azuredatabricks.net/''     token: ''api525583a773f6477b0e697781034c1068-3'''
       - task: deploynotebooks@0
         inputs:
           notebooksFolderPath: '$(System.DefaultWorkingDirectory)/petstore/petstoredataops/notebooks'
