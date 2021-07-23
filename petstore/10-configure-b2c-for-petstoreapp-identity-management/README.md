@@ -374,4 +374,4 @@ Things you can now do now with this guide
 
 ☑️ Configuring Azure Active Directory B2C within your application
 
-➡️ Next guide: [11 - Configure Azure DevOps Pipeline for CI/CD into Azure Databricks](../11-configure-dataops-ci-cd-databricks/README.md)
+➡️ Next guide: [11 - Configure Azure DevOps Pipeline for CI/CD into Azure Databricks](../11-configure-ado-pipeline-for-ci-cd-into-databricks/README.md)
