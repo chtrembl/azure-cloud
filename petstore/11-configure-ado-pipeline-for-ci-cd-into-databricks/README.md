@@ -145,4 +145,5 @@ You should see something similar to the below image:
 Things you can now do now with this guide
 
 ☑️ An understanding pf DataOps concepts
+
 ☑️ An understanding pf implementing CD/CD into DataBricks
