@@ -38,4 +38,4 @@ stages:
       - task: deploynotebooks@0
         inputs:
           notebooksFolderPath: '$(System.DefaultWorkingDirectory)/petstore/petstoredataops/notebooks'
-          workspaceFolder: '/Shared'
+          workspaceFolder: '/prod'
