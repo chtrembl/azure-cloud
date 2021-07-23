@@ -2,7 +2,7 @@
 
 __This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)__
 
-# Import and Publish your API with Azure API Management using Products and Rate Limits
+In this section we'll import and Publish your API with Azure API Management using Products and Rate Limits
 
 [**Azure API Management**](https://azure.microsoft.com/en-us/services/api-management/) is a fully managed service that enables you to publish, secure, transform, maintain, and monitor your API's. For the purpose of this demo I will use [openapi-petstore](https://github.com/OpenAPITools/openapi-petstore) API deployed to Azure as the API chosen to be published with Azure API Management. We will cover Products and Rate Limits and what the Developer experience is like when discovering/subscribing to API's.
 
