@@ -14,6 +14,135 @@ You should see something similar to the below image:
 
 ![](images/data1.png)
 
+You should see something similar to the below image:
+
+![](images/data2.png)
+
+You should see something similar to the below image:
+
+![](images/data3.png)
+
+You should see something similar to the below image:
+
+![](images/data4.png)
+
+You should see something similar to the below image:
+
+![](images/data5.png)
+
+You should see something similar to the below image:
+
+![](images/data6.png)
+
+You should see something similar to the below image:
+
+![](images/data7.png)
+
+You should see something similar to the below image:
+
+![](images/data8.png)
+
+You should see something similar to the below image:
+
+![](images/data9.png)
+
+You should see something similar to the below image:
+
+![](images/data10.png)
+
+You should see something similar to the below image:
+
+![](images/data11.png)
+
+You should see something similar to the below image:
+
+![](images/data12.png)
+
+You should see something similar to the below image:
+
+![](images/data13.png)
+
+You should see something similar to the below image:
+
+![](images/data14.png)
+
+You should see something similar to the below image:
+
+![](images/data15.png)
+
+You should see something similar to the below image:
+
+![](images/data16.png)
+
+You should see something similar to the below image:
+
+![](images/data17.png)
+
+You should see something similar to the below image:
+
+![](images/data18.png)
+
+You should see something similar to the below image:
+
+![](images/data19.png)
+
+You should see something similar to the below image:
+
+![](images/data20.png)
+
+You should see something similar to the below image:
+
+![](images/data21.png)
+
+You should see something similar to the below image:
+
+![](images/data22.png)
+
+You should see something similar to the below image:
+
+![](images/data23.png)
+
+You should see something similar to the below image:
+
+![](images/data24.png)
+
+You should see something similar to the below image:
+
+![](images/data25.png)
+
+You should see something similar to the below image:
+
+![](images/data26.png)
+
+You should see something similar to the below image:
+
+![](images/data27.png)
+
+You should see something similar to the below image:
+
+![](images/data28.png)
+
+You should see something similar to the below image:
+
+![](images/data29.png)
+
+You should see something similar to the below image:
+
+![](images/data30.png)
+
+You should see something similar to the below image:
+
+![](images/data31.png)
+
+You should see something similar to the below image:
+
+![](images/data32.png)
+
+You should see something similar to the below image:
+
+![](images/data33.png)
+
 Things you can now do now with this guide
 
-☑️ Configuring Azure Active Directory B2C within your application
+☑️ An understanding pf DataOps concepts
+☑️ An understanding pf implementing CD/CD into DataBricks
