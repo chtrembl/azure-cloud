@@ -31,7 +31,10 @@ stages:
       - task: configuredatabricks@0
         inputs:
           url: 'https://adb-5501209530448281.1.azuredatabricks.net/'
-          token: 'dapi525583a773f6477b0e697781034c1068'
+          token: 'dapib5d9247517e4398893a5bfc193e024cc-3'
+      - task: startcluster@0
+        inputs:
+          clusterid: 'petstoredbcluster'          
       - task: deploynotebooks@0
         inputs:
           notebooksFolderPath: '$(System.DefaultWorkingDirectory)/petstore/petstoredataops/notebooks'
