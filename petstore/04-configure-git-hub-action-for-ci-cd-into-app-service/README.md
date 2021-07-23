@@ -2,7 +2,7 @@
 
 __This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)__
 
-In this section, we'll Configure Git Hub Action for Pet Store App CI/CD into App Service
+In this section, we'll configure Git Hub Action for Pet Store App CI/CD into App Service
 
 Head to Azure Portal and find your Container Registry (as seen below, that was provisioned in the first guide 00-setup-your-environment) and copy your Login Server, Username and Password off somewhere (you will need them)
 
