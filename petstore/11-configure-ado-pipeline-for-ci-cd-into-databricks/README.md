@@ -168,7 +168,7 @@ You should see something similar to the below image:
 
 Create a new Azure DevOps Pipeline. You can paste in the contents of mine located here [azure-petstoredataops-ci-cd-to-databricks.yml](https://github.com/chtrembl/azure-cloud/blob/main/manifests/azure-petstoredataops-ci-cd-to-databricks.yml)
 
-> 📝 Please Note, this pipeline is designed to trigger on any changes to petstore/petstoredataops/* (any changes we make to the notebook in Databricks and/or wheever the notebook is being managed. There are two stages in this pipeline: Build and Deploy. The build stage creates the notebook artifacts from GitHub. Typically this is a compilation stage in typical DevOps practices where source code is being compiled, however that is not the case with our Python notebook. The Deploy stage, depends on Build, and the objective here is to connect to Databricks and deploy the artifacts (notebook) from the Build stage. We will rely on the Azure DevOps Databricks task to do the heavy lifting for us. Make sure you update your yaml with your Databricks URL and your Cluster ID (Details on how to find that below). You will also need to inject the token (secret) that we previously generated. 
+> 📝 Please Note, this pipeline is designed to trigger on any changes to petstore/petstoredataops/* (any changes we make to the notebook in Databricks and/or wherever the notebook is being managed. There are two stages in this pipeline: Build and Deploy. The build stage creates the notebook artifacts from GitHub. Typically this is a compilation stage in typical DevOps practices where source code is being compiled, however that is not the case with our Python notebook. The Deploy stage, depends on Build, and the objective here is to connect to Databricks and deploy the artifacts (notebook) from the Build stage. We will rely on the Azure DevOps Databricks task to do the heavy lifting for us. Make sure you update your yaml with your Databricks URL and your Cluster ID (Details on how to find that below). You will also need to inject the token (secret) that we previously generated. You can also add more stages, perhaps you'll have a testing stage to ensure things are behaving as expected by running some automated unit tests etc... For this guide however we have simplified to just Build/Deploy from dev to prod.
 
 ```yml
 trigger:
@@ -218,22 +218,41 @@ You should see something similar to the below image:
 
 ![](images/data22.png)
 
+Add a new pipeline variable/secret and paste in your Databricks token value. 
 
 You should see something similar to the below image:
 
 ![](images/data23.png)
 
+Get your Databricks ClusterId from the cluster "Tags" view under "Advanced Options"
+
+You should see something similar to the below image:
+
+![](images/info1.png)
+
+Head over to Azure DevOps Boards and create a new Work Item Task (that will allow us to track our development efforts from a project management standpoint, in this case I have a work item to track the development of writing a new query that is breed specific)
+
+> 📝 Please Note, make note of your Work Item ID.
+
 You should see something similar to the below image:
 
 ![](images/data24.png)
+
+Back in the Databricks **dev** workspace folder, make a change to the notebook.  Add a query to select a specific breed. 
 
 You should see something similar to the below image:
 
 ![](images/data25.png)
 
+Save this Notebook Revision with the commit message and prefix it with "AB#ID" where id is the Azure DevOps Work Item. 
+
+> 📝 Please Note, this is how GitHub will sync back with Azure DevOps and allow us to track our development efforts from a project management standpoint.
+> 
 You should see something similar to the below image:
 
 ![](images/data26.png)
+
+Once committed, the Azure DevOps pipeline will automagically execute and upon success will deploy into the Databricks **prod** workspace folder
 
 You should see something similar to the below image:
 
