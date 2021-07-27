@@ -77,17 +77,27 @@ You should see something similar to the below image:
 
 ![](images/data8.png)
 
+Create a new notebook in the dev Folder.
+
 You should see something similar to the below image:
 
 ![](images/data9.png)
+
+Give the notebook a name, language (Python) and cluster (select the cluster you previously created) and select create.
 
 You should see something similar to the below image:
 
 ![](images/data10.png)
 
+Now add some data that we can load and analyze with our Python notebook code. Drag/Drop the [breeds.csv](https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoredataops/breeds.csv) into Files and click "Create Table with UI". This will give us the Python scaffolding/boiler plate code needed to load/process the csv data.
+
+> 📝 Please Note, this is ultimately the code that we will be applying DataOps practices to. (Version Control, peer collaboration, testing, CI/CD etc...)
+
 You should see something similar to the below image:
 
 ![](images/data11.png)
+
+Once created you will get a notebook generated automagically.
 
 You should see something similar to the below image:
 
