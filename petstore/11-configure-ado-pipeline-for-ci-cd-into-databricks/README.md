@@ -63,7 +63,7 @@ You should see something similar to the below image:
 
 ![](images/data6.png)
 
-Once complete you will be take to the configuration tab of your cluster where various administration tasks can be performed.
+Once complete you will be taken to the configuration tab of your cluster where various administration tasks can be performed.
 
 You should see something similar to the below image:
 
