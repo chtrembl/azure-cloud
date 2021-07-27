@@ -130,7 +130,7 @@ You should see something similar to the below image:
 
 Back in Databricks, locate your name in the top right, click that and under "User Settings", lets go ahead and click "Generate New Token" 
 
-> 📝 Please Note, our DevOps pipeline will need this token to successfully authenticate/deploy our notebook to the prod workspace folder
+> 📝 Please Note, our Azure DevOps pipeline will need this token to successfully authenticate/deploy our notebook to the prod workspace folder
 
 You should see something similar to the below image:
 
@@ -140,7 +140,7 @@ Give it a comment and lifetime (expiration) and click "Generate".
 
 > 📝 Please Note, make note of this token, you won't be able to access it again from this point on.
 
-Let's get DevOps configured properly. Head to DevOps Marketplace and search for "databricks".
+Now let's get Azure DevOps configured properly. Head to Azure DevOps Marketplace and search for "databricks".
 
 > 📝 Please Note, our pipeline will be leveraging the Databricks tasks to facilitate our connection/deployment into Databricks from Azure DevOps & GitHub.
 
@@ -148,7 +148,7 @@ You should see something similar to the below image:
 
 ![](images/data17.png)
 
-Install the DevOps for Azure Databricks tasks.
+Install the Azure DevOps for Azure Databricks tasks.
 
 You should see something similar to the below image:
 
@@ -166,9 +166,58 @@ You should see something similar to the below image:
 
 ![](images/data20.png)
 
+Create a new Azure DevOps Pipeline. You can paste in the contents of mine located here [azure-petstoredataops-ci-cd-to-databricks.yml](https://github.com/chtrembl/azure-cloud/blob/main/manifests/azure-petstoredataops-ci-cd-to-databricks.yml)
+
+> 📝 Please Note, this pipeline is designed to trigger on any changes to petstore/petstoredataops/* (any changes we make to the notebook in Databricks and/or wheever the notebook is being managed. There are two stages in this pipeline: Build and Deploy. The build stage creates the notebook artifacts from GitHub. Typically this is a compilation stage in typical DevOps practices where source code is being compiled, however that is not the case with our Python notebook. The Deploy stage, depends on Build, and the objective here is to connect to Databricks and deploy the artifacts (notebook) from the Build stage. We will rely on the Azure DevOps Databricks task to do the heavy lifting for us. Make sure you update your yaml with your Databricks URL and your Cluster ID (Details on how to find that below). You will also need to inject the token (secret) that we previously generated. 
+
+```yml
+trigger:
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - petstore/petstoredataops/*
+
+resources:
+- repo: self
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+- stage: Build
+  displayName: Build stage
+  jobs: 
+    - job: Build
+      steps:
+      - task: PublishBuildArtifacts@1
+        inputs:
+          PathtoPublish: 'petstore/petstoredataops'
+          ArtifactName: 'petstoredataops'   
+- stage: Deploy
+  displayName: Deploy Stage
+  dependsOn: Build
+  jobs:
+    - job: Deploy
+      steps:
+      - task: configuredatabricks@0
+        inputs:
+          url: 'https://adb-5501209530448281.1.azuredatabricks.net'
+          token: $(token)
+      - task: startcluster@0
+        inputs:
+          clusterid: '0720-145135-coup132'          
+      - task: deploynotebooks@0
+        inputs:
+          notebooksFolderPath: '$(System.DefaultWorkingDirectory)/petstore/petstoredataops/notebooks'
+          workspaceFolder: '/prod'
+
+```
 You should see something similar to the below image:
 
 ![](images/data22.png)
+
 
 You should see something similar to the below image:
 
