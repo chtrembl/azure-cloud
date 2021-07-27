@@ -12,7 +12,7 @@ This guide will walk through the steps needed to apply typical DevOps practices 
 
 **And what is DataOps again? From Wiki: DataOps is an automated, process-oriented methodology, used by analytic and data teams, to improve the quality and reduce the cycle time of data analytics. While DataOps began as a set of best practices, it has now matured to become a new and independent approach to data analytics**
 
-This guide will walk through the steps needed to perform GitHub Trunk based Data Development, for Python Notebooks and leverage Azure DevOps Boards and Pipelines for Continuous Integration and Deployment into Azure Databricks. We will be be building a Python Notebook that loads PetStore Dog Breed Data and queries/analyzes it. 
+This guide will walk through the steps needed to perform GitHub Trunk based Data Development for Python Notebooks and leverage Azure DevOps Boards and Pipelines for Continuous Integration and Deployment into Azure Databricks. We will be be building a Python Notebook that loads PetStore Dog Breed Data and queries/analyzes it. 
 
 > 📝 Please Note, The objective isn't to dive deep into Databricks/Notebooks but rather leverage basic notebook functionality to show the value of  DataOps practices and how they can be applied within your organization/team/uses cases to work and collaborate more efficiently.
 
@@ -37,7 +37,7 @@ You should see something similar to the below image:
 
 ![](images/data2.png)
 
-Deployment of resources will occur
+Deployment of resources will occur.
 
 You should see something similar to the below image:
 
@@ -51,7 +51,7 @@ You should see something similar to the below image:
 
 ![](images/data4.png)
 
-Select "Launch Workspace" which will open a tab into Databricks
+Select "Launch Workspace" which will open a tab into Databricks.
 
 You should see something similar to the below image:
 
@@ -71,7 +71,7 @@ You should see something similar to the below image:
 
 From the left navigation, let's go ahead and create two folders, one called "dev" and one called "prod". 
 
-> 📝 Please Note,  typically development/testing is done in one environment and continuously integrated/deployed into N other environments (and in most cases, access restricted environments, usually different compute instances all together such as diff app servers and compute farms etc...) For the sake of this guide, we are "simulating" this behavior with "folders" within one Databricks workspace. We will be continuously integrating/deploying dev to prod, in a productionalized use case, you may continuously/integrate from a dev cluster to a prod cluster etc....
+> 📝 Please Note,  typically development/testing is done in one environment and continuously integrated/deployed into N other environments (and in most cases, access restricted environments, usually different compute instances all together such as diff app servers and/or compute farms etc...) For the sake of this guide, we are "simulating" this behavior with "folders" within one Databricks workspace. We will be continuously integrating/deploying dev to prod, in a productionalized use case, you may continuously/integrate from a dev cluster to a prod cluster etc....
  
 You should see something similar to the below image:
 
@@ -97,7 +97,7 @@ You should see something similar to the below image:
 
 ![](images/data11.png)
 
-Once created you will get a notebook generated automagically.
+Once created you will get a notebook that has been generated automagically for you.
 
 You should see something similar to the below image:
 
@@ -112,17 +112,17 @@ Add your GitHub Repo Link, Branch and Path to where this Python notebook should 
 
 You should see something similar to the below image:
 
-Give it a commit message and click "Save".
-
 ![](images/data14.png)
 
-If you head to GitHub and browse your repository you should see the newly commited Python notebook of code. 
-
-> 📝 Please Note, we now have our Python notebook in Git Hub source control and will be able to start benefiting from collaboration features.
+Give it a commit message and click "Save".
 
 You should see something similar to the below image:
 
 ![](images/data15.png)
+
+If you head to GitHub and browse your repository you should see the newly commited Python notebook of code. 
+
+> 📝 Please Note, we now have our Python notebook in Git Hub source control and will be able to start benefiting from collaboration features.
 
 You should see something similar to the below image:
 
