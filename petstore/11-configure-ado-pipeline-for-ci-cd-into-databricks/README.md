@@ -23,19 +23,21 @@ This guide will walk through the steps needed to perform GitHub Trunk based Data
  - Setup GitHub Action
  - Collaborate efficiently
 
-Lets head over to Azure Portal and create an Azure Databricks workspace, we will use this workspace to build/run our Python notebook for which we ultimately want to deploy into multiple regions. (Think Dev Region, Prod Region etc...)
-
-You should see something similar to the below image:
-
-![](images/data1.png)
+Lets head over to Azure Portal and create an Azure Databricks workspace. We will use this workspace to build/run our Python notebook for which we ultimately want to deploy into multiple regions. (Think Dev Region, Prod Region etc...)
 
 Select your subscription, resource group, region and pricing tier and give your workspace a name.
 
 You should see something similar to the below image:
 
+![](images/data1.png)
+
+Select Review & Create (This may take some time)
+
+You should see something similar to the below image:
+
 ![](images/data2.png)
 
-Review & Create
+Deployment of resources will occur
 
 You should see something similar to the below image:
 
