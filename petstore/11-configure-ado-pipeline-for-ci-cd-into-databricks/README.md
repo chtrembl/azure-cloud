@@ -229,19 +229,21 @@ You should see something similar to the below image:
 
 Add a new pipeline variable/secret and paste in your Databricks token value. 
 
+You should see something similar to the below image:
+
+![](images/data24.png)
+
 Head over to Azure DevOps Boards and create a new Work Item Task (that will allow us to track our development efforts from a project management standpoint, in this case I have a work item to track the development of writing a new query that is breed specific)
 
 > 📝 Please Note, make note of your Work Item ID.
 
-You should see something similar to the below image:
-
-![](images/data24.png)
+![](images/data25.png)
 
 Back in the Databricks **dev** workspace folder, make a change to the notebook.  Add a query to select a specific breed. 
 
 You should see something similar to the below image:
 
-![](images/data25.png)
+![](images/data26.png)
 
 Save this Notebook Revision with the commit message and prefix it with "AB#ID" where id is the Azure DevOps Work Item. 
 
@@ -249,13 +251,13 @@ Save this Notebook Revision with the commit message and prefix it with "AB#ID" w
 > 
 You should see something similar to the below image:
 
-![](images/data26.png)
+![](images/data27.png)
 
 Once committed, the Azure DevOps pipeline will automagically execute and upon success will deploy into the Databricks **prod** workspace folder.
 
 You should see something similar to the below image:
 
-![](images/data27.png)
+![](images/data28.png)
 
 You should see something similar to the below image:
 
