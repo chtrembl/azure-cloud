@@ -214,9 +214,6 @@ stages:
           workspaceFolder: '/prod'
 
 ```
-You should see something similar to the below image:
-
-![](images/data22.png)
 
 Add a new pipeline variable/secret and paste in your Databricks token value. 
 
