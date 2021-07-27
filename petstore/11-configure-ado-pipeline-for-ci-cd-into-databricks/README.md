@@ -140,6 +140,14 @@ Give it a comment and lifetime (expiration) and click "Generate".
 
 > 📝 Please Note, make note of this token, you won't be able to access it again from this point on.
 
+Get your Databricks ClusterId from the cluster "Tags" view under "Advanced Options"
+
+> 📝 Please Note, our Azure DevOps pipeline will need this ClusterId to successfully authenticate/deploy our notebook to the prod workspace folder
+
+You should see something similar to the below image:
+
+![](images/info1.png)
+
 Now let's get Azure DevOps configured properly. Head to Azure DevOps Marketplace and search for "databricks".
 
 > 📝 Please Note, our pipeline will be leveraging the Databricks tasks to facilitate our connection/deployment into Databricks from Azure DevOps & GitHub.
@@ -220,12 +228,6 @@ Add a new pipeline variable/secret and paste in your Databricks token value.
 You should see something similar to the below image:
 
 ![](images/data23.png)
-
-Get your Databricks ClusterId from the cluster "Tags" view under "Advanced Options"
-
-You should see something similar to the below image:
-
-![](images/info1.png)
 
 Head over to Azure DevOps Boards and create a new Work Item Task (that will allow us to track our development efforts from a project management standpoint, in this case I have a work item to track the development of writing a new query that is breed specific)
 
