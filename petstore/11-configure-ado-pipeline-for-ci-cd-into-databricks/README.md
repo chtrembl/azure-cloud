@@ -43,14 +43,21 @@ You should see something similar to the below image:
 
 ![](images/data3.png)
 
-This
+Once complete you will be taken to the landing page for this Azure Databricks resource. 
+
+> 📝 Please Note, you will need the URL (located in the essentials section) later in this guide
+
 You should see something similar to the below image:
 
 ![](images/data4.png)
 
+Select "Launch Workspace" which will open a tab into Databricks
+
 You should see something similar to the below image:
 
 ![](images/data5.png)
+
+Select "New Cluster" which will prompt us to configure the compute resources where we will ultimately run our Python Notebook. Give it a cluster name and select the remaining defaults as seen below and select "Create Cluster".
 
 You should see something similar to the below image:
 
