@@ -239,47 +239,37 @@ Head over to Azure DevOps Boards and create a new Work Item Task (that will allo
 
 ![](images/data25.png)
 
-Back in the Databricks **dev** workspace folder, make a change to the notebook.  Add a query to select a specific breed. 
+Back in the Databricks **dev** workspace folder, make a change to the notebook. This is the change that corresponds to the Work Item that was created in Azure DevOps Boards. For example,  add a query to select a specific breed etc...
 
 You should see something similar to the below image:
 
 ![](images/data26.png)
 
+![](images/data27.png)
+
 Save this Notebook Revision with the commit message and prefix it with "AB#ID" where id is the Azure DevOps Work Item. 
 
 > 📝 Please Note, this is how GitHub will sync back with Azure DevOps and allow us to track our development efforts from a project management standpoint.
-> 
+
 You should see something similar to the below image:
 
-![](images/data27.png)
+![](images/data28.png)
+
+![](images/data30.png)
 
 Once committed, the Azure DevOps pipeline will automagically execute and upon success will deploy into the Databricks **prod** workspace folder.
 
-You should see something similar to the below image:
-
-![](images/data28.png)
-
-You should see something similar to the below image:
-
-![](images/data28.png)
-
-You should see something similar to the below image:
-
-![](images/data29.png)
-
-You should see something similar to the below image:
-
-![](images/data30.png)
+The Azure DevOps Boards Item will have the link to the GitHub Python notebook code (for audit trail/traceability, this is extremely use for tracking developer velocity and release notes for builds among many other things)
 
 You should see something similar to the below image:
 
 ![](images/data31.png)
 
+The Azure Databricks **prod** workspace folder now contains the changes that were made in **dev**, these were continously deplpoyed for us automagically, which is extremely useful for CI/CD. We could also add in approval checks, perhaps Prod needs elevated access or scheduled deployments etc... For the sake of this guide we have not done so, but it is certainly possible within Azure DevOps.
+
 You should see something similar to the below image:
 
 ![](images/data32.png)
-
-You should see something similar to the below image:
 
 ![](images/data33.png)
 
