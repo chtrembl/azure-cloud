@@ -223,11 +223,11 @@ stages:
 
 ```
 
-Add a new pipeline variable/secret and paste in your Databricks token value. 
-
 You should see something similar to the below image:
 
 ![](images/data23.png)
+
+Add a new pipeline variable/secret and paste in your Databricks token value. 
 
 Head over to Azure DevOps Boards and create a new Work Item Task (that will allow us to track our development efforts from a project management standpoint, in this case I have a work item to track the development of writing a new query that is breed specific)
 
@@ -251,7 +251,7 @@ You should see something similar to the below image:
 
 ![](images/data26.png)
 
-Once committed, the Azure DevOps pipeline will automagically execute and upon success will deploy into the Databricks **prod** workspace folder
+Once committed, the Azure DevOps pipeline will automagically execute and upon success will deploy into the Databricks **prod** workspace folder.
 
 You should see something similar to the below image:
 
