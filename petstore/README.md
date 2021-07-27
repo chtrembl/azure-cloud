@@ -74,6 +74,10 @@ Prerequisites and environment setup (Optionaly you can build/deploy locally)
 
    Configure B2C for PetStoreApp Identity Management
 
+## [11 - Configure Azure DevOps Pipeline for CI/CD into Azure Databricks](11-configure-ado-pipeline-for-ci-cd-into-databricks/README.md)
+
+   Configure Azure DevOps Pipeline for CI/CD into Azure Databricks
+
 ---
 
 ## Legal Notices
