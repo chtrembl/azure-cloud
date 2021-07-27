@@ -120,7 +120,7 @@ You should see something similar to the below image:
 
 ![](images/data15.png)
 
-If you head to GitHub and browse your repository you should see the newly commited Python notebook of code. 
+If you head to GitHub and browse your repository you should see the newly committed Python notebook of code. 
 
 > 📝 Please Note, we now have our Python notebook in Git Hub source control and will be able to start benefiting from collaboration features.
 
@@ -128,25 +128,43 @@ You should see something similar to the below image:
 
 ![](images/data16.png)
 
+Back in Databricks, locate your name in the top right, click that and under "User Settings", lets go ahead and click "Generate New Token" 
+
+> 📝 Please Note, our DevOps pipeline will need this token to successfully authenticate/deploy our notebook to the prod workspace folder
+
+You should see something similar to the below image:
+
+![](images/data21.png)
+
+Give it a comment and lifetime (expiration) and click "Generate". 
+
+> 📝 Please Note, make note of this token, you won't be able to access it again from this point on.
+
+Let's get DevOps configured properly. Head to DevOps Marketplace and search for "databricks".
+
+> 📝 Please Note, our pipeline will be leveraging the Databricks tasks to facilitate our connection/deployment into Databricks from Azure DevOps & GitHub.
+
 You should see something similar to the below image:
 
 ![](images/data17.png)
+
+Install the DevOps for Azure Databricks tasks.
 
 You should see something similar to the below image:
 
 ![](images/data18.png)
 
+Select your organization and click "Install".
+
 You should see something similar to the below image:
 
 ![](images/data19.png)
 
+Click "Proceed to organization"
+
 You should see something similar to the below image:
 
 ![](images/data20.png)
-
-You should see something similar to the below image:
-
-![](images/data21.png)
 
 You should see something similar to the below image:
 
