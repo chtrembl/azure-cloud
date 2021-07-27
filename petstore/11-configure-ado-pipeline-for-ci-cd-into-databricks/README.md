@@ -103,13 +103,22 @@ You should see something similar to the below image:
 
 ![](images/data12.png)
 
+In the top right, click "Revision history" and click "Git: Not linked" to link up Git Hub and add this notebook to GitHub.
 You should see something similar to the below image:
 
 ![](images/data13.png)
 
+Add your GitHub Repo Link, Branch and Path to where this Python notebook should reside and click "Save".
+
 You should see something similar to the below image:
 
+Give it a commit message and click "Save".
+
 ![](images/data14.png)
+
+If you head to GitHub and browse your repository you should see the newly commited Python notebook of code. 
+
+> 📝 Please Note, we now have our Python notebook in Git Hub source control and will be able to start benefiting from collaboration features.
 
 You should see something similar to the below image:
 
