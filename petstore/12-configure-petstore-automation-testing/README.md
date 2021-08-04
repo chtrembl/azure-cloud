@@ -92,17 +92,76 @@ You should see something similar to the below image:
 
 ![](images/1.png)
 
+Create a Personal Access Token, this will be needed for the Service Connection that we will be creating.
+
 You should see something similar to the below image:
 
 ![](images/2.png)
+
+I've named mine "Automation" and expires in 90 days.
 
 You should see something similar to the below image:
 
 ![](images/3.png)
 
+Within your organization create a new Service Connection, this will allow the Pet Store Application CI/CD build "Trigger" the Pet Store Automation Build.
+
 You should see something similar to the below image:
 
 ![](images/4.png)
+
+Create the azure-petstore-automation-tests.yml pipeline manifest as seen here https://github.com/chtrembl/azure-cloud/blob/main/manifests/azure-petstore-automation-tests.yml (or use the following from your fork/clone)
+
+```yml
+# Deploy to Azure Kubernetes Service
+# Build and push image to Azure Container Registry; Deploy to Azure Kubernetes Service
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - petstore/petstoreautomation/*
+
+resources:
+- repo: self
+
+stages:
+- stage: Build
+  displayName: Build & Test Stage
+  jobs: 
+  - job: Automation
+    displayName: Build & Execute Automated Regression Tests
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: Maven@3
+      continueOnError: true 
+      displayName: Build & Execute Automated Regression Tests
+      inputs:
+        mavenPomFile: 'petstore/petstoreautomation/pom.xml'
+        mavenOptions: '-Xmx3072m'
+        javaHomeOption: 'JDKVersion'
+        jdkVersionOption: '8'
+        jdkArchitectureOption: 'x64'
+        publishJUnitResults: true
+        testResultsFiles: 'petstore/petstoreautomation/target/surefire-reports/TEST-*.xml'
+        codeCoverageToolOption: 'jaCoCo'
+        goals: 'package'
+
+```
+
+On any changes to petstore/petstoreautomation/* this pipeline will execute, we will also configure it to execute "Trigger" during CI/CD as well.  Essentially this pipeline just executes our Maven package which runs our Automation suite.
+
+Update https://github.com/chtrembl/azure-cloud/blob/main/manifests/azure-petstoreservice-ci-cd-to-aks-pipeline.yml to include the Trigger task. You can use the (fork/clone) or Create one by searching for the Trigger task.
+
+You should see something similar to the below image:
+
+![](images/trigger1.png)
+
+![](images/trigger2.png)
 
 You should see something similar to the below image:
 
@@ -115,14 +174,6 @@ You should see something similar to the below image:
 You should see something similar to the below image:
 
 ![](images/7.png)
-
-You should see something similar to the below image:
-
-![](images/1.png)
-
-You should see something similar to the below image:
-
-![](images/1.png)
 
 Things you can now do now with this guide
 
