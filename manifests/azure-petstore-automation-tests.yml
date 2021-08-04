@@ -24,7 +24,7 @@ stages:
     steps:
     - task: Maven@3
       continueOnError: true 
-      displayName: Execute mvn clean test
+      displayName: Build & Execute Automation Tests
       inputs:
         mavenPomFile: 'petstore/petstoreautomation/pom.xml'
         mavenOptions: '-Xmx3072m'
@@ -34,4 +34,4 @@ stages:
         publishJUnitResults: true
         testResultsFiles: 'petstore/petstoreautomation/target/surefire-reports/TEST-*.xml'
         codeCoverageToolOption: 'jaCoCo'
-        goals: 'package'
+        goals: 'test'
