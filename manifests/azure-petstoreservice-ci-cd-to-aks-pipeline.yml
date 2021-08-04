@@ -111,7 +111,7 @@ stages:
   - job: Automation
     displayName: Automation Testing
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: 'windows-latest'
     steps:
         - task: TriggerPipeline@1
           inputs:
