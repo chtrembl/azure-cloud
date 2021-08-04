@@ -118,5 +118,5 @@ stages:
             serviceConnection: 'Automation'
             project: '6b3206dd-90b3-40f6-a611-e5a1e5a13593'
             Pipeline: 'Build'
-            buildDefinition: 'azure-petstoreautomation-tests'
+            buildDefinition: 'azure-petstoreautomation-regression-tests'
             Branch: 'main'

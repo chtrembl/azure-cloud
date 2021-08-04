@@ -68,22 +68,137 @@ We could certainly ask maven to execute these tests locally
 
 ```
 mvn clean test
-[INFO] -------------------------------------------------------
-[INFO]  T E S T S
-[INFO] -------------------------------------------------------
-[INFO] Running petstore.automation.AppTest
-Title of the page is -> Azure Pet Store
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11.34 s - in petstore.automation.AppTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.521 s - in petstore.automation.AzurePetStoreAutomationTests
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  13.842 s
+[INFO] Finished at: 2021-08-04T10:35:35-04:00
+[INFO] ------------------------------------------------------------------------
 ```
 However, we can take this further by way of automation and trigger these automagically.
 
 **Step 2**
-Install the Trigger Plugin within Azure DevOps
+Install/Configure the Trigger Plugin within Azure DevOps 
 
-> 📝 Please Note, 
+Head to Azure DevOps Marketplace and install the Trigger Plugin Task to your organization, if you have not already done so.
+
 You should see something similar to the below image:
 
 ![](images/1.png)
+
+Create a Personal Access Token, this will be needed for the Service Connection that we will be creating.
+
+You should see something similar to the below image:
+
+![](images/2.png)
+
+I've named mine "Automation" and expires in 90 days.
+
+You should see something similar to the below image:
+
+![](images/3.png)
+
+Within your organization create a new Service Connection, this will allow the Pet Store Application CI/CD build "Trigger" the Pet Store Automation Build.
+
+You should see something similar to the below image:
+
+![](images/4.png)
+
+Create the azure-petstore-automation-tests.yml pipeline manifest as seen here https://github.com/chtrembl/azure-cloud/blob/main/manifests/azure-petstore-automation-tests.yml (or use the following from your fork/clone)
+
+```yml
+# Deploy to Azure Kubernetes Service
+# Build and push image to Azure Container Registry; Deploy to Azure Kubernetes Service
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+  branches:
+    include:
+    - main
+  paths:
+    include:
+    - petstore/petstoreautomation/*
+
+resources:
+- repo: self
+
+stages:
+- stage: Build
+  displayName: Build & Test Stage
+  jobs: 
+  - job: Automation
+    displayName: Build & Execute Automated Regression Tests
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: Maven@3
+      continueOnError: true 
+      displayName: Build & Execute Automated Regression Tests
+      inputs:
+        mavenPomFile: 'petstore/petstoreautomation/pom.xml'
+        mavenOptions: '-Xmx3072m'
+        javaHomeOption: 'JDKVersion'
+        jdkVersionOption: '8'
+        jdkArchitectureOption: 'x64'
+        publishJUnitResults: true
+        testResultsFiles: 'petstore/petstoreautomation/target/surefire-reports/TEST-*.xml'
+        codeCoverageToolOption: 'jaCoCo'
+        goals: 'package'
+
+```
+
+On any changes to petstore/petstoreautomation/* this pipeline will execute, we will also configure it to execute "Trigger" during CI/CD as well.  Essentially this pipeline just executes our Maven package which runs our Automation suite.
+
+Update https://github.com/chtrembl/azure-cloud/blob/main/manifests/azure-petstoreservice-ci-cd-to-aks-pipeline.yml to include the Trigger task. You can use the (fork/clone) or create one by searching for the Trigger task. This task will contain the service connection that was previously created and the meta data (project/build/manifest/branch) needed to execute during the CI/CD Application Build.
+
+You should see something similar to the below image:
+
+![](images/trigger1.png)
+
+![](images/trigger2.png)
+
+Prefix this Trigger Task with an Automation Stage. As you will see, their is a 3rd and final stage in the CI/CD Application Build, this stage will "Trigger" the  https://github.com/chtrembl/azure-cloud/blob/main/manifests/azure-petstore-automation-tests.yml Pipeline
+
+```yml
+- stage: Automation
+  displayName: Automation stage
+  jobs: 
+  - job: Automation
+    displayName: Automation Testing
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+        - task: TriggerPipeline@1
+          inputs:
+            serviceConnection: 'Automation'
+            project: '6b3206dd-90b3-40f6-a611-e5a1e5a13593'
+            Pipeline: 'Build'
+            buildDefinition: 'azure-petstoreautomation-regression-tests'
+            Branch: 'main'
+```
+Once the CI/CD Pipeline kicks off (manually or automatically when code is submitted to the - petstore/petstoreservice/* branch the 3 stages will execute. (Notice the new Automation stage)
+
+You should see something similar to the below image:
+
+![](images/5.png)
+
+The Automation stage will then execute the https://github.com/chtrembl/azure-cloud/blob/main/manifests/azure-petstore-automation-tests.yml pipeline manifest.
+
+You should see something similar to the below image:
+
+![](images/6.png)
+
+Once complete you can inspect the Automation Pipeline and view the test report.
+
+You should see something similar to the below image:
+
+![](images/8.png)
 
 Things you can now do now with this guide
 
