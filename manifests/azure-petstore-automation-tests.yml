@@ -18,13 +18,13 @@ stages:
   displayName: Build & Test Stage
   jobs: 
   - job: Automation
-    displayName: Build & Execute Automation Tests
+    displayName: Build & Execute Automated Regression Tests
     pool:
       vmImage: 'ubuntu-latest'
     steps:
     - task: Maven@3
       continueOnError: true 
-      displayName: Build & Execute Automation Tests
+      displayName: Build & Execute Automated Regression Tests
       inputs:
         mavenPomFile: 'petstore/petstoreautomation/pom.xml'
         mavenOptions: '-Xmx3072m'
