@@ -8,7 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 /**
- * Automation Test for Azure Pet Store
+ * Automation Tests for Azure Pet Store
  */
 public class AzurePetStoreAutomationTests {
 
