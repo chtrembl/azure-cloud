@@ -68,19 +68,56 @@ We could certainly ask maven to execute these tests locally
 
 ```
 mvn clean test
-[INFO] -------------------------------------------------------
-[INFO]  T E S T S
-[INFO] -------------------------------------------------------
-[INFO] Running petstore.automation.AppTest
-Title of the page is -> Azure Pet Store
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11.34 s - in petstore.automation.AppTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.521 s - in petstore.automation.AzurePetStoreAutomationTests
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  13.842 s
+[INFO] Finished at: 2021-08-04T10:35:35-04:00
+[INFO] ------------------------------------------------------------------------
 ```
 However, we can take this further by way of automation and trigger these automagically.
 
 **Step 2**
-Install the Trigger Plugin within Azure DevOps
+Install/Configure the Trigger Plugin within Azure DevOps 
 
-> 📝 Please Note, 
+You should see something similar to the below image:
+
+![](images/trigger1.png)
+
+You should see something similar to the below image:
+
+![](images/trigger2.png)
+
+You should see something similar to the below image:
+
+![](images/1.png)
+
+You should see something similar to the below image:
+
+![](images/1.png)
+
+You should see something similar to the below image:
+
+![](images/1.png)
+
+You should see something similar to the below image:
+
+![](images/1.png)
+
+You should see something similar to the below image:
+
+![](images/1.png)
+
+You should see something similar to the below image:
+
+![](images/1.png)
+
 You should see something similar to the below image:
 
 ![](images/1.png)
