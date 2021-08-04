@@ -155,7 +155,7 @@ stages:
 
 On any changes to petstore/petstoreautomation/* this pipeline will execute, we will also configure it to execute "Trigger" during CI/CD as well.  Essentially this pipeline just executes our Maven package which runs our Automation suite.
 
-Update https://github.com/chtrembl/azure-cloud/blob/main/manifests/azure-petstoreservice-ci-cd-to-aks-pipeline.yml to include the Trigger task. You can use the (fork/clone) or Create one by searching for the Trigger task.
+Update https://github.com/chtrembl/azure-cloud/blob/main/manifests/azure-petstoreservice-ci-cd-to-aks-pipeline.yml to include the Trigger task. You can use the (fork/clone) or create one by searching for the Trigger task. This task will contain the service connection that was previously created and the meta data (project/build/manifest/branch) needed to execute during the CI/CD Application Build.
 
 You should see something similar to the below image:
 
@@ -163,17 +163,42 @@ You should see something similar to the below image:
 
 ![](images/trigger2.png)
 
+Prefix this Trigger Task with an Automation Stage. As you will see, their is a 3rd and final stage in the CI/CD Application Build, this stage will "Trigger" the  https://github.com/chtrembl/azure-cloud/blob/main/manifests/azure-petstore-automation-tests.yml Pipeline
+
+```yml
+- stage: Automation
+  displayName: Automation stage
+  jobs: 
+  - job: Automation
+    displayName: Automation Testing
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+        - task: TriggerPipeline@1
+          inputs:
+            serviceConnection: 'Automation'
+            project: '6b3206dd-90b3-40f6-a611-e5a1e5a13593'
+            Pipeline: 'Build'
+            buildDefinition: 'azure-petstoreautomation-regression-tests'
+            Branch: 'main'
+```
+Once the CI/CD Pipeline kicks off (manually or automatically when code is submitted to the - petstore/petstoreservice/* branch the 3 stages will execute. (Notice the new Automation stage)
+
 You should see something similar to the below image:
 
 ![](images/5.png)
+
+The Automation stage will then execute the https://github.com/chtrembl/azure-cloud/blob/main/manifests/azure-petstore-automation-tests.yml pipeline manifest.
 
 You should see something similar to the below image:
 
 ![](images/6.png)
 
+Once complete you can inspect the Automation Pipeline and view the test report.
+
 You should see something similar to the below image:
 
-![](images/7.png)
+![](images/8.png)
 
 Things you can now do now with this guide
 
