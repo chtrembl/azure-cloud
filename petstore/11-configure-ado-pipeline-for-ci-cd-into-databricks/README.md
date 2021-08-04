@@ -276,3 +276,5 @@ Things you can now do now with this guide
 ☑️ An understanding of DataOps practices and how to apply them
 
 ☑️ An understanding pf implementing CI/CD into Databricks
+
+➡️ Next guide: [12 - Configure Azure DevOps pipelines to execute automated regression tests](../12-configure-petstore-automation-testing/README.md)

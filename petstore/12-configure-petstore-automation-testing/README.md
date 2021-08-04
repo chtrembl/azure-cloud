@@ -15,5 +15,3 @@ You should see something similar to the below image:
 Things you can now do now with this guide
 
 ☑️ Configure Azure DevOps pipelines to execute automated regression tests
-
-➡️ Next guide: [12 - Configure Azure DevOps pipelines to execute automated regression tests](../12-configure-petstore-automation-testing/README.md)
