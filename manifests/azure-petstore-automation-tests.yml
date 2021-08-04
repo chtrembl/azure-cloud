@@ -34,4 +34,4 @@ stages:
         publishJUnitResults: true
         testResultsFiles: 'petstore/petstoreautomation/target/surefire-reports/TEST-*.xml'
         codeCoverageToolOption: 'jaCoCo'
-        goals: 'test'
+        goals: 'package'
