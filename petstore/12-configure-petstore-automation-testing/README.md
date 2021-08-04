@@ -86,13 +86,7 @@ However, we can take this further by way of automation and trigger these automag
 **Step 2**
 Install/Configure the Trigger Plugin within Azure DevOps 
 
-You should see something similar to the below image:
-
-![](images/trigger1.png)
-
-You should see something similar to the below image:
-
-![](images/trigger2.png)
+Head to Azure DevOps Marketplace and install the Trigger Plugin Task to your organization, if you have not already done so.
 
 You should see something similar to the below image:
 
@@ -100,19 +94,27 @@ You should see something similar to the below image:
 
 You should see something similar to the below image:
 
-![](images/1.png)
+![](images/2.png)
 
 You should see something similar to the below image:
 
-![](images/1.png)
+![](images/3.png)
 
 You should see something similar to the below image:
 
-![](images/1.png)
+![](images/4.png)
 
 You should see something similar to the below image:
 
-![](images/1.png)
+![](images/5.png)
+
+You should see something similar to the below image:
+
+![](images/6.png)
+
+You should see something similar to the below image:
+
+![](images/7.png)
 
 You should see something similar to the below image:
 
