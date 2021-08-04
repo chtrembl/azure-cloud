@@ -108,8 +108,8 @@ stages:
 - stage: Automation
   displayName: Automation stage
   jobs: 
-  - job: Build
-    displayName: Build and Execute Automated Regression Tests
+  - job: Automation
+    displayName: Automation Testing
     pool:
       vmImage: 'windows-latest'
     steps:
