@@ -78,6 +78,10 @@ Prerequisites and environment setup (Optionaly you can build/deploy locally)
 
    Configure Azure DevOps Pipeline for CI/CD into Azure Databricks
 
+## [12 - Configure Azure DevOps pipelines to execute automated regression tests](12-configure-petstore-automation-testing)
+
+   Configure Azure DevOps pipelines to execute automated regression tests
+
 ---
 
 ## Legal Notices
