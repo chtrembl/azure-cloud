@@ -27,10 +27,4 @@ public class TestingWebApplicationTests {
 		this.mockMvc.perform(get("/v2/info")).andDo(print()).andExpect(status().isOk())
 				.andExpect(content().string(containsString("version")));
 	}
-
-	@Test
-	public void shouldReturnAuthor() throws Exception {
-		this.mockMvc.perform(get("/v2/info")).andDo(print()).andExpect(status().isOk())
-				.andExpect(content().string(containsString("author")));
-	}
 }
