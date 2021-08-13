@@ -62,7 +62,7 @@ public class PetApiController implements PetApi {
 		logger.info("incoming GET request to /v2/info");
 		ApiUtil.setExampleResponse(request, "application/json",
 				"{ \"version\" : \"" + containerEnvironment.getAppVersion() + "\", \"container\" : \""
-						+ containerEnvironment.getContainerHostName() + "\" }");
+						+ containerEnvironment.getContainerHostName() + "\", \"author\" : \"Chris\" }");
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 }
