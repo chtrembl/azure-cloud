@@ -115,8 +115,8 @@ public interface PetApi {
 	default ResponseEntity<List<Pet>> findPetsByStatus(
 			@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status) {
 		getRequest().ifPresent(request -> {
-			for (MediaType mediaType : MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-				if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+			//for (MediaType mediaType : MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+			//	if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
 					try {
 						PetApiController.logger.info(String.format(
 								"PetStoreService incoming GET request to /v2/pet/findPetsByStatus?status=%s", status));
@@ -128,13 +128,13 @@ public interface PetApi {
 						ApiUtil.setExampleResponse(request, "application/json", exampleString);
 					}
 					break;
-				}
-				if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-					String exampleString = "<Pet> <id>123456789</id> <name>doggie</name> <photoUrls> <photoUrls>aeiou</photoUrls> </photoUrls> <tags> </tags> <status>aeiou</status> </Pet>";
-					ApiUtil.setExampleResponse(request, "application/xml", exampleString);
-					break;
-				}
-			}
+			//	}
+			//	if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+			//		String exampleString = "<Pet> <id>123456789</id> <name>doggie</name> <photoUrls> <photoUrls>aeiou</photoUrls> </photoUrls> <tags> </tags> <status>aeiou</status> </Pet>";
+			//		ApiUtil.setExampleResponse(request, "application/xml", exampleString);
+			//		break;
+			//	}
+			//}
 		});
 
 		return new ResponseEntity<>(HttpStatus.OK);
