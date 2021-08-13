@@ -115,26 +115,16 @@ public interface PetApi {
 	default ResponseEntity<List<Pet>> findPetsByStatus(
 			@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status) {
 		getRequest().ifPresent(request -> {
-			//for (MediaType mediaType : MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-			//	if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-					try {
-						PetApiController.logger.info(String.format(
-								"PetStoreService incoming GET request to /v2/pet/findPetsByStatus?status=%s", status));
-						String petsJSON = new ObjectMapper().writeValueAsString(this.getPreloadedPets());
-						ApiUtil.setExampleResponse(request, "application/json", petsJSON);
-					} catch (JsonProcessingException e) {
-						e.printStackTrace();
-						String exampleString = "{ \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }";
-						ApiUtil.setExampleResponse(request, "application/json", exampleString);
-					}
-					break;
-			//	}
-			//	if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-			//		String exampleString = "<Pet> <id>123456789</id> <name>doggie</name> <photoUrls> <photoUrls>aeiou</photoUrls> </photoUrls> <tags> </tags> <status>aeiou</status> </Pet>";
-			//		ApiUtil.setExampleResponse(request, "application/xml", exampleString);
-			//		break;
-			//	}
-			//}
+			try {
+				PetApiController.logger.info(String
+						.format("PetStoreService incoming GET request to /v2/pet/findPetsByStatus?status=%s", status));
+				String petsJSON = new ObjectMapper().writeValueAsString(this.getPreloadedPets());
+				ApiUtil.setExampleResponse(request, "application/json", petsJSON);
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+				String exampleString = "{ \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }";
+				ApiUtil.setExampleResponse(request, "application/json", exampleString);
+			}
 		});
 
 		return new ResponseEntity<>(HttpStatus.OK);
@@ -150,6 +140,7 @@ public interface PetApi {
 	 *         code 400)
 	 * @deprecated
 	 */
+	@Deprecated
 	@ApiOperation(value = "Finds Pets by tags", nickname = "findPetsByTags", notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.", response = Pet.class, responseContainer = "List", authorizations = {
 			@Authorization(value = "petstore_auth", scopes = {
 					@AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
