@@ -71,7 +71,7 @@ We will add a method called getApplicationInsightsTelemetry that pulls Applicati
   ```
   You should see the following:
   
-![](images/fa1_1png)
+![](images/fa1_1.png)
   
    ```
    curl http://localhost:7071/api/HttpExample?name=Hello%20PetStore%20Shopper
