@@ -313,22 +313,27 @@ Create a Plan for your Functions, you can ready about Function [pricing here](az
   ```
   az storage account create --name azurepetstorestorage --location eastus --resource-group azurepetstorerg --sku Standard_LRS
   ``` 
- -  Create and Configure your Function App.
+ 
+ Create and Configure your Function App.
    ```
    az functionapp create --name AzurePetStoreFunctions --storage-account azurepetstorestorage --resource-group azurepetstorerg --plan AzurePetStoreFunctionsPlan --deployment-container-image-name petstorefunctions:latest
    ```
  
 Head to the Azure Portal to review your Function App
 
-You can also configure Continuous Delivery here as well.
+Set the appId and apiKey as Application Settings / Environment Variables
 
 You should see the following:
   
 ![](images/fa6.png)
 
+Confiure the Azure Function App for Continuous Integration, As we push new Docker Images our Function App will automagically create a new container with the "latest" tag.
+
 You should see the following:
   
 ![](images/fa7.png)
+
+Grab the URL of your Azure Function App and test it out!
 
 You should see the following:
   
