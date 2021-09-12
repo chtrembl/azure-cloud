@@ -81,6 +81,10 @@ Prerequisites and environment setup (Optionaly you can build/deploy locally)
 ## [12 - Configure Azure DevOps pipelines to execute automated regression tests](12-configure-petstore-automation-testing)
 
    Configure Azure DevOps pipelines to execute automated regression tests
+   
+## [13 - Build and Deploy Azure Functions](13-build-deploy-azure-functions)
+
+   Build and Deploy Azure Functions
 
 ---
 
