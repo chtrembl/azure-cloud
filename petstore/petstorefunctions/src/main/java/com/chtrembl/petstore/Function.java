@@ -34,10 +34,14 @@ public class Function {
 	private static final HttpClient HTTP_CLIENT = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2)
 			.connectTimeout(Duration.ofSeconds(10)).build();
 
-	private static final String APP_ID = System.getProperty("appId");
-	private static final String API_KEY = System.getProperty("apiKey");
+	private String APP_ID = System.getenv("appId") != null ? System.getenv("appId") : System.getProperty("appId");
+	private String API_KEY = System.getenv("apiKey") != null ? System.getenv("apiKey") : System.getProperty("apiKey");
 
 	protected String getApplicationInsightsTelemetry(String minsAgo) {
+		if (APP_ID == null || API_KEY == null) {
+			APP_ID = "";
+			API_KEY = "";
+		}
 
 		String sessionsJson = "";
 
@@ -48,8 +52,8 @@ public class Function {
 		HttpRequest request = HttpRequest.newBuilder()
 				.POST(BodyPublishers.ofString("{\"query\":\"traces | where timestamp > ago(" + minsAgo
 						+ ") | summarize Traces = count() by tostring(customDimensions.session_Id)\"}"))
-				.uri(URI.create("https://api.applicationinsights.io/v1/apps/" + Function.APP_ID + "/query"))
-				.setHeader("x-api-key", Function.API_KEY).setHeader("Content-Type", "application/json").build();
+				.uri(URI.create("https://api.applicationinsights.io/v1/apps/" + this.APP_ID + "/query"))
+				.setHeader("x-api-key", this.API_KEY).setHeader("Content-Type", "application/json").build();
 
 		HttpResponse<String> response = null;
 		String responseBody = "";

@@ -1,5 +1,6 @@
 
 
+
 # 13 - Build and Deploy Azure Functions
 
 __This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)__
@@ -8,7 +9,7 @@ In this section we'll look at how to develop an Azure Function App with Java and
 
 Azure Functions is a serverless solution that allows you to write less code, maintain less infrastructure, and save on costs. Instead of worrying about deploying and maintaining servers, the cloud infrastructure provides all the up-to-date resources needed to keep your applications running. In this guide we will build an Azure function to pull/transform data to be used by other components within the Azure Pet Store.
 
-We will add a method called getApplicationInsightsTelemetry that pulls ApplicationInsights Telemetry and transforms/reduces it to data that a Power App can consume. We will build this method to consume data based in a time interval passed to it.
+We will add a method called getApplicationInsightsTelemetry that pulls ApplicationInsights Telemetry and transforms/reduces it to data that a Power App can consume. We will build this method to consume data based in a time interval passed to it. Think of this as a reverse proxy method that we can expose without revealing the underlying Application Insights Source Credentials to downstream systems. We can also do other business logic like ETL in this case, anything you want to do with the data/data aggregation/transformation can be implemented here.
 
 > 📝 **Please Note, we assume you have completed the  [Configure Apps to use Application Insights](https://stackedit.io/08-configure-apps-to-use-application-insights/README.md)  guides and have a working Application Insights service that can be used by this Azure Function App.**
 
@@ -143,59 +144,146 @@ Create a Application Insights App Key and make not if it along with your app
   
   ![](images/fa3.png)
   
+ Open up Function.js and update the Function class entirely.
+ 
+```java
+package com.chtrembl.petstore;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpRequest.BodyPublishers;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.microsoft.azure.functions.ExecutionContext;
+import com.microsoft.azure.functions.HttpMethod;
+import com.microsoft.azure.functions.HttpRequestMessage;
+import com.microsoft.azure.functions.HttpResponseMessage;
+import com.microsoft.azure.functions.HttpStatus;
+import com.microsoft.azure.functions.annotation.AuthorizationLevel;
+import com.microsoft.azure.functions.annotation.FunctionName;
+import com.microsoft.azure.functions.annotation.HttpTrigger;
+
+/**
+ * Azure Functions with HTTP Trigger.
+ */
+public class Function {
+
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
+    private static final HttpClient HTTP_CLIENT = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2)
+            .connectTimeout(Duration.ofSeconds(10)).build();
+
+    private String APP_ID = System.getenv("appId") != null ? System.getenv("appId") : System.getProperty("appId");
+    private String API_KEY = System.getenv("apiKey") != null ? System.getenv("apiKey") : System.getProperty("apiKey");
+
+    protected String getApplicationInsightsTelemetry(String minsAgo) {
+        if (APP_ID == null || API_KEY == null) {
+            APP_ID = "";
+            API_KEY = "";
+        }
+
+        String sessionsJson = "";
+
+        Map<Object, Object> data = new HashMap<>();
+        data.put("query",
+                "traces | where timestamp > ago(2m) | summarize Traces = count() by tostring(customDimensions.session_Id)");
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .POST(BodyPublishers.ofString("{\"query\":\"traces | where timestamp > ago(" + minsAgo
+                        + ") | summarize Traces = count() by tostring(customDimensions.session_Id)\"}"))
+                .uri(URI.create("https://api.applicationinsights.io/v1/apps/" + this.APP_ID + "/query"))
+                .setHeader("x-api-key", this.API_KEY).setHeader("Content-Type", "application/json").build();
+
+        HttpResponse<String> response = null;
+        String responseBody = "";
+        try {
+            response = Function.HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+            responseBody = response.body();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            return "{\"error\":\"Exception getting response body\"}";
+        }
+
+        try {
+            JsonNode root = Function.OBJECT_MAPPER.readTree(responseBody);
+            JsonNode sessions = root.path("tables").findPath("rows");
+
+            Map<String, Integer> payload = new HashMap<>();
+
+            sessions.forEach(jsonNode -> {
+                String sessionId = ((ArrayNode) jsonNode).get(0).toString().trim();
+                Integer requestCount = Integer.valueOf(((ArrayNode) jsonNode).get(1).toString());
+
+                // session id's are 34 characters in length
+                if (sessionId.length() == 34) {
+                    payload.put(sessionId, requestCount);
+                }
+            });
+
+            sessionsJson = Function.OBJECT_MAPPER.writeValueAsString(payload);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return "{\"error\":\"Exception mapping response body\"}";
+        }
+
+        System.out.println(sessionsJson);
+
+        return sessionsJson;
+    }
+
+    @FunctionName("petStoreCurrentSessionTelemetry")
+    public HttpResponseMessage run(@HttpTrigger(name = "req", methods = { HttpMethod.GET,
+            HttpMethod.POST }, authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<String>> request,
+            final ExecutionContext context) {
+        context.getLogger().info("Java HTTP trigger processed a request.");
+
+        final String minsAgo = request.getQueryParameters().get("minsAgo");
+
+        return request.createResponseBuilder(HttpStatus.OK).body(this.getApplicationInsightsTelemetry(minsAgo)).build();
+    }
+}
+
 ```
-protected String getApplicationInsightsTelemetry(String minsAgo) {
 
-		String sessionsJson = "";
+This method will invoke the  [Application Insights REST API](https://dev.applicationinsights.io/) to pull the latest Telemetry and transform it to ensure it is ready for the Power App that we build in a later guide.
 
-		Map<Object, Object> data = new HashMap<>();
-		data.put("query",
-				"traces | where timestamp > ago(2m) | summarize Traces = count() by tostring(customDimensions.session_Id)");
+When running your Function App locally you will now want to pass parameters to the Docker container containing the App Id and the App Key. (I've externalized as these are sensitive).
+ 
+   ```
+  mvn clean package
+  docker build -t petstorefunctions .
+  docker run -p 8080:80 -e apiKey=<your apiKey> -e appId=<your appId> -it petstorefunctions:latest
+  http://localhost:8080/api/petStoreCurrentSessionTelemetry?minsAgo=5m
+  ```
 
-		HttpRequest request = HttpRequest.newBuilder()
-				.POST(BodyPublishers.ofString("{\"query\":\"traces | where timestamp > ago(" + minsAgo
-						+ ") | summarize Traces = count() by tostring(customDimensions.session_Id)\"}"))
-				.uri(URI.create("https://api.applicationinsights.io/v1/apps/" + Function.APP_ID + "/query"))
-				.setHeader("x-api-key", Function.API_KEY).setHeader("Content-Type", "application/json").build();
+Once you hit the petStoreCurrentSessionTelemetry Function, you should see a list of Browser sessions (unique Browser Tabs/Users) Along with the page request counts in the last "minsAgo".
 
-		HttpResponse<String> response = null;
-		String responseBody = "";
-		try {
-			response = Function.HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
-			responseBody = response.body();
-		} catch (IOException | InterruptedException e) {
-			e.printStackTrace();
-			return "{\"error\":\"Exception getting response body\"}";
-		}
-
-		try {
-			JsonNode root = Function.OBJECT_MAPPER.readTree(responseBody);
-			JsonNode sessions = root.path("tables").findPath("rows");
-
-			Map<String, Integer> payload = new HashMap<>();
-
-			sessions.forEach(jsonNode -> {
-				String sessionId = ((ArrayNode) jsonNode).get(0).toString().trim();
-				Integer requestCount = Integer.valueOf(((ArrayNode) jsonNode).get(1).toString());
-
-				// session id's are 34 characters in length
-				if (sessionId.length() == 34) {
-					payload.put(sessionId, requestCount);
-				}
-			});
-
-			sessionsJson = Function.OBJECT_MAPPER.writeValueAsString(payload);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-			return "{\"error\":\"Exception mapping response body\"}";
-		}
-
-		System.out.println(sessionsJson);
-
-		return sessionsJson;
-	}
+```json
+{
+   "\"BE4DB735E6462775681159699557EE87\"":4,
+   "\"F4AA389B05FFCFCB34ADBBA3BF6D5C33\"":3,
+   "\"EB886DFE450666E10CA70A9F535B25DD\"":3,
+   "\"E7B4AA5CBB2DC864E52244C3815CD441\"":3,
+   "\"DAAD558FEA7C5C3F57B6DCEB63DB4CEF\"":3,
+   "\"7E46C70D99B4DFFD982199D5981E3966\"":2,
+   "\"52EDB4ADF1819B08A7E43B68E0F9FAE0\"":1,
+   "\"A0F65DD9CB6EADFE4574D6D94BAE46D9\"":2,
+   "\"649DA69E4644D32F7FCA67FA6B88505C\"":2,
+   "\"AECCE0F699A6C02C7395FF253DD28F18\"":3
+}
 ```
-
+ ## 6. Let's push our Docker Image to the Azure Container Registry
+ 
  > 
  - Push the Docker Image to your Azure Container Registry.
   ```
