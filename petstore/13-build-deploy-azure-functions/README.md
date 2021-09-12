@@ -71,7 +71,7 @@ We will add a method called getApplicationInsightsTelemetry that pulls Applicati
   ```
   You should see the following:
   
-![](images/fa1png)
+![](images/fa1_1png)
   
    ```
    curl http://localhost:7071/api/HttpExample?name=Hello%20PetStore%20Shopper
@@ -146,54 +146,54 @@ Create a Application Insights App Key and make not if it along with your app
 ```
 protected String getApplicationInsightsTelemetry(String minsAgo) {
 
-        String sessionsJson = "";
+		String sessionsJson = "";
 
-        Map<Object, Object> data = new HashMap<>();
-        data.put("query",
-                "traces | where timestamp > ago(2m) | summarize Traces = count() by tostring(customDimensions.session_Id)");
+		Map<Object, Object> data = new HashMap<>();
+		data.put("query",
+				"traces | where timestamp > ago(2m) | summarize Traces = count() by tostring(customDimensions.session_Id)");
 
-        HttpRequest request = HttpRequest.newBuilder()
-                .POST(BodyPublishers.ofString("{\"query\":\"traces | where timestamp > ago(" + minsAgo
-                        + ") | summarize Traces = count() by tostring(customDimensions.session_Id)\"}"))
-                .uri(URI.create("https://api.applicationinsights.io/v1/apps/" + Function.APP_ID + "/query"))
-                .setHeader("x-api-key", Function.API_KEY).setHeader("Content-Type", "application/json").build();
+		HttpRequest request = HttpRequest.newBuilder()
+				.POST(BodyPublishers.ofString("{\"query\":\"traces | where timestamp > ago(" + minsAgo
+						+ ") | summarize Traces = count() by tostring(customDimensions.session_Id)\"}"))
+				.uri(URI.create("https://api.applicationinsights.io/v1/apps/" + Function.APP_ID + "/query"))
+				.setHeader("x-api-key", Function.API_KEY).setHeader("Content-Type", "application/json").build();
 
-        HttpResponse<String> response = null;
-        String responseBody = "";
-        try {
-            response = Function.HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
-            responseBody = response.body();
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-            return "{\"error\":\"Exception getting response body\"}";
-        }
+		HttpResponse<String> response = null;
+		String responseBody = "";
+		try {
+			response = Function.HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+			responseBody = response.body();
+		} catch (IOException | InterruptedException e) {
+			e.printStackTrace();
+			return "{\"error\":\"Exception getting response body\"}";
+		}
 
-        try {
-            JsonNode root = Function.OBJECT_MAPPER.readTree(responseBody);
-            JsonNode sessions = root.path("tables").findPath("rows");
+		try {
+			JsonNode root = Function.OBJECT_MAPPER.readTree(responseBody);
+			JsonNode sessions = root.path("tables").findPath("rows");
 
-            Map<String, Integer> payload = new HashMap<>();
+			Map<String, Integer> payload = new HashMap<>();
 
-            sessions.forEach(jsonNode -> {
-                String sessionId = ((ArrayNode) jsonNode).get(0).toString().trim();
-                Integer requestCount = Integer.valueOf(((ArrayNode) jsonNode).get(1).toString());
+			sessions.forEach(jsonNode -> {
+				String sessionId = ((ArrayNode) jsonNode).get(0).toString().trim();
+				Integer requestCount = Integer.valueOf(((ArrayNode) jsonNode).get(1).toString());
 
-                // session id's are 34 characters in length
-                if (sessionId.length() == 34) {
-                    payload.put(sessionId, requestCount);
-                }
-            });
+				// session id's are 34 characters in length
+				if (sessionId.length() == 34) {
+					payload.put(sessionId, requestCount);
+				}
+			});
 
-            sessionsJson = Function.OBJECT_MAPPER.writeValueAsString(payload);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return "{\"error\":\"Exception mapping response body\"}";
-        }
+			sessionsJson = Function.OBJECT_MAPPER.writeValueAsString(payload);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return "{\"error\":\"Exception mapping response body\"}";
+		}
 
-        System.out.println(sessionsJson);
+		System.out.println(sessionsJson);
 
-        return sessionsJson;
-    }
+		return sessionsJson;
+	}
 ```
 
  > 
