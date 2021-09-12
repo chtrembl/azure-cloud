@@ -1,6 +1,6 @@
 
 
-# 12 - Build and Deploy Azure Functions
+# 13 - Build and Deploy Azure Functions
 
 __This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)__
 
@@ -8,12 +8,16 @@ In this section we'll look at how to develop an Azure Function App with Java and
 
 Azure Functions is a serverless solution that allows you to write less code, maintain less infrastructure, and save on costs. Instead of worrying about deploying and maintaining servers, the cloud infrastructure provides all the up-to-date resources needed to keep your applications running. In this guide we will build an Azure function to pull/transform data to be used by other components within the Azure Pet Store.
 
+We will add a method called getApplicationInsightsTelemetry that pulls ApplicationInsights Telemetry and transforms/reduces it to data that a Power App can consume. We will build this method to consume data based in a time interval passed to it.
+
+> 📝 **Please Note, we assume you have completed the  [Configure Apps to use Application Insights](https://stackedit.io/08-configure-apps-to-use-application-insights/README.md)  guides and have a working Application Insights service that can be used by this Azure Function App.**
+
 > **📝 Please Note, as a prerequisite you will want to install the Azure Functions Core Tools to provide a local development experience for creating, developing, testing, running, and debugging Azure Functions. https://github.com/Azure/azure-functions-core-tools At the time of this document I am using v3.** 
 
 ## 1. Use Maven to create the scaffolding for our new Azure Function App project
 
  Using [azure-functions-archetype](https://github.com/microsoft/azure-maven-archetypes/tree/develop/azure-functions-archetype) we can instruct Maven to generate a fully functional Java project that contains all of the scaffolding needed to get started with developing Azure Functions. This document assumes you already have [Azure Functions Core Tools](https://github.com/Azure/azure-functions-core-tools) installed, which is needed for local testing. We will also generate a Dockerfile here as well.
-***Note, at the time of this document, 7/2020, only Java 8 is supported***
+
    ```xml
     mvn archetype:generate -B \
     -DarchetypeGroupId="com.microsoft.azure" \
@@ -59,7 +63,7 @@ Azure Functions is a serverless solution that allows you to write less code, mai
     }
   ```
  
- ## 3. Let's use the the maven plugin to run our Azure Function App locally.
+ ## 3. Let's use the the maven plugin to build/run our Azure Function App locally.
  
   ```
   mvn clean package
@@ -67,7 +71,7 @@ Azure Functions is a serverless solution that allows you to write less code, mai
   ```
   You should see the following:
   
-  ![](images/fa1.png)
+![](images/fa1png)
   
    ```
    curl http://localhost:7071/api/HttpExample?name=Hello%20PetStore%20Shopper
@@ -136,6 +140,8 @@ Create a Application Insights App Key and make not if it along with your app
   You should see the following:
   
   ![](images/fa2.png)
+  
+  ![](images/fa3.png)
   
 ```
 protected String getApplicationInsightsTelemetry(String minsAgo) {
