@@ -203,3 +203,5 @@ You should see something similar to the below image:
 Things you can now do now with this guide
 
 ☑️ Configure Azure DevOps pipelines to execute automated regression tests
+
+➡️ Next guide: [13 - Build and Deploy Azure Functions](../13-build-deploy-azure-functions/README.md)
