@@ -69,7 +69,7 @@ public class Function {
 			JsonNode root = Function.OBJECT_MAPPER.readTree(responseBody);
 			JsonNode sessions = root.path("tables").findPath("rows");
 
-			Map<String, Integer> payload = new HashMap<>();
+			Response transformedResponse = new Response();
 
 			sessions.forEach(jsonNode -> {
 				String sessionId = ((ArrayNode) jsonNode).get(0).toString().trim();
@@ -77,11 +77,11 @@ public class Function {
 
 				// session id's are 34 characters in length
 				if (sessionId.length() == 34) {
-					payload.put(sessionId, requestCount);
+					transformedResponse.addSession(sessionId, requestCount);
 				}
 			});
 
-			sessionsJson = Function.OBJECT_MAPPER.writeValueAsString(payload);
+			sessionsJson = Function.OBJECT_MAPPER.writeValueAsString(transformedResponse);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 			return "{\"error\":\"Exception mapping response body\"}";
