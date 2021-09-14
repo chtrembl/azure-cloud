@@ -72,11 +72,11 @@ public class Function {
 			Response transformedResponse = new Response();
 
 			sessions.forEach(jsonNode -> {
-				String sessionId = ((ArrayNode) jsonNode).get(0).toString().trim();
+				String sessionId = ((ArrayNode) jsonNode).get(0).toString().replace("\"", "").trim();
 				Integer requestCount = Integer.valueOf(((ArrayNode) jsonNode).get(1).toString());
 
-				// session id's are 34 characters in length
-				if (sessionId.length() == 34) {
+				// session id's are 32 characters in length
+				if (sessionId.length() == 32) {
 					transformedResponse.addSession(sessionId, requestCount);
 				}
 			});
