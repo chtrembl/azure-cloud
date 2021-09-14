@@ -81,6 +81,8 @@ public class Function {
 				}
 			});
 
+			transformedResponse.setUserCount(sessions.size());
+
 			sessionsJson = Function.OBJECT_MAPPER.writeValueAsString(transformedResponse);
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();

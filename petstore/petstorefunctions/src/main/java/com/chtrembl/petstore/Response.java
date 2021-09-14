@@ -7,6 +7,7 @@ import java.util.Map;
 @SuppressWarnings("serial")
 public class Response implements Serializable {
 	Map<String, Integer> sessions = new HashMap<>();
+	int userCount = 0;
 
 	public Map<String, Integer> getSessions() {
 		return sessions;
@@ -16,4 +17,11 @@ public class Response implements Serializable {
 		this.sessions.put(session, count);
 	}
 
+	public int getUserCount() {
+		return userCount;
+	}
+
+	public void setUserCount(int userCount) {
+		this.userCount = userCount;
+	}
 }
