@@ -1,27 +1,27 @@
 package com.chtrembl.petstore;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class Response implements Serializable {
-	Map<String, Integer> sessions = new HashMap<>();
-	int userCount = 0;
+	List<Session> sessions = new ArrayList<>();
+	int sessionCount = 0;
 
-	public Map<String, Integer> getSessions() {
+	public int getSessionCount() {
+		return sessionCount;
+	}
+
+	public void setSessionCount(int sessionCount) {
+		this.sessionCount = sessionCount;
+	}
+
+	public List<Session> getSessions() {
 		return sessions;
 	}
 
-	public void addSession(String session, int count) {
-		this.sessions.put(session, count);
-	}
-
-	public int getUserCount() {
-		return userCount;
-	}
-
-	public void setUserCount(int userCount) {
-		this.userCount = userCount;
+	public void setSessions(List<Session> sessions) {
+		this.sessions = sessions;
 	}
 }

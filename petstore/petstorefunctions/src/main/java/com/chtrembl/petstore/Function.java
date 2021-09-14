@@ -73,15 +73,16 @@ public class Function {
 
 			sessions.forEach(jsonNode -> {
 				String sessionId = ((ArrayNode) jsonNode).get(0).toString().replace("\"", "").trim();
-				Integer requestCount = Integer.valueOf(((ArrayNode) jsonNode).get(1).toString());
+				Integer sessionPageHits = Integer.valueOf(((ArrayNode) jsonNode).get(1).toString());
 
 				// session id's are 32 characters in length
 				if (sessionId.length() == 32) {
-					transformedResponse.addSession(sessionId, requestCount);
+					Session session = new Session(sessionId, sessionPageHits);
+					transformedResponse.getSessions().add(session);
 				}
 			});
 
-			transformedResponse.setUserCount(sessions.size());
+			transformedResponse.setSessionCount(sessions.size());
 
 			sessionsJson = Function.OBJECT_MAPPER.writeValueAsString(transformedResponse);
 		} catch (JsonProcessingException e) {
