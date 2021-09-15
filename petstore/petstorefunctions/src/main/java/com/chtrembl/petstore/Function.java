@@ -7,8 +7,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -44,10 +42,6 @@ public class Function {
 		}
 
 		String sessionsJson = "";
-
-		Map<Object, Object> data = new HashMap<>();
-		data.put("query",
-				"traces | where timestamp > ago(2m) | summarize Traces = count() by tostring(customDimensions.session_Id)");
 
 		HttpRequest request = HttpRequest.newBuilder()
 				.POST(BodyPublishers.ofString("{\"query\":\"traces | where timestamp > ago(" + minsAgo
@@ -101,8 +95,19 @@ public class Function {
 			final ExecutionContext context) {
 		context.getLogger().info("Java HTTP trigger processed a request.");
 
+		System.out.println(this.API_KEY);
+
+		System.out.println(request.getQueryParameters().get("apiKey"));
+
+		if (this.API_KEY != null && request.getQueryParameters() != null
+				&& !this.API_KEY.equals(request.getQueryParameters().get("apiKey"))) {
+			return request.createResponseBuilder(HttpStatus.OK).body("{\"error\":\"access denied\"}")
+					.header("Content-Type", "application/json").build();
+		}
+
 		final String minsAgo = request.getQueryParameters().get("minsAgo");
 
-		return request.createResponseBuilder(HttpStatus.OK).body(this.getApplicationInsightsTelemetry(minsAgo)).build();
+		return request.createResponseBuilder(HttpStatus.OK).body(this.getApplicationInsightsTelemetry(minsAgo))
+				.header("Content-Type", "application/json").build();
 	}
 }
