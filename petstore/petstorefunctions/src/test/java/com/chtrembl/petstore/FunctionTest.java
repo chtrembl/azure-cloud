@@ -62,6 +62,6 @@ public class FunctionTest {
 	@Test
 	public void testGetApplicationInsightsTelemetry() throws Exception {
 		Function function = new Function();
-		function.getApplicationInsightsTelemetry("5m");
+		function.getApplicationInsightsTelemetry("30m");
 	}
 }

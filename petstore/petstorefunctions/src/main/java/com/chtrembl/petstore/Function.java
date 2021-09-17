@@ -32,6 +32,7 @@ public class Function {
 	private static final HttpClient HTTP_CLIENT = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2)
 			.connectTimeout(Duration.ofSeconds(10)).build();
 
+	// app id and api key to query application insights with
 	private String APP_ID = System.getenv("appId") != null ? System.getenv("appId") : System.getProperty("appId");
 	private String API_KEY = System.getenv("apiKey") != null ? System.getenv("apiKey") : System.getProperty("apiKey");
 
@@ -43,9 +44,10 @@ public class Function {
 
 		String sessionsJson = "";
 
+		// application insights POST to query data
 		HttpRequest request = HttpRequest.newBuilder()
 				.POST(BodyPublishers.ofString("{\"query\":\"traces | where timestamp > ago(" + minsAgo
-						+ ") | summarize Traces = count() by tostring(customDimensions.session_Id)\"}"))
+						+ ") | summarize Traces = count() by tostring(customDimensions.session_Id), client_Browser, client_StateOrProvince | where client_Browser != 'Other'\"}"))
 				.uri(URI.create("https://api.applicationinsights.io/v1/apps/" + this.APP_ID + "/query"))
 				.setHeader("x-api-key", this.API_KEY).setHeader("Content-Type", "application/json").build();
 
@@ -60,6 +62,8 @@ public class Function {
 		}
 
 		try {
+			// transform application insights query response for Power Apps consumptions
+			// etc...
 			JsonNode root = Function.OBJECT_MAPPER.readTree(responseBody);
 			JsonNode sessions = root.path("tables").findPath("rows");
 
@@ -67,13 +71,25 @@ public class Function {
 
 			sessions.forEach(jsonNode -> {
 				String sessionId = ((ArrayNode) jsonNode).get(0).toString().replace("\"", "").trim();
-				Integer sessionPageHits = Integer.valueOf(((ArrayNode) jsonNode).get(1).toString());
-
-				// session id's are 32 characters in length
-				if (sessionId.length() == 32) {
-					Session session = new Session(sessionId, sessionPageHits);
-					transformedResponse.getSessions().add(session);
+				String sessionBrowser = ((ArrayNode) jsonNode).get(1).toString().replace("\"", "").trim().toLowerCase();
+				if (sessionBrowser.contains("edg")) {
+					sessionBrowser = "edge";
+				} else if (sessionBrowser.contains("chrome")) {
+					sessionBrowser = "chrome";
+				} else if (sessionBrowser.contains("safari")) {
+					sessionBrowser = "safari";
+				} else if (sessionBrowser.contains("firefox")) {
+					sessionBrowser = "firefox";
 				}
+				if (sessionBrowser.contains("opera")) {
+					sessionBrowser = "opera";
+				}
+
+				String sessionState = ((ArrayNode) jsonNode).get(2).toString().replace("\"", "").trim();
+				Integer sessionPageHits = Integer.valueOf(((ArrayNode) jsonNode).get(3).toString());
+
+				Session session = new Session(sessionId, sessionBrowser, sessionState, sessionPageHits);
+				transformedResponse.getSessions().add(session);
 			});
 
 			transformedResponse.setSessionCount(sessions.size());
@@ -89,15 +105,13 @@ public class Function {
 		return sessionsJson;
 	}
 
+	// HTTP Trigger on POST requests with valid apiKey which is this functions layer
+	// of protection
 	@FunctionName("petStoreCurrentSessionTelemetry")
 	public HttpResponseMessage run(@HttpTrigger(name = "req", methods = { HttpMethod.GET,
 			HttpMethod.POST }, authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<String>> request,
 			final ExecutionContext context) {
 		context.getLogger().info("Java HTTP trigger processed a request.");
-
-		System.out.println(this.API_KEY);
-
-		System.out.println(request.getQueryParameters().get("apiKey"));
 
 		if (this.API_KEY != null && request.getQueryParameters() != null
 				&& !this.API_KEY.equals(request.getQueryParameters().get("apiKey"))) {
