@@ -156,8 +156,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -178,81 +176,105 @@ import com.microsoft.azure.functions.annotation.HttpTrigger;
  */
 public class Function {
 
-    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+	private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
-    private static final HttpClient HTTP_CLIENT = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2)
-            .connectTimeout(Duration.ofSeconds(10)).build();
+	private static final HttpClient HTTP_CLIENT = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2)
+			.connectTimeout(Duration.ofSeconds(10)).build();
 
-    private String APP_ID = System.getenv("appId") != null ? System.getenv("appId") : System.getProperty("appId");
-    private String API_KEY = System.getenv("apiKey") != null ? System.getenv("apiKey") : System.getProperty("apiKey");
+	// app id and api key to query application insights with
+	private String APP_ID = System.getenv("appId") != null ? System.getenv("appId") : System.getProperty("appId");
+	private String API_KEY = System.getenv("apiKey") != null ? System.getenv("apiKey") : System.getProperty("apiKey");
 
-    protected String getApplicationInsightsTelemetry(String minsAgo) {
-        if (APP_ID == null || API_KEY == null) {
-            APP_ID = "";
-            API_KEY = "";
-        }
+	protected String getApplicationInsightsTelemetry(String minsAgo) {
+		if (APP_ID == null || API_KEY == null) {
+			APP_ID = "";
+			API_KEY = "";
+		}
 
-        String sessionsJson = "";
+		String sessionsJson = "";
 
-        Map<Object, Object> data = new HashMap<>();
-        data.put("query",
-                "traces | where timestamp > ago(2m) | summarize Traces = count() by tostring(customDimensions.session_Id)");
+		// application insights POST to query data
+		HttpRequest request = HttpRequest.newBuilder()
+				.POST(BodyPublishers.ofString("{\"query\":\"traces | where timestamp > ago(" + minsAgo
+						+ ") | summarize Traces = count() by tostring(customDimensions.session_Id), client_Browser, client_StateOrProvince | where client_Browser != 'Other'\"}"))
+				.uri(URI.create("https://api.applicationinsights.io/v1/apps/" + this.APP_ID + "/query"))
+				.setHeader("x-api-key", this.API_KEY).setHeader("Content-Type", "application/json").build();
 
-        HttpRequest request = HttpRequest.newBuilder()
-                .POST(BodyPublishers.ofString("{\"query\":\"traces | where timestamp > ago(" + minsAgo
-                        + ") | summarize Traces = count() by tostring(customDimensions.session_Id)\"}"))
-                .uri(URI.create("https://api.applicationinsights.io/v1/apps/" + this.APP_ID + "/query"))
-                .setHeader("x-api-key", this.API_KEY).setHeader("Content-Type", "application/json").build();
+		HttpResponse<String> response = null;
+		String responseBody = "";
+		try {
+			response = Function.HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+			responseBody = response.body();
+		} catch (IOException | InterruptedException e) {
+			e.printStackTrace();
+			return "{\"error\":\"Exception getting response body\"}";
+		}
 
-        HttpResponse<String> response = null;
-        String responseBody = "";
-        try {
-            response = Function.HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
-            responseBody = response.body();
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-            return "{\"error\":\"Exception getting response body\"}";
-        }
+		try {
+			// transform application insights query response for Power Apps consumptions
+			// etc...
+			JsonNode root = Function.OBJECT_MAPPER.readTree(responseBody);
+			JsonNode sessions = root.path("tables").findPath("rows");
 
-        try {
-            JsonNode root = Function.OBJECT_MAPPER.readTree(responseBody);
-            JsonNode sessions = root.path("tables").findPath("rows");
+			Response transformedResponse = new Response();
 
-            Map<String, Integer> payload = new HashMap<>();
+			sessions.forEach(jsonNode -> {
+				String sessionId = ((ArrayNode) jsonNode).get(0).toString().replace("\"", "").trim();
+				String sessionBrowser = ((ArrayNode) jsonNode).get(1).toString().replace("\"", "").trim().toLowerCase();
+				if (sessionBrowser.contains("edg")) {
+					sessionBrowser = "edge";
+				} else if (sessionBrowser.contains("chrome")) {
+					sessionBrowser = "chrome";
+				} else if (sessionBrowser.contains("safari")) {
+					sessionBrowser = "safari";
+				} else if (sessionBrowser.contains("firefox")) {
+					sessionBrowser = "firefox";
+				} else if (sessionBrowser.contains("opera")) {
+					sessionBrowser = "opera";
+				} else {
+					sessionBrowser = "unknown";
+				}
 
-            sessions.forEach(jsonNode -> {
-                String sessionId = ((ArrayNode) jsonNode).get(0).toString().trim();
-                Integer requestCount = Integer.valueOf(((ArrayNode) jsonNode).get(1).toString());
+				String sessionState = ((ArrayNode) jsonNode).get(2).toString().replace("\"", "").trim();
+				Integer sessionPageHits = Integer.valueOf(((ArrayNode) jsonNode).get(3).toString());
 
-                // session id's are 34 characters in length
-                if (sessionId.length() == 34) {
-                    payload.put(sessionId, requestCount);
-                }
-            });
+				Session session = new Session(sessionId, sessionBrowser, sessionState, sessionPageHits);
+				transformedResponse.getSessions().add(session);
+			});
 
-            sessionsJson = Function.OBJECT_MAPPER.writeValueAsString(payload);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return "{\"error\":\"Exception mapping response body\"}";
-        }
+			transformedResponse.setSessionCount(sessions.size());
 
-        System.out.println(sessionsJson);
+			sessionsJson = Function.OBJECT_MAPPER.writeValueAsString(transformedResponse);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return "{\"error\":\"Exception mapping response body\"}";
+		}
 
-        return sessionsJson;
-    }
+		System.out.println(sessionsJson);
 
-    @FunctionName("petStoreCurrentSessionTelemetry")
-    public HttpResponseMessage run(@HttpTrigger(name = "req", methods = { HttpMethod.GET,
-            HttpMethod.POST }, authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<String>> request,
-            final ExecutionContext context) {
-        context.getLogger().info("Java HTTP trigger processed a request.");
+		return sessionsJson;
+	}
 
-        final String minsAgo = request.getQueryParameters().get("minsAgo");
+	// HTTP Trigger on POST requests with valid apiKey which is this functions layer
+	// of protection
+	@FunctionName("petStoreCurrentSessionTelemetry")
+	public HttpResponseMessage run(@HttpTrigger(name = "req", methods = { HttpMethod.GET,
+			HttpMethod.POST }, authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<String>> request,
+			final ExecutionContext context) {
+		context.getLogger().info("Java HTTP trigger processed a request.");
 
-        return request.createResponseBuilder(HttpStatus.OK).body(this.getApplicationInsightsTelemetry(minsAgo)).build();
-    }
+		if (this.API_KEY != null && request.getQueryParameters() != null
+				&& !this.API_KEY.equals(request.getQueryParameters().get("apiKey"))) {
+			return request.createResponseBuilder(HttpStatus.OK).body("{\"error\":\"access denied\"}")
+					.header("Content-Type", "application/json").build();
+		}
+
+		final String minsAgo = request.getQueryParameters().get("minsAgo");
+
+		return request.createResponseBuilder(HttpStatus.OK).body(this.getApplicationInsightsTelemetry(minsAgo))
+				.header("Content-Type", "application/json").build();
+	}
 }
-
 ```
 
 This method will invoke the  [Application Insights REST API](https://dev.applicationinsights.io/) to pull the latest Telemetry and transform it to ensure it is ready for the Power App that we build in a later guide.
@@ -269,18 +291,7 @@ When running your Function App locally you will now want to pass parameters to t
 Once you hit the petStoreCurrentSessionTelemetry Function, you should see a list of Browser sessions (unique Browser Tabs/Users) Along with the page request counts in the last "minsAgo".
 
 ```json
-{
-   "\"BE4DB735E6462775681159699557EE87\"":4,
-   "\"F4AA389B05FFCFCB34ADBBA3BF6D5C33\"":3,
-   "\"EB886DFE450666E10CA70A9F535B25DD\"":3,
-   "\"E7B4AA5CBB2DC864E52244C3815CD441\"":3,
-   "\"DAAD558FEA7C5C3F57B6DCEB63DB4CEF\"":3,
-   "\"7E46C70D99B4DFFD982199D5981E3966\"":2,
-   "\"52EDB4ADF1819B08A7E43B68E0F9FAE0\"":1,
-   "\"A0F65DD9CB6EADFE4574D6D94BAE46D9\"":2,
-   "\"649DA69E4644D32F7FCA67FA6B88505C\"":2,
-   "\"AECCE0F699A6C02C7395FF253DD28F18\"":3
-}
+{"sessions":[{"sessionId":"B6164D2D5A676056AB8291CD447B6CB3","sessionBrowser":"unknown","sessionState":"Virginia","sessionPageHits":1}],"sessionCount":1}
 ```
  ## 6. Let's push our Docker Image to the Azure Container Registry
  
@@ -345,18 +356,7 @@ You should see the following:
   ```
 
 ```json
-{
-   "\"12E485EC6738E30D117740F27A7D538A\"":1,
-   "\"384124480DF27FD0111DF92513CB3BF3\"":2,
-   "\"DAAD558FEA7C5C3F57B6DCEB63DB4CEF\"":2,
-   "\"BCBEB8C9AE3DA6F3BB3696B037E0D6AA\"":2,
-   "\"60B876B05D5B717707254E7E98CF9AD9\"":1,
-   "\"A0F65DD9CB6EADFE4574D6D94BAE46D9\"":2,
-   "\"E7FEF8BB9280E723C59101FA8F85E5DC\"":2,
-   "\"3C6569812012185DBF8FBCEAFC2CD24C\"":2,
-   "\"9A98290B2B42F068009B6F2633F20863\"":2,
-   "\"9D1B30B6502BADB2737459D6AC75527E\"":2
-}
+{"sessions":[{"sessionId":"B6164D2D5A676056AB8291CD447B6CB3","sessionBrowser":"unknown","sessionState":"Virginia","sessionPageHits":1}],"sessionCount":1}
 ```
 
 Things you can now do now with this guide
