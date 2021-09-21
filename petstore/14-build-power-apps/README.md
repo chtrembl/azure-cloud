@@ -22,28 +22,38 @@ You should see the following:
   
 ![](images/pa2.png)
 
-Give your Connector a name (I'm using "Azure Pet Store Functions", this is the name of your app and how it will appear to your users.) And select "Continue"
+Give your Connector a name *(I'm using "Azure Pet Store Functions", this is the name of your app and how it will appear to your users.)* And select "Continue"
 
 You should see the following:
   
 ![](images/pa3.png)
 
+Let's define all of the Meta-Data for our Custom Connector. (You can also import a Swagger definition if you already have one). Fill out the **1. General** tab here. I'm keeping the defaults and entering my function app url endpoint domain and the base url.
 
 You should see the following:
   
 ![](images/pa4.png)
 
+Fill out the **2. Security** tab here. We won't be applying anything for now, keep the defaults of no authentication.
+
 You should see the following:
   
 ![](images/pa5.png)
 
-You should see the following:
-  
-![](images/pa6.png)
+Fill out the **3. Definition** tab here. This is where we can define all of our Custom Connector operations. These are the mappings to our Azure Function App HTTP Triggers, think of this as a proxy to our Azure Function App, proxies to your HTTP endpoints (GET's POST's etc...). Fill out the Summary, Description and Operation ID. Operation ID is the important one here. This is how we will invoke our Custom Connector Operation from the Power App we build shortly.
+
+Select Request to define our incoming GET Request Payload. Our Azure Function App has an HTTP Trigger on GET Request(s) that expects an apiKey an minsAgo query string parameters, so we will define those here. Select the HTTP Verb "GET" and paste in your Azure Function App operation and query string. The Custom Connector will automagically interpret this for us and generate a dynamic payload for us to work off of. Click import.
 
 You should see the following:
+
+
+![](images/pa6.png)
   
+Select the minsAgo Request Parameter button to edit this properties of this incoming Request Parameter. This allows us to specify default values, useful for scenarios where our Power App does not need to consistently pass these Request Parameters (static vs dynamic, perhaps when the App Loads you want to pull data but then allow user's to customize and change the values)
+
 ![](images/pa7.png)
+
+Select the apiKey Request Parameter button to edit this properties of this incoming Request Parameter. You can paste in your apiKey value here (if your expecting in your Azure Function App)
 
 You should see the following:
   
