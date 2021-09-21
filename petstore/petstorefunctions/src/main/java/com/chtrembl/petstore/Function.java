@@ -69,6 +69,8 @@ public class Function {
 
 			Response transformedResponse = new Response();
 
+			// transform the sessionBrowser so the name can be easily loaded as an image
+			// within PowerApps
 			sessions.forEach(jsonNode -> {
 				String sessionId = ((ArrayNode) jsonNode).get(0).toString().replace("\"", "").trim();
 				String sessionBrowser = ((ArrayNode) jsonNode).get(1).toString().replace("\"", "").trim().toLowerCase();
