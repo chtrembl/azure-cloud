@@ -365,3 +365,5 @@ curl https://azurepetstorefunctions.azurewebsites.net/api/petStoreCurrentSession
 Things you can now do now with this guide
 
 ☑️ Build an Azure Function App
+
+➡️ Next guide: [14 - Build a Power App that uses a Custom Connector to Pull Data](../14-build-power-apps/README.md)

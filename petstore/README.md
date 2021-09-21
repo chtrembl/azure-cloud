@@ -86,6 +86,10 @@ Prerequisites and environment setup (Optionaly you can build/deploy locally)
 
    Build and Deploy Azure Functions
 
+## [13 - Build a Power App that uses a Custom Connector to Pull Data](14-build-power-apps)
+
+    Build a Power App that uses a Custom Connector to Pull Data
+
 ---
 
 ## Legal Notices
