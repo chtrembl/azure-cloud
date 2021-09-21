@@ -2,25 +2,32 @@
 
 __This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)__
 
-In this section we'll look at how to develop an Azure Function App with Java and Build/Deploy it to Azure Container Registry/Function App Service.
-
+In this section we'll look at how to develop an a Power App that consumes data from the Azure Function App that was built in the previous guide.
 
 > 📝 **Please Note, we assume you have completed the [Configure Apps to use Application Insights](https://stackedit.io/08-configure-apps-to-use-application-insights/README.md) guide and have a working Application Insights service that can be used by this Azure Function App.**
 
 > 📝 **Please Note, we assume you have completed the [Build and Deploy Azure Functions](https://stackedit.io/13-build-deploy-azure-functions/README.md) guide and have a working Azure Function App that retrieves petStoreCurrentSessionTelemetry.**
 
+Head over to https://powerapps.microsoft.com/ and sign in and selct the Home icon from the left navigation.
 
 You should see the following:
   
 ![](images/pa1.png)
 
+Before we create our Power App Canvas App, we are going to configure our Custom Data Connector. (It is possible to create the connectors at any point in time, for the sake of this guide, I decided to get the data integration implemented first)
+
+Select Custom Connectors and then Select New custom connector (Create from blank)
+
 You should see the following:
   
 ![](images/pa2.png)
 
+Give your Connector a name (I'm using "Azure Pet Store Functions", this is the name of your app and how it will appear to your users.) And select "Continue"
+
 You should see the following:
   
 ![](images/pa3.png)
+
 
 You should see the following:
   
