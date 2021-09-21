@@ -9,7 +9,7 @@ In this section we'll look at how to develop an Azure Function App with Java and
 
 Azure Functions is a serverless solution that allows you to write less code, maintain less infrastructure, and save on costs. Instead of worrying about deploying and maintaining servers, the cloud infrastructure provides all the up-to-date resources needed to keep your applications running. In this guide we will build an Azure function to pull/transform data to be used by other components within the Azure Pet Store.
 
-We will add a method called getApplicationInsightsTelemetry that pulls ApplicationInsights Telemetry and transforms/reduces it to data that a Power App can consume. We will build this method to consume data based in a time interval passed to it. Think of this as a reverse proxy method that we can expose without revealing the underlying Application Insights Source Credentials to downstream systems. We can also do other business logic like ETL in this case, anything you want to do with the data/data aggregation/transformation can be implemented here.
+We will add a method called getApplicationInsightsTelemetry that pulls ApplicationInsights Telemetry and transforms/reduces it to data that a Power App can consume (or any other process/app for that matter). We will build this method to consume data based in a time interval passed to it. Think of this as a reverse proxy method that we can expose without revealing the underlying Application Insights Source Credentials to downstream systems. We can also do other business logic like ETL in this case, anything you want to do with the data/data aggregation/transformation can be implemented here.
 
 > 📝 **Please Note, we assume you have completed the  [Configure Apps to use Application Insights](https://stackedit.io/08-configure-apps-to-use-application-insights/README.md)  guides and have a working Application Insights service that can be used by this Azure Function App.**
 
@@ -279,13 +279,15 @@ public class Function {
 
 This method will invoke the  [Application Insights REST API](https://dev.applicationinsights.io/) to pull the latest Telemetry and transform it to ensure it is ready for the Power App that we build in a later guide.
 
+**📝 Please Note,  Lines 117-121 were added as a security mechanism since this Azure Function is publicly available to the outside world. I wanted to ensute that apiKey is passed into the function as well to ensure it can in fact be invoked from the consumer.**
+
 When running your Function App locally you will now want to pass parameters to the Docker container containing the App Id and the App Key. (I've externalized as these are sensitive).
  
    ```
   mvn clean package
   docker build -t petstorefunctions .
   docker run -p 8080:80 -e apiKey=<your apiKey> -e appId=<your appId> -it petstorefunctions:latest
-  curl http://localhost:8080/api/petStoreCurrentSessionTelemetry?minsAgo=5m
+  curl http://localhost:8080/api/petStoreCurrentSessionTelemetry?minsAgo=5m&apiKey=<yourapiKeyHere>
   ```
 
 Once you hit the petStoreCurrentSessionTelemetry Function, you should see a list of Browser sessions (unique Browser Tabs/Users) Along with the page request counts in the last "minsAgo".
@@ -351,7 +353,7 @@ You should see the following:
 ![](images/fa8.png)
    
 ```
-  curl https://azurepetstorefunctions.azurewebsites.net/api/petStoreCurrentSessionTelemetry?minsAgo=5m
+  curl https://azurepetstorefunctions.azurewebsites.net/api/petStoreCurrentSessionTelemetry?minsAgo=5m&apiKey=<yourapiKeyHere>
   
   ```
 
