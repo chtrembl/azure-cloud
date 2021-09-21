@@ -80,9 +80,10 @@ public class Function {
 					sessionBrowser = "safari";
 				} else if (sessionBrowser.contains("firefox")) {
 					sessionBrowser = "firefox";
-				}
-				if (sessionBrowser.contains("opera")) {
+				} else if (sessionBrowser.contains("opera")) {
 					sessionBrowser = "opera";
+				} else {
+					sessionBrowser = "unknown";
 				}
 
 				String sessionState = ((ArrayNode) jsonNode).get(2).toString().replace("\"", "").trim();
