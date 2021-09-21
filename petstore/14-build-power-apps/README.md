@@ -4,9 +4,9 @@ __This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.
 
 In this section we'll look at how to develop an a Power App that consumes data from the Azure Function App that was built in the previous guide.
 
-> 📝 **Please Note, we assume you have completed the [Configure Apps to use Application Insights](https://stackedit.io/08-configure-apps-to-use-application-insights/README.md) guide and have a working Application Insights service that can be used by this Azure Function App.**
+> 📝 **Please Note, we assume you have completed the [Configure Apps to use Application Insights](../stackedit.io/08-configure-apps-to-use-application-insights/README.md) guide and have a working Application Insights service that can be used by this Azure Function App.**
 
-> 📝 **Please Note, we assume you have completed the [Build and Deploy Azure Functions](https://stackedit.io/13-build-deploy-azure-functions/README.md) guide and have a working Azure Function App that retrieves petStoreCurrentSessionTelemetry.**
+> 📝 **Please Note, we assume you have completed the [Build and Deploy Azure Functions](../13-build-deploy-azure-functions/README.md) guide and have a working Azure Function App that retrieves petStoreCurrentSessionTelemetry.**
 
 Head over to https://powerapps.microsoft.com/ and sign in and selct the Home icon from the left navigation.
 
