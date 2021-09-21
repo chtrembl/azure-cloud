@@ -218,6 +218,7 @@ public class Function {
 
 			Response transformedResponse = new Response();
 
+			// transform the sessionBrowser so the name can be easily loaded as an image within PowerApps
 			sessions.forEach(jsonNode -> {
 				String sessionId = ((ArrayNode) jsonNode).get(0).toString().replace("\"", "").trim();
 				String sessionBrowser = ((ArrayNode) jsonNode).get(1).toString().replace("\"", "").trim().toLowerCase();
@@ -353,9 +354,9 @@ You should see the following:
 ![](images/fa8.png)
    
 ```
-  curl https://azurepetstorefunctions.azurewebsites.net/api/petStoreCurrentSessionTelemetry?minsAgo=5m&apiKey=<yourapiKeyHere>
+curl https://azurepetstorefunctions.azurewebsites.net/api/petStoreCurrentSessionTelemetry?minsAgo=5m&apiKey=<yourapiKeyHere>
   
-  ```
+```
 
 ```json
 {"sessions":[{"sessionId":"B6164D2D5A676056AB8291CD447B6CB3","sessionBrowser":"unknown","sessionState":"Virginia","sessionPageHits":1}],"sessionCount":1}
