@@ -261,9 +261,13 @@ You can then make it a little more informative by showing the browser icon of th
 There are images for the common browsers
 
 https://github.com/chtrembl/azure-cloud/blob/main/petstore/14-build-power-apps/images/chrome.png
+
 https://github.com/chtrembl/azure-cloud/blob/main/petstore/14-build-power-apps/images/edge.png
+
 https://github.com/chtrembl/azure-cloud/blob/main/petstore/14-build-power-apps/images/firefox.png
+
 https://github.com/chtrembl/azure-cloud/blob/main/petstore/14-build-power-apps/images/opera.png
+
 https://github.com/chtrembl/azure-cloud/blob/main/petstore/14-build-power-apps/images/safari.png
 
 You can update the f(x) to dynamically load the image for each Verical Gallery row. (As long as you have added these images to your Canvas Power App, just like you did with the header image, they will be available to use)
