@@ -238,15 +238,19 @@ You should see the following:
   
 ![](images/pa23.png)
 
-Last but not least let's add a Vertical Gallery to display our Session Hits.
+Last but not least let's add a Vertical Gallery to display our Session Hits. Select Gallery and locate your Data Source (This will be the userSessions variable that our Excel like formula has created for us)
 
 You should see the following:
   
 ![](images/pa24.png)
 
+Position your Gallery as you like and update the Fields to dynamically present each record from our userSessions collection (JSON Function App Response) For image I am using "unknown-person" and for the labels I am displaying sessionId and sessionPageHits. You can add/remove more fields/labels as you like.
+
 You should see the following:
   
 ![](images/pa25.png)
+
+Test this out to see if its working (hold alt and click the button)
 
 You should see the following:
   
