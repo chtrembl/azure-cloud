@@ -66,6 +66,10 @@ You should see the following:
   
 ![](images/pa9.png)
 
+You should see the following:
+  
+![](images/pa10.png)
+
 Paste in your response Body and select "Import".
 
 ```json
@@ -105,10 +109,6 @@ Paste in your response Body and select "Import".
    "sessionCount":5
 }
 ```
-
-You should see the following:
-  
-![](images/pa10.png)
 
 You will notice all of the field keys from our JSON response that will now be available from our Canvas Power App.
 
