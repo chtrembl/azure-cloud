@@ -60,7 +60,7 @@ You should see the following:
   
 ![](images/pa8.png)
 
-Lets now change the Response Body, this is where we can inform our Custom Connector on what data to interpret/consume after invoking the Azure Function App. Select + Import From Sample. Just as we did with the Request, we can paste in a sample response. 
+Let's now change the Response Body, this is where we can inform our Custom Connector on what data to interpret/consume after invoking the Azure Function App. Select + Import From Sample. Just as we did with the Request, we can paste in a sample response. 
 
 You should see the following:
   
@@ -183,9 +183,20 @@ You should see the following:
   
 ![](images/pa17.png)
 
+If you click the Connector is will prompt you to Allow for access.
+
 You should see the following:
   
 ![](images/pa18.png)
+
+Let's go ahead and select the Button component and one will get automagically added to our canvas. Under the f(x) we can add an Excel like formula to push/pull data from our Connector. Lets go ahead and add the following:
+
+```
+UpdateContext({sessionsResponse:AzurePetStoreFunctions.CurrentSessionTelemetry({minsAgo:"30m"})});
+ClearCollect(userSessions,sessionsResponse.sessions);
+UpdateContext({sessionCount:sessionsResponse.sessionCount});
+```
+This will set some variables for us. It will set a variable called "sessionsResponse" that has the json response from our  CurrentSessionTelemetry Operation belonging to our AzurePetStoreFunctions Connector. We can also pass in request arguments (if we do not want to use the default's). This will also set a variable for us called userSessions and sessionCount, both with values corresponding to their respective json values.
 
 You should see the following:
   
