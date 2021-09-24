@@ -86,9 +86,9 @@ Prerequisites and environment setup (Optionaly you can build/deploy locally)
 
    Build and Deploy Azure Functions
 
-## [14 - Build a Power App that uses a Custom Connector to Pull Data](14-build-power-apps)
+## [14 - Build a Canva Power App that uses a Custom Connector to Pull Data](14-build-power-apps)
 
-    Build a Power App that uses a Custom Connector to Pull Data
+    Build a Canvas Power App that uses a Custom Connector to Pull Data
 
 ---
 
