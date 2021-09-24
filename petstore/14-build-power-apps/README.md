@@ -116,13 +116,20 @@ You should see the following:
   
 ![](images/pa11.png)
 
+Select the Code (Preview)
+The defaults are fine here, we will not be doing any custom transformations as we did that within the Function App.
+
 You should see the following:
   
 ![](images/pa12.png)
 
+Select Test
+
 You should see the following:
   
 ![](images/pa13.png)
+
+Select Create Connector
 
 You should see the following:
   
