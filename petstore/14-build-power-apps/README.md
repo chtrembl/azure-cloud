@@ -1,4 +1,4 @@
-# 14 - Build a Power App that uses a Custom Connector to Pull Data
+# 14 - Build a Canvas Power App that uses a Custom Connector to Pull Data
 
 __This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)__
 
