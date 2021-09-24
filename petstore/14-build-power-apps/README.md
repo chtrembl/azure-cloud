@@ -60,13 +60,57 @@ You should see the following:
   
 ![](images/pa8.png)
 
+Lets now change the Response Body, this is where we can inform our Custom Connector on what data to interpret/consume after invoking the Azure Function App. Select + Import From Sample. Just as we did with the Request, we can paste in a sample response. 
+
 You should see the following:
   
 ![](images/pa9.png)
 
+Paste in your response Body and select "Import".
+
+```json
+{
+   "sessions":[
+      {
+         "sessionId":"46F7644822E91895B064B832B1FE5066",
+         "sessionBrowser":"safari",
+         "sessionState":"Virginia",
+         "sessionPageHits":3
+      },
+      {
+         "sessionId":"2C0D4891181DABD6347F2261582CEE43",
+         "sessionBrowser":"chrome",
+         "sessionState":"Virginia",
+         "sessionPageHits":1
+      },
+      {
+         "sessionId":"7CE74D2DA51F322E1BA1FC9CD24A1859",
+         "sessionBrowser":"chrome",
+         "sessionState":"Virginia",
+         "sessionPageHits":1
+      },
+      {
+         "sessionId":"E7F48A5A8A161440FDAFA273A428A059",
+         "sessionBrowser":"edge",
+         "sessionState":"Virginia",
+         "sessionPageHits":1
+      },
+      {
+         "sessionId":"8CE30D0C168E810962AC983CFC36AB95",
+         "sessionBrowser":"firefox",
+         "sessionState":"Virginia",
+         "sessionPageHits":1
+      }
+   ],
+   "sessionCount":5
+}
+```
+
 You should see the following:
   
 ![](images/pa10.png)
+
+You will notice all of the field keys from our JSON response that will now be available from our Canvas Power App.
 
 You should see the following:
   
