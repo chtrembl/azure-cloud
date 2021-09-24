@@ -159,18 +159,25 @@ You should see the following:
   
 ![](images/pa13_5.png)
 
+Let''s now build our Canvas Power App. From the left navigation select Apps followed by + New app > Canvas
 
 You should see the following:
   
 ![](images/pa14.png)
 
+Give your Canvas app a name, and select Tablet or Phone. and Create. I'm using Phone.
+
 You should see the following:
   
 ![](images/pa15.png)
 
+Before we do any visual design, let's add our data source (remember we are getting our data from our Connection to our Custom Connector) Select the data icon and Add data, locate your Connector and select it.
+
 You should see the following:
   
 ![](images/pa16.png)
+
+It should now be present and usable. We will verify that shortly.
 
 You should see the following:
   
