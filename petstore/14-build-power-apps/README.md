@@ -123,17 +123,19 @@ You should see the following:
   
 ![](images/pa12.png)
 
-Select Test
+Select Test (Before we Test we will need to create the connector, which is the integration needed by our Canvas Power App to communicate with our Custom Connector)
 
 You should see the following:
   
 ![](images/pa13.png)
 
-Select Create Connector
+Select Create Connector and give it a name.
 
 You should see the following:
   
 ![](images/pa13_1.png)
+
+Select Update Connector
 
 You should see the following:
   
