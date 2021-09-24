@@ -88,7 +88,7 @@ Prerequisites and environment setup (Optionaly you can build/deploy locally)
 
 ## [14 - Build a Canva Power App that uses a Custom Connector to Pull Data](14-build-power-apps)
 
-    Build a Canvas Power App that uses a Custom Connector to Pull Data
+   Build a Canvas Power App that uses a Custom Connector to Pull Data
 
 ---
 
