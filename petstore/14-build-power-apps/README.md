@@ -272,7 +272,7 @@ You can update the f(x) to dynamically load the image for each Verical Gallery r
 
 If(ThisItem.sessionBrowser="firefox", firefox, ThisItem.sessionBrowser="chrome", chrome, ThisItem.sessionBrowser="safari", safari, ThisItem.sessionBrowser="opera", opera, ThisItem.sessionBrowser="unknown", 'unknown-person')
 
-``
+```
 You should see the following:
   
 ![](images/pa26_1.png)
