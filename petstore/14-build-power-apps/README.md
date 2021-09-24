@@ -141,15 +141,19 @@ You should see the following:
   
 ![](images/pa13_2.png)
 
-Head back to the Left Navigation and Select Connections to view your new Connection
+Head back to the Left Navigation and Select Connections to view your new Connection.
+
 You should see the following:
   
 ![](images/pa13_3.png)
 
-This is where you can Administer your connector. Perhaps you will need to make request/response changes over time etc...
+This is where you can Administer your connector. Perhaps you will need to make request/response changes over time etc... You can Test your Connections from here. Let's go ahead and click the Pencil to Edit/Test.
+
 You should see the following:
   
 ![](images/pa13_4.png)
+
+Update Request Parameters to your Operation as needed and select "Test Operation" You should see the HTTP Response to your Azure Function App.
 
 You should see the following:
   
