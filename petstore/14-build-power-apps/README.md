@@ -221,19 +221,24 @@ You should see the following:
 
 Add a Text Label on top of the circle. This will contain our dynamic count for us, design it as you like. 
 
-Select the f(x) and set the Excel like formula to 
+Select the f(x) and remove the default and set the Excel like formula to 
 
 ```
 sessionCount
 ```
+After clicking the button (hold alt and click) you should see the count.
 
 You should see the following:
   
 ![](images/pa22.png)
 
+Add another Text Label for "Live Users" and design it as you like.
+
 You should see the following:
   
 ![](images/pa23.png)
+
+Last but not least let's add a Vertical Gallery to display our Session Hits.
 
 You should see the following:
   
