@@ -256,9 +256,28 @@ You should see the following:
   
 ![](images/pa26.png)
 
+You can then make it a little more informative by showing the browser icon of the session hit along with the location etc... You can design this however you want!  You can even dynamically load the images based on browser (These are fields in the Custom Connector HTTP JSON Response). 
+
+There are images for the common browsers
+
+https://github.com/chtrembl/azure-cloud/blob/main/petstore/14-build-power-apps/images/chrome.png
+https://github.com/chtrembl/azure-cloud/blob/main/petstore/14-build-power-apps/images/edge.png
+https://github.com/chtrembl/azure-cloud/blob/main/petstore/14-build-power-apps/images/firefox.png
+https://github.com/chtrembl/azure-cloud/blob/main/petstore/14-build-power-apps/images/opera.png
+https://github.com/chtrembl/azure-cloud/blob/main/petstore/14-build-power-apps/images/safari.png
+
+You can update the f(x) to dynamically load the image for each Verical Gallery row. (As long as you have added these images to your Canvas Power App, just like you did with the header image, they will be available to use)
+
+```
+
+If(ThisItem.sessionBrowser="firefox", firefox, ThisItem.sessionBrowser="chrome", chrome, ThisItem.sessionBrowser="safari", safari, ThisItem.sessionBrowser="opera", opera, ThisItem.sessionBrowser="unknown", 'unknown-person')
+
+``
 You should see the following:
   
 ![](images/pa26_1.png)
+
+Now you are ready to Test your Canvas Power App by hitting Play!
 
 You should see the following:
   
