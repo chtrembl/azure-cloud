@@ -189,7 +189,7 @@ You should see the following:
   
 ![](images/pa18.png)
 
-Let's go ahead and select the Button component and one will get automagically added to our canvas. Under the f(x) we can add an Excel like formula to push/pull data from our Connector. Lets go ahead and add the following:
+Back in our Canvas App Design, let's go ahead and select the Button component and one will get automagically added to our canvas. Under the f(x) we can add an Excel like formula to push/pull data from our Connector. Lets go ahead and add the following:
 
 ```
 UpdateContext({sessionsResponse:AzurePetStoreFunctions.CurrentSessionTelemetry({minsAgo:"30m"})});
@@ -202,17 +202,30 @@ You should see the following:
   
 ![](images/pa18_1.png)
 
+Let's ensure that on button click (You can click the button while holding the alt button to Test your app from Design view) is pulling data. Select View > Collections, the JSON data should be appearing here.
+
 You should see the following:
   
 ![](images/pa19.png)
 
+Now let's make this UI a bit more presentable. Select Image and locate an image from disk, I am using https://github.com/chtrembl/azure-cloud/blob/main/petstore/14-build-power-apps/images/header.png for my Header.
 You should see the following:
   
 ![](images/pa20.png)
 
+To display the current Live User Count from https://azurepetstore.com I've decided to display that count total (remember we have the "sessionCount" variable containing this) inside a circle. Select Shapes > Circle and center and design as you like. 
+
 You should see the following:
   
 ![](images/pa21.png)
+
+Add a Text Label on top of the circle. This will contain our dynamic count for us, design it as you like. 
+
+Select the f(x) and set the Excel like formula to 
+
+```
+sessionCount
+```
 
 You should see the following:
   
