@@ -16,6 +16,9 @@ spring:
 azure:
     application-insights:
       instrumentation-key: ${PETSTORESERVICE_AI_INSTRUMENTATION_KEY}
+      web:
+        enable-W3C: true
+        enable-W3C-backcompat-mode: true
 
 management:
   endpoints:

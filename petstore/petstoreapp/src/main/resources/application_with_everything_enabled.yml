@@ -23,6 +23,9 @@ azure:
         password-reset: B2C_1_passwordreset
   application-insights:
       instrumentation-key: ${PETSTOREAPP_AI_INSTRUMENTATION_KEY}
+      web:
+        enable-W3C: true
+        enable-W3C-backcompat-mode: true
 management:
   endpoints:
     web:
