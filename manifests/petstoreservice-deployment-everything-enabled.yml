@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: petstoreservice
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: petstoreservice
@@ -19,11 +19,11 @@ spec:
         image: azurepetstorecr.azurecr.io/petstoreservice
         resources:
           requests:
-            cpu: 100m
-            memory: 128Mi
-          limits:
             cpu: 250m
-            memory: 256Mi
+            memory: 1Gi
+          limits:
+            cpu: 500m
+            memory: 2Gi
         ports:
         - containerPort: 8080
         env:
@@ -36,3 +36,16 @@ spec:
               secretKeyRef:
                 name: aisecretkey
                 key: secret
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: petstoreservice-hpa
+spec:
+  maxReplicas: 12 # define max replica count
+  minReplicas: 3  # define min replica count
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: petstoreservice
+  targetCPUUtilizationPercentage: 80 # target CPU utilization
