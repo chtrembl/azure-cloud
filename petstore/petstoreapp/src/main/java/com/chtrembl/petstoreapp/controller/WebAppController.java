@@ -56,9 +56,10 @@ public class WebAppController {
 			// this should really be done in the authentication/pre auth flow....
 			this.sessionUser.setName((String) user.getAttributes().get("name"));
 
-			this.sessionUser.getTelemetryClient()
-					.trackEvent(String.format("PetStoreApp %s logged in, container host: %s",
-							this.sessionUser.getName(), this.containerEnvironment.getContainerHostName()));
+			this.sessionUser.getTelemetryClient().trackEvent(
+					String.format("PetStoreApp %s logged in, container host: %s", this.sessionUser.getName(),
+							this.containerEnvironment.getContainerHostName()),
+					this.sessionUser.getCustomEventProperties(), null);
 
 			model.addAttribute("user", this.sessionUser.getName());
 			model.addAttribute("grant_type", user.getAuthorities());

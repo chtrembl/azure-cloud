@@ -1,7 +1,9 @@
 package com.chtrembl.petstoreapp.model;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -29,6 +31,9 @@ public class User implements Serializable {
 
 	@Autowired(required = false)
 	private transient TelemetryClient telemetryClient;
+
+	@Autowired
+	private ContainerEnvironment containerEnvironment;
 
 	@PostConstruct
 	private void initialize() {
@@ -63,5 +68,14 @@ public class User implements Serializable {
 
 	public synchronized void setPets(List<Pet> pets) {
 		this.pets = pets;
+	}
+
+	public Map<String, String> getCustomEventProperties() {
+		Map<String, String> properties = new HashMap<String, String>();
+		properties.put("session_Id", this.sessionId);
+		properties.put("containerHostName", this.containerEnvironment.getAppDate());
+		properties.put("containerHostName", this.containerEnvironment.getAppVersion());
+		properties.put("containerHostName", this.containerEnvironment.getContainerHostName());
+		return properties;
 	}
 }
