@@ -41,8 +41,9 @@ public class PetStoreServiceImpl implements PetStoreService {
 	public Collection<Pet> getPets(String category) {
 		List<Pet> pets = new ArrayList<Pet>();
 
-		this.sessionUser.getTelemetryClient().trackEvent(String.format(
-				"PetStoreApp %s is requesting to retrieve pets from the PetStoreService", this.sessionUser.getName()));
+		this.sessionUser.getTelemetryClient()
+				.trackEvent(String.format("PetStoreApp %s is requesting to retrieve pets from the PetStoreService",
+						this.sessionUser.getName()), this.sessionUser.getCustomEventProperties(), null);
 		try {
 			pets = this.webClient.get().uri("/v2/pet/findByStatus?status={status}", "available")
 					.header("session-id", this.sessionUser.getSessionId()).accept(MediaType.APPLICATION_JSON)

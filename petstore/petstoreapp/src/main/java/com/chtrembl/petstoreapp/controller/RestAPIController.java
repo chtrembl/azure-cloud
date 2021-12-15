@@ -20,8 +20,9 @@ public class RestAPIController {
 	@GetMapping("/api/contactus")
 	public String contactus() {
 
-		this.sessionUser.getTelemetryClient()
-				.trackEvent(String.format("user %s requesting Contact Us", this.sessionUser.getName()));
+		this.sessionUser.getTelemetryClient().trackEvent(
+				String.format("user %s requesting Contact Us", this.sessionUser.getName()),
+				this.sessionUser.getCustomEventProperties(), null);
 
 		return "Please contact Azure PetStore at 401-555-5555. Thank you. Demo 6/13";
 	}
