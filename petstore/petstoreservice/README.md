@@ -6,7 +6,7 @@ Build Spring Boot Jar and Docker Image
 
 ```docker build -t petstorservice .```
 
-Run Docker Image
+Run Docker Image, Note this example instructs Spring Boot to run on port 8080 and hence forwards the port to the container accordingly. You are welcome to change this as needed.
 
 ```docker run -p 8080:8080 -e PETSTORESERVICE_SERVER_PORT=8080 petstoreservice:latest```
 
