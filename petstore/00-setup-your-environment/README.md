@@ -4,9 +4,7 @@
 
 __This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)__
 
-In this section, we'll begin to set up your environment both for local development and for Azure.
-
-> 📝 Please note, if you're not interested in building/deploying locally, you can certainly skip ahead and leverage Azure DevOps Pipelines and GitHub Actions to do the build & deploys for you. Once you complete the step of Deploying to Azure below (**Creating Azure Resources**), you can jump head to [03-configure-app-service-for-cd](../03-configure-app-service-for-cd/README.md)
+In this section, we'll begin to set up your environment both for local development (Optional) and for Azure.
 
 ---
 
@@ -115,16 +113,8 @@ If you head over to your Azure Resource Group (once completed) You should see so
 
 ![](images/deployment2.png)
 
-> 📝 Please note, if your not interested in building/deploying locally, you can certainly skip ahead and leverage Azure DevOps Pipelines and GitHub Actions to do the build & deploys for you. Once you complete the first step of Deploying to Azure above, you can jump head to [03-configure-app-service-for-cd](../03-configure-app-service-for-cd/README.md)
-
-## Prerequisites (Local development only if you wish to build the Docker images locally)
-
-Thus guide assumes you have Docker installed on your machine. Until we setup your Azure Pipeline & GitHub Action, we can use Docker and Azure CLI, locally, to build and push both the PetStoreApp and PetStoreService Docker Images into Azure Container Registry. We will also do other things like Administer our Azure Kubernetes Cluster.
-  
- - Install Docker Desktop from the following https://docs.docker.com/get-docker and ensure you can run Docker from your command line.
- 
- - Install Azure CLI from the following https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?tabs=azure-cli and ensure you can run AZ from your command line.
-
 ---
+
+> 📝 Please note, if your not interested in building/deploying locally, you can certainly skip ahead and leverage Azure DevOps Pipelines and GitHub Actions to do the build & deploys for you and you can safely jump head to [03-configure-app-service-for-cd](../03-configure-app-service-for-cd/README.md) otherwise please continue to the next guide.
 
 ➡️ Next guide: [01 - Build the Docker Images](../01-build-the-docker-images/README.md)
