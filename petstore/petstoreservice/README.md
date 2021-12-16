@@ -2,11 +2,13 @@ PetStoreService is the Back End Java Spring Boot Web Service used in the Azure P
 
 You are also welcome to build/deploy it outside if the Azure Pet Store Reference Guide.
 
-```mvn clean package```
+Build Spring Boot Jar and Docker Image
 
 ```docker build -t petstorservice .```
 
-```docker run -p 8080:8080 -e PETSTORESERVICE_SERVER_PORT=8080 -e PETSTORESERVICE_AI_INSTRUMENTATION_KEY= petstoreservice:latest```
+Run Docker Image, Note this example instructs Spring Boot to run on port 8080 and hence forwards the port to the container accordingly. You are welcome to change this as needed.
+
+```docker run -p 8080:8080 -e PETSTORESERVICE_SERVER_PORT=8080 petstoreservice:latest```
 
 Other optional aruments that you can specify to do certain things that get covered int the Azure Pet Store Reference Guide(s) like:
 
