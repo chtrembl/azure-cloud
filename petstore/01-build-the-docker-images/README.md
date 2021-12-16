@@ -93,7 +93,6 @@ Lets now test our Pet Store Application
 
 run the following command
 
-```
 >``` 📝 Please Note, This will instruct Docker to start a running container with the following petstoreapp:latest image, forwarding port 8080 to the Spring Boot App running on 8080 (default Spring Boot Port). The PETSTOREAPP_SERVER_PORT is one of several environment variables that we will introduce over the course of these guides. You may have noticed that we are also injecting a PETSTORESERVICE_URL property without an actual service yet. I am doing this because we will tie the two running apps together in Step 3 below so its nice to keep this property available to ensure we are able to inject real values.
 
 >``` 📝 Please Note, make sure you use your PetStoreService ipaddress instead of 172.19.0.2:8081
@@ -108,7 +107,7 @@ You should see something similar to the below image:
 
 > 📝 Please Note,the footer of this application contains meta data that will be useful as we progress through the guides. Things like container id (useful for understanding containers at scale), CI/CD dates/version, Session Id for N-Tier Correlated Telemetry with Application Insights. We will also integrate our products with the Pet Store Service and allow for external user authentication via B2C.
 
-Noq test that the PetStoreApp can communicate with the PetStoreService
+Now test that the PetStoreApp can communicate with the PetStoreService
 
 Click on Dog Breeds or head to http://localhost:8080/dogbreeds?category=Dog
 
