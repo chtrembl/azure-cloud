@@ -117,18 +117,13 @@ If you head over to your Azure Resource Group (once completed) You should see so
 
 > 📝 Please note, if your not interested in building/deploying locally, you can certainly skip ahead and leverage Azure DevOps Pipelines and GitHub Actions to do the build & deploys for you. Once you complete the first step of Deploying to Azure above, you can jump head to [03-configure-app-service-for-cd](../03-configure-app-service-for-cd/README.md)
 
-## Prerequisites (Local Development Only)
+## Prerequisites (Local development only if you wish to build the Docker images locally)
 
-Thus guide assumes you have Java JDK, Maven, Docker Desktop and Azure CLI installed on your machine. Until we setup your Azure Pipeline & GitHub Action, we will use Maven, Docker and Azure CLI, locally, to build and push both the PetStoreApp and PetStoreService Docker Images into Azure Container Registry. We will do other things like Administer our Azure Kubernetes Cluster.
-
- - Install Java JDK 13 or higher using the guide from the following https://examples.javacodegeeks.com/download-and-install-java-development-kit-jdk-13/
-
- - Install Maven using the following guide from https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html
+Thus guide assumes you have Docker installed on your machine. Until we setup your Azure Pipeline & GitHub Action, we can use Docker and Azure CLI, locally, to build and push both the PetStoreApp and PetStoreService Docker Images into Azure Container Registry. We will also do other things like Administer our Azure Kubernetes Cluster.
   
- - Install Docker Desktop from the following https://www.docker.com/products/docker-desktop and ensure you can run Docker from your command line.
+ - Install Docker Desktop from the following https://docs.docker.com/get-docker and ensure you can run Docker from your command line.
  
  - Install Azure CLI from the following https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?tabs=azure-cli and ensure you can run AZ from your command line.
-
 
 ---
 
