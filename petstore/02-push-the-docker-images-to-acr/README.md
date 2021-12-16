@@ -14,11 +14,13 @@ Thus guide assumes you have Docker installed on your machine and the Azure CLI. 
 
 ---
 
-**1. Push the Pet Store App Docker Image to Azure Container Registry**
-
 > 📝 Please Note, Since the Docker Images were built in the previous guide, we can run from any path on the terminal. But if you prefer, or if you plan to build more images, cd to azure-cloud/petstore/petstoreapp azure-cloud/petstore/petstoreservice accordingly  
 
 > 📝 Please Note, We will assume you have forked the azure-cloud repository, it is the easiest way to get going (for instructions on this view the "**Forking the azure-cloud**" section in [00-setup-your-environment](../00-setup-your-environment/README.md). Also, both PetStoreApp and PetStoreService use a Spring Boot Application properties file named application.yml to drive the functionality/configuration of these applications which is located in src/main/resources/application.yml of both projects. By default, this file has all of the properties that are needed throughout the guides, and by default are commented out. This means that the applications will start automatically without having to configure anything. As you progress through the guides, each guide will inform you of what properties to uncomment and configure within your environment. If you have not already done so, login to your GitHub account, head to https://github.com/chtrembl/azure-cloud, and fork.
+
+--- 
+
+**1. Push the Pet Store App Docker Image to Azure Container Registry**
 
 run the following commands:
 
