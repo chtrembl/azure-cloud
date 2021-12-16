@@ -1,4 +1,4 @@
-# 01 - Build the Docker Images (Local Development Only, Only requirement is for Docker to be installed)
+# 01 - Build the Docker Images (For Local Development, only requirement is for Docker to be installed.)
 __This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)__
 
 In this section, we'll build the Docker Images and run them locally
