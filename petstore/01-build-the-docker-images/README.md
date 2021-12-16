@@ -91,11 +91,11 @@ run the following command and capture the ip address that is displayed, for exam
 
 Lets now test our Pet Store Application
 
-run the following command
-
 > 📝 Please Note, This will instruct Docker to start a running container with the following petstoreapp:latest image, forwarding port 8080 to the Spring Boot App running on 8080 (default Spring Boot Port). The PETSTOREAPP_SERVER_PORT is one of several environment variables that we will introduce over the course of these guides. You may have noticed that we are also injecting a PETSTORESERVICE_URL property without an actual service yet. I am doing this because we will tie the two running apps together in Step 3 below so its nice to keep this property available to ensure we are able to inject real values.
 
 > 📝 Please Note, make sure you use your PetStoreService ipaddress instead of 172.19.0.2:8081
+
+run the following command
 
 ```docker run --rm --net petstorebridge --name petstoreapp -p 8080:8080 -e PETSTOREAPP_SERVER_PORT=8080 -e PETSTORESERVICE_URL=http://172.19.0.2:8081 -d petstoreapp:latest```
 
