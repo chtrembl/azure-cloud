@@ -98,9 +98,7 @@ run the following command
 
 >``` 📝 Please Note, make sure you use your PetStoreService ipaddress instead of 172.19.0.2:8081
 
-```docker run --rm --net petstorebridge --name petstoreapp -p 8080:8080 -e PETSTOREAPP_SERVER_PORT=8080 -e PETSTORESERVICE_URL=http://172.19.0.2:8081 -d petstoreapp:latest 
-
-```
+```docker run --rm --net petstorebridge --name petstoreapp -p 8080:8080 -e PETSTOREAPP_SERVER_PORT=8080 -e PETSTORESERVICE_URL=http://172.19.0.2:8081 -d petstoreapp:latest```
 
 Open a browser and head to http://localhost:8080
 
