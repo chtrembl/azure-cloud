@@ -1,6 +1,8 @@
-# 02 - Push the Docker Images to Azure Container Registy (For local development only using Docker in Linux containers mode and Azure CLI)
+# 02 - Push the Docker Images to Azure Container Registy (OPTIONAL and for local development only using Docker in Linux containers mode and Azure CLI)
 
 __This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)__
+
+> 📝 Please note, this guide is optional and is useful for pushing local Docker images to Azure Container Registry, you can certainly skip ahead and leverage Azure DevOps Pipelines and GitHub Actions to do the build & deploys for you and you can safely jump head to [03-configure-app-service-for-cd](../03-configure-app-service-for-cd/README.md) otherwise please continue to the next guide.
 
 In this section, we'll push the Docker Images to Azure Container Registy
 
@@ -11,8 +13,6 @@ Thus guide assumes you have Docker installed on your machine and the Azure CLI. 
  - Install Docker Desktop from the following https://docs.docker.com/get-docker and ensure you can run Docker from your command line.
  
  - Install Azure CLI from the following https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?tabs=azure-cli and ensure you can run AZ from your command line.
-
----
 
 > 📝 Please Note, Since the Docker Images were built in the previous guide, we can run from any path on the terminal. But if you prefer, or if you plan to build more images, cd to azure-cloud/petstore/petstoreapp azure-cloud/petstore/petstoreservice accordingly  
 
