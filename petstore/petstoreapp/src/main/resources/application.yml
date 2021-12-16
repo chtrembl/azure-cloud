@@ -1,13 +1,13 @@
 #logging:
 #  level:
 #    org.springframework.security: DEBUG
-#petstore:
-  #service:
-    #url: ${PETSTORESERVICE_URL}
+petstore:
+  service:
+    url: ${PETSTORESERVICE_URL:http://localhost:8081}
     #subscription:
     #  key: ${PETSTORESERVICE_SUBSCRIPTION_KEY}
-#server:
-#  port: ${PETSTOREAPP_SERVER_PORT}
+server:
+  port: ${PETSTOREAPP_SERVER_PORT:8080}
 #azure:
 #  activedirectory:
 #    b2c:
