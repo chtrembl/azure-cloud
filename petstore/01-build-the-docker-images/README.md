@@ -39,7 +39,7 @@ Lets now test our Pet Store Application
 
 run the following command
 
-> 📝 Please Note, This will instruct Docker to start a running container with the following petstore:latest image, forwarding port 8080 to the Spring Boot App running on 8080 (default Spring Boot Port). The PETSTORESERVICE_SERVER_PORT is one of several environment variables that we will introduce over the course of these guidas.
+> 📝 Please Note, This will instruct Docker to start a running container with the following petstoreservice:latest image, forwarding port 8080 to the Spring Boot App running on 8080 (default Spring Boot Port). The PETSTORESERVICE_SERVER_PORT is one of several environment variables that we will introduce over the course of these guidas.
 
 ```docker run --rm --net petstorebridge --name petstoreservice -p 8081:8081 -e PETSTORESERVICE_SERVER_PORT=8081 -d petstoreservice:latest```
 
