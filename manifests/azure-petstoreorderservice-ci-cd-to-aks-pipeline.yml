@@ -8,7 +8,7 @@ trigger:
     - main
   paths:
     include:
-    - petstore/petstoreproductservice/*
+    - petstore/petstoreorderservice/*
 
 resources:
 - repo: self
@@ -17,9 +17,9 @@ variables:
 
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '2f7c9697-f237-4d5b-994d-4228eed03f32'
-  imageRepository: 'petstoreproductservice'
+  imageRepository: 'petstoreorderservice'
   containerRegistry: 'azurepetstorecr.azurecr.io'
-  dockerfilePath: 'petstore/petstoreproductservice/Dockerfile'
+  dockerfilePath: 'petstore/petstoreorderservice/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: '$(crImagePullSecretGlobal)'
 
@@ -41,19 +41,19 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-    - script: echo -n -e "{\"version\":\"$(Build.BuildNumber) - $(tag)\"}" > petstore/petstoreproductservice/src/main/resources/version.json
+    - script: echo -n -e "{\"version\":\"$(Build.BuildNumber) - $(tag)\"}" > petstore/petstoreorderservice/src/main/resources/version.json
 
     - task: Maven@3
       continueOnError: true 
       displayName: Build Spring Boot Jar
       inputs:
-        mavenPomFile: 'petstore/petstoreproductservice/pom.xml'
+        mavenPomFile: 'petstore/petstoreorderservice/pom.xml'
         mavenOptions: '-Xmx3072m'
         javaHomeOption: 'JDKVersion'
         jdkVersionOption: '8'
         jdkArchitectureOption: 'x64'
         publishJUnitResults: true
-        testResultsFiles: 'petstore/petstoreproductservice/target/surefire-reports/TEST-*.xml'
+        testResultsFiles: 'petstore/petstoreorderservice/target/surefire-reports/TEST-*.xml'
         codeCoverageToolOption: 'jaCoCo'
         goals: 'package'
     - task: Docker@2
@@ -99,8 +99,8 @@ stages:
               action: deploy
               kubernetesServiceConnection: azurepetstoreservices-akscluster-ingress-petstoreservices
               manifests: |
-                $(Pipeline.Workspace)/manifests/petstoreproductservice-deployment-everything-enabled.yml
-                $(Pipeline.Workspace)/manifests/petstoreproductservice-service-everything-enabled.yml
+                $(Pipeline.Workspace)/manifests/petstoreorderservice-deployment-everything-enabled.yml
+                $(Pipeline.Workspace)/manifests/petstoreorderservice-service-everything-enabled.yml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
