@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aks-petstoreorderservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: aks-petstoreorderservice
+  template:
+    metadata:
+      labels:
+        app: aks-petstoreorderservice
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: petstoreorderservice
+        image: azurepetstorecr.azurecr.io/petstoreorderservice:latest
+        resources:
+          requests:
+            cpu: 250m
+            memory: 1Gi
+          limits:
+            cpu: 500m
+            memory: 2Gi
+        ports:
+        - containerPort: 8080
+        env:
+          - name: PETSTOREORDERSERVICE_SERVER_PORT
+            value: "80"
+          - name: spring.config.name
+            value: application_with_everything_enabled
+          - name: PETSTORESERVICES_AI_INSTRUMENTATION_KEY
+            valueFrom:
+              secretKeyRef:
+                name: aisecretkey
+                key: secret
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: aks-petstoreorderservice-hpa
+spec:
+  maxReplicas: 4 # define max replica count
+  minReplicas: 1  # define min replica count
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: aks-petstoreorderservice
+  targetCPUUtilizationPercentage: 80 # target CPU utilization

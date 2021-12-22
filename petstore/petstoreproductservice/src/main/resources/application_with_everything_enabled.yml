@@ -4,18 +4,15 @@ springfoxdocumentation:
       path: /api-docs
       
 server:
-  port: ${PETSTORESERVICE_SERVER_PORT}
+  port: ${PETSTOREPRODUCTSERVICE_SERVER_PORT}
   
 spring:
-  jackson:
-     date-format: org.openapitools.RFC3339DateFormat
-     serialization.WRITE_DATES_AS_TIMESTAMPS: false
   application:
-    name: petstorepetservice
+    name: petstoreproductservice
 
 azure:
     application-insights:
-      instrumentation-key: ${PETSTORESERVICE_AI_INSTRUMENTATION_KEY}
+      instrumentation-key: ${PETSTORESERVICES_AI_INSTRUMENTATION_KEY}
       web:
         enable-W3C: true
         enable-W3C-backcompat-mode: true
