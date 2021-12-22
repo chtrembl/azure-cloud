@@ -52,7 +52,7 @@ public class StoreApiController implements StoreApi {
 		String password = "foobar";
 		log.info("incoming GET request to /v2/info");
 		ApiUtil.setResponse(request, "application/json",
-				"{ \"service\" : \"order\", \"version\" : \"" + containerEnvironment.getAppVersion()
+				"{ \"service\" : \"order service\", \"version\" : \"" + containerEnvironment.getAppVersion()
 						+ "\", \"container\" : \"" + containerEnvironment.getContainerHostName() + "\" }");
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
