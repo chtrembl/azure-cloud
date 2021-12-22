@@ -81,7 +81,7 @@ public class PetApiController implements PetApi {
 		String password = "foobar";
 		log.info("incoming GET request to /v2/info");
 		ApiUtil.setResponse(request, "application/json",
-				"{ \"service\" : \"pet\", \"version\" : \"" + containerEnvironment.getAppVersion()
+				"{ \"service\" : \"pet service\", \"version\" : \"" + containerEnvironment.getAppVersion()
 						+ "\", \"container\" : \"" + containerEnvironment.getContainerHostName() + "\" }");
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
