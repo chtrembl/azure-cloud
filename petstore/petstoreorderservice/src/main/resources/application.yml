@@ -1,0 +1,27 @@
+springfoxdocumentation:
+  swagger:
+    v2:
+      path: /api-docs
+      
+server:
+  port: ${PETSTOREORDERSERVICE_SERVER_PORT:8080}
+  
+spring:
+  application:
+    name: petstoreorderservice
+
+#azure:
+#    application-insights:
+#      instrumentation-key: ${PETSTORESERVICES_AI_INSTRUMENTATION_KEY}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"       
+  trace:
+    http:
+      enabled: true 
+  endpoint:
+    httptrace:
+      enabled: true

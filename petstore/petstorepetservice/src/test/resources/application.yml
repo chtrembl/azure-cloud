@@ -1,0 +1,23 @@
+springfoxdocumentation:
+  swagger:
+    v2:
+      path: /api-docs
+      
+server:
+  port: 8080
+  
+spring:
+  application:
+    name: petstorepetservice
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"       
+  trace:
+    http:
+      enabled: true 
+  endpoint:
+    httptrace:
+      enabled: true

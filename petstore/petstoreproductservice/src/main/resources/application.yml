@@ -1,0 +1,156 @@
+springfoxdocumentation:
+  swagger:
+    v2:
+      path: /api-docs
+      
+server:
+  port: ${PETSTOREPRODUCTSERVICE_SERVER_PORT:8080}
+  
+spring:
+  application:
+    name: petstoreproductservice
+
+#azure:
+#    application-insights:
+#      instrumentation-key: ${PETSTORESERVICES_AI_INSTRUMENTATION_KEY}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"       
+  trace:
+    http:
+      enabled: true 
+  endpoint:
+    httptrace:
+      enabled: true
+    
+data:
+  products:
+    - id: 1
+      category: 
+        id: 1
+        name: "Dog Toy"
+      name: "Ball"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-toys/ball.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "small"
+        - id: 2
+          name: "large"
+      status: "available"
+    - id: 2
+      category: 
+        id: 1
+        name: "Dog Toy"
+      name: "Ball Launcher"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-toys/ball-launcher.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "large"
+      status: "available"
+    - id: 3
+      category: 
+        id: 1
+        name: "Dog Toy"
+      name: "Plush Lamb"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-toys/plush-lamb.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "small"
+        - id: 2
+          name: "large"
+      status: "available"
+    - id: 4
+      category: 
+        id: 1
+        name: "Dog Toy"
+      name: "Plush Moose"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-toys/plush-moose.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "small"
+        - id: 2
+          name: "large"
+      status: "available"
+    - id: 5
+      category: 
+        id: 1
+        name: "Dog Food"
+      name: "Large Breed Dry Food"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-food/large-dog.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "large"
+      status: "available"
+    - id: 6
+      category: 
+        id: 1
+        name: "Dog Food"
+      name: "Small Breed Dry Food"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-food/small-dog.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "small"
+      status: "available"
+    - id: 6
+      category: 
+        id: 1
+        name: "Cat Toy"
+      name: "Mouse"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/cat-toys/mouse.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "small"
+        - id: 2
+          name: "large"
+      status: "available"
+    - id: 7
+      category: 
+        id: 1
+        name: "Cat Toy"
+      name: "Scratcher"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/cat-toys/scratcher.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "small"
+        - id: 2
+          name: "large"
+      status: "available"
+    - id: 8
+      category: 
+        id: 1
+        name: "Cat Food"
+      name: "All Sizes Cat Dry Food"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/cat-food/cat.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "small"
+        - id: 2
+          name: "large"
+      status: "available"
+    - id: 9
+      category: 
+        id: 1
+        name: "Fish Toy"
+      name: "Mangrove Ornament"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/fish-toys/mangrove.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "small"
+        - id: 2
+          name: "large"
+      status: "available"
+    - id: 8
+      category: 
+        id: 1
+        name: "Fish Food"
+      name: "All Sizes Fish Food"
+      photoURL: "https://raw.githubusercontent.com/chtrembl/staticcontent/master/fish-food/fish.jpg?raw=true"
+      tags:
+        - id: 1
+          name: "small"
+        - id: 2
+          name: "large"
+      status: "available"

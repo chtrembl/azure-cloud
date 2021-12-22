@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-petstoreservices
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /petstorepetservice
+        pathType: Prefix
+        backend:
+          service:
+            name: aks-petstorepetservice
+            port:
+              number: 80
+      - path: /petstoreproductservice
+        pathType: Prefix
+        backend:
+          service:
+            name: aks-petstoreproductservice
+            port:
+              number: 80
+      - path: /petstoreorderservice
+        pathType: Prefix
+        backend:
+          service:
+            name: aks-petstoreorderservice
+            port:
+              number: 80
