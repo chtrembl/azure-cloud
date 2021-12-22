@@ -4,12 +4,9 @@ springfoxdocumentation:
       path: /api-docs
       
 server:
-  port: ${PETSTORESERVICE_SERVER_PORT}
+  port: ${PETSTOREPETSERVICE_SERVER_PORT}
   
 spring:
-  jackson:
-     date-format: org.openapitools.RFC3339DateFormat
-     serialization.WRITE_DATES_AS_TIMESTAMPS: false
   application:
     name: petstorepetservice
 
