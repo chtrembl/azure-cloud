@@ -91,7 +91,8 @@ public interface ProductApi {
 		getRequest().ifPresent(request -> {
 			try {
 				ProductApiController.log.info(String.format(
-						"PetStorePetService incoming GET request to /v2/pet/findPetsByStatus?status=%s", status));
+						"PetStorePetService incoming GET request to petstorepetservice/v2/pet/findPetsByStatus?status=%s",
+						status));
 				String petsJSON = new ObjectMapper().writeValueAsString(this.getPreloadedProducts());
 				ApiUtil.setResponse(request, "application/json", petsJSON);
 			} catch (JsonProcessingException e) {

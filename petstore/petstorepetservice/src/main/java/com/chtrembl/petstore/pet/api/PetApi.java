@@ -88,7 +88,8 @@ public interface PetApi {
 		getRequest().ifPresent(request -> {
 			try {
 				PetApiController.log.info(String.format(
-						"PetStorePetService incoming GET request to /v2/pet/findPetsByStatus?status=%s", status));
+						"PetStorePetService incoming GET request to petstorepetservice/v2/pet/findPetsByStatus?status=%s",
+						status));
 				String petsJSON = new ObjectMapper().writeValueAsString(this.getPreloadedPets());
 				ApiUtil.setResponse(request, "application/json", petsJSON);
 			} catch (JsonProcessingException e) {

@@ -40,6 +40,8 @@ data:
       tags:
         - id: 1
           name: "doggie"
+        - id: 2
+          name: "large"
       status: "available"
     - id: 2
       category: 
@@ -50,6 +52,8 @@ data:
       tags:
         - id: 1
           name: "doggie"
+        - id: 2
+          name: "large"
       status: "available"
     - id: 3
       category: 
@@ -60,6 +64,8 @@ data:
       tags:
         - id: 1
           name: "doggie"
+        - id: 2
+          name: "large"
       status: "available"
     - id: 4
       category: 
@@ -70,6 +76,8 @@ data:
       tags:
         - id: 1
           name: "doggie"
+        - id: 2
+          name: "large"          
       status: "available"
     - id: 5
       category: 
@@ -80,6 +88,8 @@ data:
       tags:
         - id: 1
           name: "doggie"
+        - id: 2
+          name: "small"
       status: "available"
     - id: 6
       category: 
@@ -90,6 +100,8 @@ data:
       tags:
         - id: 1
           name: "doggie"
+        - id: 2
+          name: "small"          
       status: "available"
     - id: 7
       category: 
@@ -100,6 +112,8 @@ data:
       tags:
         - id: 1
           name: "doggie"
+        - id: 2
+          name: "small"
       status: "available"
     - id: 8
       category: 
@@ -110,6 +124,8 @@ data:
       tags:
         - id: 1
           name: "doggie"
+        - id: 2
+          name: "small"
       status: "available"
     - id: 9
       category: 
@@ -120,6 +136,8 @@ data:
       tags:
         - id: 1
           name: "doggie"
+        - id: 2
+          name: "large"
       status: "available"
     - id: 10
       category: 
@@ -130,6 +148,8 @@ data:
       tags:
         - id: 1
           name: "doggie"
+        - id: 2
+          name: "large"
       status: "available"
     - id: 11
       category: 
@@ -140,6 +160,8 @@ data:
       tags:
         - id: 1
           name: "doggie"
+        - id: 2
+          name: "small"
       status: "available"
     - id: 12
       category: 
@@ -150,6 +172,8 @@ data:
       tags:
         - id: 1
           name: "doggie"
+        - id: 2
+          name: "small"
       status: "available"
     - id: 13
       category: 
@@ -160,6 +184,8 @@ data:
       tags:
         - id: 1
           name: "doggie"
+        - id: 2
+          name: "large"
       status: "available"
     - id: 14
       category: 
@@ -170,6 +196,8 @@ data:
       tags:
         - id: 1
           name: "doggie"
+        - id: 2
+          name: "large"
       status: "available"
     - id: 15
       category: 
@@ -180,6 +208,8 @@ data:
       tags:
         - id: 1
           name: "doggie"
+        - id: 2
+          name: "small"
       status: "available"
     - id: 16
       category: 
@@ -190,6 +220,8 @@ data:
       tags:
         - id: 1
           name: "doggie"
+        - id: 2
+          name: "small"
       status: "available"
     - id: 17
       category: 
@@ -200,6 +232,8 @@ data:
       tags:
         - id: 1
           name: "doggie"
+        - id: 2
+          name: "large"
       status: "available"
     - id: 18
       category: 
@@ -210,6 +244,8 @@ data:
       tags:
         - id: 1
           name: "doggie"
+        - id: 2
+          name: "large"
       status: "available"
     - id: 19
       category: 
@@ -220,6 +256,8 @@ data:
       tags:
         - id: 1
           name: "doggie"
+        - id: 2
+          name: "small"
       status: "available"
     - id: 20
       category: 
@@ -230,6 +268,8 @@ data:
       tags:
         - id: 1
           name: "doggie"
+        - id: 2
+          name: "small"
       status: "available"
     - id: 21
       category: 
@@ -240,6 +280,8 @@ data:
       tags:
         - id: 1
           name: "kittie"
+        - id: 2
+          name: "small"
       status: "available"
     - id: 22
       category: 
@@ -250,6 +292,8 @@ data:
       tags:
         - id: 1
           name: "kittie"
+        - id: 2
+          name: "small"
       status: "available"
     - id: 23
       category: 
@@ -260,6 +304,8 @@ data:
       tags:
         - id: 1
           name: "kittie"
+        - id: 2
+          name: "small"
       status: "available"
     - id: 24
       category: 
@@ -270,6 +316,8 @@ data:
       tags:
         - id: 1
           name: "kittie"
+        - id: 2
+          name: "small"
       status: "available"
     - id: 25
       category: 
@@ -280,6 +328,8 @@ data:
       tags:
         - id: 1
           name: "kittie"
+        - id: 2
+          name: "small"
       status: "available"
     - id: 26
       category: 
@@ -290,6 +340,8 @@ data:
       tags:
         - id: 1
           name: "kittie"
+        - id: 2
+          name: "small"
       status: "available"
     - id: 27
       category: 
@@ -300,6 +352,8 @@ data:
       tags:
         - id: 1
           name: "kittie"
+        - id: 2
+          name: "small"
       status: "available"
     - id: 28
       category: 
@@ -310,6 +364,8 @@ data:
       tags:
         - id: 1
           name: "kittie"
+        - id: 2
+          name: "small"
       status: "available"
     - id: 29
       category: 
@@ -320,6 +376,8 @@ data:
       tags:
         - id: 1
           name: "kittie"
+        - id: 2
+          name: "small"
       status: "available"
     - id: 30
       category: 
@@ -330,6 +388,8 @@ data:
       tags:
         - id: 1
           name: "kittie"
+        - id: 2
+          name: "small"
       status: "available"
     - id: 31
       category: 
@@ -340,5 +400,6 @@ data:
       tags:
         - id: 1
           name: "fishy"
+        - id: 2
+          name: "small"
       status: "available"
-      
