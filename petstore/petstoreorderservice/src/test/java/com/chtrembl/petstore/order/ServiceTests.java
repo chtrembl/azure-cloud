@@ -29,7 +29,7 @@ public class ServiceTests {
 
 	@Test
 	public void shouldReturnVersion() throws Exception {
-		this.mockMvc.perform(get("/petstoreorderservice/v2/order/info")).andDo(print()).andExpect(status().isOk())
+		this.mockMvc.perform(get("/petstoreorderservice/v2/store/info")).andDo(print()).andExpect(status().isOk())
 				.andExpect(content().string(containsString("version")));
 	}
 }
