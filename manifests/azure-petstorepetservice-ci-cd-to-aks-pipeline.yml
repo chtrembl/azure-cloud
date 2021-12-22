@@ -88,7 +88,7 @@ stages:
             displayName: Create secret
             inputs: 
               action: createSecret
-              kubernetesServiceConnection: azurepetstoreservices-akscluster-default
+              kubernetesServiceConnection: azurepetstoreservices-akscluster-ingress-petstoreservices
               namespace: default
               secretType: dockerRegistry
               secretName: $(imagePullSecret)
@@ -97,7 +97,7 @@ stages:
             displayName: Deploy to Kubernetes cluster
             inputs:
               action: deploy
-              kubernetesServiceConnection: azurepetstoreservices-akscluster-default
+              kubernetesServiceConnection: azurepetstoreservices-akscluster-ingress-petstoreservices
               manifests: |
                 $(Pipeline.Workspace)/manifests/petstorepetservice-deployment-everything-enabled.yml
                 $(Pipeline.Workspace)/manifests/petstorepetservice-service-everything-enabled.yml
@@ -105,3 +105,19 @@ stages:
                 $(imagePullSecret)
               containers: |
                 $(containerRegistry)/$(imageRepository):$(tag)
+                
+- stage: Automation
+  displayName: Automation stage
+  jobs: 
+  - job: Automation
+    displayName: Automation Testing
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+        - task: TriggerPipeline@1
+          inputs:
+            serviceConnection: 'Automation'
+            project: '6b3206dd-90b3-40f6-a611-e5a1e5a13593'
+            Pipeline: 'Build'
+            buildDefinition: 'azure-petstoreautomation-regression-tests'
+            Branch: 'main'
