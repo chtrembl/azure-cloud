@@ -82,7 +82,7 @@ public class ProductApiController implements ProductApi {
 		String password = "foobar";
 		log.info("incoming GET request to /v2/info");
 		ApiUtil.setResponse(request, "application/json",
-				"{ \"service\" : \"product\", \"version\" : \"" + containerEnvironment.getAppVersion()
+				"{ \"service\" : \"product service\", \"version\" : \"" + containerEnvironment.getAppVersion()
 						+ "\", \"container\" : \"" + containerEnvironment.getContainerHostName() + "\" }");
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
