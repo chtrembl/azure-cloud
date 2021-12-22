@@ -22,7 +22,9 @@ Go through the "Create an AKS CLuster" steps here https://docs.microsoft.com/en-
 
 2. Choose your Azure subscription (enter your subscription id here, subscriptions are listed after logging in above)
 
-	```az account set -s <YourSubscriptionIDThatYouHaveBeenUsing>```
+	```az account list --output table```
+	
+	```az account set -s <SubscriptionId from above>```
 
 3. You should already have a Resource Group that you have been using for all of the previous guides. If so, skip this step. If not, create a resource group to group for your AKS Cluster.
 	
