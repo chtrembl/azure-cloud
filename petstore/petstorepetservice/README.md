@@ -17,13 +17,13 @@ You are also welcome and encouraged to build/deploy it outside of the Azure Pet 
 
 Build the Spring Boot Jar and Docker Image
 
-docker build -t petstorepetservice .
+```docker build -t petstorepetservice .```
 
 Run the Docker Image. Note this example instructs Spring Boot to run on any port of your choice, in this case, 8081 and hence forwards the port to the container accordingly. You are welcome to change this as needed. 8081 or whochever port chosen is ultimatley what the petstoreapp will point to, if/when you choose to run petstoreapp locally as well.
 
-docker run --rm --name petstorepetservice -p 8081:8081 -e PETSTOREPETSERVICE_SERVER_PORT=8081 -d petstorepetservice:latest
+```docker run --rm --name petstorepetservice -p 8081:8081 -e PETSTOREPETSERVICE_SERVER_PORT=8081 -d petstorepetservice:latest```
 
 Other optional aruments that you can specify to do certain things that get covered in the Azure Pet Store Reference Guide(s) like:
 
 enable Application Inisghts (empty and disabled by default, you'll want to uncomment the property in azure-cloud\petstore\petstorepetservice\src\main\resources\application.yml
--e PETSTORESERVICES_AI_INSTRUMENTATION_KEY=<your key here>
+```-e PETSTORESERVICES_AI_INSTRUMENTATION_KEY=<your key here>``
