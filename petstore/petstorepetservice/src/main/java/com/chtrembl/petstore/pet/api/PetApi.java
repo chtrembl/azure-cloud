@@ -11,7 +11,6 @@ import java.util.Optional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,8 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.chtrembl.petstore.pet.model.DataPreload;
 import com.chtrembl.petstore.pet.model.ModelApiResponse;
 import com.chtrembl.petstore.pet.model.Pet;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,12 +39,18 @@ import io.swagger.annotations.AuthorizationScope;
 @Api(value = "pet", description = "the pet API")
 public interface PetApi {
 
+	// wired in for the scenario the interface declarations need access to scoped
+	// beans, all implementation should occur in Controller tho
 	default Optional<NativeWebRequest> getRequest() {
 		return Optional.empty();
 	}
 
+	// wired in for the scenario the interface declarations need access to scoped
+	// beans, all implementation should occur in Controller tho
 	public DataPreload getBeanToBeAutowired();
 
+	// wired in for the scenario the interface declarations need access to scoped
+	// beans, all implementation should occur in Controller tho
 	default List<Pet> getPreloadedPets() {
 		return getBeanToBeAutowired().getPets();
 	}
@@ -83,25 +86,8 @@ public interface PetApi {
 			@ApiResponse(code = 400, message = "Invalid status value") })
 	@RequestMapping(value = "/pet/findByStatus", produces = { "application/json",
 			"application/xml" }, method = RequestMethod.GET)
-	default ResponseEntity<List<Pet>> findPetsByStatus(
-			@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status) {
-		getRequest().ifPresent(request -> {
-			try {
-				PetApiController.log.info(String.format(
-						"PetStorePetService incoming GET request to petstorepetservice/v2/pet/findPetsByStatus?status=%s",
-						status));
-				String petsJSON = new ObjectMapper().writeValueAsString(this.getPreloadedPets());
-				ApiUtil.setResponse(request, "application/json", petsJSON);
-			} catch (JsonProcessingException e) {
-				e.printStackTrace();
-				String exampleString = e.getMessage();
-				ApiUtil.setResponse(request, "application/json", exampleString);
-			}
-		});
-
-		return new ResponseEntity<>(HttpStatus.OK);
-
-	}
+	ResponseEntity<List<Pet>> findPetsByStatus(
+			@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status);
 
 	@ApiOperation(value = "Finds Pets by tags", nickname = "findPetsByTags", notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.", response = Pet.class, responseContainer = "List", authorizations = {
 			@Authorization(value = "petstore_auth", scopes = {
@@ -161,5 +147,4 @@ public interface PetApi {
 			@ApiParam(value = "ID of pet to update", required = true) @PathVariable("petId") Long petId,
 			@ApiParam(value = "Additional data to pass to server") @RequestParam(value = "additionalMetadata", required = false) String additionalMetadata,
 			@ApiParam(value = "file detail") @Valid @RequestPart("file") MultipartFile file);
-
 }

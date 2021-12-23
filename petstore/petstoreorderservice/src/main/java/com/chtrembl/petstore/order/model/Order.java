@@ -1,242 +1,231 @@
 package com.chtrembl.petstore.order.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import org.threeten.bp.OffsetDateTime;
-import org.springframework.validation.annotation.Validated;
+
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+
+import org.springframework.validation.annotation.Validated;
+import org.threeten.bp.OffsetDateTime;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Order
  */
+@SuppressWarnings("serial")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2021-12-21T10:17:19.885-05:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2021-12-22T20:58:26.853-05:00")
 
-public class Order   {
-  @JsonProperty("id")
-  private Long id = null;
+public class Order implements Serializable {
+	@JsonProperty("id")
+	private String id = null;
 
-  @JsonProperty("productId")
-  private Long productId = null;
+	@JsonProperty("shipDate")
+	private OffsetDateTime shipDate = null;
 
-  @JsonProperty("quantity")
-  private Integer quantity = null;
+	/**
+	 * Order Status
+	 */
+	public enum StatusEnum {
+		PLACED("placed"),
 
-  @JsonProperty("shipDate")
-  private OffsetDateTime shipDate = null;
+		APPROVED("approved"),
 
-  /**
-   * Order Status
-   */
-  public enum StatusEnum {
-    PLACED("placed"),
-    
-    APPROVED("approved"),
-    
-    DELIVERED("delivered");
+		DELIVERED("delivered");
 
-    private String value;
+		private String value;
 
-    StatusEnum(String value) {
-      this.value = value;
-    }
+		StatusEnum(String value) {
+			this.value = value;
+		}
 
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
+		@Override
+		@JsonValue
+		public String toString() {
+			return String.valueOf(value);
+		}
 
-    @JsonCreator
-    public static StatusEnum fromValue(String text) {
-      for (StatusEnum b : StatusEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-  }
+		@JsonCreator
+		public static StatusEnum fromValue(String text) {
+			for (StatusEnum b : StatusEnum.values()) {
+				if (String.valueOf(b.value).equals(text)) {
+					return b;
+				}
+			}
+			return null;
+		}
+	}
 
-  @JsonProperty("status")
-  private StatusEnum status = null;
+	@JsonProperty("status")
+	private StatusEnum status = null;
 
-  @JsonProperty("complete")
-  private Boolean complete = null;
+	@JsonProperty("complete")
+	private Boolean complete = null;
 
-  public Order id(Long id) {
-    this.id = id;
-    return this;
-  }
+	@JsonProperty("products")
+	@Valid
+	private List<Product> products = null;
 
-  /**
-   * Get id
-   * @return id
-  **/
-  @ApiModelProperty(value = "")
+	public Order id(String id) {
+		this.id = id;
+		return this;
+	}
 
+	/**
+	 * Get id
+	 * 
+	 * @return id
+	 **/
+	@ApiModelProperty(value = "")
 
-  public Long getId() {
-    return id;
-  }
+	public String getId() {
+		return id;
+	}
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-  public Order productId(Long productId) {
-    this.productId = productId;
-    return this;
-  }
+	public Order shipDate(OffsetDateTime shipDate) {
+		this.shipDate = shipDate;
+		return this;
+	}
 
-  /**
-   * Get productId
-   * @return productId
-  **/
-  @ApiModelProperty(value = "")
+	/**
+	 * Get shipDate
+	 * 
+	 * @return shipDate
+	 **/
+	@ApiModelProperty(value = "")
 
+	@Valid
 
-  public Long getProductId() {
-    return productId;
-  }
+	public OffsetDateTime getShipDate() {
+		return shipDate;
+	}
 
-  public void setProductId(Long productId) {
-    this.productId = productId;
-  }
+	public void setShipDate(OffsetDateTime shipDate) {
+		this.shipDate = shipDate;
+	}
 
-  public Order quantity(Integer quantity) {
-    this.quantity = quantity;
-    return this;
-  }
+	public Order status(StatusEnum status) {
+		this.status = status;
+		return this;
+	}
 
-  /**
-   * Get quantity
-   * @return quantity
-  **/
-  @ApiModelProperty(value = "")
+	/**
+	 * Order Status
+	 * 
+	 * @return status
+	 **/
+	@ApiModelProperty(value = "Order Status")
 
+	public StatusEnum getStatus() {
+		return status;
+	}
 
-  public Integer getQuantity() {
-    return quantity;
-  }
+	public void setStatus(StatusEnum status) {
+		this.status = status;
+	}
 
-  public void setQuantity(Integer quantity) {
-    this.quantity = quantity;
-  }
+	public Order complete(Boolean complete) {
+		this.complete = complete;
+		return this;
+	}
 
-  public Order shipDate(OffsetDateTime shipDate) {
-    this.shipDate = shipDate;
-    return this;
-  }
+	/**
+	 * Get complete
+	 * 
+	 * @return complete
+	 **/
+	@ApiModelProperty(value = "")
 
-  /**
-   * Get shipDate
-   * @return shipDate
-  **/
-  @ApiModelProperty(value = "")
+	public Boolean isComplete() {
+		return complete;
+	}
 
-  @Valid
+	public void setComplete(Boolean complete) {
+		this.complete = complete;
+	}
 
-  public OffsetDateTime getShipDate() {
-    return shipDate;
-  }
+	public Order products(List<Product> products) {
+		this.products = products;
+		return this;
+	}
 
-  public void setShipDate(OffsetDateTime shipDate) {
-    this.shipDate = shipDate;
-  }
+	public Order addProductsItem(Product productsItem) {
+		if (this.products == null) {
+			this.products = new ArrayList<Product>();
+		}
+		this.products.add(productsItem);
+		return this;
+	}
 
-  public Order status(StatusEnum status) {
-    this.status = status;
-    return this;
-  }
+	/**
+	 * Get products
+	 * 
+	 * @return products
+	 **/
+	@ApiModelProperty(value = "")
 
-  /**
-   * Order Status
-   * @return status
-  **/
-  @ApiModelProperty(value = "Order Status")
+	@Valid
 
+	public List<Product> getProducts() {
+		return products;
+	}
 
-  public StatusEnum getStatus() {
-    return status;
-  }
+	public void setProducts(List<Product> products) {
+		this.products = products;
+	}
 
-  public void setStatus(StatusEnum status) {
-    this.status = status;
-  }
+	@Override
+	public boolean equals(java.lang.Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		Order order = (Order) o;
+		return Objects.equals(this.id, order.id) && Objects.equals(this.shipDate, order.shipDate)
+				&& Objects.equals(this.status, order.status) && Objects.equals(this.complete, order.complete)
+				&& Objects.equals(this.products, order.products);
+	}
 
-  public Order complete(Boolean complete) {
-    this.complete = complete;
-    return this;
-  }
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, shipDate, status, complete, products);
+	}
 
-  /**
-   * Get complete
-   * @return complete
-  **/
-  @ApiModelProperty(value = "")
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("class Order {\n");
 
+		sb.append("    id: ").append(toIndentedString(id)).append("\n");
+		sb.append("    shipDate: ").append(toIndentedString(shipDate)).append("\n");
+		sb.append("    status: ").append(toIndentedString(status)).append("\n");
+		sb.append("    complete: ").append(toIndentedString(complete)).append("\n");
+		sb.append("    products: ").append(toIndentedString(products)).append("\n");
+		sb.append("}");
+		return sb.toString();
+	}
 
-  public Boolean isComplete() {
-    return complete;
-  }
-
-  public void setComplete(Boolean complete) {
-    this.complete = complete;
-  }
-
-
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    Order order = (Order) o;
-    return Objects.equals(this.id, order.id) &&
-        Objects.equals(this.productId, order.productId) &&
-        Objects.equals(this.quantity, order.quantity) &&
-        Objects.equals(this.shipDate, order.shipDate) &&
-        Objects.equals(this.status, order.status) &&
-        Objects.equals(this.complete, order.complete);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, productId, quantity, shipDate, status, complete);
-  }
-
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class Order {\n");
-    
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    productId: ").append(toIndentedString(productId)).append("\n");
-    sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
-    sb.append("    shipDate: ").append(toIndentedString(shipDate)).append("\n");
-    sb.append("    status: ").append(toIndentedString(status)).append("\n");
-    sb.append("    complete: ").append(toIndentedString(complete)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
-
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
+	/**
+	 * Convert the given object to string with each line indented by 4 spaces
+	 * (except the first line).
+	 */
+	private String toIndentedString(java.lang.Object o) {
+		if (o == null) {
+			return "null";
+		}
+		return o.toString().replace("\n", "\n    ");
+	}
 }
-

@@ -5,23 +5,19 @@
  */
 package com.chtrembl.petstore.order.api;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import javax.validation.Valid;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.NativeWebRequest;
 
 import com.chtrembl.petstore.order.model.Order;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,8 +31,20 @@ import io.swagger.annotations.Authorization;
 @Api(value = "store", description = "the store API")
 public interface StoreApi {
 
+	// wired in for the scenario the interface declarations need access to scoped
+	// beans, all implementation should occur in Controller tho
 	default Optional<NativeWebRequest> getRequest() {
 		return Optional.empty();
+	}
+
+	// wired in for the scenario the interface declarations need access to scoped
+	// beans, all implementation should occur in Controller tho
+	public StoreApiCache getBeanToBeAutowired();
+
+	// wired in for the scenario the interface declarations need access to scoped
+	// beans, all implementation should occur in Controller tho
+	default Order getStoreApiCache(String id) {
+		return getBeanToBeAutowired().getOrder(id);
 	}
 
 	@ApiOperation(value = "Delete purchase order by ID", nickname = "deleteOrder", notes = "For valid response try integer IDs with positive integer value. Negative or non-integer values will generate API errors", tags = {
@@ -46,7 +54,7 @@ public interface StoreApi {
 	@RequestMapping(value = "/store/order/{orderId}", produces = { "application/json",
 			"application/xml" }, method = RequestMethod.DELETE)
 	ResponseEntity<Void> deleteOrder(
-			@Min(1L) @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") Long orderId);
+			@ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") String orderId);
 
 	@ApiOperation(value = "Returns product inventories by status", nickname = "getInventory", notes = "Returns a map of status codes to quantities", response = Integer.class, responseContainer = "Map", authorizations = {
 			@Authorization(value = "api_key") }, tags = { "store", })
@@ -63,7 +71,7 @@ public interface StoreApi {
 	@RequestMapping(value = "/store/order/{orderId}", produces = { "application/json",
 			"application/xml" }, method = RequestMethod.GET)
 	ResponseEntity<Order> getOrderById(
-			@Min(1L) @Max(10L) @ApiParam(value = "ID of product that needs to be fetched", required = true) @PathVariable("orderId") Long orderId);
+			@ApiParam(value = "ID of product that needs to be fetched", required = true) @PathVariable("orderId") String orderId);
 
 	@ApiOperation(value = "Place an order for a product", nickname = "placeOrder", notes = "", response = Order.class, tags = {
 			"store", })
@@ -71,22 +79,6 @@ public interface StoreApi {
 			@ApiResponse(code = 400, message = "Invalid Order") })
 	@RequestMapping(value = "/store/order", produces = { "application/json", "application/xml" }, consumes = {
 			"application/json" }, method = RequestMethod.POST)
-	default ResponseEntity<List<Order>> placeOrder() {
-		getRequest().ifPresent(request -> {
-			try {
-				StoreApiController.log.info(String.format(
-						"PetStoreOrderService incoming POST request to petstoreorderservice/v2/order/placeOder"));
-				String orderJSON = new ObjectMapper().writeValueAsString("test");
-				ApiUtil.setResponse(request, "application/json", orderJSON);
-			} catch (JsonProcessingException e) {
-				e.printStackTrace();
-				String exampleString = e.getMessage();
-				ApiUtil.setResponse(request, "application/json", exampleString);
-			}
-		});
-
-		return new ResponseEntity<>(HttpStatus.OK);
-
-	}
-
+	ResponseEntity<Order> placeOrder(
+			@ApiParam(value = "order placed for purchasing the product", required = true) @Valid @RequestBody Order body);
 }

@@ -4,17 +4,37 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.AnnotationCacheOperationSource;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.interceptor.CacheInterceptor;
+import org.springframework.cache.interceptor.CacheOperationSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Primary;
 
+import com.chtrembl.petstore.order.api.StoreApiCacheInterceptor;
 import com.chtrembl.petstore.order.model.ContainerEnvironment;
 
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
+@EnableCaching
 @EnableSwagger2
 @ComponentScan(basePackages = { "io.swagger", "com.chtrembl.petstore.order.api", "io.swagger.configuration" })
 public class Swagger2SpringBoot implements CommandLineRunner {
+
+	@Bean
+	public CacheOperationSource cacheOperationSource() {
+		return new AnnotationCacheOperationSource();
+	}
+
+	@Primary
+	@Bean
+	public CacheInterceptor cacheInterceptor() {
+		CacheInterceptor interceptor = new StoreApiCacheInterceptor();
+		interceptor.setCacheOperationSources(cacheOperationSource());
+		return interceptor;
+	}
 
 	@Bean
 	public ContainerEnvironment containerEnvvironment() {

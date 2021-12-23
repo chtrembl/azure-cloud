@@ -30,6 +30,7 @@ import com.chtrembl.petstore.pet.model.ContainerEnvironment;
 import com.chtrembl.petstore.pet.model.DataPreload;
 import com.chtrembl.petstore.pet.model.ModelApiResponse;
 import com.chtrembl.petstore.pet.model.Pet;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.annotations.ApiParam;
@@ -77,13 +78,35 @@ public class PetApiController implements PetApi {
 
 	@RequestMapping(value = "pet/info", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<String> info() {
-		// cred scan demo
+		// password used for cred scan demo
 		String password = "foobar";
-		log.info("incoming GET request to /v2/info");
+		log.info("incoming GET request to petstorepetservice/v2/info");
 		ApiUtil.setResponse(request, "application/json",
 				"{ \"service\" : \"pet service\", \"version\" : \"" + containerEnvironment.getAppVersion()
 						+ "\", \"container\" : \"" + containerEnvironment.getContainerHostName() + "\" }");
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<List<Pet>> findPetsByStatus(
+			@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status) {
+		String acceptType = request.getHeader("Content-Type");
+		String contentType = request.getHeader("Content-Type");
+		if (acceptType != null && contentType != null && acceptType.contains("application/json")
+				&& contentType.contains("application/json")) {
+			PetApiController.log.info(String.format(
+					"PetStorePetService incoming GET request to petstorepetservice/v2/pet/findPetsByStatus?status=%s",
+					status));
+			try {
+				String petsJSON = new ObjectMapper().writeValueAsString(this.getPreloadedPets());
+				ApiUtil.setResponse(request, "application/json", petsJSON);
+			} catch (JsonProcessingException e) {
+				PetApiController.log.error(e.getMessage());
+				ApiUtil.setResponse(request, "application/json", e.getMessage());
+			}
+		}
+
+		return new ResponseEntity<List<Pet>>(HttpStatus.NOT_IMPLEMENTED);
 	}
 
 	@Override
@@ -195,4 +218,5 @@ public class PetApiController implements PetApi {
 
 		return new ResponseEntity<ModelApiResponse>(HttpStatus.NOT_IMPLEMENTED);
 	}
+
 }

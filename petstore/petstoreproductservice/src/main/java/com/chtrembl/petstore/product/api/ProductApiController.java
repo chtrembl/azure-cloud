@@ -30,6 +30,7 @@ import com.chtrembl.petstore.product.model.ContainerEnvironment;
 import com.chtrembl.petstore.product.model.DataPreload;
 import com.chtrembl.petstore.product.model.ModelApiResponse;
 import com.chtrembl.petstore.product.model.Product;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.annotations.ApiParam;
@@ -78,13 +79,35 @@ public class ProductApiController implements ProductApi {
 
 	@RequestMapping(value = "product/info", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<String> info() {
-		// cred scan demo
+		// password used for cred scan demo
 		String password = "foobar";
-		log.info("incoming GET request to /v2/info");
+		log.info("incoming GET request to petstoreproductservice/v2/info");
 		ApiUtil.setResponse(request, "application/json",
 				"{ \"service\" : \"product service\", \"version\" : \"" + containerEnvironment.getAppVersion()
 						+ "\", \"container\" : \"" + containerEnvironment.getContainerHostName() + "\" }");
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@Override
+	public ResponseEntity<List<Product>> findProductsByStatus(
+			@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status) {
+		String acceptType = request.getHeader("Content-Type");
+		String contentType = request.getHeader("Content-Type");
+		if (acceptType != null && contentType != null && acceptType.contains("application/json")
+				&& contentType.contains("application/json")) {
+			ProductApiController.log.info(String.format(
+					"PetStoreProductService incoming GET request to petstoreproductservice/v2/pet/findProductsByStatus?status=%s",
+					status));
+			try {
+				String petsJSON = new ObjectMapper().writeValueAsString(this.getPreloadedProducts());
+				ApiUtil.setResponse(request, "application/json", petsJSON);
+			} catch (JsonProcessingException e) {
+				ProductApiController.log.error(e.getMessage());
+				ApiUtil.setResponse(request, "application/json", e.getMessage());
+			}
+		}
+
+		return new ResponseEntity<List<Product>>(HttpStatus.NOT_IMPLEMENTED);
 	}
 
 	@Override

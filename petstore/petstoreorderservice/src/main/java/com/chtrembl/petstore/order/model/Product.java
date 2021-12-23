@@ -3,6 +3,8 @@ package com.chtrembl.petstore.order.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -10,20 +12,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * Tag
+ * Product
  */
 @SuppressWarnings("serial")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2021-12-21T10:17:19.885-05:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2021-12-22T20:58:26.853-05:00")
 
-public class Tag implements Serializable {
+public class Product implements Serializable {
 	@JsonProperty("id")
 	private Long id = null;
 
-	@JsonProperty("name")
-	private String name = null;
+	@JsonProperty("quantity")
+	private Integer quantity = null;
 
-	public Tag id(Long id) {
+	public Product id(Long id) {
 		this.id = id;
 		return this;
 	}
@@ -33,7 +35,8 @@ public class Tag implements Serializable {
 	 * 
 	 * @return id
 	 **/
-	@ApiModelProperty(value = "")
+	@ApiModelProperty(required = true, value = "")
+	@NotNull
 
 	public Long getId() {
 		return id;
@@ -43,24 +46,25 @@ public class Tag implements Serializable {
 		this.id = id;
 	}
 
-	public Tag name(String name) {
-		this.name = name;
+	public Product quantity(Integer quantity) {
+		this.quantity = quantity;
 		return this;
 	}
 
 	/**
-	 * Get name
+	 * Get quantity
 	 * 
-	 * @return name
+	 * @return quantity
 	 **/
-	@ApiModelProperty(value = "")
+	@ApiModelProperty(required = true, value = "")
+	@NotNull
 
-	public String getName() {
-		return name;
+	public Integer getQuantity() {
+		return quantity;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
 	}
 
 	@Override
@@ -71,22 +75,22 @@ public class Tag implements Serializable {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		Tag tag = (Tag) o;
-		return Objects.equals(this.id, tag.id) && Objects.equals(this.name, tag.name);
+		Product product = (Product) o;
+		return Objects.equals(this.id, product.id) && Objects.equals(this.quantity, product.quantity);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, name);
+		return Objects.hash(id, quantity);
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("class Tag {\n");
+		sb.append("class Product {\n");
 
 		sb.append("    id: ").append(toIndentedString(id)).append("\n");
-		sb.append("    name: ").append(toIndentedString(name)).append("\n");
+		sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
 		sb.append("}");
 		return sb.toString();
 	}

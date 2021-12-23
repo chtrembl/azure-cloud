@@ -11,7 +11,6 @@ import java.util.Optional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,8 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.chtrembl.petstore.product.model.DataPreload;
 import com.chtrembl.petstore.product.model.ModelApiResponse;
 import com.chtrembl.petstore.product.model.Product;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,12 +39,18 @@ import io.swagger.annotations.AuthorizationScope;
 @Api(value = "product", description = "the product API")
 public interface ProductApi {
 
+	// wired in for the scenario the interface declarations need access to scoped
+	// beans, all implementation should occur in Controller tho
 	default Optional<NativeWebRequest> getRequest() {
 		return Optional.empty();
 	}
 
+	// wired in for the scenario the interface declarations need access to scoped
+	// beans, all implementation should occur in Controller tho
 	public DataPreload getBeanToBeAutowired();
 
+	// wired in for the scenario the interface declarations need access to scoped
+	// beans, all implementation should occur in Controller tho
 	default List<Product> getPreloadedProducts() {
 		return getBeanToBeAutowired().getProducts();
 	}
@@ -86,26 +89,14 @@ public interface ProductApi {
 			@ApiResponse(code = 400, message = "Invalid status value") })
 	@RequestMapping(value = "/product/findByStatus", produces = { "application/json",
 			"application/xml" }, method = RequestMethod.GET)
-	default ResponseEntity<List<Product>> findProductsByStatus(
-			@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status) {
-		getRequest().ifPresent(request -> {
-			try {
-				ProductApiController.log.info(String.format(
-						"PetStorePetService incoming GET request to petstorepetservice/v2/pet/findPetsByStatus?status=%s",
-						status));
-				String petsJSON = new ObjectMapper().writeValueAsString(this.getPreloadedProducts());
-				ApiUtil.setResponse(request, "application/json", petsJSON);
-			} catch (JsonProcessingException e) {
-				e.printStackTrace();
-				String exampleString = e.getMessage();
-				ApiUtil.setResponse(request, "application/json", exampleString);
-			}
-		});
+	ResponseEntity<List<Product>> findProductsByStatus(
+			@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status);
 
-		return new ResponseEntity<>(HttpStatus.OK);
-
-	}
-
+	@ApiOperation(value = "Finds Products by tags", nickname = "findProductsByTags", notes = "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.", response = Product.class, responseContainer = "List", authorizations = {
+			@Authorization(value = "petstore_auth", scopes = {
+					@AuthorizationScope(scope = "write:products", description = "modify products in your account"),
+					@AuthorizationScope(scope = "read:products", description = "read your products") }) }, tags = {
+							"product", })
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "successful operation", response = Product.class, responseContainer = "List"),
 			@ApiResponse(code = 400, message = "Invalid tag value") })
