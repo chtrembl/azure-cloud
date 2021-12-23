@@ -17,23 +17,8 @@
   "basePath": "/v2",
   "tags": [
     {
-      "name": "order",
-      "description": "Everything about your Order",
-      "externalDocs": {
-        "description": "Find out more",
-        "url": "http://swagger.io"
-      }
-    },
-    {
       "name": "store",
       "description": "Access to Petstore orders"
-    },
-    {
-      "description": "Operations about user",
-      "externalDocs": {
-        "description": "Find out more about our store",
-        "url": "http://swagger.io"
-      }
     }
   ],
   "schemes": [
@@ -46,7 +31,7 @@
         "tags": [
           "store"
         ],
-        "summary": "Place an order for a product",
+        "summary": "Place an order for a pet product",
         "description": "",
         "operationId": "placeOrder",
         "consumes": [
@@ -60,7 +45,7 @@
           {
             "in": "body",
             "name": "body",
-            "description": "order placed for purchasing the product",
+            "description": "order placed for purchasing the pet product",
             "required": true,
             "schema": {
               "$ref": "#/definitions/Order"
@@ -96,9 +81,12 @@
           {
             "name": "orderId",
             "in": "path",
-            "description": "ID of product that needs to be fetched",
+            "description": "ID of pet product order that needs to be fetched",
             "required": true,
-            "type": "string"
+            "type": "integer",
+            "maximum": 10,
+            "minimum": 1,
+            "format": "int64"
           }
         ],
         "responses": {
@@ -133,7 +121,9 @@
             "in": "path",
             "description": "ID of the order that needs to be deleted",
             "required": true,
-            "type": "string"
+            "type": "integer",
+            "minimum": 1,
+            "format": "int64"
           }
         ],
         "responses": {
@@ -151,7 +141,7 @@
         "tags": [
           "store"
         ],
-        "summary": "Returns product inventories by status",
+        "summary": "Returns pet product inventories by status",
         "description": "Returns a map of status codes to quantities",
         "operationId": "getInventory",
         "produces": [
@@ -189,8 +179,8 @@
       "authorizationUrl": "https://petstore.swagger.io/oauth/authorize",
       "flow": "implicit",
       "scopes": {
-        "read:products": "read your products",
-        "write:products": "modify products in your account"
+        "read:pets": "read your pet products",
+        "write:pets": "modify pet products in your account"
       }
     }
   },
@@ -225,21 +215,6 @@
         "name": "Category"
       }
     },
-    "Tag": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int64"
-        },
-        "name": {
-          "type": "string"
-        }
-      },
-      "xml": {
-        "name": "Tag"
-      }
-    },
     "Product": {
       "type": "object",
       "required": [
@@ -260,11 +235,42 @@
         "name": "Product"
       }
     },
+    "Tag": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Tag"
+      }
+    },
     "Order": {
       "type": "object",
       "properties": {
         "id": {
           "type": "string"
+        },
+         "products": {
+          "type": "array",
+          "xml": {
+            "wrapped": true
+          },
+          "items": {
+            "xml": {
+              "name": "product"
+            },
+            "$ref": "#/definitions/Product"
+          }
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32"
         },
         "shipDate": {
           "type": "string",
@@ -281,18 +287,6 @@
         },
         "complete": {
           "type": "boolean"
-        },
-        "products": {
-          "type": "array",
-          "xml": {
-            "wrapped": true
-          },
-          "items": {
-            "xml": {
-              "name": "product"
-            },
-            "$ref": "#/definitions/Product"
-          }
         }
       },
       "xml": {
