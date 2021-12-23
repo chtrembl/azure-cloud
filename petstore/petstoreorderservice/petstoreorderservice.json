@@ -83,7 +83,7 @@
             "in": "path",
             "description": "ID of pet product that needs to be fetched",
             "required": true,
-            "type": "integer",
+            "type": "string",
             "maximum": 10,
             "minimum": 1,
             "format": "int64"
@@ -121,7 +121,7 @@
             "in": "path",
             "description": "ID of the order that needs to be deleted",
             "required": true,
-            "type": "integer",
+            "type": "string",
             "minimum": 1,
             "format": "int64"
           }

@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,9 +56,9 @@ public interface StoreApi {
 	@RequestMapping(value = "/store/order/{orderId}", produces = { "application/json",
 			"application/xml" }, method = RequestMethod.DELETE)
 	ResponseEntity<Void> deleteOrder(
-			@ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") String orderId);
+			@Min(1L) @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") String orderId);
 
-	@ApiOperation(value = "Returns product inventories by status", nickname = "getInventory", notes = "Returns a map of status codes to quantities", response = Integer.class, responseContainer = "Map", authorizations = {
+	@ApiOperation(value = "Returns pet product inventories by status", nickname = "getInventory", notes = "Returns a map of status codes to quantities", response = Integer.class, responseContainer = "Map", authorizations = {
 			@Authorization(value = "api_key") }, tags = { "store", })
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "successful operation", response = Map.class, responseContainer = "Map") })
@@ -71,14 +73,14 @@ public interface StoreApi {
 	@RequestMapping(value = "/store/order/{orderId}", produces = { "application/json",
 			"application/xml" }, method = RequestMethod.GET)
 	ResponseEntity<Order> getOrderById(
-			@ApiParam(value = "ID of product that needs to be fetched", required = true) @PathVariable("orderId") String orderId);
+			@Min(1L) @Max(10L) @ApiParam(value = "ID of pet product that needs to be fetched", required = true) @PathVariable("orderId") String orderId);
 
-	@ApiOperation(value = "Place an order for a product", nickname = "placeOrder", notes = "", response = Order.class, tags = {
+	@ApiOperation(value = "Place an order for a pet product", nickname = "placeOrder", notes = "", response = Order.class, tags = {
 			"store", })
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "successful operation", response = Order.class),
 			@ApiResponse(code = 400, message = "Invalid Order") })
 	@RequestMapping(value = "/store/order", produces = { "application/json", "application/xml" }, consumes = {
 			"application/json" }, method = RequestMethod.POST)
 	ResponseEntity<Order> placeOrder(
-			@ApiParam(value = "order placed for purchasing the product", required = true) @Valid @RequestBody Order body);
+			@ApiParam(value = "order placed for purchasing the pet product", required = true) @Valid @RequestBody Order body);
 }

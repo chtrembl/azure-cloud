@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Size;
 
 import org.springframework.validation.annotation.Validated;
 import org.threeten.bp.OffsetDateTime;
@@ -20,18 +19,26 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * Order
  */
-@SuppressWarnings("serial")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2021-12-22T20:58:26.853-05:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2021-12-23T15:16:30.446-05:00")
 
 public class Order implements Serializable {
 	@JsonProperty("id")
-	@Size(min = 1, message = "id must be > 0") // no need to exhaust in mem cache for this demo
-	@Size(max = 39, message = "id must be < 40") // no need to exhaust in mem cache for this demo
 	private String id = null;
+
+	@JsonProperty("products")
+	@Valid
+	private List<Product> products = null;
+
+	@JsonProperty("quantity")
+	private Integer quantity = null;
 
 	@JsonProperty("shipDate")
 	private OffsetDateTime shipDate = null;
+
+	@JsonProperty("tags")
+	@Valid
+	private List<Tag> tags = null;
 
 	/**
 	 * Order Status
@@ -72,11 +79,6 @@ public class Order implements Serializable {
 	@JsonProperty("complete")
 	private Boolean complete = null;
 
-	@JsonProperty("products")
-	@Valid
-	@Size(min = 1, max = 10) // no need to exhaust in mem cache for this demo
-	private List<Product> products = null;
-
 	public Order id(String id) {
 		this.id = id;
 		return this;
@@ -95,6 +97,56 @@ public class Order implements Serializable {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public Order products(List<Product> products) {
+		this.products = products;
+		return this;
+	}
+
+	public Order addProductsItem(Product productsItem) {
+		if (this.products == null) {
+			this.products = new ArrayList<Product>();
+		}
+		this.products.add(productsItem);
+		return this;
+	}
+
+	/**
+	 * Get products
+	 * 
+	 * @return products
+	 **/
+	@ApiModelProperty(value = "")
+
+	@Valid
+
+	public List<Product> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<Product> products) {
+		this.products = products;
+	}
+
+	public Order quantity(Integer quantity) {
+		this.quantity = quantity;
+		return this;
+	}
+
+	/**
+	 * Get quantity
+	 * 
+	 * @return quantity
+	 **/
+	@ApiModelProperty(value = "")
+
+	public Integer getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
 	}
 
 	public Order shipDate(OffsetDateTime shipDate) {
@@ -117,6 +169,36 @@ public class Order implements Serializable {
 
 	public void setShipDate(OffsetDateTime shipDate) {
 		this.shipDate = shipDate;
+	}
+
+	public Order tags(List<Tag> tags) {
+		this.tags = tags;
+		return this;
+	}
+
+	public Order addTagsItem(Tag tagsItem) {
+		if (this.tags == null) {
+			this.tags = new ArrayList<Tag>();
+		}
+		this.tags.add(tagsItem);
+		return this;
+	}
+
+	/**
+	 * Get tags
+	 * 
+	 * @return tags
+	 **/
+	@ApiModelProperty(value = "")
+
+	@Valid
+
+	public List<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
 	}
 
 	public Order status(StatusEnum status) {
@@ -159,36 +241,6 @@ public class Order implements Serializable {
 		this.complete = complete;
 	}
 
-	public Order products(List<Product> products) {
-		this.products = products;
-		return this;
-	}
-
-	public Order addProductsItem(Product productsItem) {
-		if (this.products == null) {
-			this.products = new ArrayList<Product>();
-		}
-		this.products.add(productsItem);
-		return this;
-	}
-
-	/**
-	 * Get products
-	 * 
-	 * @return products
-	 **/
-	@ApiModelProperty(value = "")
-
-	@Valid
-
-	public List<Product> getProducts() {
-		return products;
-	}
-
-	public void setProducts(List<Product> products) {
-		this.products = products;
-	}
-
 	@Override
 	public boolean equals(java.lang.Object o) {
 		if (this == o) {
@@ -198,14 +250,15 @@ public class Order implements Serializable {
 			return false;
 		}
 		Order order = (Order) o;
-		return Objects.equals(this.id, order.id) && Objects.equals(this.shipDate, order.shipDate)
-				&& Objects.equals(this.status, order.status) && Objects.equals(this.complete, order.complete)
-				&& Objects.equals(this.products, order.products);
+		return Objects.equals(this.id, order.id) && Objects.equals(this.products, order.products)
+				&& Objects.equals(this.quantity, order.quantity) && Objects.equals(this.shipDate, order.shipDate)
+				&& Objects.equals(this.tags, order.tags) && Objects.equals(this.status, order.status)
+				&& Objects.equals(this.complete, order.complete);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, shipDate, status, complete, products);
+		return Objects.hash(id, products, quantity, shipDate, tags, status, complete);
 	}
 
 	@Override
@@ -214,10 +267,12 @@ public class Order implements Serializable {
 		sb.append("class Order {\n");
 
 		sb.append("    id: ").append(toIndentedString(id)).append("\n");
+		sb.append("    products: ").append(toIndentedString(products)).append("\n");
+		sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
 		sb.append("    shipDate: ").append(toIndentedString(shipDate)).append("\n");
+		sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
 		sb.append("    status: ").append(toIndentedString(status)).append("\n");
 		sb.append("    complete: ").append(toIndentedString(complete)).append("\n");
-		sb.append("    products: ").append(toIndentedString(products)).append("\n");
 		sb.append("}");
 		return sb.toString();
 	}

@@ -14,7 +14,7 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @SuppressWarnings("serial")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2021-12-21T10:17:19.885-05:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2021-12-23T15:16:30.446-05:00")
 
 public class Tag implements Serializable {
 	@JsonProperty("id")

@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -129,7 +130,7 @@ public class StoreApiController implements StoreApi {
 
 	@Override
 	public ResponseEntity<Order> getOrderById(
-			@ApiParam(value = "ID of product that needs to be fetched", required = true) @PathVariable("orderId") String orderId) {
+			@ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") String orderId) {
 		String acceptType = request.getHeader("Content-Type");
 		String contentType = request.getHeader("Content-Type");
 		if (acceptType != null && contentType != null && acceptType.contains("application/json")
@@ -153,7 +154,7 @@ public class StoreApiController implements StoreApi {
 
 	@Override
 	public ResponseEntity<Void> deleteOrder(
-			@ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") String orderId) {
+			@Min(1L) @ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") String orderId) {
 		String accept = request.getHeader("Accept");
 		return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
 	}
