@@ -101,9 +101,11 @@ public class ProductApiController implements ProductApi {
 			try {
 				String petsJSON = new ObjectMapper().writeValueAsString(this.getPreloadedProducts());
 				ApiUtil.setResponse(request, "application/json", petsJSON);
+				return new ResponseEntity<>(HttpStatus.OK);
 			} catch (JsonProcessingException e) {
 				ProductApiController.log.error(e.getMessage());
 				ApiUtil.setResponse(request, "application/json", e.getMessage());
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		}
 

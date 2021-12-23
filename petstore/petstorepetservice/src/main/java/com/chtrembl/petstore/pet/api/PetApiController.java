@@ -100,9 +100,11 @@ public class PetApiController implements PetApi {
 			try {
 				String petsJSON = new ObjectMapper().writeValueAsString(this.getPreloadedPets());
 				ApiUtil.setResponse(request, "application/json", petsJSON);
+				return new ResponseEntity<>(HttpStatus.OK);
 			} catch (JsonProcessingException e) {
 				PetApiController.log.error(e.getMessage());
 				ApiUtil.setResponse(request, "application/json", e.getMessage());
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		}
 
