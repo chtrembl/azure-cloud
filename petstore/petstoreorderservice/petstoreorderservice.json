@@ -289,6 +289,18 @@
           "type": "boolean"
         }
       },
+      "tags": {
+          "type": "array",
+          "xml": {
+            "wrapped": true
+          },
+          "items": {
+            "xml": {
+              "name": "tag"
+            },
+            "$ref": "#/definitions/Tag"
+          }
+        },
       "xml": {
         "name": "Order"
       }
