@@ -38,7 +38,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		if (this.aadB2COidcLoginConfigurerWrapper != null
 				&& this.aadB2COidcLoginConfigurerWrapper.getConfigurer() != null) {
 
-			http.authorizeRequests().antMatchers("/").permitAll().antMatchers("/*breed*").permitAll()
+			http.authorizeRequests().antMatchers("/").permitAll()
+					.antMatchers("/*breed*").permitAll()
+					.antMatchers("/*product*").permitAll()
 					.antMatchers("/api/contactus").permitAll()
 					.antMatchers("/slowness").permitAll()
 					.antMatchers("/exception").permitAll()

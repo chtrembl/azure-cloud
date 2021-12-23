@@ -29,6 +29,10 @@ public class User implements Serializable {
 	// time to show Telemetry with APIM requests
 	private List<Pet> pets;
 
+	// intentionally avoiding spring cache to ensure service calls are made each
+	// time to show Telemetry with APIM requests
+	private List<Product> products;
+
 	@Autowired(required = false)
 	private transient TelemetryClient telemetryClient;
 
@@ -68,6 +72,14 @@ public class User implements Serializable {
 
 	public synchronized void setPets(List<Pet> pets) {
 		this.pets = pets;
+	}
+
+	public List<Product> getProducts() {
+		return products;
+	}
+
+	public synchronized void setProducts(List<Product> products) {
+		this.products = products;
 	}
 
 	public Map<String, String> getCustomEventProperties() {

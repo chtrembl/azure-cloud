@@ -20,6 +20,8 @@ import org.springframework.web.reactive.function.client.WebClientException;
 import com.chtrembl.petstoreapp.model.Category;
 import com.chtrembl.petstoreapp.model.ContainerEnvironment;
 import com.chtrembl.petstoreapp.model.Pet;
+import com.chtrembl.petstoreapp.model.Product;
+import com.chtrembl.petstoreapp.model.Tag;
 import com.chtrembl.petstoreapp.model.User;
 
 @Component
@@ -30,11 +32,18 @@ public class PetStoreServiceImpl implements PetStoreService {
 	@Autowired
 	private ContainerEnvironment containerEnvironment;
 
-	private WebClient webClient = null;
+	private WebClient petServiceWebClient = null;
+	private WebClient productServiceWebClient = null;
+	private WebClient orderServiceWebClient = null;
 
 	@PostConstruct
 	public void initialize() {
-		this.webClient = WebClient.builder().baseUrl(this.containerEnvironment.getPetStoreServiceURL()).build();
+		this.petServiceWebClient = WebClient.builder().baseUrl(this.containerEnvironment.getPetStorePetServiceURL())
+				.build();
+		this.productServiceWebClient = WebClient.builder()
+				.baseUrl(this.containerEnvironment.getPetStoreProductServiceURL()).build();
+		this.orderServiceWebClient = WebClient.builder().baseUrl(this.containerEnvironment.getPetStoreOrderServiceURL())
+				.build();
 	}
 
 	@Override
@@ -42,19 +51,23 @@ public class PetStoreServiceImpl implements PetStoreService {
 		List<Pet> pets = new ArrayList<Pet>();
 
 		this.sessionUser.getTelemetryClient()
-				.trackEvent(String.format("PetStoreApp %s is requesting to retrieve pets from the PetStoreService",
+				.trackEvent(String.format("PetStoreApp %s is requesting to retrieve pets from the PetStorePetService",
 						this.sessionUser.getName()), this.sessionUser.getCustomEventProperties(), null);
 		try {
-			pets = this.webClient.get().uri("/v2/pet/findByStatus?status={status}", "available")
-					.header("session-id", this.sessionUser.getSessionId()).accept(MediaType.APPLICATION_JSON)
-					.header("Ocp-Apim-Subscription-Key", this.containerEnvironment.getPetStoreServiceSubscriptionKey())
-					.header("Ocp-Apim-Trace", "true").retrieve()
+			pets = this.petServiceWebClient.get()
+					.uri("petstorepetservice/v2/pet/findByStatus?status={status}", "available")
+					.accept(MediaType.APPLICATION_JSON).header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+					.header("host", "azurepetstoreapim.azure-api.net")
+					.header("session-id", this.sessionUser.getSessionId())
+					.header("Ocp-Apim-Subscription-Key", this.containerEnvironment.getPetStoreServicesSubscriptionKey())
+					.header("Cache-Control", "no-cache").header("Ocp-Apim-Trace", "true").retrieve()
 					.bodyToMono(new ParameterizedTypeReference<List<Pet>>() {
 					}).block();
 
 			// use this for look up on details page, intentionally avoiding spring cache to
-			// ensure service calls are made each
-			// time to show Telemetry with APIM requests
+			// ensure service calls are made each for each browser session
+			// to show Telemetry with APIM requests (normally this would be cached in a real
+			// world production scenario)
 			this.sessionUser.setPets(pets);
 
 			// filter this specific request per category
@@ -78,7 +91,7 @@ public class PetStoreServiceImpl implements PetStoreService {
 			// little hack to visually show the error message within our Azure Pet Store
 			// Reference Guide (Academic Tutorial)
 			Pet pet = new Pet();
-			pet.setName("petstore.service.url:${PETSTORESERVICE_URL} needs to be enabled for this service to work"
+			pet.setName("petstore.service.url:${PETSTOREPETSERVICE_URL} needs to be enabled for this service to work"
 					+ iae.getMessage());
 			pet.setPhotoURL("");
 			pet.setCategory(new Category());
@@ -86,5 +99,62 @@ public class PetStoreServiceImpl implements PetStoreService {
 			pets.add(pet);
 		}
 		return pets;
+	}
+
+	@Override
+	public Collection<Product> getProducts(String category, List<Tag> tags) {
+		List<Product> products = new ArrayList<Product>();
+
+		this.sessionUser.getTelemetryClient().trackEvent(
+				String.format("PetStoreApp %s is requesting to retrieve products from the PetStorePetService",
+						this.sessionUser.getName()),
+				this.sessionUser.getCustomEventProperties(), null);
+		try {
+			products = this.productServiceWebClient.get()
+					.uri("petstoreproductservice/v2/product/findByStatus?status={status}", "available")
+					.accept(MediaType.APPLICATION_JSON).header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+					.header("host", "azurepetstoreapim.azure-api.net")
+					.header("session-id", this.sessionUser.getSessionId())
+					.header("Ocp-Apim-Subscription-Key", this.containerEnvironment.getPetStoreServicesSubscriptionKey())
+					.header("Cache-Control", "no-cache").header("Ocp-Apim-Trace", "true").retrieve()
+					.bodyToMono(new ParameterizedTypeReference<List<Product>>() {
+					}).block();
+
+			// use this for look up on details page, intentionally avoiding spring cache to
+			// ensure service calls are made each for each browser session
+			// to show Telemetry with APIM requests (normally this would be cached in a real
+			// world production scenario)
+			this.sessionUser.setProducts(products);
+
+			// filter this specific request per category
+			products = products.stream().filter(pet -> category.equals(pet.getCategory().getName()))
+					.collect(Collectors.toList());
+			return products;
+		} catch (WebClientException wce) {
+			this.sessionUser.getTelemetryClient().trackException(wce);
+			this.sessionUser.getTelemetryClient().trackEvent(
+					String.format("PetStoreApp %s received %s, container host: %s", this.sessionUser.getName(),
+							wce.getMessage(), this.containerEnvironment.getContainerHostName()));
+			// little hack to visually show the error message within our Azure Pet Store
+			// Reference Guide (Academic Tutorial)
+			Product product = new Product();
+			product.setName(wce.getMessage());
+			product.setPhotoURL("");
+			product.setCategory(new Category());
+			product.setId((long) 0);
+			products.add(product);
+		} catch (IllegalArgumentException iae) {
+			// little hack to visually show the error message within our Azure Pet Store
+			// Reference Guide (Academic Tutorial)
+			Product product = new Product();
+			product.setName(
+					"petstore.service.url:${PETSTOREPRODUCTSERVICE_URL} needs to be enabled for this service to work"
+							+ iae.getMessage());
+			product.setPhotoURL("");
+			product.setCategory(new Category());
+			product.setId((long) 0);
+			products.add(product);
+		}
+		return products;
 	}
 }

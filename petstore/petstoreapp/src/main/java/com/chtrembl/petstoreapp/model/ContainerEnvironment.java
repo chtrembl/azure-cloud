@@ -36,11 +36,17 @@ public class ContainerEnvironment implements Serializable {
 
 	private boolean securityEnabled = false;
 
-	@Value("${petstore.service.url:}")
-	private String petStoreServiceURL;
+	@Value("${petstore.service.pet.url:}")
+	private String petStorePetServiceURL;
+
+	@Value("${petstore.service.product.url:}")
+	private String petStoreProductServiceURL;
+
+	@Value("${petstore.service.order.url:}")
+	private String petStoreOrderServiceURL;
 
 	@Value("${petstore.service.subscription.key:}")
-	private String petStoreServiceSubscriptionKey;
+	private String petStoreServicesSubscriptionKey;
 
 	@Value("${ga.tracking.id:}")
 	private String gaTrackingId;
@@ -98,20 +104,12 @@ public class ContainerEnvironment implements Serializable {
 		this.appVersion = appVersion;
 	}
 
-	public String getPetStoreServiceURL() {
-		return petStoreServiceURL;
+	public String getPetStoreServicesSubscriptionKey() {
+		return petStoreServicesSubscriptionKey;
 	}
 
-	public void setPetStoreServiceURL(String petStoreServiceURL) {
-		this.petStoreServiceURL = petStoreServiceURL;
-	}
-
-	public String getPetStoreServiceSubscriptionKey() {
-		return petStoreServiceSubscriptionKey;
-	}
-
-	public void setPetStoreServiceSubscriptionKey(String petStoreServiceSubscriptionKey) {
-		this.petStoreServiceSubscriptionKey = petStoreServiceSubscriptionKey;
+	public void setPetStoreServicesSubscriptionKey(String petStoreServicesSubscriptionKey) {
+		this.petStoreServicesSubscriptionKey = petStoreServicesSubscriptionKey;
 	}
 
 	public String getAppDate() {
@@ -144,5 +142,29 @@ public class ContainerEnvironment implements Serializable {
 
 	public void setGaTrackingId(String gaTrackingId) {
 		this.gaTrackingId = gaTrackingId;
+	}
+
+	public String getPetStorePetServiceURL() {
+		return petStorePetServiceURL;
+	}
+
+	public void setPetStorePetServiceURL(String petStorePetServiceURL) {
+		this.petStorePetServiceURL = petStorePetServiceURL;
+	}
+
+	public String getPetStoreProductServiceURL() {
+		return petStoreProductServiceURL;
+	}
+
+	public void setPetStoreProductServiceURL(String petStoreProductServiceURL) {
+		this.petStoreProductServiceURL = petStoreProductServiceURL;
+	}
+
+	public String getPetStoreOrderServiceURL() {
+		return petStoreOrderServiceURL;
+	}
+
+	public void setPetStoreOrderServiceURL(String petStoreOrderServiceURL) {
+		this.petStoreOrderServiceURL = petStoreOrderServiceURL;
 	}
 }

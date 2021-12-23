@@ -3,7 +3,12 @@
 #    org.springframework.security: DEBUG
 petstore:
   service:
-    url: ${PETSTORESERVICE_URL:http://localhost:8081}
+    pet:
+     url: ${PETSTOREPETSERVICE_URL:http://localhost:8081}
+    product:
+      url: ${PETSTOREPRODUCTSERVICE_URL:http://localhost:8082}
+    order:
+      url: ${PETSTOREORDERSERVICE_URL:http://localhost:8083}
     #subscription:
     #  key: ${PETSTORESERVICE_SUBSCRIPTION_KEY}
 server:

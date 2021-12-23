@@ -13,12 +13,12 @@
 		</h1>
 		<p />
 		<table class="table">
-			<div th:if="${pets} != null">
-				<tr th:each="pet, iStat : ${pets}">
+			<div th:if="${products} != null">
+				<tr th:each="product, iStat : ${products}">
 					<td>
-						<figure> <img class="thumbnail" th:src="@{${pet.photoURL}}" /> </figure>
+						<figure> <img class="thumbnail" th:src="@{${product.photoURL}}" /> </figure>
 						<div>
-							<a th:href="@{'/breeddetails?id=' + ${pet.id} + '&category=' + ${pet.category.name} }" style="font-weight: bold; text-decoration: none; color: black;"><span th:text="${pet.name}" /> 
+							<a th:href="@{'/addProduct?id=' + ${product.id} + '&category=' + ${product.category.name} }" style="font-weight: bold; text-decoration: none; color: black;"><span th:text="${product.name}" /> 
 						</div>
 					</td>
 				</tr>

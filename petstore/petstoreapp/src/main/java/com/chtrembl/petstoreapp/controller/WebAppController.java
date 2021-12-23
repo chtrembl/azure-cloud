@@ -134,6 +134,25 @@ public class WebAppController {
 		return "breeddetails";
 	}
 
+	@GetMapping(value = "/products")
+	public String products(Model model, OAuth2AuthenticationToken token, HttpServletRequest request,
+			@RequestParam(name = "category") String category, @RequestParam(name = "id") int id)
+			throws URISyntaxException {
+
+		// quick validation, should really be done in validators, check for cross side
+		// scripting etc....
+		if (!"Toy".equals(category) && !"Food".equals(category)) {
+			return "home";
+		}
+		logger.info(String.format("PetStoreApp /products requested for %s, routing to products view...", category));
+
+		Pet pet = this.sessionUser.getPets().get(id - 1);
+
+		model.addAttribute("products",
+				this.petStoreService.getProducts(pet.getCategory().getName() + " " + category, pet.getTags()));
+		return "products";
+	}
+
 	@GetMapping(value = "/claims")
 	public String claims(Model model, OAuth2AuthenticationToken token, HttpServletRequest request)
 			throws URISyntaxException {
