@@ -81,7 +81,7 @@
           {
             "name": "orderId",
             "in": "path",
-            "description": "ID of pet product order that needs to be fetched",
+            "description": "ID of pet product that needs to be fetched",
             "required": true,
             "type": "integer",
             "maximum": 10,
@@ -179,8 +179,8 @@
       "authorizationUrl": "https://petstore.swagger.io/oauth/authorize",
       "flow": "implicit",
       "scopes": {
-        "read:pets": "read your pet products",
-        "write:pets": "modify pet products in your account"
+        "read:orders": "read your pet products",
+        "write:orders": "modify pet products in your account"
       }
     }
   },
@@ -215,7 +215,7 @@
         "name": "Category"
       }
     },
-    "Product": {
+   "Product": {
       "type": "object",
       "required": [
         "id",
@@ -250,7 +250,7 @@
         "name": "Tag"
       }
     },
-    "Order": {
+     "Order": {
       "type": "object",
       "properties": {
         "id": {
@@ -276,6 +276,18 @@
           "type": "string",
           "format": "date-time"
         },
+         "tags": {
+          "type": "array",
+          "xml": {
+            "wrapped": true
+          },
+          "items": {
+            "xml": {
+              "name": "tag"
+            },
+            "$ref": "#/definitions/Tag"
+          }
+        },
         "status": {
           "type": "string",
           "description": "Order Status",
@@ -289,18 +301,6 @@
           "type": "boolean"
         }
       },
-      "tags": {
-          "type": "array",
-          "xml": {
-            "wrapped": true
-          },
-          "items": {
-            "xml": {
-              "name": "tag"
-            },
-            "$ref": "#/definitions/Tag"
-          }
-        },
       "xml": {
         "name": "Order"
       }
