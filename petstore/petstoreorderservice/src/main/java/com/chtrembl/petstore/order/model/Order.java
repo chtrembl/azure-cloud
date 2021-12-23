@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Size;
 
 import org.springframework.validation.annotation.Validated;
 import org.threeten.bp.OffsetDateTime;
@@ -25,6 +26,8 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class Order implements Serializable {
 	@JsonProperty("id")
+	@Size(min = 1, message = "id must be > 0") // no need to exhaust in mem cache for this demo
+	@Size(max = 39, message = "id must be < 40") // no need to exhaust in mem cache for this demo
 	private String id = null;
 
 	@JsonProperty("shipDate")
@@ -71,6 +74,7 @@ public class Order implements Serializable {
 
 	@JsonProperty("products")
 	@Valid
+	@Size(min = 1, max = 10) // no need to exhaust in mem cache for this demo
 	private List<Product> products = null;
 
 	public Order id(String id) {
