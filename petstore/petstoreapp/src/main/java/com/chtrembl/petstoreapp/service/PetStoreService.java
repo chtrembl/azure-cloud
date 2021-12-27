@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.chtrembl.petstoreapp.model.Order;
 import com.chtrembl.petstoreapp.model.Pet;
 import com.chtrembl.petstoreapp.model.Product;
 import com.chtrembl.petstoreapp.model.Tag;
@@ -16,4 +17,6 @@ public interface PetStoreService {
 	public Collection<Product> getProducts(String category, List<Tag> tags);
 
 	public void updateOrder(long productId, int quantity);
+
+	public Order retrieveOrder(String orderId);
 }

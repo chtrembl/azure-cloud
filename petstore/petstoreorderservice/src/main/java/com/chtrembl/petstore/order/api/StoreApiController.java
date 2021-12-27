@@ -120,17 +120,33 @@ public class StoreApiController implements StoreApi {
 			if (body.getProducts().size() == 1) {
 				Product incomingProduct = body.getProducts().get(0);
 				List<Product> existingProducts = this.storeApiCache.getOrder(body.getId()).getProducts();
-				if (incomingProduct.getQuantity() == 0) {
-					// removal
-					existingProducts.removeIf(product -> product.getId().equals(incomingProduct.getId()));
-					this.getStoreApiCache(body.getId()).setProducts(existingProducts);
+				if (existingProducts != null && existingProducts.size() > 0) {
+					// removal if one exists...
+					if (incomingProduct.getQuantity() == 0) {
+						existingProducts.removeIf(product -> product.getId().equals(incomingProduct.getId()));
+						this.getStoreApiCache(body.getId()).setProducts(existingProducts);
+					}
+					// update quantity if one exists or add new entry
+					else {
+
+						Product product = existingProducts.stream()
+								.filter(existingProduct -> existingProduct.getId().equals(incomingProduct.getId()))
+								.findAny().orElse(null);
+						if (product != null) {
+							// one exists
+							product.setQuantity(product.getQuantity() + incomingProduct.getQuantity());
+						} else {
+							// existing products but one does not exist matching the incoming product
+							this.getStoreApiCache(body.getId()).addProductsItem(body.getProducts().get(0));
+						}
+					}
 				} else {
-					existingProducts.stream().filter(product -> product.getId() == incomingProduct.getId()).findFirst()
-							.ifPresent(product -> product
-									.setQuantity((product.getQuantity() + incomingProduct.getQuantity())));
+					// nothing existing....
+					if (body.getProducts().get(0).getQuantity() > 0) {
+						this.getStoreApiCache(body.getId()).setProducts(body.getProducts());
+					}
 				}
 			}
-
 			// n products is the current order being modified and so cache can be replaced
 			// with it
 			if (body.getProducts().size() > 1) {

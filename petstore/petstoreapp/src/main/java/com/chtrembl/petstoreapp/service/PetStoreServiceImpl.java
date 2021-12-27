@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientException;
 
@@ -26,6 +27,9 @@ import com.chtrembl.petstoreapp.model.Pet;
 import com.chtrembl.petstoreapp.model.Product;
 import com.chtrembl.petstoreapp.model.Tag;
 import com.chtrembl.petstoreapp.model.User;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import reactor.core.publisher.Mono;
 
@@ -58,11 +62,10 @@ public class PetStoreServiceImpl implements PetStoreService {
 		List<Pet> pets = new ArrayList<Pet>();
 
 		this.sessionUser.getTelemetryClient()
-				.trackEvent(String.format("PetStoreApp %s is requesting to retrieve pets from the PetStorePetService",
+				.trackEvent(String.format("user %s is requesting to retrieve pets from the PetStorePetService",
 						this.sessionUser.getName()), this.sessionUser.getCustomEventProperties(), null);
 		try {
-			pets = this.petServiceWebClient.get()
-					.uri("petstorepetservice/v2/pet/findByStatus?status={status}", "available")
+			pets = this.petServiceWebClient.get().uri("petstorepetservice/v2/pet/findByStatus?status=available")
 					.accept(MediaType.APPLICATION_JSON).header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
 					.header("host", "azurepetstoreapim.azure-api.net")
 					.header("session-id", this.sessionUser.getSessionId())
@@ -113,12 +116,11 @@ public class PetStoreServiceImpl implements PetStoreService {
 		List<Product> products = new ArrayList<Product>();
 
 		this.sessionUser.getTelemetryClient()
-				.trackEvent(String.format(
-						"PetStoreApp %s is requesting to retrieve products from the PetStoreProductService",
+				.trackEvent(String.format("user %s is requesting to retrieve products from the PetStoreProductService",
 						this.sessionUser.getName()), this.sessionUser.getCustomEventProperties(), null);
 		try {
 			products = this.productServiceWebClient.get()
-					.uri("petstoreproductservice/v2/product/findByStatus?status={status}", "available")
+					.uri("petstoreproductservice/v2/product/findByStatus?status=available")
 					.accept(MediaType.APPLICATION_JSON).header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
 					.header("host", "azurepetstoreapim.azure-api.net")
 					.header("session-id", this.sessionUser.getSessionId())
@@ -175,10 +177,9 @@ public class PetStoreServiceImpl implements PetStoreService {
 
 	@Override
 	public void updateOrder(long productId, int quantity) {
-		this.sessionUser.getTelemetryClient().trackEvent(
-				String.format("PetStoreApp %s is requesting to update an order with the PetStoreOrderService",
-						this.sessionUser.getName()),
-				this.sessionUser.getCustomEventProperties(), null);
+		this.sessionUser.getTelemetryClient()
+				.trackEvent(String.format("user %s is requesting to update an order with the PetStoreOrderService",
+						this.sessionUser.getName()), this.sessionUser.getCustomEventProperties(), null);
 
 		try {
 			Order updatedOrder = new Order();
@@ -190,9 +191,13 @@ public class PetStoreServiceImpl implements PetStoreService {
 			products.add(product);
 			updatedOrder.setProducts(products);
 
+			String orderJSON = new ObjectMapper().setSerializationInclusion(Include.NON_NULL)
+					.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
+					.configure(SerializationFeature.FAIL_ON_SELF_REFERENCES, false).writeValueAsString(updatedOrder);
+
 			updatedOrder = this.orderServiceWebClient.post().uri("petstoreorderservice/v2/store/order")
-					.body(Mono.just(updatedOrder), Order.class).accept(MediaType.APPLICATION_JSON)
-					.header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+					.body(BodyInserters.fromPublisher(Mono.just(orderJSON), String.class))
+					.accept(MediaType.APPLICATION_JSON).header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
 					.header("host", "azurepetstoreapim.azure-api.net")
 					.header("session-id", this.sessionUser.getSessionId())
 					.header("Ocp-Apim-Subscription-Key", this.containerEnvironment.getPetStoreServicesSubscriptionKey())
@@ -203,4 +208,30 @@ public class PetStoreServiceImpl implements PetStoreService {
 			logger.warn(e.getMessage());
 		}
 	}
+
+	@Override
+	public Order retrieveOrder(String orderId) {
+		this.sessionUser.getTelemetryClient()
+				.trackEvent(String.format("user %s is requesting to retrieve an from with the PetStoreOrderService",
+						this.sessionUser.getName()), this.sessionUser.getCustomEventProperties(), null);
+
+		Order order = null;
+		try {
+			order = this.orderServiceWebClient.get()
+					.uri(uriBuilder -> uriBuilder.path("petstoreorderservice/v2/store/order/{orderId}").build(orderId))
+					.accept(MediaType.APPLICATION_JSON).header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+					.header("host", "azurepetstoreapim.azure-api.net")
+					.header("session-id", this.sessionUser.getSessionId())
+					.header("Ocp-Apim-Subscription-Key", this.containerEnvironment.getPetStoreServicesSubscriptionKey())
+					.header("Cache-Control", "no-cache").header("Ocp-Apim-Trace", "true").retrieve()
+					.bodyToMono(new ParameterizedTypeReference<Order>() {
+					}).block();
+
+		} catch (Exception e) {
+			logger.warn(e.getMessage());
+		}
+
+		return order;
+	}
+
 }

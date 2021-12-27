@@ -16,7 +16,7 @@
 			<div th:if="${products} != null">
 				<tr th:each="product, iStat : ${products}">
 					<td>
-						<figure> <img class="thumbnail" th:src="@{${product.photoURL}}" /> </figure>
+						<div style="text-align: center !important;"><figure> <img class="thumbnail" th:src="@{${product.photoURL}}" /> </figure></div>
 						<div style="margin-bottom: 20px;">
 							<span style="font-weight: bold;" th:text="${product.name}" /> 
 						</div>
