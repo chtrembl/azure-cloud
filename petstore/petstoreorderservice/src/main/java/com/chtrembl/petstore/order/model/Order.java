@@ -30,9 +30,6 @@ public class Order implements Serializable {
 	@Valid
 	private List<Product> products = null;
 
-	@JsonProperty("quantity")
-	private Integer quantity = null;
-
 	@JsonProperty("shipDate")
 	private OffsetDateTime shipDate = null;
 
@@ -127,26 +124,6 @@ public class Order implements Serializable {
 
 	public void setProducts(List<Product> products) {
 		this.products = products;
-	}
-
-	public Order quantity(Integer quantity) {
-		this.quantity = quantity;
-		return this;
-	}
-
-	/**
-	 * Get quantity
-	 * 
-	 * @return quantity
-	 **/
-	@ApiModelProperty(value = "")
-
-	public Integer getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(Integer quantity) {
-		this.quantity = quantity;
 	}
 
 	public Order shipDate(OffsetDateTime shipDate) {
@@ -251,14 +228,13 @@ public class Order implements Serializable {
 		}
 		Order order = (Order) o;
 		return Objects.equals(this.id, order.id) && Objects.equals(this.products, order.products)
-				&& Objects.equals(this.quantity, order.quantity) && Objects.equals(this.shipDate, order.shipDate)
-				&& Objects.equals(this.tags, order.tags) && Objects.equals(this.status, order.status)
-				&& Objects.equals(this.complete, order.complete);
+				&& Objects.equals(this.shipDate, order.shipDate) && Objects.equals(this.tags, order.tags)
+				&& Objects.equals(this.status, order.status) && Objects.equals(this.complete, order.complete);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, products, quantity, shipDate, tags, status, complete);
+		return Objects.hash(id, products, shipDate, tags, status, complete);
 	}
 
 	@Override
@@ -268,7 +244,6 @@ public class Order implements Serializable {
 
 		sb.append("    id: ").append(toIndentedString(id)).append("\n");
 		sb.append("    products: ").append(toIndentedString(products)).append("\n");
-		sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
 		sb.append("    shipDate: ").append(toIndentedString(shipDate)).append("\n");
 		sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
 		sb.append("    status: ").append(toIndentedString(status)).append("\n");

@@ -3,6 +3,7 @@ package com.chtrembl.petstore.order.api;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -26,6 +27,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 
 import com.chtrembl.petstore.order.model.ContainerEnvironment;
 import com.chtrembl.petstore.order.model.Order;
+import com.chtrembl.petstore.order.model.Product;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.annotations.ApiParam;
@@ -113,7 +115,27 @@ public class StoreApiController implements StoreApi {
 
 			this.getStoreApiCache(body.getId()).setId(body.getId());
 			this.getStoreApiCache(body.getId()).setComplete(false);
-			this.getStoreApiCache(body.getId()).setProducts(body.getProducts());
+
+			// 1 product is just an add from a product page so cache needs to be updated
+			if (body.getProducts().size() == 1) {
+				Product incomingProduct = body.getProducts().get(0);
+				List<Product> existingProducts = this.storeApiCache.getOrder(body.getId()).getProducts();
+				if (incomingProduct.getQuantity() == 0) {
+					// removal
+					existingProducts.removeIf(product -> product.getId().equals(incomingProduct.getId()));
+					this.getStoreApiCache(body.getId()).setProducts(existingProducts);
+				} else {
+					existingProducts.stream().filter(product -> product.getId() == incomingProduct.getId()).findFirst()
+							.ifPresent(product -> product
+									.setQuantity((product.getQuantity() + incomingProduct.getQuantity())));
+				}
+			}
+
+			// n products is the current order being modified and so cache can be replaced
+			// with it
+			if (body.getProducts().size() > 1) {
+				this.getStoreApiCache(body.getId()).setProducts(body.getProducts());
+			}
 
 			try {
 				ApiUtil.setResponse(request, "application/json",
