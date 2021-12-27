@@ -97,7 +97,10 @@ public class ContainerEnvironment implements Serializable {
 	}
 
 	public String getAppVersion() {
-		return appVersion;
+		if ("version".equals(this.appVersion) || this.appVersion == null) {
+			return String.valueOf(System.currentTimeMillis());
+		}
+		return this.appVersion;
 	}
 
 	public void setAppVersion(String appVersion) {

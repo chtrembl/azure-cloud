@@ -18,7 +18,9 @@
 					<td>
 						<figure> <img class="thumbnail" th:src="@{${pet.photoURL}}" /> </figure>
 						<div>
-							<a th:href="@{'/breeddetails?id=' + ${pet.id} + '&category=' + ${pet.category.name} }" style="font-weight: bold; text-decoration: none; color: black;"><span th:text="${pet.name}" /> 
+							<a th:href="@{'/breeddetails?id=' + ${pet.id} + '&category=' + ${pet.category.name} }" style="font-weight: bold; text-decoration: none; color: black;">
+								<button class="btn btn-outline-primary" type="submit">Shop for <span th:text="${pet.name}" /></button>
+							</a>
 						</div>
 					</td>
 				</tr>

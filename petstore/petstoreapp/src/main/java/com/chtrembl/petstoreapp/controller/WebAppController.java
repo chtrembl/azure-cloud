@@ -2,6 +2,7 @@ package com.chtrembl.petstoreapp.controller;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,10 +16,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import com.chtrembl.petstoreapp.model.ContainerEnvironment;
+import com.chtrembl.petstoreapp.model.Order;
 import com.chtrembl.petstoreapp.model.Pet;
 import com.chtrembl.petstoreapp.model.User;
 import com.chtrembl.petstoreapp.service.PetStoreService;
@@ -40,6 +43,9 @@ public class WebAppController {
 
 	@Autowired
 	private User sessionUser;
+
+	@Autowired
+	private Order order;
 
 	@ModelAttribute
 	public void setModel(HttpServletRequest request, Model model, OAuth2AuthenticationToken token) {
@@ -70,6 +76,8 @@ public class WebAppController {
 		model.addAttribute("containerEnvironment", this.containerEnvironment);
 
 		model.addAttribute("sessionId", this.sessionUser.getSessionId());
+
+		model.addAttribute("appVersion", this.containerEnvironment.getAppVersion());
 
 		MDC.put("session_Id", this.sessionUser.getSessionId());
 	}
@@ -151,6 +159,18 @@ public class WebAppController {
 		model.addAttribute("products",
 				this.petStoreService.getProducts(pet.getCategory().getName() + " " + category, pet.getTags()));
 		return "products";
+	}
+
+	@GetMapping(value = "/cart")
+	public String cart(Model model, OAuth2AuthenticationToken token, HttpServletRequest request) {
+		return "cart";
+	}
+
+	@PostMapping(value = "/updatecart")
+	public String updatecart(Model model, OAuth2AuthenticationToken token, HttpServletRequest request,
+			@RequestParam Map<String, String> params) {
+		this.petStoreService.updateOrder(Long.valueOf(params.get("productId")), 1);
+		return "redirect:cart";
 	}
 
 	@GetMapping(value = "/claims")

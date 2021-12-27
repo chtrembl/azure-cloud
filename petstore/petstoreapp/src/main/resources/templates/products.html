@@ -17,15 +17,29 @@
 				<tr th:each="product, iStat : ${products}">
 					<td>
 						<figure> <img class="thumbnail" th:src="@{${product.photoURL}}" /> </figure>
-						<div>
-							<a th:href="@{'/addProduct?id=' + ${product.id} + '&category=' + ${product.category.name} }" style="font-weight: bold; text-decoration: none; color: black;"><span th:text="${product.name}" /> 
+						<div style="margin-bottom: 20px;">
+							<span style="font-weight: bold;" th:text="${product.name}" /> 
+						</div>
+						<div style="margin-bottom: 20px;">
+							<a th:onclick="'updatecart(\'' + ${product.id} + '\');'" style="font-weight: bold; text-decoration: none; color: black;">
+								<button class="btn btn-outline-primary" type="submit">Add to cart</button>
+							</a>
 						</div>
 					</td>
 				</tr>
 			</div>
 		</table>
+		<form action="updatecart" method="post" id="addProduct">
+		 <input type="hidden" id="productId" name="productId" value="">
+    	</form>
 	</div>
 	<div lang="en" th:replace="fragments/footer :: footer"></div>
+	<script language="javascript"> 
+	   function updatecart(productId){
+		 document.getElementById('productId').value = productId;
+	     document.getElementById('addProduct').submit();
+	   }
+	</script>
 </body>
 
 </html>

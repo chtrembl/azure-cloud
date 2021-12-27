@@ -7,9 +7,7 @@ import java.util.Objects;
 
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 @SuppressWarnings("serial")
 @Component
@@ -29,45 +27,8 @@ public class Product implements Serializable {
 	@JsonProperty("tags")
 	private List<Tag> tags = null;
 
-	/**
-	 * pet status in the store
-	 */
-	public enum StatusEnum {
-		AVAILABLE("available"),
-
-		PENDING("pending"),
-
-		SOLD("sold");
-
-		private String value;
-
-		StatusEnum(String value) {
-			this.value = value;
-		}
-
-		@JsonValue
-		public String getValue() {
-			return value;
-		}
-
-		@Override
-		public String toString() {
-			return String.valueOf(value);
-		}
-
-		@JsonCreator
-		public static StatusEnum fromValue(String value) {
-			for (StatusEnum b : StatusEnum.values()) {
-				if (b.value.equals(value)) {
-					return b;
-				}
-			}
-			throw new IllegalArgumentException("Unexpected value '" + value + "'");
-		}
-	}
-
-	@JsonProperty("status")
-	private StatusEnum status;
+	@JsonProperty("quantity")
+	private Integer quantity = null;
 
 	public Product id(Long id) {
 		this.id = id;
@@ -162,22 +123,12 @@ public class Product implements Serializable {
 		this.tags = tags;
 	}
 
-	public Product status(StatusEnum status) {
-		this.status = status;
-		return this;
+	public Integer getQuantity() {
+		return quantity;
 	}
 
-	/**
-	 * pet status in the store
-	 * 
-	 * @return status
-	 */
-	public StatusEnum getStatus() {
-		return status;
-	}
-
-	public void setStatus(StatusEnum status) {
-		this.status = status;
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
 	}
 
 	@Override
@@ -191,25 +142,24 @@ public class Product implements Serializable {
 		Product product = (Product) o;
 		return Objects.equals(this.id, product.id) && Objects.equals(this.category, product.category)
 				&& Objects.equals(this.name, product.name) && Objects.equals(this.photoURL, product.photoURL)
-				&& Objects.equals(this.tags, product.tags) && Objects.equals(this.status, product.status);
+				&& Objects.equals(this.tags, product.tags);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, category, name, photoURL, tags, status);
+		return Objects.hash(id, category, name, photoURL, tags);
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("class Pet {\n");
+		sb.append("class Product {\n");
 
 		sb.append("    id: ").append(toIndentedString(id)).append("\n");
 		sb.append("    category: ").append(toIndentedString(category)).append("\n");
 		sb.append("    name: ").append(toIndentedString(name)).append("\n");
 		sb.append("    photoUrls: ").append(toIndentedString(photoURL)).append("\n");
 		sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
-		sb.append("    status: ").append(toIndentedString(status)).append("\n");
 		sb.append("}");
 		return sb.toString();
 	}

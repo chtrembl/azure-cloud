@@ -44,5 +44,3 @@ spring:
     name: petstoreapp
   thymeleaf:
     cache: false  
-
- 

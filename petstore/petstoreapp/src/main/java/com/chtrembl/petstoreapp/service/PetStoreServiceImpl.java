@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
@@ -19,13 +21,18 @@ import org.springframework.web.reactive.function.client.WebClientException;
 
 import com.chtrembl.petstoreapp.model.Category;
 import com.chtrembl.petstoreapp.model.ContainerEnvironment;
+import com.chtrembl.petstoreapp.model.Order;
 import com.chtrembl.petstoreapp.model.Pet;
 import com.chtrembl.petstoreapp.model.Product;
 import com.chtrembl.petstoreapp.model.Tag;
 import com.chtrembl.petstoreapp.model.User;
 
+import reactor.core.publisher.Mono;
+
 @Component
 public class PetStoreServiceImpl implements PetStoreService {
+	private static Logger logger = LoggerFactory.getLogger(PetStoreServiceImpl.class);
+
 	@Autowired
 	private User sessionUser;
 
@@ -105,10 +112,10 @@ public class PetStoreServiceImpl implements PetStoreService {
 	public Collection<Product> getProducts(String category, List<Tag> tags) {
 		List<Product> products = new ArrayList<Product>();
 
-		this.sessionUser.getTelemetryClient().trackEvent(
-				String.format("PetStoreApp %s is requesting to retrieve products from the PetStorePetService",
-						this.sessionUser.getName()),
-				this.sessionUser.getCustomEventProperties(), null);
+		this.sessionUser.getTelemetryClient()
+				.trackEvent(String.format(
+						"PetStoreApp %s is requesting to retrieve products from the PetStoreProductService",
+						this.sessionUser.getName()), this.sessionUser.getCustomEventProperties(), null);
 		try {
 			products = this.productServiceWebClient.get()
 					.uri("petstoreproductservice/v2/product/findByStatus?status={status}", "available")
@@ -127,10 +134,18 @@ public class PetStoreServiceImpl implements PetStoreService {
 			this.sessionUser.setProducts(products);
 
 			// filter this specific request per category
-			products = products.stream().filter(pet -> category.equals(pet.getCategory().getName()))
-					.collect(Collectors.toList());
+			if (tags.stream().anyMatch(t -> t.getName().equals("large"))) {
+				products = products.stream().filter(product -> category.equals(product.getCategory().getName())
+						&& product.getTags().toString().contains("large")).collect(Collectors.toList());
+			} else {
+
+				products = products.stream().filter(product -> category.equals(product.getCategory().getName())
+						&& product.getTags().toString().contains("small")).collect(Collectors.toList());
+			}
 			return products;
-		} catch (WebClientException wce) {
+		} catch (
+
+		WebClientException wce) {
 			this.sessionUser.getTelemetryClient().trackException(wce);
 			this.sessionUser.getTelemetryClient().trackEvent(
 					String.format("PetStoreApp %s received %s, container host: %s", this.sessionUser.getName(),
@@ -156,5 +171,36 @@ public class PetStoreServiceImpl implements PetStoreService {
 			products.add(product);
 		}
 		return products;
+	}
+
+	@Override
+	public void updateOrder(long productId, int quantity) {
+		this.sessionUser.getTelemetryClient().trackEvent(
+				String.format("PetStoreApp %s is requesting to update an order with the PetStoreOrderService",
+						this.sessionUser.getName()),
+				this.sessionUser.getCustomEventProperties(), null);
+
+		try {
+			Order updatedOrder = new Order();
+			updatedOrder.setId(this.sessionUser.getSessionId());
+			List<Product> products = new ArrayList<Product>();
+			Product product = new Product();
+			product.setId(Long.valueOf(productId));
+			product.setQuantity(quantity);
+			products.add(product);
+			updatedOrder.setProducts(products);
+
+			updatedOrder = this.orderServiceWebClient.post().uri("petstoreorderservice/v2/store/order")
+					.body(Mono.just(updatedOrder), Order.class).accept(MediaType.APPLICATION_JSON)
+					.header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+					.header("host", "azurepetstoreapim.azure-api.net")
+					.header("session-id", this.sessionUser.getSessionId())
+					.header("Ocp-Apim-Subscription-Key", this.containerEnvironment.getPetStoreServicesSubscriptionKey())
+					.header("Cache-Control", "no-cache").header("Ocp-Apim-Trace", "true").retrieve()
+					.bodyToMono(Order.class).block();
+
+		} catch (Exception e) {
+			logger.warn(e.getMessage());
+		}
 	}
 }
