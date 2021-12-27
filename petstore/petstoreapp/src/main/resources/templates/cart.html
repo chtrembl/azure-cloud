@@ -12,9 +12,22 @@
 				class="azureimagelarge" />Azure Pet Store
 		</h1>
 		<p />
-		<table class="table">
-			Shopping Cart
-		</table>
+		<h3>Shopping Cart Summary</h3>
+		<div style=" display: flex;justify-content: center;">
+			<table class="table table-borderless" style="width:80%;align-self: center;">
+			<th>Product ID</th><th>Quantity</th>
+			<div th:if="${order.products} != null">
+				<tr th:each="product, iStat : ${order.products}">
+					<td>
+						<span th:text="${product.id}" />
+					</td>
+					<td>
+						<span th:text="${product.quantity}" />
+					</td>
+				</tr>
+			</div>
+			</table>
+		</div>	
 	</div>
 	<div lang="en" th:replace="fragments/footer :: footer"></div>
 </body>

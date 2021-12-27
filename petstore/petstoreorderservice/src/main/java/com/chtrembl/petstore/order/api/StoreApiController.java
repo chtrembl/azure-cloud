@@ -82,7 +82,7 @@ public class StoreApiController implements StoreApi {
 	public ResponseEntity<String> info() {
 		// password used for cred scan demo
 		String password = "foobar";
-		log.info("incoming GET request to petstoreorderservice/v2/info");
+		log.info("PetStoreOrderService incoming GET request to petstoreorderservice/v2/info");
 
 		int ordersCacheSize = 0;
 		try {
@@ -110,7 +110,8 @@ public class StoreApiController implements StoreApi {
 		if (acceptType != null && contentType != null && acceptType.contains("application/json")
 				&& contentType.contains("application/json")) {
 
-			log.info(String.format("incoming POST request to petstoreorderservice/v2/order/placeOder for order id:%s",
+			log.info(String.format(
+					"PetStoreOrderService incoming POST request to petstoreorderservice/v2/order/placeOder for order id:%s",
 					body.getId()));
 
 			this.getStoreApiCache(body.getId()).setId(body.getId());
@@ -174,7 +175,8 @@ public class StoreApiController implements StoreApi {
 		if (acceptType != null && contentType != null && acceptType.contains("application/json")
 				&& contentType.contains("application/json")) {
 
-			log.info(String.format("incoming GET request to petstoreorderservice/v2/order/getOrderById for order id:%s",
+			log.info(String.format(
+					"PetStoreOrderService incoming GET request to petstoreorderservice/v2/order/getOrderById for order id:%s",
 					orderId));
 
 			try {

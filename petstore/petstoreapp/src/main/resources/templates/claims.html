@@ -13,106 +13,107 @@
 					class="azureimagelarge" />Azure Pet Store
 			</h1>
 			<p />
-			<h2>Azure AD B2C OIDC login successful, below are the available
-				claims...</h2>
-			<table class="table table-borderless">
-				<thead>
-					<tr>
-						<th scope="col">Claim Name</th>
-						<th scope="col">Claim Value</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th scope="row">name</th>
-						<th th:text="${name}"></th>
-					</tr>
-					<tr>
-						<th scope="row">grant_type</th>
-						<th th:text="${grant_type}"></th>
-					</tr>
-					<tr>
-						<th scope="row">at_hash</th>
-						<th th:text="${at_hash}"></th>
-					</tr>
-					<tr>
-						<th scope="row">sub</th>
-						<th th:text="${sub}"></th>
-					</tr>
-					<tr>
-						<th scope="row">country</th>
-						<th th:text="${country}"></th>
-					</tr>
-					<tr>
-						<th scope="row">ver</th>
-						<th th:text="${ver}"></th>
-					</tr>
-					<tr>
-						<th scope="row">city</th>
-						<th th:text="${city}"></th>
-					</tr>
-					<tr>
-						<th scope="row">postalCode</th>
-						<th th:text="${postalCode}"></th>
-					</tr>
-					<tr>
-						<th scope="row">jobTitle</th>
-						<th th:text="${jobTitle}"></th>
-					</tr>
-					<tr>
-						<th scope="row">iss</th>
-						<th th:text="${iss}"></th>
-					</tr>
-					<tr>
-						<th scope="row">oid</th>
-						<th th:text="${oid}"></th>
-					</tr>
-					<tr>
-						<th scope="row">given_name</th>
-						<th th:text="${given_name}"></th>
-					</tr>
-					<tr>
-						<th scope="row">emails</th>
-						<th th:text="${emails}"></th>
-					</tr>
-					<tr>
-						<th scope="row">aud</th>
-						<th th:text="${aud}"></th>
-					</tr>
-					<tr>
-						<th scope="row">nbf</th>
-						<th th:text="${nbf}"></th>
-					</tr>
-					<tr>
-						<th scope="row">streetAddress</th>
-						<th th:text="${streetAddress}"></th>
-					</tr>
-					<tr>
-						<th scope="row">auth_time</th>
-						<th th:text="${auth_time}"></th>
-					</tr>
-					<tr>
-						<th scope="row">state</th>
-						<th th:text="${state}"></th>
-					</tr>
-					<tr>
-						<th scope="row">exp</th>
-						<th th:text="${exp}"></th>
-					</tr>
-					<tr>
-						<th scope="row">iat</th>
-						<th th:text="${iat}"></th>
-					</tr>
-					<tr>
-						<th scope="row">family_name</th>
-						<th th:text="${family_name}"></th>
-					</tr>
-					<tr>
-						<th scope="row">tfp</th>
-						<th th:text="${tfp}"></th>
-					</tr>
-				</tbody>
-			</table>
+			<h3>Azure AD B2C OIDC login successful, below are the available claims...</h3>
+			<div style=" display: flex;justify-content: center;">
+				<table class="table table-borderless" style="width:80%;align-self: center;">
+					<thead>
+						<tr>
+							<th scope="col">Claim Name</th>
+							<th scope="col">Claim Value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="row">name</th>
+							<th th:text="${name}"></th>
+						</tr>
+						<tr>
+							<th scope="row">grant_type</th>
+							<th th:text="${grant_type}"></th>
+						</tr>
+						<tr>
+							<th scope="row">at_hash</th>
+							<th th:text="${at_hash}"></th>
+						</tr>
+						<tr>
+							<th scope="row">sub</th>
+							<th th:text="${sub}"></th>
+						</tr>
+						<tr>
+							<th scope="row">country</th>
+							<th th:text="${country}"></th>
+						</tr>
+						<tr>
+							<th scope="row">ver</th>
+							<th th:text="${ver}"></th>
+						</tr>
+						<tr>
+							<th scope="row">city</th>
+							<th th:text="${city}"></th>
+						</tr>
+						<tr>
+							<th scope="row">postalCode</th>
+							<th th:text="${postalCode}"></th>
+						</tr>
+						<tr>
+							<th scope="row">jobTitle</th>
+							<th th:text="${jobTitle}"></th>
+						</tr>
+						<tr>
+							<th scope="row">iss</th>
+							<th th:text="${iss}"></th>
+						</tr>
+						<tr>
+							<th scope="row">oid</th>
+							<th th:text="${oid}"></th>
+						</tr>
+						<tr>
+							<th scope="row">given_name</th>
+							<th th:text="${given_name}"></th>
+						</tr>
+						<tr>
+							<th scope="row">emails</th>
+							<th th:text="${emails}"></th>
+						</tr>
+						<tr>
+							<th scope="row">aud</th>
+							<th th:text="${aud}"></th>
+						</tr>
+						<tr>
+							<th scope="row">nbf</th>
+							<th th:text="${nbf}"></th>
+						</tr>
+						<tr>
+							<th scope="row">streetAddress</th>
+							<th th:text="${streetAddress}"></th>
+						</tr>
+						<tr>
+							<th scope="row">auth_time</th>
+							<th th:text="${auth_time}"></th>
+						</tr>
+						<tr>
+							<th scope="row">state</th>
+							<th th:text="${state}"></th>
+						</tr>
+						<tr>
+							<th scope="row">exp</th>
+							<th th:text="${exp}"></th>
+						</tr>
+						<tr>
+							<th scope="row">iat</th>
+							<th th:text="${iat}"></th>
+						</tr>
+						<tr>
+							<th scope="row">family_name</th>
+							<th th:text="${family_name}"></th>
+						</tr>
+						<tr>
+							<th scope="row">tfp</th>
+							<th th:text="${tfp}"></th>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 	<div lang="en" th:replace="fragments/footer :: footer"></div>

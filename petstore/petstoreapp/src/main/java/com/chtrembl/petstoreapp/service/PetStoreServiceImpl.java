@@ -61,9 +61,10 @@ public class PetStoreServiceImpl implements PetStoreService {
 	public Collection<Pet> getPets(String category) {
 		List<Pet> pets = new ArrayList<Pet>();
 
-		this.sessionUser.getTelemetryClient()
-				.trackEvent(String.format("user %s is requesting to retrieve pets from the PetStorePetService",
-						this.sessionUser.getName()), this.sessionUser.getCustomEventProperties(), null);
+		this.sessionUser.getTelemetryClient().trackEvent(
+				String.format("PetStoreApp user %s is requesting to retrieve pets from the PetStorePetService",
+						this.sessionUser.getName()),
+				this.sessionUser.getCustomEventProperties(), null);
 		try {
 			pets = this.petServiceWebClient.get().uri("petstorepetservice/v2/pet/findByStatus?status=available")
 					.accept(MediaType.APPLICATION_JSON).header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
@@ -116,7 +117,8 @@ public class PetStoreServiceImpl implements PetStoreService {
 		List<Product> products = new ArrayList<Product>();
 
 		this.sessionUser.getTelemetryClient()
-				.trackEvent(String.format("user %s is requesting to retrieve products from the PetStoreProductService",
+				.trackEvent(String.format(
+						"PetStoreApp user %s is requesting to retrieve products from the PetStoreProductService",
 						this.sessionUser.getName()), this.sessionUser.getCustomEventProperties(), null);
 		try {
 			products = this.productServiceWebClient.get()
@@ -212,7 +214,8 @@ public class PetStoreServiceImpl implements PetStoreService {
 	@Override
 	public Order retrieveOrder(String orderId) {
 		this.sessionUser.getTelemetryClient()
-				.trackEvent(String.format("user %s is requesting to retrieve an from with the PetStoreOrderService",
+				.trackEvent(String.format(
+						"PetStoreApp user %s is requesting to retrieve an from with the PetStoreOrderService",
 						this.sessionUser.getName()), this.sessionUser.getCustomEventProperties(), null);
 
 		Order order = null;

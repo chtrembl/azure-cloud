@@ -164,6 +164,12 @@ public class WebAppController {
 	@GetMapping(value = "/cart")
 	public String cart(Model model, OAuth2AuthenticationToken token, HttpServletRequest request) {
 		Order order = this.petStoreService.retrieveOrder(this.sessionUser.getSessionId());
+		model.addAttribute("order", order);
+		int cartSize = 0;
+		if (order.getProducts() != null) {
+			cartSize = order.getProducts().size();
+		}
+		model.addAttribute("cartSize", cartSize);
 		return "cart";
 	}
 

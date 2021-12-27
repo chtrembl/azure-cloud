@@ -80,7 +80,7 @@ public class PetApiController implements PetApi {
 	public ResponseEntity<String> info() {
 		// password used for cred scan demo
 		String password = "foobar";
-		log.info("incoming GET request to petstorepetservice/v2/info");
+		log.info("PetStorePetService incoming GET request to petstorepetservice/v2/info");
 		ApiUtil.setResponse(request, "application/json",
 				"{ \"service\" : \"pet service\", \"version\" : \"" + containerEnvironment.getAppVersion()
 						+ "\", \"container\" : \"" + containerEnvironment.getContainerHostName() + "\" }");
