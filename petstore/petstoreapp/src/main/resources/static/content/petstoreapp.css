@@ -11,6 +11,9 @@
 	.bd-placeholder-img-lg {
 		font-size: 3.5rem;
 	}
+	.thumbnail {
+	width: 30%;
+	}
 }
 
 .azureimagesmall {
@@ -20,8 +23,8 @@
 }
 
 .azureimagelarge {
-	width: 10%;
-	height: 10%;
+	width: 5%;
+	height: 5%;
 	opacity: 80%;
 }
 
