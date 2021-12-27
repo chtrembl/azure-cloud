@@ -3,6 +3,10 @@ a {
 	color: #007bff !important;
 }
 
+.cc-compliance {
+	color: #fff !important;
+}
+
 .bd-placeholder-img {
 	font-size: 1.125rem;
 	text-anchor: middle;
@@ -17,7 +21,7 @@ a {
 		font-size: 3.5rem;
 	}
 	.thumbnail {
-	width: 20% !important;
+	width: 30% !important;
 	}
 	.azureimagesmall {
 	width: 10%;
