@@ -3,7 +3,11 @@ a {
 	color: #007bff !important;
 }
 
-.cc-compliance {
+cc-message > a {
+	color: #fff !important;
+}
+
+.cc-compliance > a {
 	color: #fff !important;
 }
 
@@ -21,7 +25,7 @@ a {
 		font-size: 3.5rem;
 	}
 	.thumbnail {
-	width: 30% !important;
+	width: 40% !important;
 	}
 	.azureimagesmall {
 	width: 10%;
