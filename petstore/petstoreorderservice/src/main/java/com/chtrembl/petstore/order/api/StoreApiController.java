@@ -5,7 +5,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -65,21 +64,22 @@ public class StoreApiController implements StoreApi {
 		this.request = request;
 	}
 
-	@Override
-	public Optional<NativeWebRequest> getRequest() {
+	// should really be in an interceptor
+	public void conigureThreadForLogging() {
 		try {
 			this.containerEnvironment.setContainerHostName(
 					InetAddress.getLocalHost().getHostAddress() + "/" + InetAddress.getLocalHost().getHostName());
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
+			log.info("PetStoreOrderService getRequest() error: " + e.getMessage());
 		}
 		MDC.put("containerHostName", this.containerEnvironment.getContainerHostName());
 		MDC.put("session_Id", request.getHeader("session-id"));
-		return Optional.ofNullable(request);
 	}
 
 	@RequestMapping(value = "store/info", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<String> info() {
+		conigureThreadForLogging();
+
 		// password used for cred scan demo
 		String password = "foobar";
 		log.info("PetStoreOrderService incoming GET request to petstoreorderservice/v2/info");
@@ -105,6 +105,8 @@ public class StoreApiController implements StoreApi {
 	@Override
 	public ResponseEntity<Order> placeOrder(
 			@ApiParam(value = "order placed for purchasing the product", required = true) @Valid @RequestBody Order body) {
+		conigureThreadForLogging();
+
 		String acceptType = request.getHeader("Content-Type");
 		String contentType = request.getHeader("Content-Type");
 		if (acceptType != null && contentType != null && acceptType.contains("application/json")
@@ -177,6 +179,8 @@ public class StoreApiController implements StoreApi {
 	@Override
 	public ResponseEntity<Order> getOrderById(
 			@ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") String orderId) {
+		conigureThreadForLogging();
+
 		String acceptType = request.getHeader("Content-Type");
 		String contentType = request.getHeader("Content-Type");
 		if (acceptType != null && contentType != null && acceptType.contains("application/json")
@@ -219,6 +223,8 @@ public class StoreApiController implements StoreApi {
 	}
 
 	private Product getProduct(List<Product> products, Long id) {
+		conigureThreadForLogging();
+
 		return products.stream().filter(product -> id.equals(product.getId())).findAny().orElse(null);
 	}
 

@@ -51,7 +51,7 @@ public class StoreApiCache {
 
 	@Cacheable("orders")
 	public Order getOrder(String id) {
-		log.info(String.format("Creating new order id:%s and caching it", id));
+		log.info(String.format("PetStoreOrderService creating new order id:%s and caching it", id));
 		return new Order();
 	}
 
@@ -93,7 +93,7 @@ public class StoreApiCache {
 	// wipe this every 12 hours... 60 secs * 60 mins * 12 hrs * 1000 (1 sec in ms)
 	@Scheduled(fixedRate = 60 * 60 * 12 * 1000)
 	public void evictAllcachesAtIntervals() {
-		log.info("evictAllcachesAtIntervals...");
+		log.info("PetStoreOrderService evictAllcachesAtIntervals...");
 
 		// should probably wipe when an order is complete or dangling, but for
 		// simplicity in this pet store guide, just wipe everything on a set interval...

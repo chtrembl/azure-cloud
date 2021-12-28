@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -63,21 +62,22 @@ public class PetApiController implements PetApi {
 		this.request = request;
 	}
 
-	@Override
-	public Optional<NativeWebRequest> getRequest() {
+	// should really be in an interceptor
+	public void conigureThreadForLogging() {
 		try {
 			this.containerEnvironment.setContainerHostName(
 					InetAddress.getLocalHost().getHostAddress() + "/" + InetAddress.getLocalHost().getHostName());
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
+			log.info("PetStoreOrderService getRequest() error: " + e.getMessage());
 		}
 		MDC.put("containerHostName", this.containerEnvironment.getContainerHostName());
 		MDC.put("session_Id", request.getHeader("session-id"));
-		return Optional.ofNullable(request);
 	}
 
 	@RequestMapping(value = "pet/info", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<String> info() {
+		conigureThreadForLogging();
+
 		// password used for cred scan demo
 		String password = "foobar";
 		log.info("PetStorePetService incoming GET request to petstorepetservice/v2/info");
@@ -90,6 +90,8 @@ public class PetApiController implements PetApi {
 	@Override
 	public ResponseEntity<List<Pet>> findPetsByStatus(
 			@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status) {
+		conigureThreadForLogging();
+
 		String acceptType = request.getHeader("Content-Type");
 		String contentType = request.getHeader("Content-Type");
 		if (acceptType != null && contentType != null && acceptType.contains("application/json")
@@ -102,7 +104,7 @@ public class PetApiController implements PetApi {
 				ApiUtil.setResponse(request, "application/json", petsJSON);
 				return new ResponseEntity<>(HttpStatus.OK);
 			} catch (JsonProcessingException e) {
-				PetApiController.log.error(e.getMessage());
+				PetApiController.log.error("PetStorePetService with findPetsByStatus() " + e.getMessage());
 				ApiUtil.setResponse(request, "application/json", e.getMessage());
 				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
@@ -136,7 +138,7 @@ public class PetApiController implements PetApi {
 						"[ {  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"}, {  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"} ]",
 						List.class), HttpStatus.NOT_IMPLEMENTED);
 			} catch (IOException e) {
-				log.error("Couldn't serialize response for content type application/json", e);
+				log.error("PetStorePetService Couldn't serialize response for content type application/json", e);
 				return new ResponseEntity<List<Pet>>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		}
@@ -147,7 +149,7 @@ public class PetApiController implements PetApi {
 						"<Pet>  <id>123456789</id>  <name>doggie</name>  <photoUrls>    <photoUrls>aeiou</photoUrls>  </photoUrls>  <tags>  </tags>  <status>aeiou</status></Pet>",
 						List.class), HttpStatus.NOT_IMPLEMENTED);
 			} catch (IOException e) {
-				log.error("Couldn't serialize response for content type application/xml", e);
+				log.error("PetStorePetService Couldn't serialize response for content type application/xml", e);
 				return new ResponseEntity<List<Pet>>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		}
@@ -165,7 +167,7 @@ public class PetApiController implements PetApi {
 						"{  \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ],  \"name\" : \"doggie\",  \"id\" : 0,  \"category\" : {    \"name\" : \"name\",    \"id\" : 6  },  \"tags\" : [ {    \"name\" : \"name\",    \"id\" : 1  }, {    \"name\" : \"name\",    \"id\" : 1  } ],  \"status\" : \"available\"}",
 						Pet.class), HttpStatus.NOT_IMPLEMENTED);
 			} catch (IOException e) {
-				log.error("Couldn't serialize response for content type application/json", e);
+				log.error("PetStorePetService Couldn't serialize response for content type application/json", e);
 				return new ResponseEntity<Pet>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		}
@@ -176,7 +178,7 @@ public class PetApiController implements PetApi {
 						"<Pet>  <id>123456789</id>  <name>doggie</name>  <photoUrls>    <photoUrls>aeiou</photoUrls>  </photoUrls>  <tags>  </tags>  <status>aeiou</status></Pet>",
 						Pet.class), HttpStatus.NOT_IMPLEMENTED);
 			} catch (IOException e) {
-				log.error("Couldn't serialize response for content type application/xml", e);
+				log.error("PetStorePetService Couldn't serialize response for content type application/xml", e);
 				return new ResponseEntity<Pet>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		}
@@ -213,7 +215,7 @@ public class PetApiController implements PetApi {
 								ModelApiResponse.class),
 						HttpStatus.NOT_IMPLEMENTED);
 			} catch (IOException e) {
-				log.error("Couldn't serialize response for content type application/json", e);
+				log.error("PetStorePetService Couldn't serialize response for content type application/json", e);
 				return new ResponseEntity<ModelApiResponse>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		}
