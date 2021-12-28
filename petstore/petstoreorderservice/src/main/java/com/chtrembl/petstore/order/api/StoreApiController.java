@@ -117,10 +117,10 @@ public class StoreApiController implements StoreApi {
 					body.getId()));
 
 			this.getStoreApiCache(body.getId()).setId(body.getId());
-			this.getStoreApiCache(body.getId()).setComplete(false);
+			this.getStoreApiCache(body.getId()).setComplete(body.isComplete());
 
 			// 1 product is just an add from a product page so cache needs to be updated
-			if (body.getProducts().size() == 1) {
+			if (body.getProducts() != null && body.getProducts().size() == 1) {
 				Product incomingProduct = body.getProducts().get(0);
 				List<Product> existingProducts = this.storeApiCache.getOrder(body.getId()).getProducts();
 				if (existingProducts != null && existingProducts.size() > 0) {
@@ -158,7 +158,7 @@ public class StoreApiController implements StoreApi {
 			}
 			// n products is the current order being modified and so cache can be replaced
 			// with it
-			if (body.getProducts().size() > 1) {
+			if (body.getProducts() != null && body.getProducts().size() > 1) {
 				this.getStoreApiCache(body.getId()).setProducts(body.getProducts());
 			}
 
