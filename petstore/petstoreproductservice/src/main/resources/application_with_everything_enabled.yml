@@ -97,7 +97,7 @@ data:
         - id: 1
           name: "small"
       status: "available"
-    - id: 6
+    - id: 7
       category: 
         id: 1
         name: "Cat Toy"
@@ -109,7 +109,7 @@ data:
         - id: 2
           name: "large"
       status: "available"
-    - id: 7
+    - id: 8
       category: 
         id: 1
         name: "Cat Toy"
@@ -121,7 +121,7 @@ data:
         - id: 2
           name: "large"
       status: "available"
-    - id: 8
+    - id: 9
       category: 
         id: 1
         name: "Cat Food"
@@ -133,7 +133,7 @@ data:
         - id: 2
           name: "large"
       status: "available"
-    - id: 9
+    - id: 10
       category: 
         id: 1
         name: "Fish Toy"
@@ -145,7 +145,7 @@ data:
         - id: 2
           name: "large"
       status: "available"
-    - id: 8
+    - id: 11
       category: 
         id: 1
         name: "Fish Food"
