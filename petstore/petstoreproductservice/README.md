@@ -28,3 +28,13 @@ Other optional aruments that you can specify to do certain things that get cover
 Enable Application Inisghts (empty and disabled by default, you'll want to uncomment the property in azure-cloud\petstore\petstoreproductservice\src\main\resources\application.yml
 
 ```-e PETSTORESERVICES_AI_INSTRUMENTATION_KEY=<your key here>```
+
+Test endpoints:
+
+GET Request for service info (No headers needed)
+
+```http://localhost:8082/petstoreprpductservice/v2/product/info```
+
+GET request for Pets (Accept: application/json and Content-Type: application/json headers needed)
+
+```http://localhost:8082/petstoreproductservice/v2/product/findByStatus?status=available```
