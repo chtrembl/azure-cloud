@@ -36,6 +36,8 @@ spec:
               secretKeyRef:
                 name: aisecretkey
                 key: secret
+          - name: PETSTOREPRODUCTSERVICE_URL
+            value: "http://20.42.31.137/"
 ---
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
