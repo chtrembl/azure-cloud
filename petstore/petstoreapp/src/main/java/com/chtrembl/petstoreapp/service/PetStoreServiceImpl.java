@@ -178,7 +178,7 @@ public class PetStoreServiceImpl implements PetStoreService {
 	}
 
 	@Override
-	public void updateOrder(long productId, int quantity) {
+	public void updateOrder(long productId, int quantity, boolean completeOrder) {
 		this.sessionUser.getTelemetryClient()
 				.trackEvent(String.format(
 						"PetStoreApp user %s is requesting to update an order with the PetStoreOrderService",
@@ -187,12 +187,17 @@ public class PetStoreServiceImpl implements PetStoreService {
 		try {
 			Order updatedOrder = new Order();
 			updatedOrder.setId(this.sessionUser.getSessionId());
-			List<Product> products = new ArrayList<Product>();
-			Product product = new Product();
-			product.setId(Long.valueOf(productId));
-			product.setQuantity(quantity);
-			products.add(product);
-			updatedOrder.setProducts(products);
+
+			if (completeOrder) {
+				updatedOrder.setComplete(true);
+			} else {
+				List<Product> products = new ArrayList<Product>();
+				Product product = new Product();
+				product.setId(Long.valueOf(productId));
+				product.setQuantity(quantity);
+				products.add(product);
+				updatedOrder.setProducts(products);
+			}
 
 			String orderJSON = new ObjectMapper().setSerializationInclusion(Include.NON_NULL)
 					.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)

@@ -16,7 +16,7 @@ public interface PetStoreService {
 
 	public Collection<Product> getProducts(String category, List<Tag> tags);
 
-	public void updateOrder(long productId, int quantity);
+	public void updateOrder(long productId, int quantity, boolean completeOrder);
 
 	public Order retrieveOrder(String orderId);
 }

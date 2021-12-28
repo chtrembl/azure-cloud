@@ -169,7 +169,7 @@ public class WebAppController {
 		Order order = this.petStoreService.retrieveOrder(this.sessionUser.getSessionId());
 		model.addAttribute("order", order);
 		int cartSize = 0;
-		if (order != null && order.getProducts() != null) {
+		if (order != null && order.getProducts() != null && !order.isComplete()) {
 			cartSize = order.getProducts().size();
 		}
 		this.sessionUser.setCartCount(cartSize);
@@ -189,7 +189,13 @@ public class WebAppController {
 			}
 		}
 
-		this.petStoreService.updateOrder(Long.valueOf(params.get("productId")), cartCount);
+		this.petStoreService.updateOrder(Long.valueOf(params.get("productId")), cartCount, false);
+		return "redirect:cart";
+	}
+
+	@PostMapping(value = "/completecart")
+	public String updatecart(Model model, OAuth2AuthenticationToken token, HttpServletRequest request) {
+		this.petStoreService.updateOrder(0, 0, true);
 		return "redirect:cart";
 	}
 

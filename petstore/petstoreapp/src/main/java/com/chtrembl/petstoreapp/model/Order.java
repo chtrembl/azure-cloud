@@ -64,7 +64,7 @@ public class Order implements Serializable {
 	private StatusEnum status = null;
 
 	@JsonProperty("complete")
-	private Boolean complete = null;
+	private Boolean complete = false;
 
 	public Order id(String id) {
 		this.id = id;

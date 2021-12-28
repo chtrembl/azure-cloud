@@ -9,47 +9,64 @@
 		<h1 class="display-4">
 			Shopping Cart Summary
 		</h1>
+		<div style="padding-top:50px;"/>
 		<div style=" display: flex;justify-content: center;">
-			<table class="table table-borderless" style="width:80%;align-self: center;">
-			<th class="fullTable">Product ID</th><th>Description</th><th class="fullTable">Product Name</th><th>Quantity</th>
-			<div th:if="${order} != null and ${order.products} != null">
-				<tr th:each="product, iStat : ${order.products}">
-					<td class="fullTable">
-						<span th:text="${product.id}" />
-					</td>
-					<td>
-						<figure> <img class="thumbnail" th:src="@{${product.photoURL}}" /> </figure>
-					</td>
-					<td class="fullTable">
-						<span th:text="${product.name}" />
-					</td>
-					<td>
-						<div style="white-space: nowrap !important;">
-						<a th:onclick="'updatecart(\'' + ${product.id} + '\' , \'minus\');'" style="font-weight: bold; text-decoration: none; color: black;"> 
-							<button class="btn btn-outline-primary" type="submit">-</button>
-						</a><span th:text="${product.quantity}" />
-						<a th:onclick="'updatecart(\'' + ${product.id} + '\' , \'plus\');'" style="font-weight: bold; text-decoration: none; color: black;"> 
-							<button class="btn btn-outline-primary" type="submit">+</button>
-						</a>
+			<table class="table" style="width:80%;align-self: center;">
+				<div th:if="${order} != null and ${order.complete} != true and ${order.products} != null">
+					<th class="fullTable">Product ID</th><th>Description</th><th class="fullTable">Product Name</th><th>Quantity</th>
+					<tr th:each="product, iStat : ${order.products}">
+						<td class="fullTable">
+							<span th:text="${product.id}" />
+						</td>
+						<td>
+							<figure> <img class="thumbnail" th:src="@{${product.photoURL}}" /> </figure>
+						</td>
+						<td class="fullTable">
+							<span th:text="${product.name}" />
+						</td>
+						<td>
+							<div style="white-space: nowrap !important;">
+							<a th:onclick="'updatecart(\'' + ${product.id} + '\' , \'minus\');'" style="font-weight: bold; text-decoration: none; color: black;"> 
+								<button class="btn btn-outline-primary" type="submit">-</button>
+							</a><span th:text="${product.quantity}" />
+							<a th:onclick="'updatecart(\'' + ${product.id} + '\' , \'plus\');'" style="font-weight: bold; text-decoration: none; color: black;"> 
+								<button class="btn btn-outline-primary" type="submit">+</button>
+							</a>
+							</div>
+						</td>
+					</tr>
+					<tr><td colspan="4">
+					<a th:onclick="'completecart();'" style="font-weight: bold; text-decoration: none; color: black;"> 
+						<button class="btn btn-outline-primary" type="submit">Complete Order</button>
+					</a>
+					</td></tr>
+				</div>
+				<div th:if="${order} != null and ${order.complete} == true">
+						<tr><td colspan="4">
+						<div style="padding-top:50px;">
+						Congratulations, your order is now complete and being processed! (Note, you may be able to re open this order if time permits)
 						</div>
-					</td>
-				</tr>
-			</div>
+						</td></tr>
+				</div>
 			</table>
 		</div>	
-		<form action="updatecart" method="post" id="updateProduct">
-		 <input type="hidden" id="productId" name="productId" value="">
-		 <input type="hidden" id="operator" name="operator" value="">
-    	</form>
+		<form action="updatecart" method="post" id="updatecart">
+			 <input type="hidden" id="productId" name="productId" value="">
+			 <input type="hidden" id="operator" name="operator" value="">
+	    	</form>
+	    	<form action="completecart" method="post" id="completecart">
+		</form>
 	</div>
 	<div lang="en" th:replace="fragments/footer :: footer"></div>
 	  <script language="javascript"> 
-	   function updatecart(productId, operator){
-		  console.log(productId);
-		  document.getElementById('productId').value = productId;
-		  document.getElementById('operator').value = operator;
-	      document.getElementById('updateProduct').submit();
-	   }
+		  function updatecart(productId, operator){
+			  document.getElementById('productId').value = productId;
+			  document.getElementById('operator').value = operator;
+		      document.getElementById('updatecart').submit();
+		   }
+		   function completecart(){
+			  document.getElementById('completecart').submit();
+		   }
 	</script>
 </body>
 
