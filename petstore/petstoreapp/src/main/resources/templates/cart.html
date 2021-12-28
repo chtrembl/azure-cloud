@@ -11,7 +11,7 @@
 		</h1>
 		<div style=" display: flex;justify-content: center;">
 			<table class="table table-borderless" style="width:80%;align-self: center;">
-			<th class="fullTable">Product ID</th><th>Thumbnail</th><th class="fullTable">Product Name</th><th>Quantity</th>
+			<th class="fullTable">Product ID</th><th>Description</th><th class="fullTable">Product Name</th><th>Quantity</th>
 			<div th:if="${order} != null and ${order.products} != null">
 				<tr th:each="product, iStat : ${order.products}">
 					<td class="fullTable">
@@ -24,10 +24,10 @@
 						<span th:text="${product.name}" />
 					</td>
 					<td>
-						<div>
+						<div style="white-space: nowrap !important;">
 						<a th:onclick="'updatecart(\'' + ${product.id} + '\' , \'minus\');'" style="font-weight: bold; text-decoration: none; color: black;"> 
 							<button class="btn btn-outline-primary" type="submit">-</button>
-						</a><span style="float:inherit;" th:text="${product.quantity}" />
+						</a><span th:text="${product.quantity}" />
 						<a th:onclick="'updatecart(\'' + ${product.id} + '\' , \'plus\');'" style="font-weight: bold; text-decoration: none; color: black;"> 
 							<button class="btn btn-outline-primary" type="submit">+</button>
 						</a>
