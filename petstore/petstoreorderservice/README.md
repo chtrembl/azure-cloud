@@ -28,3 +28,9 @@ Other optional aruments that you can specify to do certain things that get cover
 Enable Application Inisghts (empty and disabled by default, you'll want to uncomment the property in azure-cloud\petstore\petstoreorderservice\src\main\resources\application.yml
 
 ```-e PETSTORESERVICES_AI_INSTRUMENTATION_KEY=<your key here>```
+
+Test endpoint:
+
+GET Request for service info (No headers needed)
+
+```http://localhost:8083/petstoreprderservice/v2/order/info```
