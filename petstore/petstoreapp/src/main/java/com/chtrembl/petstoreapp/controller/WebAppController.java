@@ -226,7 +226,7 @@ public class WebAppController {
 
 		this.sessionUser.getTelemetryClient().trackException(npe);
 
-		return "home";
+		return "exception";
 	}
 
 	@GetMapping(value = "/*")
