@@ -25,6 +25,12 @@ public class Product implements Serializable {
 	@JsonProperty("quantity")
 	private Integer quantity = null;
 
+	@JsonProperty("name")
+	private String name = null;
+
+	@JsonProperty("photoURL")
+	private String photoURL;
+
 	public Product id(Long id) {
 		this.id = id;
 		return this;
@@ -67,6 +73,22 @@ public class Product implements Serializable {
 		this.quantity = quantity;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getPhotoURL() {
+		return photoURL;
+	}
+
+	public void setPhotoURL(String photoURL) {
+		this.photoURL = photoURL;
+	}
+
 	@Override
 	public boolean equals(java.lang.Object o) {
 		if (this == o) {
@@ -91,6 +113,8 @@ public class Product implements Serializable {
 
 		sb.append("    id: ").append(toIndentedString(id)).append("\n");
 		sb.append("    quantity: ").append(toIndentedString(quantity)).append("\n");
+		sb.append("    name: ").append(toIndentedString(name)).append("\n");
+		sb.append("    photoURL: ").append(toIndentedString(photoURL)).append("\n");
 		sb.append("}");
 		return sb.toString();
 	}

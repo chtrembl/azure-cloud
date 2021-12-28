@@ -60,9 +60,23 @@ figure {
 }
 
 .cart {
-	height: 30px;
-	width: 30px;
-	opactiy: 80% !important;
-	margin-left:10px;
-	margin-top:10px;
+	height:38px;
+	width:38px;
+	opacity: 90%;
+}
+
+.cartcontainer {
+  position: relative;
+  text-align: center;
+  color: white;
+  padding-left: 5px;
+  padding-top:5px;
+}
+
+.cartcount {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
 }

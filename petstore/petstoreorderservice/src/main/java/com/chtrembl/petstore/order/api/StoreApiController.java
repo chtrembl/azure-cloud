@@ -15,19 +15,28 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.NativeWebRequest;
 
 import com.chtrembl.petstore.order.model.ContainerEnvironment;
 import com.chtrembl.petstore.order.model.Order;
 import com.chtrembl.petstore.order.model.Product;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.swagger.annotations.ApiParam;
@@ -58,6 +67,12 @@ public class StoreApiController implements StoreApi {
 	public StoreApiCache getBeanToBeAutowired() {
 		return storeApiCache;
 	}
+
+	@Value("${petstore.service.product.url:}")
+	private String petStoreProductServiceURL;
+
+	@Autowired
+	private RestTemplate restTemplate;
 
 	@org.springframework.beans.factory.annotation.Autowired
 	public StoreApiController(ObjectMapper objectMapper, NativeWebRequest request) {
@@ -135,7 +150,13 @@ public class StoreApiController implements StoreApi {
 								.findAny().orElse(null);
 						if (product != null) {
 							// one exists
-							product.setQuantity(product.getQuantity() + incomingProduct.getQuantity());
+							int qty = product.getQuantity() + incomingProduct.getQuantity();
+							// if the count falls below 1, remove it
+							if (qty < 1) {
+								existingProducts.removeIf(p -> p.getId().equals(incomingProduct.getId()));
+							} else if (qty < 11) {
+								product.setQuantity(qty);
+							}
 						} else {
 							// existing products but one does not exist matching the incoming product
 							this.getStoreApiCache(body.getId()).addProductsItem(body.getProducts().get(0));
@@ -165,6 +186,7 @@ public class StoreApiController implements StoreApi {
 		}
 
 		return new ResponseEntity<Order>(HttpStatus.NOT_IMPLEMENTED);
+
 	}
 
 	@Override
@@ -179,9 +201,60 @@ public class StoreApiController implements StoreApi {
 					"PetStoreOrderService incoming GET request to petstoreorderservice/v2/order/getOrderById for order id:%s",
 					orderId));
 
+			// intentionally avoiding cache here and instead invoking PetStoreProductService
+			// on every order lookup to ensure
+			// product id's from the order have the corresponding meta data (photoURL and
+			// Name) this is done to generate
+			// extra load and Telemetry. Also, this service to service communication will be
+			// used to show how DAPR can
+			// simplify (in a subsequent guide once we get that implemented :) )
+
+			HttpHeaders headers = new HttpHeaders();
+			headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
+			headers.add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+			headers.add("session-id", "PetStoreOrderService");
+			HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+			ResponseEntity<String> response = restTemplate
+					.exchange(String.format("%spetstoreproductservice/v2/product/findByStatus?status=available",
+							this.petStoreProductServiceURL), HttpMethod.GET, entity, String.class);
+
+			List<Product> products = null;
 			try {
-				ApiUtil.setResponse(request, "application/json",
-						new ObjectMapper().writeValueAsString(this.getStoreApiCache(orderId)));
+				products = objectMapper.readValue(response.getBody(), new TypeReference<List<Product>>() {
+				});
+			} catch (JsonParseException e1) {
+				log.error(String.format(
+						"PetStoreOrderService incoming GET request to petstoreorderservice/v2/order/getOrderById for order id:%s failed: %s",
+						orderId, e1.getMessage()));
+			} catch (JsonMappingException e1) {
+				log.error(String.format(
+						"PetStoreOrderService incoming GET request to petstoreorderservice/v2/order/getOrderById for order id:%s failed: %s",
+						orderId, e1.getMessage()));
+			} catch (IOException e1) {
+				log.error(String.format(
+						"PetStoreOrderService incoming GET request to petstoreorderservice/v2/order/getOrderById for order id:%s failed: %s",
+						orderId, e1.getMessage()));
+			}
+
+			Order order = this.getStoreApiCache(orderId);
+
+			// cross reference order data with product data....
+			try {
+				if (order.getProducts() != null) {
+					for (Product p : order.getProducts()) {
+						Product peekedProduct = getProduct(products, p.getId());
+						p.setName(peekedProduct.getName());
+						p.setPhotoURL((peekedProduct.getPhotoURL()));
+					}
+				}
+			} catch (Exception e) {
+				log.error(String.format(
+						"PetStoreOrderService incoming GET request to petstoreorderservice/v2/order/getOrderById for order id:%s failed: %s",
+						orderId, e.getMessage()));
+			}
+
+			try {
+				ApiUtil.setResponse(request, "application/json", new ObjectMapper().writeValueAsString(order));
 				return new ResponseEntity<>(HttpStatus.OK);
 			} catch (IOException e) {
 				log.error("Couldn't serialize response for content type application/json", e);
@@ -190,6 +263,10 @@ public class StoreApiController implements StoreApi {
 		}
 
 		return new ResponseEntity<Order>(HttpStatus.NOT_IMPLEMENTED);
+	}
+
+	private Product getProduct(List<Product> products, Long id) {
+		return products.stream().filter(product -> id.equals(product.getId())).findAny().orElse(null);
 	}
 
 	@Override

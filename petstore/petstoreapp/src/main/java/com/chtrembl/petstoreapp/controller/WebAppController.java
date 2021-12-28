@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -78,6 +79,8 @@ public class WebAppController {
 		model.addAttribute("sessionId", this.sessionUser.getSessionId());
 
 		model.addAttribute("appVersion", this.containerEnvironment.getAppVersion());
+
+		model.addAttribute("cartSize", this.sessionUser.getCartCount());
 
 		MDC.put("session_Id", this.sessionUser.getSessionId());
 	}
@@ -169,14 +172,24 @@ public class WebAppController {
 		if (order.getProducts() != null) {
 			cartSize = order.getProducts().size();
 		}
-		model.addAttribute("cartSize", cartSize);
+		this.sessionUser.setCartCount(cartSize);
+		model.addAttribute("cartSize", this.sessionUser.getCartCount());
 		return "cart";
 	}
 
 	@PostMapping(value = "/updatecart")
 	public String updatecart(Model model, OAuth2AuthenticationToken token, HttpServletRequest request,
 			@RequestParam Map<String, String> params) {
-		this.petStoreService.updateOrder(Long.valueOf(params.get("productId")), 1);
+		int cartCount = 1;
+
+		String operator = params.get("operator");
+		if (StringUtils.isNotEmpty(operator)) {
+			if ("minus".equals(operator)) {
+				cartCount = -1;
+			}
+		}
+
+		this.petStoreService.updateOrder(Long.valueOf(params.get("productId")), cartCount);
 		return "redirect:cart";
 	}
 

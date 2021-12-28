@@ -5,7 +5,12 @@ springfoxdocumentation:
       
 server:
   port: ${PETSTOREORDERSERVICE_SERVER_PORT}
-  
+
+petstore:
+  service:
+    product:
+      url: ${PETSTOREPRODUCTSERVICE_URL:http://localhost:8082}
+     
 spring:
   application:
     name: petstoreorderservice

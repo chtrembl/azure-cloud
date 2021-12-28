@@ -15,21 +15,46 @@
 		<h3>Shopping Cart Summary</h3>
 		<div style=" display: flex;justify-content: center;">
 			<table class="table table-borderless" style="width:80%;align-self: center;">
-			<th>Product ID</th><th>Quantity</th>
+			<th>Product ID</th><th>Thumbnail</th><th>Product Name</th><th>Quantity</th>
 			<div th:if="${order.products} != null">
 				<tr th:each="product, iStat : ${order.products}">
 					<td>
 						<span th:text="${product.id}" />
 					</td>
 					<td>
-						<span th:text="${product.quantity}" />
+						<figure> <img class="thumbnail" th:src="@{${product.photoURL}}" /> </figure>
+					</td>
+					<td>
+						<span th:text="${product.name}" />
+					</td>
+					<td>
+						<div>
+						<a th:onclick="'updatecart(\'' + ${product.id} + '\' , \'minus\');'" style="font-weight: bold; text-decoration: none; color: black;"> 
+							<button class="btn btn-outline-primary" type="submit">-</button>
+						</a><span style="float:inherit;" th:text="${product.quantity}" />
+						<a th:onclick="'updatecart(\'' + ${product.id} + '\' , \'plus\');'" style="font-weight: bold; text-decoration: none; color: black;"> 
+							<button class="btn btn-outline-primary" type="submit">+</button>
+						</a>
+						</div>
 					</td>
 				</tr>
 			</div>
 			</table>
 		</div>	
+		<form action="updatecart" method="post" id="updateProduct">
+		 <input type="hidden" id="productId" name="productId" value="">
+		 <input type="hidden" id="operator" name="operator" value="">
+    	</form>
 	</div>
 	<div lang="en" th:replace="fragments/footer :: footer"></div>
+	  <script language="javascript"> 
+	   function updatecart(productId, operator){
+		  console.log(productId);
+		  document.getElementById('productId').value = productId;
+		  document.getElementById('operator').value = operator;
+	      document.getElementById('updateProduct').submit();
+	   }
+	</script>
 </body>
 
 </html>

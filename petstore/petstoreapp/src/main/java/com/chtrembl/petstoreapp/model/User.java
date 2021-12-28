@@ -39,6 +39,8 @@ public class User implements Serializable {
 	@Autowired
 	private ContainerEnvironment containerEnvironment;
 
+	private int cartCount = 0;
+
 	@PostConstruct
 	private void initialize() {
 		if (this.telemetryClient == null) {
@@ -80,6 +82,14 @@ public class User implements Serializable {
 
 	public synchronized void setProducts(List<Product> products) {
 		this.products = products;
+	}
+
+	public int getCartCount() {
+		return cartCount;
+	}
+
+	public void setCartCount(int cartCount) {
+		this.cartCount = cartCount;
 	}
 
 	public Map<String, String> getCustomEventProperties() {
