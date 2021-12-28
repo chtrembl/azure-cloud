@@ -48,6 +48,9 @@ public class ContainerEnvironment implements Serializable {
 	@Value("${petstore.service.subscription.key:}")
 	private String petStoreServicesSubscriptionKey;
 
+	@Value("${petstore.apim.host:}")
+	private String petstoreAPIMHost;
+
 	@Value("${ga.tracking.id:}")
 	private String gaTrackingId;
 
@@ -139,35 +142,23 @@ public class ContainerEnvironment implements Serializable {
 		this.securityEnabled = securityEnabled;
 	}
 
-	public String getGaTrackingId() {
-		return gaTrackingId;
-	}
-
-	public void setGaTrackingId(String gaTrackingId) {
-		this.gaTrackingId = gaTrackingId;
-	}
-
 	public String getPetStorePetServiceURL() {
 		return petStorePetServiceURL;
-	}
-
-	public void setPetStorePetServiceURL(String petStorePetServiceURL) {
-		this.petStorePetServiceURL = petStorePetServiceURL;
 	}
 
 	public String getPetStoreProductServiceURL() {
 		return petStoreProductServiceURL;
 	}
 
-	public void setPetStoreProductServiceURL(String petStoreProductServiceURL) {
-		this.petStoreProductServiceURL = petStoreProductServiceURL;
-	}
-
 	public String getPetStoreOrderServiceURL() {
 		return petStoreOrderServiceURL;
 	}
 
-	public void setPetStoreOrderServiceURL(String petStoreOrderServiceURL) {
-		this.petStoreOrderServiceURL = petStoreOrderServiceURL;
+	public String getPetstoreAPIMHost() {
+		return petstoreAPIMHost;
+	}
+
+	public String getGaTrackingId() {
+		return gaTrackingId;
 	}
 }

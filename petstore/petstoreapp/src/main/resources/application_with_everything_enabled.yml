@@ -11,6 +11,8 @@ petstore:
       url: ${PETSTOREORDERSERVICE_URL}
     subscription:
       key: ${PETSTORESERVICES_SUBSCRIPTION_KEY}
+  apim:
+    host: ${PETSTORE_APIM_HOST}
 server:
   port: ${PETSTOREAPP_SERVER_PORT}
 azure:
