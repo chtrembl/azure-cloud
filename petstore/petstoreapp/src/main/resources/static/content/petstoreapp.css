@@ -20,7 +20,12 @@ a {
 	user-select: none;
 }
 
-@media ( max-width : 768px) {
+@media ( max-width : 767px) {
+	.fullTable {
+		width: 0px;
+		display: none;
+	}
+	
 	.bd-placeholder-img-lg {
 		font-size: 3.5rem;
 	}
@@ -43,9 +48,9 @@ figure {
 	width: intrinsic;
 }
 
-@media ( min-width : 769px) {
+@media ( min-width : 768px) {
 	.thumbnail {
-		width: 10%;
+		width: 20%;
 	}
 	.azureimagesmall {
 	width: 10%;

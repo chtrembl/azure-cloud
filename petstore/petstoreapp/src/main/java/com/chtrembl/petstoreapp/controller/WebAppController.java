@@ -169,7 +169,7 @@ public class WebAppController {
 		Order order = this.petStoreService.retrieveOrder(this.sessionUser.getSessionId());
 		model.addAttribute("order", order);
 		int cartSize = 0;
-		if (order.getProducts() != null) {
+		if (order != null && order.getProducts() != null) {
 			cartSize = order.getProducts().size();
 		}
 		this.sessionUser.setCartCount(cartSize);
