@@ -16,7 +16,7 @@ public class AzurePetStoreAutomationTests {
 
 	private String URL = "https://azurepetstore.com/";
 
-	private String DOG_BREEDS = "Afador,American Bulldog,Australian Retriever,Australian Shepherd,Basset Hound,Beagle,Border Terrier,Boston Terrier,Bulldog,Bullmastiff,Chihuahua,Cocker Spaniel,German Sheperd,Labrador Retriever,Pomeranian,Pug,Rottweiler,Shetland Sheepdog,Shih Tzu,Toy Fox Terrier";
+	private String DOG_BREEDS = "Shop for Afador,Shop for American Bulldog,Shop for Australian Retriever,Shop for Australian Shepherd,Shop for Basset Hound,Shop for Beagle,Shop for Border Terrier,Shop for Boston Terrier,Shop for Bulldog,Shop for Bullmastiff,Shop for Chihuahua,Shop for Cocker Spaniel,Shop for German Sheperd,Shop for Labrador Retriever,Shop for Pomeranian,Shop for Pug,Shop for Rottweiler,Shop for Shetland Sheepdog,Shop for Shih Tzu,Shop for Toy Fox Terrier";
 
 	@Test
 	// Test the Azure Pet Store App Title
