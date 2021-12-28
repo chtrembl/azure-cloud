@@ -29,10 +29,12 @@ Enable Application Inisghts (empty and disabled by default, you'll want to uncom
 
 ```-e PETSTORESERVICES_AI_INSTRUMENTATION_KEY=<your key here>```
 
-Test endpoints
+Test endpoints:
 
-No needed
+GET Request for service info (No headers needed)
+
 ```http://localhost:8081/petstorepetservice/v2/pet/info```
 
-Accept: application/json and Content-Type: application/json headers needed 
+GET request for Pets (Accept: application/json and Content-Type: application/json headers needed)
+
 ```http://localhost:8081/petstorepetservice/v2/pet/findByStatus?status=available```
