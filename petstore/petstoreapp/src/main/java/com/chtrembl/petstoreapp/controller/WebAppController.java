@@ -45,9 +45,6 @@ public class WebAppController {
 	@Autowired
 	private User sessionUser;
 
-	@Autowired
-	private Order order;
-
 	@ModelAttribute
 	public void setModel(HttpServletRequest request, Model model, OAuth2AuthenticationToken token) {
 
@@ -63,11 +60,14 @@ public class WebAppController {
 			// this should really be done in the authentication/pre auth flow....
 			this.sessionUser.setName((String) user.getAttributes().get("name"));
 
-			this.sessionUser.getTelemetryClient().trackEvent(
-					String.format("PetStoreApp %s logged in, container host: %s", this.sessionUser.getName(),
-							this.containerEnvironment.getContainerHostName()),
-					this.sessionUser.getCustomEventProperties(), null);
+			if (!this.sessionUser.isInitialTelemetryRecorded()) {
+				this.sessionUser.getTelemetryClient().trackEvent(
+						String.format("PetStoreApp %s logged in, container host: %s", this.sessionUser.getName(),
+								this.containerEnvironment.getContainerHostName()),
+						this.sessionUser.getCustomEventProperties(), null);
 
+				this.sessionUser.setInitialTelemetryRecorded(true);
+			}
 			model.addAttribute("user", this.sessionUser.getName());
 			model.addAttribute("grant_type", user.getAuthorities());
 			model.addAllAttributes(user.getAttributes());

@@ -41,6 +41,8 @@ public class User implements Serializable {
 
 	private int cartCount = 0;
 
+	private boolean initialTelemetryRecorded = false;
+
 	@PostConstruct
 	private void initialize() {
 		if (this.telemetryClient == null) {
@@ -90,6 +92,14 @@ public class User implements Serializable {
 
 	public void setCartCount(int cartCount) {
 		this.cartCount = cartCount;
+	}
+
+	public boolean isInitialTelemetryRecorded() {
+		return initialTelemetryRecorded;
+	}
+
+	public void setInitialTelemetryRecorded(boolean initialTelemetryRecorded) {
+		this.initialTelemetryRecorded = initialTelemetryRecorded;
 	}
 
 	public Map<String, String> getCustomEventProperties() {

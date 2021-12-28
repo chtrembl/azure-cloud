@@ -180,7 +180,8 @@ public class PetStoreServiceImpl implements PetStoreService {
 	@Override
 	public void updateOrder(long productId, int quantity) {
 		this.sessionUser.getTelemetryClient()
-				.trackEvent(String.format("user %s is requesting to update an order with the PetStoreOrderService",
+				.trackEvent(String.format(
+						"PetStoreApp user %s is requesting to update an order with the PetStoreOrderService",
 						this.sessionUser.getName()), this.sessionUser.getCustomEventProperties(), null);
 
 		try {
