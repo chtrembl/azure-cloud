@@ -2,6 +2,6 @@
 
 ## [Full Azure Pet Store Reference Guide](https://github.com/chtrembl/azure-cloud/tree/main/petstore)
 
-   Extensive Demo's & Step by Step Tutorial's for a Hypothetical Azure Pet Store Application walking you thorugh many Azure services and development scenarios using pre built Web Applications and Web Services.
+Extensive Demo's & Step by Step Tutorial's for a Hypothetical Azure Pet Store walking you thorugh many Azure services and development scenarios using pre built Web Applications and Micro Services.
 
 > 📝 Please Note, You can view the live deployment here https://azurepetstore.com/
