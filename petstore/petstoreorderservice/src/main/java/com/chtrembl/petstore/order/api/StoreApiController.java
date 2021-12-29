@@ -194,20 +194,22 @@ public class StoreApiController implements StoreApi {
 
 			Order order = this.getStoreApiCache(orderId);
 
-			// cross reference order data (order only has product id and qty) with product
-			// data....
-			try {
-				if (order.getProducts() != null) {
-					for (Product p : order.getProducts()) {
-						Product peekedProduct = getProduct(products, p.getId());
-						p.setName(peekedProduct.getName());
-						p.setPhotoURL((peekedProduct.getPhotoURL()));
+			if (products != null) {
+				// cross reference order data (order only has product id and qty) with product
+				// data....
+				try {
+					if (order.getProducts() != null) {
+						for (Product p : order.getProducts()) {
+							Product peekedProduct = getProduct(products, p.getId());
+							p.setName(peekedProduct.getName());
+							p.setPhotoURL((peekedProduct.getPhotoURL()));
+						}
 					}
+				} catch (Exception e) {
+					log.error(String.format(
+							"PetStoreOrderService incoming GET request to petstoreorderservice/v2/order/getOrderById for order id:%s failed: %s",
+							orderId, e.getMessage()));
 				}
-			} catch (Exception e) {
-				log.error(String.format(
-						"PetStoreOrderService incoming GET request to petstoreorderservice/v2/order/getOrderById for order id:%s failed: %s",
-						orderId, e.getMessage()));
 			}
 
 			try {

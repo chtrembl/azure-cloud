@@ -166,6 +166,8 @@ public class WebAppController {
 
 	@GetMapping(value = "/cart")
 	public String cart(Model model, OAuth2AuthenticationToken token, HttpServletRequest request) {
+		logger.warn("cart called");
+
 		Order order = this.petStoreService.retrieveOrder(this.sessionUser.getSessionId());
 		model.addAttribute("order", order);
 		int cartSize = 0;
@@ -180,6 +182,8 @@ public class WebAppController {
 	@PostMapping(value = "/updatecart")
 	public String updatecart(Model model, OAuth2AuthenticationToken token, HttpServletRequest request,
 			@RequestParam Map<String, String> params) {
+		logger.warn("updatecart called");
+
 		int cartCount = 1;
 
 		String operator = params.get("operator");

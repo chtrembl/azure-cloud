@@ -60,17 +60,25 @@ public class StoreApiCache {
 		log.info(String.format(
 				"PetStoreOrderService retrieving products from %spetstoreproductservice/v2/product/findByStatus?status=available",
 				this.petStoreProductServiceURL));
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
-		headers.add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
-		headers.add("session-id", "PetStoreOrderService");
-		HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
-		ResponseEntity<String> response = restTemplate
-				.exchange(String.format("%spetstoreproductservice/v2/product/findByStatus?status=available",
-						this.petStoreProductServiceURL), HttpMethod.GET, entity, String.class);
-
 		List<Product> products = null;
+		ResponseEntity<String> response = null;
+
+		try {
+			HttpHeaders headers = new HttpHeaders();
+			headers.add("Accept", MediaType.APPLICATION_JSON_VALUE);
+			headers.add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+			headers.add("session-id", "PetStoreOrderService");
+			HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+			response = restTemplate
+					.exchange(String.format("%spetstoreproductservice/v2/product/findByStatus?status=available",
+							this.petStoreProductServiceURL), HttpMethod.GET, entity, String.class);
+		} catch (Exception e) {
+			log.error(String.format(
+					"PetStoreOrderService error retrieving products from %spetstoreproductservice/v2/product/findByStatus?status=available ",
+					e.getMessage()));
+			// product lookup cannot be done from this container...
+			return products;
+		}
 		try {
 			products = objectMapper.readValue(response.getBody(), new TypeReference<List<Product>>() {
 			});

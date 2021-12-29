@@ -42,6 +42,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 					.antMatchers("/*breed*").permitAll()
 					.antMatchers("/*product*").permitAll()
 					.antMatchers("/*cart*").permitAll()
+					.antMatchers("/updatecart").permitAll()
 					.antMatchers("/api/contactus").permitAll()
 					.antMatchers("/slowness").permitAll()
 					.antMatchers("/exception").permitAll()

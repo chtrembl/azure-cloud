@@ -1,7 +1,7 @@
-# 01 - Build the Docker Images (OPTIONAL and For local development only using Docker in Linux containers mode)
+# 01 - Build the Docker Images
 __This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)__
 
-> 📝 Please note, this guide is optional and is useful for local building, you can certainly skip ahead and leverage Azure DevOps Pipelines and GitHub Actions to do the build & deploys for you and you can safely jump head to [03-configure-app-service-for-cd](../03-configure-app-service-for-cd/README.md) otherwise please continue to the next guide.
+> 📝 Please note, this guide is optional and is useful for local building and deploying outside of Azure (At this point there are no dependencies on Azure, throughout the guides we will leverage various Azure services to faciliate DevOps, elements of container orchestration, telemetry etc...), you can certainly skip ahead and leverage Azure DevOps Pipelines and GitHub Actions to do the build & deploys for you and you can safely jump head to [03-configure-app-service-for-cd](../03-configure-app-service-for-cd/README.md) otherwise please continue to the next guide.
 
 In this section, we'll build the Docker Images and run them locally
 
@@ -101,7 +101,7 @@ run the following command:
 
 ```docker ps ```
 
-You should see something similar to the below image, which now shows two processes/containers running (petstorepetservice:latest & petstoreproducttservice:latest) and the image commands used to start the applications.
+You should see something similar to the below image, which now shows two processes/containers running (petstorepetservice:latest & petstoreproductservice:latest) and the image commands used to start the applications.
 
 ![](images/4.png)
 
@@ -185,7 +185,7 @@ Lets now test our Pet Store Application (You will be using the 3 ip addresses fr
 
 run the following command
 
-```docker run --rm --net petstorebridge --name petstoreapp -p 8080:8080 -e PETSTOREAPP_SERVER_PORT=8080 -e PETSTOREPETSERVICE_URL=http://172.18.0.2:8081 -e PETSTOREPRODUCTSERVICE_URL=http://172.18.0.3:8082 -e PETSTOREORDERSERVICE_URL=http://172.18.0.4:8081 -d petstoreapp:latest```
+```docker run --rm --net petstorebridge --name petstoreapp -p 8080:8080 -e PETSTOREAPP_SERVER_PORT=8080 -e PETSTOREPETSERVICE_URL=http://172.18.0.2:8081 -e PETSTOREPRODUCTSERVICE_URL=http://172.18.0.3:8082 -e PETSTOREORDERSERVICE_URL=http://172.18.0.4:8083 -d petstoreapp:latest```
 
 Open a browser and head to http://localhost:8080
 
@@ -213,7 +213,7 @@ You should see something similar to the below image, which now shows four proces
 
 To kill all running containers with Docker run the following command:
 
-```kill $(docker ps -q)```
+```docker kill $(docker ps -q)```
 
 🎉Congratulations, you have successfully integrated your Pet Store Application with the Pet Store Service(s) and have made service calls to retrieve service data (Pets & Products).
 
