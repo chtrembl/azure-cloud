@@ -38,11 +38,11 @@ This is hands-on and will be hands on keyboard. However, once complete, this wil
 
 Prerequisites and environment setup (Optionaly you can build/deploy locally)
 
-## [01 - Build the Docker Images (Optional and for Local Development Only)](01-build-the-docker-images/README.md)
+## [01 - Build the Docker Images](01-build-the-docker-images/README.md)
 
   Build the Docker Images
 
-## [02 - Push the Docker Images to Azure Container Registry (Optional and for Local Development Only)](02-push-the-docker-images-to-acr/README.md)
+## [02 - Push the Docker Images to Azure Container Registry](02-push-the-docker-images-to-acr/README.md)
 
   Push the Docker Images to Azure Container Registy
 
