@@ -10,7 +10,7 @@ You should see something similar to the below image:
 
 > 📝 Please Note, you will have to enable Admin user
 
-![](images/cr1.png)
+![](images/1.png)
 
 Head to GitHub. By now you should have already cloned or forked https://github.com/chtrembl/azure-cloud and are working in the same repository structure within your GitHub account
 
@@ -135,7 +135,7 @@ Once successful you will see something like
 
 If successful you can head to a browser and visit your FQDN Azure App Service URL as seen below (this is the URL from the previous guide 03-configure-app-service-for-cd)
 
-![](images/browser1.png)
+![](images/4.png)
 
 🎉Congratulations, you now have Pet Store App Continuously Deploying into your App Service each and every time an image is pushed to Azure Container Registry from your Git Hub Action. Notice the Date/Version within your App Service HTML Footer (seen in browser) matches the Git Hub Action Build Meta Data.
 
