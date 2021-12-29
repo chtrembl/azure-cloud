@@ -24,6 +24,10 @@ As mentioned above, the objective is for you to be able to learn and showcase th
   
 - Functional Spring Boot code showcasing the Azure SDK's for integrating with these services
 
+- Azure Serverless
+
+- Azure Power Apps
+
 ## This is not official Microsoft documentation but rather an opinionated approach/guidance
 
 This is hands-on and will be hands on keyboard. However, once complete, this will be running in your subscription and always readily available. The Pet Store Application and Pet Store Service are built with Java and Spring Boot. You're welcome to import these into your IDE of choice, write code and/or contribute back, however that is not mandatory for these guides. As mentioned above, you can use Azure DevOps Pipelines and GitHub Actions to handle the build & deploys for you.
