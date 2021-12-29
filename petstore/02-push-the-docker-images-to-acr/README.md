@@ -38,7 +38,7 @@ run the following commands:
 
 ```az acr update -n <youraliaspetstorecr> -g <yourresourcegroup> --admin-enabled true```
 
-> 📝 Please Note, tag your local Docker image built in the previous guide so that we can push it to Azure Container Registry then push it
+> 📝 Please Note, you are now tagging your local Docker image built in the previous guide so that we can push it to Azure Container Registry then push it
 
 ```docker image tag petstoreapp:latest <youraliaspetstorecr>.azurecr.io/petstoreapp:latest```
 
@@ -60,7 +60,7 @@ You are still logged in from before...
 
 run the following commands:
 
-> 📝 Please Note, tag your local Docker image built in the previous guide so that we can push it to Azure Container Registry then push it
+> 📝 Please Note, you are now tagging your local Docker image built in the previous guide so that we can push it to Azure Container Registry then push it
 
 ```docker image tag <petstorepetservice>:latest <youraliaspetstorecr>.azurecr.io/petstorepetservice:latest```
 
@@ -74,7 +74,7 @@ You are still logged in from before...
 
 run the following commands:
 
-> 📝 Please Note, tag your local Docker image built in the previous guide so that we can push it to Azure Container Registry then push it
+> 📝 Please Note, you are now tagging your local Docker image built in the previous guide so that we can push it to Azure Container Registry then push it
 
 ```docker image tag <petstoreproductservice>:latest <youraliaspetstorecr>.azurecr.io/petstoreproductservice:latest```
 
@@ -88,7 +88,7 @@ You are still logged in from before...
 
 run the following commands:
 
-> 📝 Please Note, tag your local Docker image built in the previous guide so that we can push it to Azure Container Registry then push it
+> 📝 Please Note, you are now tagging your local Docker image built in the previous guide so that we can push it to Azure Container Registry then push it
 
 ```docker image tag <petstoreorderervice>:latest <youraliaspetstorecr>.azurecr.io/petstoreorderservice:latest```
 
