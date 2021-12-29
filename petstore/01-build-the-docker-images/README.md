@@ -1,7 +1,7 @@
 # 01 - Build the Docker Images
 __This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)__
 
-> 📝 Please note, this guide is optional and is useful for local building and deploying outside of Azure (At this point there are no dependencies on Azure, throughout the guides we will leverage various Azure services to faciliate DevOps, elements of container orchestration, telemetry etc...), you can certainly skip ahead and leverage Azure DevOps Pipelines and GitHub Actions to do the build & deploys for you and you can safely jump head to [03-configure-app-service-for-cd](../03-configure-app-service-for-cd/README.md) otherwise please continue to the next guide.
+> 📝 Please note, this guide is optional and is useful for local building and deploying outside of Azure (At this point there are no dependencies on Azure, throughout the guides we will leverage various Azure services to facilitate DevOps, elements of container orchestration, telemetry etc...), you can certainly skip ahead and leverage Azure DevOps Pipelines and GitHub Actions to do the build & deploys for you and you can safely jump head to [03-configure-app-service-for-cd](../03-configure-app-service-for-cd/README.md) otherwise please continue to the next guide.
 
 In this section, we'll build the Docker Images and run them locally
 
