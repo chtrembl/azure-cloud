@@ -24,7 +24,7 @@ You should see something similar to the below image:
 
 ![](images/2.png)
 
-> Please Note, this is the default configuration we are going to change this up. Change Image Source to Azure Container Registry, Find your Pet Store Image Name and Tag and Select On for Continuous Deployment. Make sure to click Save. (If you didn't complete 01-build-the-docker-images and 02-push-the-docker-images-to-acr which were for Local Development, then you probably do not have any Docker Images in your Container Registry yet and will need to move ahead now to Next guide: [04 - Configure Git Hub Action for CI/CD into App Service](../04-configure-git-hub-action-for-ci-cd-into-app-service/README.md) It's ok, you will do the steps below, again, either way, in the next guide)
+> 📝 Please Note, this is the default configuration we are going to change this up. Change Image Source to Azure Container Registry, Find your Pet Store Image Name and Tag and Select On for Continuous Deployment. Make sure to click Save. (If you didn't complete 01-build-the-docker-images and 02-push-the-docker-images-to-acr which were for Local Development, then you probably do not have any Docker Images in your Container Registry yet and will need to move ahead now to Next guide: [04 - Configure Git Hub Action for CI/CD into App Service](../04-configure-git-hub-action-for-ci-cd-into-app-service/README.md) It's ok, you will do the steps below, again, either way, in the next guide)
 
 You should see something similar to the below image:
 
@@ -35,6 +35,8 @@ Once you update this form with your meta data, select Save. Head back to the Ove
 > 📝 Please Note, you will notice the logs within this view as well, notice the Docker commands being executes just as they were when you did this locally. It's the same behavior. Docker pulls the latest image and then runs it injecting the configuration settings that are specified.
 
 Open a browser and head to your URL from above
+
+> 📝 Please Note, you won't yet be able to communicate with any of the services since they are not yet deployed anywhere. You will get HTTP errors if/when you try to visit Pet Breeds or Pet Product pages.
 
 You should see something similar to the below image:
 
