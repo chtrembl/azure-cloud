@@ -18,7 +18,7 @@ You should see something similar to the below image:
 
 ![](images/fork.png)
 
-Clone this fork in your tool of choice (GitHub Dekstop or command line)
+Clone this fork in your tool of choice (GitHub Desktop or command line)
 
 Either 
 
@@ -36,7 +36,7 @@ Make sure you have an SSH key defined within your GitHub Settings
 ssh-keygen -t rsa -b 4096 -C "youremailaddress"
 ```
 
-You should see somthing like the following (if you do not yet have a key, following the instructions and enter a pasphrase) 
+You should see something like the following (if you do not yet have a key, following the instructions and enter a passphrase) 
 
 ```
 ssh-keygen -t rsa -b 4096 -C "chtrembl@microsoft.com"
@@ -53,7 +53,7 @@ SHA256:RiO8...
 
 If you are prompted with a warning that this key already exists, then cancel that task 'n' and move on to the next step
 
-copy the contents of the key to your clipboard (using your path to your id_rsa.pub
+copy the contents of the key to your clipboard (using your path to your id_rsa.pub)
 
 ```
 more  C:\Users\chtrembl/.ssh/id_rsa.pub
@@ -95,13 +95,13 @@ To save time, we have an ARM template to get a few Azure resources created:
  - App Service Plan (Resources needed to host the Pet Store Application)
  - Container Registry (Used to store Docker Images for Pet Store Application and Pet Store Service)
  
-> 📝 Please Note, Azure B2C, Azure Kubernetes Service, Azure Application Insights, API Management & Azure Key Vault will be setup in the subsequent guides.
+> 📝 Please Note, All other Azure Services such as Azure B2C, Azure Kubernetes Service, Azure Application Insights, API Management etc... will be setup in the subsequent guides.
 
 Go ahead and Deploy to Azure
 
  [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fchtrembl%2Fazure-cloud%2Fmain%2Fpetstore%2F00-setup-your-environment%2Fazuredeploy.json)
 
-> 📝 Please Note, Create a new resource when prompted, such as: **azurepetstorerg** and substitute your network alias for **youralias**, or something unique that will appear as a FQDM for accessing your Azure Pet Store Application.
+> 📝 Please Note, Create a new resource when prompted, such as: **azurepetstorerg** and substitute your network alias for **youralias**, or something unique that will appear as a FQDN for accessing your Azure Pet Store Application.
 
 You should see something similar to the below image:
 

@@ -1,0 +1,27 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "func",
+			"command": "host start",
+			"problemMatcher": "$func-java-watch",
+			"isBackground": true,
+			"options": {
+				"cwd": "${workspaceFolder}/petstorefunctions/target/azure-functions/petstorefunctions-20210909164525299"
+			},
+			"dependsOn": "package (functions)"
+		},
+		{
+			"label": "package (functions)",
+			"command": "mvn clean package",
+			"type": "shell",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"options": {
+				"cwd": "${workspaceFolder}/petstorefunctions"
+			}
+		}
+	]
+}
