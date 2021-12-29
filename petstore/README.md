@@ -1,6 +1,6 @@
 # Azure Pet Store Reference Guide
 
-Often, it is handy to have an N-Tiered Azure architected deployment ready to go, complete with functional code, CI/CD and various services for you to experiment with. Since it is usually hard to find one that hits many of the App Dev Services of Azure, I've decided to build one. Perhaps you're learning new technologies, giving demos, looking for a prototype or simply just curious, these guides will get you on your way to running a full Hypothetical Azure Pet Store Application & Dependencies, using the Azure technologies illustrated below. Already built are two applications that we will be deploying to Azure App Service (petstoreapp) and Azure Kubernetes Service (petstoreservice). We will first build and run these two apps (N-Tiered) locally (optional) and slowly add in the other services depicted (Azure B2C, Application Insights, API Management, Key Vault etc...). These two applications were built with Java/Spring Boot and while the guides are not necessarily focused on coding (not required) you are encouraged to build/deploy them locally to get the full developer experience. You can however use Azure DevOps Pipelines and GitHub Actions to do the build & deploys for you and make changes directly in your cloud repository instead of locally.
+Often, it is handy to have an N-Tiered Azure architected deployment ready to go, complete with functional code, CI/CD and various services for you to experiment Azure with. Since it is usually hard to find one that hits many of the App Dev Services of Azure, I've decided to build one. Perhaps you're learning new Azure technologies, giving Azure demos, looking for a prototype with Azure or simply just curious about Azure, these guides will get you on your way to running a full Hypothetical Azure Pet Store Application and its dependenciess, using the Azure technologies illustrated below. Already built and cloud agnostic are a Pet Store web app and 3 Pet Store micro services that you can deploy into Azure App Service (petstoreapp) and Azure Kubernetes Service (petstorepetservice, petstoreproductservice & petstoreorderservice). You will first build and run these locally (optional) and slowly add in the other services depicted (Azure B2C, Application Insights, API Management, Function App, Power App, Regression Suite etc...). These applications were built with Java/Spring Boot and while the guides are not necessarily focused on coding (not required) you are encouraged to build/deploy them locally (All you need is Docker locally) to get the full developer experience. You can however use Azure DevOps Pipelines and GitHub Actions to do the build & deploys for you and make changes directly in your cloud repository instead of locally.
 
 > You can view the live deployment here https://azurepetstore.com/ or https://azurepetstore.azurewebsites.net
 
@@ -24,9 +24,13 @@ As mentioned above, the objective is for you to be able to learn and showcase th
   
 - Functional Spring Boot code showcasing the Azure SDK's for integrating with these services
 
+- Azure Serverless
+
+- Azure Power Apps
+
 ## This is not official Microsoft documentation but rather an opinionated approach/guidance
 
-This is hands-on and will be hands on keyboard. However, once complete, this will be running in your subscription and always readily available. The Pet Store Application and Pet Store Service are built with Java and Spring Boot. You're welcome to import these into your IDE of choice, write code and/or contribute back, however that is not mandatory for these guides. As mentioned above, you can use Azure DevOps Pipelines and GitHub Actions to handle the build & deploys for you.
+This is hands-on and will be hands on keyboard. However, once complete, this will be running in your subscription and always readily available. The Pet Store Application and Pet Store Services are built with Java and Spring Boot. You're welcome to import these into your IDE of choice, write code and/or contribute back, however that is not mandatory for these guides. As mentioned above, you can use Azure DevOps Pipelines and GitHub Actions to handle the build & deploys for you.
 
 > 📝 Please Note, you **will need** an Azure Subscription and GitHub account for these guides. If not, you you can sign up [here](https://azure.microsoft.com/en-us/) to get started. 
 
