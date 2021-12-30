@@ -103,9 +103,10 @@ _Before we get started, there are two ways to enable application monitoring for 
 
   > 📝 Please Note, once you uncomment and commit, your GitHub Action and DevOps pipelines should kick off automgacially)
 
-      Head to Azure Portal and update Azure App Service Configuration for PetStoreApp (No code change needed and App Container will automagically restart with changes taking effect)
 
-      You should see something similar to the below image:
+Head to Azure Portal and update Azure App Service Configuration for PetStoreApp (No code change needed and App Container will automagically restart with changes taking effect)
+
+You should see something similar to the below image:
 
   ![](images/ai12.png)
 
