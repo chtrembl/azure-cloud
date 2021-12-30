@@ -1,40 +1,16 @@
 # 10 - Configure B2C for PetStoreApp Identity Management
 
-__This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)__
+**This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)**
 
 In this section, we'll use Azure Identity and Access Management to secure your Spring Boot Pet Store Application with Azure Active Directory B2C Spring Boot Starter
 
-Often times, web applications (or parts of web applications) will need to be protected and will require authentication for access. There are many ways to implement identity management, here we will be showing how to achieve this by using Azure Identity and Access management to protect resources in your Spring Boot Pet Store Application.  OpenID Connect is an authentication protocol, built on top of OAuth 2.0, that can be used to securely sign users in to web applications. By using the Azure Active Directory B2C (Azure AD B2C) implementation of OpenID Connect, you can **outsource** sign-up, sign-in, and other identity management experiences in your web applications to Azure Active Directory (Azure AD). In this guide we will configure the Pet Store Application to use the Azure Active Directory B2C Spring Boot Starter to receive and process the OAuth 2.0 tokens allowing us to easily construct Spring Authenticated Security Principals that are managed in Azure Active Directory B2C.
+Often times, web applications (or parts of web applications) will need to be protected and will require authentication for access. There are many ways to implement identity management, here we will be showing how to achieve this by using Azure Identity and Access management to protect resources in your Spring Boot Pet Store Application. OpenID Connect is an authentication protocol, built on top of OAuth 2.0, that can be used to securely sign users in to web applications. By using the Azure Active Directory B2C (Azure AD B2C) implementation of OpenID Connect, you can **outsource** sign-up, sign-in, and other identity management experiences in your web applications to Azure Active Directory (Azure AD). In this guide we will configure the Pet Store Application to use the Azure Active Directory B2C Spring Boot Starter to receive and process the OAuth 2.0 tokens allowing us to easily construct Spring Authenticated Security Principals that are managed in Azure Active Directory B2C.
 
 Live application can be found here [http://azurepetstore.azurewebsites.net/](http://azurepetstore.azurewebsites.net/)
 
 > 📝 Please Note, We will assume you have forked the azure-cloud repository, it is the easiest way to get going (for instructions on this view the "**Forking the azure-cloud**" section in [00-setup-your-environment](../00-setup-your-environment/README.md). Also, both PetStoreApp and PetStoreService use a Spring Boot Application properties file named application.yml to drive the functionality/configuration of these applications which is located in src/main/resources/application.yml of both projects. By default, this file has all of the properties that are needed throughout the guides, and by default are commented out. This means that the applications will start automatically without having to configure anything. As you progress through the guides, each guide will inform you of what properties to uncomment and configure within your environment. If you have not already done so, login to your GitHub account, head to https://github.com/chtrembl/azure-cloud, and fork.
 
-If your are still connecting to the PetStoreService, continue to update src/main/resources/application.yml to uncomment the following. By uncommenting, this tells the Spring Boot Java Runtime to look for a petstore.service.url and if you set one ```PETSTORESERVICE_URL``` as a container setting, it will get injected at runtime initialization.
-
-```
-petstore:
-  service:
-    url: ${PETSTORESERVICE_URL}
-```
-
-If your are still connecting to the Application Insights, continue to update src/main/resources/application.yml to uncomment the following. By uncommenting, this tells the Spring Boot Java Runtime to look for an azure.application-insights.instrumentation-key and if you set ```PETSTOREAPP_AI_INSTRUMENTATION_KEY``` as a container setting, it will get injected at runtime initialization.
-
-```
-azure:
-  application-insights:
-      instrumentation-key: ${PETSTOREAPP_AI_INSTRUMENTATION_KEY}
-```
-
-Also update src/main/resources/application.yml to uncomment the following. By uncommenting, this tells the Spring Boot Java Runtime to look for an petstore.subscription.key and if you set ```PETSTORESERVICE_SUBSCRIPTION_KEY``` as a container setting, it will get injected at runtime initialization. This enables PetStoreApp to call APIM with a valid subscription key for authentication.
-
-```
-petstore:
-    subscription:
-      key: ${PETSTORESERVICE_SUBSCRIPTION_KEY}
-```
-
-Update src/main/resources/application.yml to uncomment the following. By uncommenting, this tells the Spring Boot Java Runtime to look for all of the B2C properties and if you set ```PETSTOREAPP_B2C_TENANT```, ```PETSTOREAPP_B2C_CLIENT_ID```, ```PETSTOREAPP_B2C_CLIENT_SECRET```, ```PETSTOREAPP_B2C_REPLY_URL``` and ```PETSTOREAPP_B2C_LOGOUT_URL```  as 	container settings, they will get injected at runtime initialization. This enables PetStoreApp to authenticate users with B2C.
+To enable, From your PetStoreApp, update src/main/resources/application.yml to uncomment the following. By uncommenting, this tells the Spring Boot Java Runtime to look for all of the B2C properties and if you set `PETSTOREAPP_B2C_TENANT`, `PETSTOREAPP_B2C_CLIENT_ID`, `PETSTOREAPP_B2C_CLIENT_SECRET`, `PETSTOREAPP_B2C_REPLY_URL` and `PETSTOREAPP_B2C_LOGOUT_URL` as container settings, they will get injected at runtime initialization. This enables PetStoreApp to authenticate users with B2C. 
 
 ```
 azure:
@@ -62,7 +38,7 @@ Below we will walk through the process of getting things configured for this to 
 
 3. Demo
 
-1.  Create an Azure Active Directory B2C Tenant and configure an App Registration
+4. Create an Azure Active Directory B2C Tenant and configure an App Registration
 
 > 📝 Please Note, I've called my tenant "RHODYPETSTORE" (rhody being short for Rhode Island, and the original name of the Azure Pet Store). You can however use anything you prefer.
 
@@ -71,7 +47,7 @@ Head to Azure Portal https://ms.portal.azure.com and search for Azure Active Dir
 You should see something similar to the below image:
 
 ![](images/ap1.png)
- 
+
 Select the first option Create a new Azure AD B2C Tenant. (In this tutorial, we will want to manage our users in a separate isolated tenant)
 
 You should see something similar to the below image:
@@ -84,24 +60,24 @@ You should see something similar to the below image:
 
 ![](images/ap3.png)
 
-Confirm your settings and select Create, this will take a few minutes to provision 
+Confirm your settings and select Create, this will take a few minutes to provision
 
 You should see something similar to the below image:
 
 ![](images/ap4.png)
- 
+
 In the top right, toggle directories and select your newly created Directory/Tenant
 
 You should see something similar to the below image:
 
 ![](images/ap5.png)
-  
+
 Once you are in the new directory, search for Azure Active Directory
 
 You should see something similar to the below image:
 
 ![](images/ap6.png)
- 
+
 This will show you the details of your newly created Directory/Tenant
 
 You should see something similar to the below image:
@@ -125,14 +101,13 @@ You should see something similar to the below image:
 You should see something similar to the below image:
 
 ![](images/ap10.png)
-  
+
 To further configure and view users etc... search for Azure AD B2C (Note, you could of also done the previous registration through this flow as well)
 
 You should see something similar to the below image:
 
 ![](images/ap11.png)
 
-  
 Select Applications (Legacy)
 
 You should see something similar to the below image:
@@ -158,25 +133,25 @@ Select Keys and Generate Key
 You should see something similar to the below image:
 
 ![](images/ap15.png)
-     
-Select User Flows, here you will create 3 flows (Sign Up/Sign In, Profile Editing and Password Reset) These are the flows that are being offloaded to Azure Identity Management. 
+
+Select User Flows, here you will create 3 flows (Sign Up/Sign In, Profile Editing and Password Reset) These are the flows that are being offloaded to Azure Identity Management.
 
 You should see something similar to the below image:
 
 ![](images/ap16.png)
-     
-Go through all three flows below, and select the User Claims necessary. This is the meta data associated with each user. I have selected all, for tutorial purposes, and display all claims within the Azure Pet Store Spring Boot Application. 
+
+Go through all three flows below, and select the User Claims necessary. This is the meta data associated with each user. I have selected all, for tutorial purposes, and display all claims within the Azure Pet Store Spring Boot Application.
 
 You should see something similar to the below image:
 
 ![](images/ap17.png)
 
-Enter a name for each flow and create, here we are using "signupsignin", this will get referenced in the Azure Pet Store Application 
+Enter a name for each flow and create, here we are using "signupsignin", this will get referenced in the Azure Pet Store Application
 
 You should see something similar to the below image:
 
 ![](images/ap18.png)
- 
+
 Enter a name for each flow and create, here we are using "profileediting", this will get referenced in the Azure Pet Store Application
 
 You should see something similar to the below image:
@@ -189,18 +164,18 @@ You should see something similar to the below image:
 
 ![](images/ap20.png)
 
-## 3. Configure the Spring Boot Application to properly authenticate sign-up, sign-in and edit users 
+## 3. Configure the Spring Boot Application to properly authenticate sign-up, sign-in and edit users
 
 Since we are not managing identity ourselves, we can avoid configuring Spring Security to use Pre Authentication and configuring an Authentication Manager ourselves etc... Instead we can just @EnableSpringSecurity and wire up the and AADB2COidcLoginConfigurer
 inside our WebSecurityConfigurerAdapter. By doing so, on successful Sign Ins, Azure will send along grant type and code to our Azure Pet Store Application and the Spring Security/Filter Chain Flow will grab these values and request/construct tokens for us. With the JWT token, we have access to the claims managed by Azure Active Directory.
 
-In no particular order, you will want to add the following to your newly generated Petstore Pet Store Spring Boot Application. 
+In no particular order, you will want to add the following to your newly generated Petstore Pet Store Spring Boot Application.
 
-You can also fork/clone the completed project from [https://github.com/chtrembl/azure-cloud/tree/main/petstore/petstoreapp](https://github.com/chtrembl/azure-cloud/tree/main/petstore/petstoreapp) 
+You can also fork/clone the completed project from [https://github.com/chtrembl/azure-cloud/tree/main/petstore/petstoreapp](https://github.com/chtrembl/azure-cloud/tree/main/petstore/petstoreapp)
 
-Create WebSecurityConfiguration.java as seen below. This will wire up the Microsoft AADB2COidcLoginConfigurer as our security configurer and resolve our Azure flows for us. The other unique thing to notice is the configure methods. Our Azure Pet Store Application will have 2 publicly accessible pages (login landing page and the dogbreeds page configured in our HttpSecurity) and all others will require authentication. We also need to permit all access to our static resources (configured in our WebSecurity) as they are used by the publicly accessible login landing page.  The Azure Pet Store Presentation was built with Bootstrap, hence the need to permit that. CSRF is disabled for this tutorial, however it is not advised to disable CSRF in a real live application (internal or external). 
+Create WebSecurityConfiguration.java as seen below. This will wire up the Microsoft AADB2COidcLoginConfigurer as our security configurer and resolve our Azure flows for us. The other unique thing to notice is the configure methods. Our Azure Pet Store Application will have 2 publicly accessible pages (login landing page and the dogbreeds page configured in our HttpSecurity) and all others will require authentication. We also need to permit all access to our static resources (configured in our WebSecurity) as they are used by the publicly accessible login landing page. The Azure Pet Store Presentation was built with Bootstrap, hence the need to permit that. CSRF is disabled for this tutorial, however it is not advised to disable CSRF in a real live application (internal or external).
 
-````java
+```java
 package com.chtrembl.petstoreapp.security;
 
 import org.slf4j.Logger;
@@ -248,11 +223,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		}
 	}
 }
-````   
+```
 
 Create WebController.java as seen below. There are 2 GET request mapping handlers, login (public landing) and everything else, that in this case, will just route to the home Thymeleaf view. We also use @ModelAttribute to initializeModel on each Threads incoming GET Request. This will ensure that each Thymeleaf view has User Claims, if they exist.
 
-````java
+```java
 package com.chtrembl.petstoreapp.controller;
 
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -285,7 +260,7 @@ public class WebController {
 		return "home";
 	}
 }
-````
+```
 
 You will also notice header.html that presents a Welcome Guest, and prompts visitors to sign/up sign in, along with any other public accessible content. There is a home.html that is used for all authenticated requests, which presents user claims for this tutorial, among other links to Update Profile, Reset Password and Logout. Since we know about authenticated users, we can display a friendly message.
 
@@ -313,7 +288,7 @@ You will also notice header.html that presents a Welcome Guest, and prompts visi
 
 Lastly, you will need to update your application.properties or application.yml, this is the place where your configurations lives (ideally we would externalize this in a real application such as Spring Cloud Config). You can use the snippet below filling in the blanks. Use tenant. client-id from the screenshots above. client-secret will be the generated key that you saved earlier. The url's will be localhost for local development or fully qualified for Cloud deployments.
 
-````yaml
+```yaml
 #logging:
 #  level:
 #    org.springframework.security: DEBUG
@@ -330,7 +305,7 @@ azure:
         sign-up-or-sign-in: B2C_1_signupsignin
         profile-edit: B2C_1_profileediting
         password-reset: B2C_1_passwordreset
-````
+```
 
 Update your Azure Pet Store App Configuration to reflect these new properties as well.
 

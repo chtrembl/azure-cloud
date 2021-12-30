@@ -1,7 +1,6 @@
-
 # 14 - Build a Canvas Power App that uses a Custom Connector to Pull Data
 
-__This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)__
+**This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)**
 
 In this section we'll look at how to develop an a Power App that consumes data from the Azure Function App that was built in the previous guide.
 
@@ -9,36 +8,36 @@ In this section we'll look at how to develop an a Power App that consumes data f
 
 > 📝 **Please Note, we assume you have completed the [Build and Deploy Azure Functions](../13-build-deploy-azure-functions/README.md) guide and have a working Azure Function App that retrieves petStoreCurrentSessionTelemetry.**
 
-Head over to https://powerapps.microsoft.com/ and sign in and selct the Home icon from the left navigation.
+Head over to https://powerapps.microsoft.com/ and sign in and select the Home icon from the left navigation.
 
 You should see the following:
-  
+
 ![](images/pa1.png)
 
-Before we create our Canvas  Power App, we are going to configure our Custom Data Connector. (It is possible to create the connectors at any point in time, for the sake of this guide, I decided to get the data integration implemented first)
+Before we create our Canvas Power App, we are going to configure our Custom Data Connector. (It is possible to create the connectors at any point in time, for the sake of this guide, I decided to get the data integration implemented first)
 
 Select Custom Connectors and then Select New custom connector (Create from blank)
 
 You should see the following:
-  
+
 ![](images/pa2.png)
 
-Give your Connector a name *(I'm using "Azure Pet Store Functions", this is the name of your app and how it will appear to your users.)* And select "Continue"
+Give your Connector a name _(I'm using "Azure Pet Store Functions", this is the name of your app and how it will appear to your users.)_ And select "Continue"
 
 You should see the following:
-  
+
 ![](images/pa3.png)
 
 Let's define all of the Meta-Data for our Custom Connector. (You can also import a Swagger definition if you already have one). Fill out the **1. General** tab here. I'm keeping the defaults and entering my function app url endpoint domain and the base url.
 
 You should see the following:
-  
+
 ![](images/pa4.png)
 
 Fill out the **2. Security** tab here. We won't be applying anything for now, keep the defaults of no authentication.
 
 You should see the following:
-  
+
 ![](images/pa5.png)
 
 Fill out the **3. Definition** tab here. This is where we can define all of our Custom Connector operations. These are the mappings to our Azure Function App HTTP Triggers, think of this as a proxy to our Azure Function App, proxies to your HTTP endpoints (GET's POST's etc...). Fill out the Summary, Description and Operation ID. Operation ID is the important one here. This is how we will invoke our Custom Connector Operation from the Canvas Power App we build shortly.
@@ -47,9 +46,8 @@ Select Request to define our incoming GET Request Payload. Our Azure Function Ap
 
 You should see the following:
 
-
 ![](images/pa6.png)
-  
+
 Select the minsAgo Request Parameter button to edit this properties of this incoming Request Parameter. This allows us to specify default values, useful for scenarios where our Canvas Power App does not need to consistently pass these Request Parameters (static vs dynamic, perhaps when the App Loads you want to pull data but then allow user's to customize and change the values)
 
 ![](images/pa7.png)
@@ -57,17 +55,17 @@ Select the minsAgo Request Parameter button to edit this properties of this inco
 Select the apiKey Request Parameter button to edit this properties of this incoming Request Parameter. You can paste in your apiKey value here (if your expecting in your Azure Function App)
 
 You should see the following:
-  
+
 ![](images/pa8.png)
 
-Let's now change the Response Body, this is where we can inform our Custom Connector on what data to interpret/consume after invoking the Azure Function App. Select + Import From Sample. Just as we did with the Request, we can paste in a sample response. 
+Let's now change the Response Body, this is where we can inform our Custom Connector on what data to interpret/consume after invoking the Azure Function App. Select + Import From Sample. Just as we did with the Request, we can paste in a sample response.
 
 You should see the following:
-  
+
 ![](images/pa9.png)
 
 You should see the following:
-  
+
 ![](images/pa10.png)
 
 Paste in your response Body and select "Import".
@@ -113,80 +111,80 @@ Paste in your response Body and select "Import".
 You will notice all of the field keys from our JSON response that will now be available from our Canvas Power App.
 
 You should see the following:
-  
+
 ![](images/pa11.png)
 
 Select the Code (Preview)
 The defaults are fine here, we will not be doing any custom transformations as we did that within the Function App.
 
 You should see the following:
-  
+
 ![](images/pa12.png)
 
 Select Test (Before we Test we will need to create the connector, which is the integration needed by our Canvas Power App to communicate with our Custom Connector)
 
 You should see the following:
-  
+
 ![](images/pa13.png)
 
 Select Create Connector and give it a name.
 
 You should see the following:
-  
+
 ![](images/pa13_1.png)
 
-Update the minsAgo and apiKey as desired and  Update connector as you make any changes.
+Update the minsAgo and apiKey as desired and Update connector as you make any changes.
 
 You should see the following:
-  
+
 ![](images/pa13_2.png)
 
 Head back to the Left Navigation and Select Connections to view your new Connection.
 
 You should see the following:
-  
+
 ![](images/pa13_3.png)
 
 This is where you can Administer your connector. Perhaps you will need to make request/response changes over time etc... You can Test your Connections from here. Let's go ahead and click the Pencil to Edit/Test.
 
 You should see the following:
-  
+
 ![](images/pa13_4.png)
 
 Update Request Parameters to your Operation as needed and select "Test Operation" You should see the HTTP Response to your Azure Function App.
 
 You should see the following:
-  
+
 ![](images/pa13_5.png)
 
 Let''s now build our Canvas Power App. From the left navigation select Apps followed by + New app > Canvas
 
 You should see the following:
-  
+
 ![](images/pa14.png)
 
 Give your Canvas app a name, and select Tablet or Phone. and Create. I'm using Phone.
 
 You should see the following:
-  
+
 ![](images/pa15.png)
 
 Before we do any visual design, let's add our data source (remember we are getting our data from our Connection to our Custom Connector) Select the data icon and Add data, locate your Connector and select it.
 
 You should see the following:
-  
+
 ![](images/pa16.png)
 
 It should now be present and usable. We will verify that shortly.
 
 You should see the following:
-  
+
 ![](images/pa17.png)
 
 If you click the Connector is will prompt you to Allow for access.
 
 You should see the following:
-  
+
 ![](images/pa18.png)
 
 Back in our Canvas App Design, let's go ahead and select the Button component and one will get automagically added to our canvas. Under the f(x) we can add an Excel like formula to push/pull data from our Connector. Lets go ahead and add the following:
@@ -196,67 +194,69 @@ UpdateContext({sessionsResponse:AzurePetStoreFunctions.CurrentSessionTelemetry({
 ClearCollect(userSessions,sessionsResponse.sessions);
 UpdateContext({sessionCount:sessionsResponse.sessionCount});
 ```
-This will set some variables for us. It will set a variable called "sessionsResponse" that has the json response from our  CurrentSessionTelemetry Operation belonging to our AzurePetStoreFunctions Connector. We can also pass in request arguments (if we do not want to use the default's). This will also set a variable for us called userSessions and sessionCount, both with values corresponding to their respective json values.
+
+This will set some variables for us. It will set a variable called "sessionsResponse" that has the json response from our CurrentSessionTelemetry Operation belonging to our AzurePetStoreFunctions Connector. We can also pass in request arguments (if we do not want to use the default's). This will also set a variable for us called userSessions and sessionCount, both with values corresponding to their respective json values.
 
 You should see the following:
-  
+
 ![](images/pa18_1.png)
 
 Let's ensure that on button click (You can click the button while holding the alt button to Test your app from Design view) is pulling data. Select View > Collections, the JSON data should be appearing here.
 
 You should see the following:
-  
+
 ![](images/pa19.png)
 
 Now let's make this UI a bit more presentable. Select Image and locate an image from disk, I am using https://github.com/chtrembl/azure-cloud/blob/main/petstore/14-build-power-apps/images/header.png for my Header.
 You should see the following:
-  
+
 ![](images/pa20.png)
 
-To display the current Live User Count from https://azurepetstore.com I've decided to display that count total (remember we have the "sessionCount" variable containing this) inside a circle. Select Shapes > Circle and center and design as you like. 
+To display the current Live User Count from https://azurepetstore.com I've decided to display that count total (remember we have the "sessionCount" variable containing this) inside a circle. Select Shapes > Circle and center and design as you like.
 
 You should see the following:
-  
+
 ![](images/pa21.png)
 
-Add a Text Label on top of the circle. This will contain our dynamic count for us, design it as you like. 
+Add a Text Label on top of the circle. This will contain our dynamic count for us, design it as you like.
 
-Select the f(x) and remove the default and set the Excel like formula to 
+Select the f(x) and remove the default and set the Excel like formula to
 
 ```
 sessionCount
 ```
+
 After clicking the button (hold alt and click) you should see the count.
 
 You should see the following:
-  
+
 ![](images/pa22.png)
 
 Add another Text Label for "Live Users" and design it as you like.
 
 You should see the following:
-  
+
 ![](images/pa23.png)
 
 Last but not least let's add a Vertical Gallery to display our Session Hits. Select Gallery and locate your Data Source (This will be the userSessions variable that our Excel like formula has created for us)
 
 You should see the following:
-  
+
 ![](images/pa24.png)
 
 Position your Gallery as you like and update the Fields to dynamically present each record from our userSessions collection (JSON Function App Response) For image I am using "unknown-person" and for the labels I am displaying sessionId and sessionPageHits. You can add/remove more fields/labels as you like.
 
 You should see the following:
-  
+
 ![](images/pa25.png)
 
 Test this out to see if its working (hold alt and click the button)
 
 You should see the following:
-  
+
 ![](images/pa26.png)
 
-You can then make it a little more informative by showing the browser icon of the session hit along with the location etc... You can design this however you want!  You can even dynamically load the images based on browser (These are fields in the Custom Connector HTTP JSON Response). 
+You can then make it a little more informative by showing the browser icon of the session hit along with the location etc... You can design this however you want! You can even dynamically load the images based on browser (These are fields in the Custom Connector HTTP JSON Response).
 
 There are images for the common browsers
 
@@ -270,25 +270,23 @@ https://github.com/chtrembl/azure-cloud/blob/main/petstore/14-build-power-apps/i
 
 https://github.com/chtrembl/azure-cloud/blob/main/petstore/14-build-power-apps/images/safari.png
 
-You can update the f(x) to dynamically load the image for each Verical Gallery row. (As long as you have added these images to your Canvas Power App, just like you did with the header image, they will be available to use)
+You can update the f(x) to dynamically load the image for each Vertical Gallery row. (As long as you have added these images to your Canvas Power App, just like you did with the header image, they will be available to use)
 
 ```
 
 If(ThisItem.sessionBrowser="firefox", firefox, ThisItem.sessionBrowser="chrome", chrome, ThisItem.sessionBrowser="safari", safari, ThisItem.sessionBrowser="opera", opera, ThisItem.sessionBrowser="unknown", 'unknown-person')
 
 ```
+
 You should see the following:
-  
+
 ![](images/pa26_1.png)
 
 Now you are ready to Test your Canvas Power App by hitting Play!
 
 You should see the following:
-  
+
 ![](images/pa27.png)
-
-
-
 
 Things you can now do now with this guide
 

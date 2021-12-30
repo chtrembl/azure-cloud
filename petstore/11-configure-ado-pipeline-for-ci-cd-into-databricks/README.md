@@ -1,24 +1,24 @@
 # 11 - DataOps: Configure an Azure DevOps Pipeline for CI/CD into Azure Databricks
 
-__This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)__
+**This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)**
 
 In this section, we'll configure an Azure DevOps Pipeline for CI/CD into Azure Databricks
 
 > 📝 Please Note, We will assume you have forked the azure-cloud repository, it is the easiest way to get going (for instructions on this view the "**Forking the azure-cloud**" section in [00-setup-your-environment](../00-setup-your-environment/README.md). Also, both PetStoreApp and PetStoreService use a Spring Boot Application properties file named application.yml to drive the functionality/configuration of these applications which is located in src/main/resources/application.yml of both projects. By default, this file has all of the properties that are needed throughout the guides, and by default are commented out. This means that the applications will start automatically without having to configure anything. As you progress through the guides, each guide will inform you of what properties to uncomment and configure within your environment. If you have not already done so, login to your GitHub account, head to https://github.com/chtrembl/azure-cloud, and fork.
 
-Suppose your data team is looking to adopt DataOps practices by collaborating in Databricks notebook(s) (or in any data service/technology for that matter) and would like the ability to source/peer review these notebook changes, have an audit trail/revision history and continuously deploy them to specific environment(s). 
+Suppose your data team is looking to adopt DataOps practices by collaborating in Databricks notebook(s) (or in any data service/technology for that matter) and would like the ability to source/peer review these notebook changes, have an audit trail/revision history and continuously deploy them to specific environment(s).
 
 **And what is DataOps again? From Wiki: DataOps is an automated, process-oriented methodology, used by analytic and data teams, to improve the quality and reduce the cycle time of data analytics. While DataOps began as a set of best practices, it has now matured to become a new and independent approach to data analytics**
 
-This guide will take a look at DataOps practices and walk through the steps needed to perform GitHub Trunk based Data Development for Python Notebooks and leverage Azure DevOps Boards and Pipelines for Continuous Integration and Deployment into Azure Databricks. We will be be building a Python Notebook that loads PetStore Dog Breed Data and queries/analyzes it. 
+This guide will take a look at DataOps practices and walk through the steps needed to perform GitHub Trunk based Data Development for Python Notebooks and leverage Azure DevOps Boards and Pipelines for Continuous Integration and Deployment into Azure Databricks. We will be be building a Python Notebook that loads PetStore Dog Breed Data and queries/analyzes it.
 
-> 📝 Please Note, The objective isn't to dive deep into Databricks/Notebooks but rather leverage basic notebook functionality to show the value of  DataOps practices and how they can be applied within your organization/team/uses cases to work and collaborate more efficiently.
+> 📝 Please Note, The objective isn't to dive deep into Databricks/Notebooks but rather leverage basic notebook functionality to show the value of DataOps practices and how they can be applied within your organization/team/uses cases to work and collaborate more efficiently.
 
- **Things we will cover in this guide**
- 
- - Setup/Configure Databricks
- - Setup Configure DevOps Boards Item & Pipeline
- - Collaborate efficiently
+**Things we will cover in this guide**
+
+- Setup/Configure Databricks
+- Setup Configure DevOps Boards Item & Pipeline
+- Collaborate efficiently
 
 Lets head over to Azure Portal and create an Azure Databricks workspace. We will use this workspace to build/run our Python notebook for which we ultimately want to deploy into multiple regions. (Think Dev Region, Prod Region etc...)
 
@@ -40,7 +40,7 @@ You should see something similar to the below image:
 
 ![](images/data3.png)
 
-Once complete you will be taken to the landing page for this Azure Databricks resource. 
+Once complete you will be taken to the landing page for this Azure Databricks resource.
 
 > 📝 Please Note, you will need the URL (located in the essentials section) later in this guide.
 
@@ -66,10 +66,10 @@ You should see something similar to the below image:
 
 ![](images/data7.png)
 
-From the left navigation, let's go ahead and create two folders, one called "dev" and one called "prod". 
+From the left navigation, let's go ahead and create two folders, one called "dev" and one called "prod".
 
-> 📝 Please Note,  typically development/testing is done in one environment and continuously integrated/deployed into N other environments (and in most cases, access restricted environments, usually different compute instances all together such as diff app servers and/or compute farms etc...) For the sake of this guide, we are "simulating" this behavior with "folders" within one Databricks workspace. We will be continuously integrating/deploying dev to prod, in a productionalized use case, you may continuously/integrate from a dev cluster to a prod cluster etc....
- 
+> 📝 Please Note, typically development/testing is done in one environment and continuously integrated/deployed into N other environments (and in most cases, access restricted environments, usually different compute instances all together such as diff app servers and/or compute farms etc...) For the sake of this guide, we are "simulating" this behavior with "folders" within one Databricks workspace. We will be continuously integrating/deploying dev to prod, in a productionalized use case, you may continuously/integrate from a dev cluster to a prod cluster etc....
+
 You should see something similar to the below image:
 
 ![](images/data8.png)
@@ -86,7 +86,7 @@ You should see something similar to the below image:
 
 ![](images/data10.png)
 
-Now add some data that we can load and analyze with our Python notebook code. Drag/Drop the [breeds.csv](https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoredataops/breeds.csv) into Files and click "Create Table with UI". This will give us the Python scaffolding/boiler plate code needed to load/process the csv data. 
+Now add some data that we can load and analyze with our Python notebook code. Drag/Drop the [breeds.csv](https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoredataops/breeds.csv) into Files and click "Create Table with UI". This will give us the Python scaffolding/boiler plate code needed to load/process the csv data.
 
 > 📝 Please Note, this is ultimately the code that we will be applying DataOps practices to. (Version Control, peer collaboration, testing, CI/CD etc...)
 
@@ -118,7 +118,7 @@ You should see something similar to the below image:
 
 ![](images/data15.png)
 
-If you head to GitHub and browse your repository you should see the newly committed Python notebook of code. 
+If you head to GitHub and browse your repository you should see the newly committed Python notebook of code.
 
 > 📝 Please Note, we now have our Python notebook in Git Hub source control and will be able to start benefiting from collaboration features (revision history/peer collaboration/audit trail).
 
@@ -126,7 +126,7 @@ You should see something similar to the below image:
 
 ![](images/data16.png)
 
-Back in Databricks, locate your name in the top right, click that and under "User Settings", lets go ahead and click "Generate New Token" 
+Back in Databricks, locate your name in the top right, click that and under "User Settings", lets go ahead and click "Generate New Token"
 
 > 📝 Please Note, our Azure DevOps pipeline will need this token to successfully authenticate/deploy our notebook to the prod workspace folder, so make note of this token value.
 
@@ -134,7 +134,7 @@ You should see something similar to the below image:
 
 ![](images/data21.png)
 
-Give it a comment and lifetime (expiration) and click "Generate". 
+Give it a comment and lifetime (expiration) and click "Generate".
 
 > 📝 Please Note, make note of this token, you won't be able to access it again from this point on.
 
@@ -174,7 +174,7 @@ You should see something similar to the below image:
 
 Create a new Azure DevOps Pipeline. You can paste in the contents of mine located here [azure-petstoredataops-ci-cd-to-databricks.yml](https://github.com/chtrembl/azure-cloud/blob/main/manifests/azure-petstoredataops-ci-cd-to-databricks.yml)
 
-> 📝 Please Note, this pipeline is designed to trigger on any changes to petstore/petstoredataops/* (any changes we make to the notebook in Databricks and/or wherever the notebook is being managed. There are two stages in this pipeline: **Build** and **Deploy**. The Build stage creates the notebook artifacts from GitHub. Typically this is a compilation stage in typical DevOps practices where source code is being compiled, however that is not the case with our Python notebook, no compilation needed. The Deploy stage, depends on Build, and the objective here is to connect to Databricks and deploy the artifacts (notebook) from the Build stage. We will rely on the Azure DevOps Databricks task to do the heavy lifting for us. Make sure you update your yaml with your Databricks URL and your Cluster ID (Details on how to find those above). You will also need to inject the token (secret) that we previously generated. You can also add more stages, perhaps you'll have a testing stage to ensure things are behaving as expected by running some automated unit tests etc... For this guide however we have simplified to just Build/Deploy from dev to prod. The deploynotebooks task will move the notebooks from the Build stage to the Databricks prod notebook folder. (You could also move to a whole new cluster/workspace etc...)
+> 📝 Please Note, this pipeline is designed to trigger on any changes to petstore/petstoredataops/\* (any changes we make to the notebook in Databricks and/or wherever the notebook is being managed. There are two stages in this pipeline: **Build** and **Deploy**. The Build stage creates the notebook artifacts from GitHub. Typically this is a compilation stage in typical DevOps practices where source code is being compiled, however that is not the case with our Python notebook, no compilation needed. The Deploy stage, depends on Build, and the objective here is to connect to Databricks and deploy the artifacts (notebook) from the Build stage. We will rely on the Azure DevOps Databricks task to do the heavy lifting for us. Make sure you update your yaml with your Databricks URL and your Cluster ID (Details on how to find those above). You will also need to inject the token (secret) that we previously generated. You can also add more stages, perhaps you'll have a testing stage to ensure things are behaving as expected by running some automated unit tests etc... For this guide however we have simplified to just Build/Deploy from dev to prod. The deploynotebooks task will move the notebooks from the Build stage to the Databricks prod notebook folder. (You could also move to a whole new cluster/workspace etc...)
 
 ```yml
 trigger:
@@ -194,13 +194,13 @@ pool:
 stages:
 - stage: Build
   displayName: Build stage
-  jobs: 
+  jobs:
     - job: Build
       steps:
       - task: PublishBuildArtifacts@1
         inputs:
           PathtoPublish: 'petstore/petstoredataops'
-          ArtifactName: 'petstoredataops'   
+          ArtifactName: 'petstoredataops'
 - stage: Deploy
   displayName: Deploy Stage
   dependsOn: Build
@@ -213,7 +213,7 @@ stages:
           token: $(token)
       - task: startcluster@0
         inputs:
-          clusterid: '0720-145135-coup132'          
+          clusterid: '0720-145135-coup132'
       - task: deploynotebooks@0
         inputs:
           notebooksFolderPath: '$(System.DefaultWorkingDirectory)/petstore/petstoredataops/notebooks'
@@ -225,7 +225,7 @@ You should see something similar to the below image:
 
 ![](images/data23.png)
 
-Add a new pipeline variable/secret and paste in your Databricks token value. 
+Add a new pipeline variable/secret and paste in your Databricks token value.
 
 You should see something similar to the below image:
 
@@ -237,7 +237,7 @@ Head over to Azure DevOps Boards and create a new Work Item Task (that will allo
 
 ![](images/data25.png)
 
-Back in the Databricks **dev** workspace folder, make a change to the notebook. This is the change that corresponds to the Work Item that was created in Azure DevOps Boards. For example,  add a query to select a specific breed, in this case Dog breeds.
+Back in the Databricks **dev** workspace folder, make a change to the notebook. This is the change that corresponds to the Work Item that was created in Azure DevOps Boards. For example, add a query to select a specific breed, in this case Dog breeds.
 
 You should see something similar to the below image:
 
