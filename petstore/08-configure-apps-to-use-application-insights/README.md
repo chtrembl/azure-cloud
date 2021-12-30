@@ -327,17 +327,17 @@ You should see something similar to the below image:
 - **View Application Insights > Transaction Search**
   First you will want to hit your application as a couple of different users (different sessions) to generate Transaction Data in Azure Monitor (you can use the PetStoreApp seen [here](https://github.com/chtrembl/Azure/tree/master/petstoreapp) then head to Azure Portal > Application Insights.
 
-      Under Transaction Search in the left navigation you can filter transactions within the last 30 minutes and you will see all of the transactions for the application that you just hit. (You will notice different sessionId's as well, a nice way, among many, to distinguish between flows)
+Under Transaction Search in the left navigation you can filter transactions within the last 30 minutes and you will see all of the transactions for the application that you just hit. (You will notice different sessionId's as well, a nice way, among many, to distinguish between flows)
 
-      You should see something similar to the below image:
+You should see something similar to the below image:
 
-      ![](images/ai4.png)
+![](images/ai4.png)
 
-      If you select one, you can view all the transactions associated (end to end) for that request (Remember the illustration from above that depicts the user flow). For example, Login: A request comes in (Request Transaction), it gets tracked (Custom Event Transaction), the request handler mapping determines the view (Page View Transaction) and the routing occurs (Logging Transaction from the Application Insights Appender)
+If you select one, you can view all the transactions associated (end to end) for that request (Remember the illustration from above that depicts the user flow). For example, Login: A request comes in (Request Transaction), it gets tracked (Custom Event Transaction), the request handler mapping determines the view (Page View Transaction) and the routing occurs (Logging Transaction from the Application Insights Appender)
 
-      You should see something similar to the below image:
+You should see something similar to the below image:
 
-      ![](images/ai5.png)
+![](images/ai5.png)
 
 - **Write Custom Log Queries (Kusto (KQL) for common use case**
   Often times it is beneficial to get a transactional flow based on user activity. You can do this by individual transaction types (Requests, Page Views, Traces etc...) or perhaps you want to combine results across various sources. Perhaps you have a correlated id/session id that spans multiple application sources (web application and N micro services) Since our Spring boot application is logging the session id (this is in the PetStoreApp footer) for Traces and Events, we can easily capture this via Kusto Queries.
