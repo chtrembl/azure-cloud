@@ -54,7 +54,7 @@ Prerequisites and environment setup (Optionaly you can build/deploy locally)
 
    Configure Git Hub Action for CI/CD into App Service
 
-## [05 - Create an Azure Kubernetes Cluster](05-create-an-azure-k8s-cluster/README.md)
+## [05 - Create an Azure Kubernetes Cluster and configure NGINX Ingress controller](05-create-an-azure-k8s-cluster/README.md)
 
    Create an Azure Kubernetes Cluster
 

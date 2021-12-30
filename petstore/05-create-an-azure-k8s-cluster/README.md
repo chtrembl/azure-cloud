@@ -1,4 +1,4 @@
-# 05 - Create an Azure Kubernetes Cluster
+# 05 - Create an Azure Kubernetes Cluster and configure NGINX Ingress controller
 
 __This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)__
 
@@ -8,13 +8,7 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
 > 📝 Please Note, We will assume you have forked the azure-cloud repository, it is the easiest way to get going (for instructions on this view the "**Forking the azure-cloud**" section in [00-setup-your-environment](../00-setup-your-environment/README.md). Also, both PetStoreApp and PetStoreService use a Spring Boot Application properties file named application.yml to drive the functionality/configuration of these applications which is located in src/main/resources/application.yml of both projects. By default, this file has all of the properties that are needed throughout the guides, and by default are commented out. This means that the applications will start automatically without having to configure anything. As you progress through the guides, each guide will inform you of what properties to uncomment and configure within your environment. If you have not already done so, login to your GitHub account, head to https://github.com/chtrembl/azure-cloud, and fork.
 
-Next you will need to provision an AKS Cluster. You have the option of doing this through the Portal or CLI. Choose one below.
-
-## Provision AKS via Azure Portal
-
-Go through the "Create an AKS CLuster" steps here https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough-portal and make note of your Kubernetes Cluster Name. I recommend using "azurepetstore-akscluster" which will make updating the deployment manifests in the next guide that much easier for you. The rest of the default settings are fine, you can take the latest version of Kubernetes. Once you have that cluster available (without an application deployed) Head over to the Next guide: [06 - Configure Azure DevOps Pipeline for CI/CD into Azure Kubernetes Service](../06-configure-ado-pipeline-for-ci-cd-into-aks/README.md) to get an Azure DevOps Pipeline deploying workloads for you.
-
-## Provision AKS via Azure CLI
+## Provision and Configure AKS via Azure CLI
 
 > 📝 Please Note, We will be using the [Azure CLI](https://docs.microsoft.com/en-US/cli/azure/install-azure-cli?view=azure-cli-latest) here to complete all of the necessary steps. The CLI is handy and often used for scripting tasks. Also make sure you completed 1. Push the Pet Store Service Docker Image to Azure Container Registry from  [02 - Push the Docker Images to Azure Container Registry (Local Development Only)](../02-push-the-docker-images-to-acr/README.md)
 
