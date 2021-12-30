@@ -250,7 +250,7 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
     You should see something similar to the below image:
 
-    ![](images/8.png)
+    ![](images/9.png)
 
     Congratulations, you now have the 3 services deployed and accessible via the NGINX Ingress controller. The Ingress controller configuration won't change often, however in the next guide you will configure an Azure DevOps Pipelines to continuously deploy the services (k8s deployments of new service code/feature updates)
 
