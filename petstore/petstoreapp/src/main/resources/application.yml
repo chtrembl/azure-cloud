@@ -1,6 +1,6 @@
-#logging:
-#  level:
-#    org.springframework.security: DEBUG
+logging:
+  level:
+    org.springframework: DEBUG
 petstore:
   service:
     pet:

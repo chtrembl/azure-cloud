@@ -28,6 +28,7 @@
 			</div>
 		</table>
 		<form action="updatecart" method="post" id="addProduct">
+ 		 <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 		 <input type="hidden" id="productId" name="productId" value="">
     	</form>
 	</div>

@@ -38,12 +38,16 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		if (this.aadB2COidcLoginConfigurerWrapper != null
 				&& this.aadB2COidcLoginConfigurerWrapper.getConfigurer() != null) {
 
-			http.authorizeRequests().antMatchers("/").permitAll().antMatchers("/*breed*").permitAll()
-					.antMatchers("/*product*").permitAll().antMatchers("/*cart*").permitAll()
-					.antMatchers("/api/contactus").permitAll().antMatchers("/slowness").permitAll()
-					.antMatchers("/exception").permitAll().antMatchers("/login*").permitAll().anyRequest()
+			http.authorizeRequests().antMatchers("/").permitAll()
+					.antMatchers("/*breed*").permitAll()
+					.antMatchers("/*product*").permitAll()
+					.antMatchers("/*cart*").permitAll()
+					.antMatchers("/api/contactus").permitAll()
+					.antMatchers("/slowness").permitAll()
+					.antMatchers("/exception").permitAll()
+					.antMatchers("/login*").permitAll().anyRequest()
 					.authenticated().and().apply(this.aadB2COidcLoginConfigurerWrapper.getConfigurer()).and()
-					.oauth2Login().loginPage("/login").and().csrf().disable();
+					.oauth2Login().loginPage("/login");
 
 			this.containeEnvironment.setSecurityEnabled(true);
 		} else {
