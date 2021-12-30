@@ -206,7 +206,7 @@ You should see something similar to the below image:
 
 You should see something similar to the below image:
 
-![](images/11.png)
+![](images/12.png)
 
 run the following command:
 
