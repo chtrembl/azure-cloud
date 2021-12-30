@@ -1,8 +1,6 @@
-
-
 # 00 - Setup your environment
 
-__This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)__
+**This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)**
 
 In this section, we'll begin to set up your environment both for local development (Optional) and for Azure.
 
@@ -20,7 +18,7 @@ You should see something similar to the below image:
 
 Clone this fork in your tool of choice (GitHub Desktop or command line)
 
-Either 
+Either
 
 ![](images/gh.png)
 
@@ -36,7 +34,7 @@ Make sure you have an SSH key defined within your GitHub Settings
 ssh-keygen -t rsa -b 4096 -C "youremailaddress"
 ```
 
-You should see something like the following (if you do not yet have a key, following the instructions and enter a passphrase) 
+You should see something like the following (if you do not yet have a key, following the instructions and enter a passphrase)
 
 ```
 ssh-keygen -t rsa -b 4096 -C "chtrembl@microsoft.com"
@@ -91,15 +89,15 @@ This will put any changes you may have, on top of the latest from https://github
 
 To save time, we have an ARM template to get a few Azure resources created:
 
- - App Service (Pet Store Application)
- - App Service Plan (Resources needed to host the Pet Store Application)
- - Container Registry (Used to store Docker Images for Pet Store Application and Pet Store Service)
- 
+- App Service (Pet Store Application)
+- App Service Plan (Resources needed to host the Pet Store Application)
+- Container Registry (Used to store Docker Images for Pet Store Application and Pet Store Service)
+
 > 📝 Please Note, All other Azure Services such as Azure B2C, Azure Kubernetes Service, Azure Application Insights, API Management etc... will be setup in the subsequent guides.
 
 Go ahead and Deploy to Azure
 
- [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fchtrembl%2Fazure-cloud%2Fmain%2Fpetstore%2F00-setup-your-environment%2Fazuredeploy.json)
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fchtrembl%2Fazure-cloud%2Fmain%2Fpetstore%2F00-setup-your-environment%2Fazuredeploy.json)
 
 > 📝 Please Note, Create a new resource when prompted, such as: **azurepetstorerg** and substitute your network alias for **youralias**, or something unique that will appear as a FQDN for accessing your Azure Pet Store Application.
 

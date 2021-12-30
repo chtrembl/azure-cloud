@@ -14,7 +14,7 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
 1. Login to your Azure account
 
-`az login`
+    `az login`
 
 2. Choose your Azure subscription (enter your subscription id here, subscriptions are listed after logging in above)
 
@@ -252,7 +252,7 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
    ![](images/9.png)
 
-   Congratulations, you now have the 3 services deployed and accessible via the NGINX Ingress controller. The Ingress controller configuration won't change often, however in the next guide you will configure an Azure DevOps Pipelines to continuously deploy the services (k8s deployments of new service code/feature updates)
+   🎉Congratulations, you now have the 3 services deployed and accessible via the NGINX Ingress controller. The Ingress controller configuration won't change often, however in the next guide you will configure an Azure DevOps Pipelines to continuously deploy the services (k8s deployments of new service code/feature updates)
 
 Things you can now do now with this guide
 

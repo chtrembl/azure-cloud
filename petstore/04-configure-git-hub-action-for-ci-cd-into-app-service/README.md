@@ -1,6 +1,6 @@
 # 04 - Configure Git Hub Action for CI/CD into App Service
 
-__This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)__
+**This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)**
 
 In this section, we'll configure Git Hub Action for Pet Store App CI/CD into App Service
 
@@ -34,13 +34,13 @@ You should see something similar to the below image:
 
 Head to azure-cloud/blob/main/.github/workflows/petstoresapp_ci_cd_to_appservice.yml and update the following properties to reflect your Container Registry and your Username from above:
 
-```AZURE_CONTAINER_REGISTRY```
+`AZURE_CONTAINER_REGISTRY`
 
-```AZURE_CONTAINER_REGISTRY_USERNAME```
+`AZURE_CONTAINER_REGISTRY_USERNAME`
 
 Commit your changes
 
-> 📝 Please Note, azure-cloud/blob/main/.github/workflows/petstoresapp_ci_cd_to_appservice.yml action is configured to execute on any changes to the perstoreapp folder 
+> 📝 Please Note, azure-cloud/blob/main/.github/workflows/petstoresapp_ci_cd_to_appservice.yml action is configured to execute on any changes to the perstoreapp folder
 
 ```
 on:
@@ -57,18 +57,18 @@ There are several Git Hub Tasks. The goal is to build the Spring Boot Java Pet S
 
 ```
 name: Pet Store App CI/CD to Azure App Service
-  
+
 env:
   AZURE_CONTAINER_REGISTRY: azurepetstorecr.azurecr.io
   AZURE_CONTAINER_REGISTRY_USERNAME: azurepetstorecr
-  
+
 on:
   push:
     branches:
       - main
     paths:
       - petstore/petstoreapp/**
-      
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -98,7 +98,7 @@ jobs:
         login-server: ${{ env.AZURE_CONTAINER_REGISTRY }}
         username: ${{ env.AZURE_CONTAINER_REGISTRY_USERNAME }}
         password: ${{ secrets.PETSTORECRSECRET }}
-    - name: Push Docker image to Azure Container Registry    
+    - name: Push Docker image to Azure Container Registry
       run: |
         docker build petstore/petstoreapp -t ${{env.AZURE_CONTAINER_REGISTRY}}/petstoreapp:latest -t ${{ env.AZURE_CONTAINER_REGISTRY }}/petstoreapp:${{ github.sha }}
         docker push ${{ env.AZURE_CONTAINER_REGISTRY }}/petstoreapp:${{ github.sha }}
@@ -107,15 +107,15 @@ jobs:
 
 This workflow action does both CI & CD. Below are the details:
 
- - On any Change to petstoreapp/** main branch, the Action will execute
- - The code is then checked out into a project workspace using actions/checkout@v2
- - A version.json is created each time containing meta data about the build (Date/Version) and will be built as part of the Docker Image as static content. This is useful for obtaining version info at application runtime.
- - actions/setup-java@v2 is used to compile our Spring Boot Java Application using Maven. Since we are not configuring Docker for a Multi Stage build, we first build the petstoreapp.jar executable, in advance of our Docker Image.
- - actions/upload-artifact@v1 is used to store the petstoreapp.jar artifact, we do not need this for anything, however its more for academic purposes to show that we can persist build artifacts. (Ultimately we persist Docker Images in ACR)
- - azure/docker-login@v1 is used to authenticate/build/push into Azure Container Registry.
- - The latest Docker image for PetStoreApp gets tagged with the GitHub Hash (seen in version.json) as well as latest. CD in App Service is configured to always web hook to the latest tag.
+- On any Change to petstoreapp/\*\* main branch, the Action will execute
+- The code is then checked out into a project workspace using actions/checkout@v2
+- A version.json is created each time containing meta data about the build (Date/Version) and will be built as part of the Docker Image as static content. This is useful for obtaining version info at application runtime.
+- actions/setup-java@v2 is used to compile our Spring Boot Java Application using Maven. Since we are not configuring Docker for a Multi Stage build, we first build the petstoreapp.jar executable, in advance of our Docker Image.
+- actions/upload-artifact@v1 is used to store the petstoreapp.jar artifact, we do not need this for anything, however its more for academic purposes to show that we can persist build artifacts. (Ultimately we persist Docker Images in ACR)
+- azure/docker-login@v1 is used to authenticate/build/push into Azure Container Registry.
+- The latest Docker image for PetStoreApp gets tagged with the GitHub Hash (seen in version.json) as well as latest. CD in App Service is configured to always web hook to the latest tag.
 
-Head to your azure-cloud/petstore/petstoreapp folder and edit your README.MD file and commit, this will trigger the azure-cloud/blob/main/.github/workflows/petstoresapp_ci_cd_to_appservice.yml 
+Head to your azure-cloud/petstore/petstoreapp folder and edit your README.MD file and commit, this will trigger the azure-cloud/blob/main/.github/workflows/petstoresapp_ci_cd_to_appservice.yml
 
 You should see something similar to the below image:
 
@@ -127,7 +127,7 @@ You should see something similar to the below image:
 
 ![](images/gh5.png)
 
-Once successful you will see something like 
+Once successful you will see something like
 
 ![](images/gh6.png)
 
@@ -139,7 +139,7 @@ If successful you can head to a browser and visit your FQDN Azure App Service UR
 
 🎉Congratulations, you now have Pet Store App Continuously Deploying into your App Service each and every time an image is pushed to Azure Container Registry from your Git Hub Action. Notice the Date/Version within your App Service HTML Footer (seen in browser) matches the Git Hub Action Build Meta Data.
 
-> 📝 Please Note,  Enable application logging (Linux/Container) so that logs start aggregating for you. To enable application logging for Linux apps or custom container apps in the Azure portal, navigate to your app and select App Service logs. In Application logging, select File System. In Quota (MB), specify the disk quota for the application logs. In Retention Period (Days), set the number of days the logs should be retained. When finished, select Save. This will come in handy when you start experimenting with Application Insights.
+> 📝 Please Note, Enable application logging (Linux/Container) so that logs start aggregating for you. To enable application logging for Linux apps or custom container apps in the Azure portal, navigate to your app and select App Service logs. In Application logging, select File System. In Quota (MB), specify the disk quota for the application logs. In Retention Period (Days), set the number of days the logs should be retained. When finished, select Save. This will come in handy when you start experimenting with Application Insights.
 
 Things you can now do now with this guide
 
@@ -147,10 +147,10 @@ Things you can now do now with this guide
 
 ☑️ Build Meta Data appears within your running application which matches the container configuration reflected in your App Service
 
-
 > 📝 Please Note, if you're interested in viewing the web hook that got created, **automagically**, when Container Configuration was updated to sync with Azure Container Registry, you can view these under the Azure Container Registry as seen below.
 
 ![](images/webhook.png)
 
 ---
+
 ➡️ Next guide: [05 - Create an Azure Kubernertes Cluster](../05-create-an-azure-k8s-cluster/README.md)
