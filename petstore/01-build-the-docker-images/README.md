@@ -204,6 +204,10 @@ You should see something similar to the below image:
 
 ![](images/10.png)
 
+You should see something similar to the below image:
+
+![](images/11.png)
+
 run the following command:
 
 `docker ps `
