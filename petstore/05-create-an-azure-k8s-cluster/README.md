@@ -254,6 +254,10 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
    🎉Congratulations, you now have the 3 services deployed and accessible via the NGINX Ingress controller. The Ingress controller configuration won't change often, however in the next guide you will configure an Azure DevOps Pipelines to continuously deploy the services (k8s deployments of new service code/feature updates)
 
+To cleanup your old replica sets you can run the following command
+
+`kubectl get rs -A -o wide | tail -n +2 | awk '{if ($3 + $4 + $5 == 0) print "kubectl delete rs -n "$1, $2 }' | sh`
+
 Things you can now do now with this guide
 
 ☑️ Create a Kubernetes cluster and administer it
