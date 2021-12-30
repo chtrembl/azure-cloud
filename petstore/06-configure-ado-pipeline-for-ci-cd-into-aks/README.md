@@ -125,7 +125,7 @@ You can give it a meaningful name
 
 You should see something similar to the below image:
 
-![](images/10.png)
+![](images/11.png)
 
 ## Setup azure-petstoreproductservice-ci-cd-to-aks-pipeline Pipeline
 
@@ -144,7 +144,9 @@ Head back to Pipelines
 
 You should see something similar to the below image: (minus the regression pipeline which comes in a later guide)
 
-![](images/11.png)
+![](images/12.png)
+
+You can also go back into Service Connections and delete the newly generated ones that are not being used. (You should just have the 3 that were originally created and were re used)
 
 🎉Congratulations, you now have the 3 services configured with ADO Pipelines. If you make changes to the projects you should see the corresponding pipelines execute, build and deploy.
 
