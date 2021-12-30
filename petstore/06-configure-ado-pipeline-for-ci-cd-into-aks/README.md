@@ -1,175 +1,152 @@
 # 06 - Configure Azure DevOps Pipeline for CI/CD into Azure Kubernetes Service
 
-__This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)__
+**This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)**
 
 In this section, we'll configure an Azure DevOps Pipeline for Pet Store Service CI/CD into Azure Kubernetes Service
 
 > 📝 Please Note, We will assume you have forked the azure-cloud repository, it is the easiest way to get going (for instructions on this view the "**Forking the azure-cloud**" section in [00-setup-your-environment](../00-setup-your-environment/README.md). Also, both PetStoreApp and PetStoreService use a Spring Boot Application properties file named application.yml to drive the functionality/configuration of these applications which is located in src/main/resources/application.yml of both projects. By default, this file has all of the properties that are needed throughout the guides, and by default are commented out. This means that the applications will start automatically without having to configure anything. As you progress through the guides, each guide will inform you of what properties to uncomment and configure within your environment. If you have not already done so, login to your GitHub account, head to https://github.com/chtrembl/azure-cloud, and fork.
 
-By now you have a CI/CD GitHub Action that you can experiment with. This guide will give you a DevOps Pipeline with very similar tasks. We will then tie them together.
+By now you have a CI/CD GitHub Action that you can experiment with for PetStoreApp, in this guide we will build CI/CD Azure DevOps Pipelines for the PetStorePetService, PetStoreProductService & PetStoreOrderService (Until this point, that orchestration of CI/CD is being done manually via CLI as seen in the previous guide.)
 
-This Pipeline will execute on any commit to petstoreapp, executing security scanning using Cred Scan, create a version file with build meta data (useful at runtime), execute unit test/code coverage (useful for dashboard metrics) and last but not least compile Compile the Spring Boot Pet Store Service, build the Docker Image and Deploy into AKS.
+These pipelines will execute on any commit to PetStorePetService, PetStoreProductService & PetStoreOrderService (respectively), executing security scanning using Cred Scan, create a version file with build meta data (useful at runtime), execute unit test/code coverage (useful for dashboard metrics) and last but not least compile Compile the Spring Boot Pet Store Service, build the Docker Image and Deploy into AKS.
 
-https://github.com/chtrembl/azure-cloud
+Head to Azure DevOps and create and organization & project if you do not have one (I have an organization called chtrembl and a project called Demo) and lets get started.
 
-Head to Azure DevOps and create and organization & project if you do not have one (I have an organization called chtrembl and a project called PetStore) and lets get started.
-
-As we did with the GitHub Action, I have the manifests files already created here https://github.com/chtrembl/azure-cloud/tree/main/manifests, Although we can't simply import them, we can reuse them. I will walk you through that below. 
+As we did with the GitHub Action, I have the manifests files already created here https://github.com/chtrembl/azure-cloud/tree/main/manifests, Although we can't simply import them, we can reuse them. I will walk you through that below.
 
 > 📝 Please Note, by now, https://github.com/chtrembl/azure-cloud should be forked.
 
-Within your DevOps Organization, lets create a new Pipeline. Essentially what we are doing here is asking DevOps to setup the connectors to AKS for us, we will then use this meta data and paste into the manifests from https://github.com/chtrembl/azure-cloud/tree/main/manifests
+> 📝 Please Note, if you haven't installed the Security Dev Tools in your DevOps Organization, please head to the Marketplace and install it, its quick and needed for the security tasks to run in your Pipeline. https://marketplace.visualstudio.com/items?itemName=securedevelopmentteam.vss-secure-development-tools
 
-> 📝 Please Note, if you havent isntalled the Security Dev Tools in your DevOps Organization, please head to the Marketplace and install it, its quick and needed for the security tasks to run in your Pipeline. https://marketplace.visualstudio.com/items?itemName=securedevelopmentteam.vss-secure-development-tools
+Let's first get the service connections created that our pipelines will need (Azure Container Registry, Azure Kubernetes Service and GitHub)
 
-You should see something similar to the below image:
-
-![](images/ado_1.png)
-
-Select GitHub (Where your fork/clone is)
+If you had over to Project Settings > Service Connections, you will see that you probably do not have any yet
 
 You should see something similar to the below image:
 
-![](images/ado2.png)
+![](images/1.png)
 
-Select the azure-cloud fork (or clone if you went that route) 
+There a few ways to add these Service Connections, each time you create a pipeline, ADO will generate them for you, that is the approach we are going to take here, just to get them created, then we are going to reuse them for all 3 pipelines by substituting in the values for each of the yml's I have provided here https://github.com/chtrembl/azure-cloud/tree/main/manifests.
 
-You should see something similar to the below image:
-
-![](images/ado3.png)
-
-Select Azure Kubernetes Service and your subscription where your AKS Cluster is running (remember from the previous guide 05-create-an-azure-k8s-cluster)
+Head back to Pipelines and select "Create Pipeline" or "New Pipeline"
 
 You should see something similar to the below image:
 
-![](images/ado4.png)
+![](images/2.png)
 
-Fill in the meta data as seen in the image. 
-
-> 📝 Please Note, if your curious, essentially Azure DevOps will generate Kubernetes Manifests files for you based on this data we enter. We will actually end up overriding all of this with our own manifests seen here https://github.com/chtrembl/azure-cloud/tree/main/manifests but for now go ahead and enter.
-
-    - Cluster (Select your cluster (remember from the previous guide 05-create-an-azure-k8s-cluster))
-    - Namespace Existing & default is fine. (We aren't going to discuss namespaces in this guide)
-    - Container Registry (remember got created for you in guide 00-setup-your-environment)
-    - Image Name is "petstoreservice"
-    - Service Port 8080 
+Select GitHub and the repository that you have forked
 
 You should see something similar to the below image:
 
-![](images/ado5.png)
+![](images/3.png)
 
-Validate and configure, what you will see if a pre generated yml deployment file. There are only a couple of useful things here before we make significant changes
-
-    - Make note of your imagePullSecret
-    - Make note of your dockerRegistryServiceConnection
-
-> 📝 Please Note, At this point Azure DevOps was kind enough to create service connections to Azure Container Registry and AKS for us, automagically. You can see these under Settings > Service Connections, if curious you can take a look (do this in another tab so you don't lose your current work)
+Select "Deploy to Azure Kubernetes Service"
 
 You should see something similar to the below image:
 
-![](images/ado10.png)
+![](images/4.png)
 
-Anyways, back to this pre generated yml file, its a good start but we want to do more than just deploy. We want to run Cred Scan, Unit Test, Create a version file with Build Meta Data, Compile, Build Docker Image, Push Docker Image and then Deploy to Azure Kubernetes Service. So we will leverage the manifests from https://github.com/chtrembl/azure-cloud/tree/main/manifests 
+Select your Azure Subscription and Continue
 
-At this point you made note of the imagePullSecret and dockerRegistryServiceConnection
-
-You should see something similar to the below image:
-
-![](images/ado6.png)
-
-Azure DevOps is asking for your consent on file name of this deployment pipeline along with contents. I like to change the path to manifests/something-more meaningful, for example azure-petstoreservice-ci-cd-to-aks-pipeline or azure-petstoreservice-pipeline. If you are cloning/forking, you will have to pick a different name, Azure DevOps unfortunately won't commit on an existing version.
-
-Now for the tricky part, remove all of the body contents from the inline editor and paste in the contents from https://github.com/chtrembl/azure-cloud/blob/main/manifests/azure-petstoreservice-ci-cd-to-aks-pipeline.yml
-
-I am going to go through each line you want to review and/or change and why
-
- - line 11 make sure you are executing this pipeline on only changes from petstore/petstoreservice/* (no need to trigger on petstoreapp changes etc...) (if your cloning/forking this should not change)
- - line 19 overwrite dockerRegistryServiceConnection with the id you copied above
- - line 20 verify imageRepository matches your Azure Container Registry/Image Repository (keep this as petstoreservice)
- - line 21 verify your containerRegistry is the one configured in guide 00-setup-your-environment (this should match your container registry)
- - line 22 verify your path is correct to the Dockefile (if your cloning/forking this should not change)
- - line 24 overwrite imagePullSecret with '$(crImagePullSecret)', we will inject this sensitive value as a pipeline secret below
- - line 90 kubernetesServiceConnection should match your service connection that you made in the previous dialog and can view in your settings/service connections
- - line 99 kubernetesServiceConnection should match your service connection that you made in the previous dialog and can view in your settings/service connections
- - line 101 Azure DevOps Pipelines will create a generic deployment file for you (you can safely delete once it does), for line 101 make sure it reads  **$(Pipeline.Workspace)/manifests/petstoreservice-deployment.yml**, you will want to use this one as it is structured to disable the various functionality that we will enable in the subsequent guides
- - line 102 Azure DevOps Pipelines will create a generic service file for you (you can safely delete once it does), for line 102 make sure it reads  **$(Pipeline.Workspace)/manifests/petstoreservice-service.yml**, you will want to use this one as it is structured to disable the various functionality that we will enable in the subsequent guides
- 
-After you are done editing (don't worry this file will vet versioned in GitHub in the next dialog and you can always make changes at any time)
+Specify your AKS Cluster name, namespace and container registry that you have previously setup. Image Name and Service Port do not matter here (all we are doing is getting ADO to generate the service connections for us, we wont actually be using this pipeline that gets generated.)
 
 You should see something similar to the below image:
 
-![](images/ado7.png)
+![](images/5.png)
 
-Click on Variables > New variable
+Select "Validate and configure"
 
-Enter the ```crImagePullSecret``` secret with the sensitive value that was auto generated, to inject every time this pipeline executes
-
-You should see something similar to the below image:
-
-![](images/ado8.png)
-
-Click Save and run
+This next step is very important. Make note of your dockerRegistryServiceConnection value and your imagePullSecret value. Save them off in notepad somewhere, you can never retrieve these. These are associated to your Service Connections and we can re use them for all 3 Pipelines. We will also move the secret to an encrypted variable.
 
 You should see something similar to the below image:
 
-![](images/ado9.png)
+![](images/6.png)
 
-Azure DevOps is going to source a manifests/deployment.yml and manifests/service.yml for you in GitHub. You can safely remove those in favor of the ones that are preexisting for you.
-
-At this point the build will run, and it will also run any time you make a commit to petstore/petstore service. 
-
-> 📝 Please Note, the build should fail
-
-While this failing build is running, double check your manfiests/petstoreservice-deployment.yml and manifests/petstoreservice-service.yml
-
-You'll want to make sure you're using your Azure Container Registry. (I should of probably externalized these but for now you can update them to reflect your own)  
-
-```containers:
-      - name: petstoreservice
-        image: azurepetstorecr.azurecr.io/petstoreservice
-```
-
-Re run the failed pipeline. Once successful you can then regression test.
-
-> 📝 Please Note, if your build is still failing you may beed to troubleshoot the pipeline logs and/or verify that the petstoreservice image was pushed to your azure container registry, also verify your deployment manifests are using your container registry that you created in the first guide [00 - Setup your environment](../00-setup-your-environment/README.md) If your still having issues you will want to head to Azure Portal > Kubernetes Services (find your cluster) and under Kubernetes Resources > Workloads you can drill into the petstoreservice and view pod logs and image pull/deploy status etc..
-
-I like to renane my Pipelines to something more meaningful, you can do so by hovering over the pipeline (there will be an ellipse on the right and select rename)
+You do not need to save this Pipeline. Discard it. Head back to Service Connections.
 
 You should see something similar to the below image:
 
-![](images/ado11.png)
+![](images/6.png)
 
-Give it a nice name
+You now have 3 Service Connections and the values needed to re use them in your new Pipelines that you create. Your going to be creating a pipeline for each service that deploys to AKS, substituting my yml into your pipelines.
 
-You should see something similar to the below image:
+## Setup azure-petstorepetservice-ci-cd-to-aks-pipeline Pipeline
 
-![](images/ado12.png)
+At this point you already have the Service Connections and values saved off in a notepad file from above.
 
-> 📝 Please Note, Now when you inspect the pipeline, if you scroll all the way down to the bottom of the Deploy to Kubernetes cluster, you will see the Load Balancer IP Address, this will also match your kubectl commands as well if your working on the Azure CLI.
+Do the same with azure-petstorepetservice-ci-cd-to-aks-pipeline.yml from your fork or grab it from here https://github.com/chtrembl/azure-cloud/edit/main/manifests/azure-petstorepetservice-ci-cd-to-aks-pipeline.yml (you will be using this file with your Service Connections)
 
-You should see something similar to the below image:
+Head back to Pipelines and select "Create Pipeline" or "New Pipeline" and follow the same steps as above. This is going to re create more service connections, and for each of the 3 pipelines, however you saved the values for the original Service Connections as seen above so we can safely re use those and then delete the new ones once complete.
 
-![](images/ado13.png)
+Update the file path to reflect your Fork location, you will want to append your alias to the file name. ADO will ultimately be sourcing a new pipeline for you. There is no way to re use the existing one I've created, hence the need to append your alias if your using the same folder "manifests"
 
-Lets do a curl 
-
-```
-curl http://40.88.201.193/v2/info | json_pp
-```
+Paste in the contents of azure-petstorepetservice-ci-cd-to-aks-pipeline.yml from your fork or grab it from here https://github.com/chtrembl/azure-cloud/edit/main/manifests/ and update the dockerRegistryServiceConnection value and the imagePullSecret value with '$(crImagePullSecretGlobal)'. (We will inject this as a secret in the next step). Also search for "kubernetesServiceConnection" and make sure the value matches the name of your Service Connection as well (The one from above that was created originally and the one that will be re used). Delete the last stage "stage: Automation" (We will cover this in a later guide).
 
 You should see something similar to the below image:
 
-![](images/cli.png)
+![](images/8.png)
 
-You will see the build id (matches Azure Container Registry) as well as the container runtime too!
-
-This is handy to ensure what your viewing at runtime within your application is what matches what was just built :)
-
-Head to Azure Portal, find your AKS Cluster, view workloads and you'll see the same matching pod as depicted in your curl results
+Select variables > new variable and paste in your crImagePullSecretGlobal key and password (This is sensitive so lets inject it so that others cannot gain access to your Container Registry Service Connection) and select "Ok".
 
 You should see something similar to the below image:
 
-![](images/aks.png)
+![](images/9.png)
+
+You can Save and Run. This should version a new Pipeline yml for you with the file name you specified.
+
+ADO will execute this pipeline any time changes are made to PetStorePetService.
+
+If you inspect that Pipeline yml closely, you will notice two files that are being referenced for the k8s deployment
+
+`$(Pipeline.Workspace)/manifests/petstorepetservice-deployment-everything-enabled.yml`
+`$(Pipeline.Workspace)/manifests/petstorepetservice-service-everything-enabled.yml`
+
+You are going to need to update the contents of `$(Pipeline.Workspace)/manifests/petstorepetservice-deployment-everything-enabled.yml` because it references an application properties with configuration that you do not yet need as well as a k8s secret for Application Insights that does not yet exists (covered in a later guide).
+
+Head to GitHub and edit that file directly or locally and push it to GitHub.
+
+Ensure you have comments on the following, this is done via '#'
+
+          #- name: spring.config.name
+          #  value: application_with_everything_enabled
+          #- name: PETSTORESERVICES_AI_INSTRUMENTATION_KEY
+          #  valueFrom:
+          #    secretKeyRef:
+          #      name: aisecretkey
+          #      key: secret
+
+Head back to the Pipelines and you may notice that your Pipeline has a funky name. You can rename this. On the far right select Rename from the ellipse.
+
+You should see something similar to the below image:
+
+![](images/10.png)
+
+You can give it a meaningful name
+
+You should see something similar to the below image:
+
+![](images/10.png)
+
+## Setup azure-petstoreproductservice-ci-cd-to-aks-pipeline Pipeline
+
+Do the same thing as above instead for petstorepetservice do it for petstoreproductservice, using the petstoreproductservice yml files.
+
+## Setup azure-petstoreorderservice-ci-cd-to-aks-pipeline Pipeline
+
+Do the same thing as above instead for petstorepetservice do it for petstoreorderservice, using the petstoreorderservice yml files.
+
+In your version of petstoreorderservice-deployment-everything-enabled.yml you will also want to make sure your PETSTOREPRODUCTSERVICE_URL is pointng to the URL of your AKS External IP from the previous guide. This ensures that the PetStoreOrderService can communicate with the PetStoreProductService.
+
+          - name: PETSTOREPRODUCTSERVICE_URL
+            value: "http://EXTERNAL_IP/"
+
+Head back to Pipelines
+
+You should see something similar to the below image: (minus the regression pipeline which comes in a later guide)
+
+![](images/11.png)
+
+🎉Congratulations, you now have the 3 services configured with ADO Pipelines. If you make changes to the projects you should see the corresponding pipelines execute, build and deploy.
 
 Things you can now do now with this guide
 
@@ -179,6 +156,6 @@ Things you can now do now with this guide
 
 ☑️ Build Meta Data appears within your running application which matches the container configuration reflected in your Kubernetes Cluster
 
-
 ---
+
 ➡️ Next guide: [07 - Connect PetStoreApp and PetStoreService together](../07-connect-petstoreapp-and-petstoreservice-together/README.md)
