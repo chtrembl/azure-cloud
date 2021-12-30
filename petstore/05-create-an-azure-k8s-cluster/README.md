@@ -56,11 +56,13 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
 11. Install Helm and get familiar with Ingress controllers (An Ingress controller abstracts away the complexity of Kubernetes application traffic routing and provides a bridge between Kubernetes services and external ones.). There is a nice guide here https://docs.microsoft.com/en-us/azure/aks/ingress-basic I will provide the commands below but it would be a good idea to read through the document as well. It explains the Ingress controller concept. We are going to be using it to expose/route the 3 Pet Store Services (petstorepetservice, petstoreproductservice and petstoreorderservice) to our Pet Store App running in App Service.
 
-12. We will be using an AKS namespace for our configurations, we can setup a local variable for references within our commands further down.
+## Install and Configure NGINX Ingress controller
+
+1. We will be using an AKS namespace for our configurations, we can setup a local variable for references within our commands further down.
 
     ```NAMESPACE=ingress-petstoreservices```
 
-13. We will setup a few more variables to simply our commands further down.
+2. We will setup a few more variables to simply our commands further down.
     
     ```cli
     RESOURCE_GROUP=<yourresourcegroup>
@@ -75,15 +77,15 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
     DEFAULTBACKEND_TAG=1.5
     ```
 
-14. Instruct Helm to add the ingress-nginx repo
+3. Instruct Helm to add the ingress-nginx repo
 
     ```helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx```
 
-15. Run a Helm repo update
+4. Run a Helm repo update
 
     ```helm repo update```
 
-16. Import the Ingress controller and required images into your ACR (Helm will use them on the install below)
+5. Import the Ingress controller and required images into your ACR (Helm will use them on the install below)
 
     ```az acr import --resource-group=$RESOURCE_GROUP --name $REGISTRY_NAME --source $SOURCE_REGISTRY/$CONTROLLER_IMAGE:$CONTROLLER_TAG --image $CONTROLLER_IMAGE:$CONTROLLER_TAG```
     
@@ -97,7 +99,7 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
     ![](images/1.png)
 
-17. Instruct Helm to install and configure the Ingress controller with the images
+6. Instruct Helm to install and configure the Ingress controller with the images
     
     ```cli 
     helm install ingress-nginx ingress-nginx/ingress-nginx \
@@ -132,127 +134,131 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
     ![](images/3.png)
 
-1. Using VI or VSC etc... create a deployment.yaml in your petstoreservice/ root with the following contents and save... (or use the existing one) This deployment yml is pretty simplified. There is a Deployment to configure Kubernetes with 1 replica of the petstoreservice Docker Image that we built above (Ultimately our running Docker image is a Kubernetes Container) We have configured container resources as well, and we know our Spring Boot petstoreservice will listen to HTTP requests on 8080. We will want to access these containers externally, so we also configure a Kubernetes Service (LoadBalancer) to expose our container. Instead of exposing it on port 8080, we will target port 80. 
+## Deploy Pet Store Services to AKS
 
-> 📝 Please Note, Make sure to reference your container registry instead of mine "image: yourcontainerregistry.azurecr.io/petstoreservice:latest"
-
-```vi deployment.yml```
-
-```
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: petstoreservice
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: petstoreservice
-  template:
-    metadata:
-      labels:
-	app: petstoreservice
-    spec:
-      nodeSelector:
-	"beta.kubernetes.io/os": linux
-      containers:
-      - name: petstoreservice
-	image: azurepetstorecr.azurecr.io/petstoreservice:latest
-	resources:
-	  requests:
-	    cpu: 100m
-	    memory: 128Mi
-	  limits:
-	    cpu: 250m
-	    memory: 256Mi
-	ports:
-	- containerPort: 8080
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: petstoreservice
-spec:
-  type: LoadBalancer
-  ports:
-  - port: 80
-    targetPort: 8080
-  selector:
-    app: petstoreservice
-```
-
-12. Deploy your Kubernetes configuration to AKS (You can run this command any time you want to deploy updates to be re orchestrated by K8S/AKS)
-
-	`kubectl apply -f deployment.yml`
-
-	If successful you will be able to access the AKS cluster via the Service Load Balancer configured above. Since this is dynamic, run the following
-
-	`kubectl get services -o jsonpath={.items[*].status.loadBalancer.ingress[0].ip} --namespace=default`
- 
-	This will output the Service Load Balancer IP address, 40.88.201.193 for example...
-
-	Then access petstoreservice via the ipaddress (40.88.201.193 in my case)
-  
-	```
-	curl http://40.88.201.193/v2/pet/findByStatus?status=available | json_pp
-  	```
-    	
-	You should see something similar to the below image:
-
-	![](images/json.png)
-
-	> 📝 Please Note, If your not able to access your Service Load Balancer, something may have went wrong with the deployment. You can run the following command to get some insight, if you see something in STATUS other than RUNNING, you will need to investigate by getting the pod details and troubleshooting, seen below...*
-
-    ```
-    ~/dev/git/azure-cloud/petstore/petstoreservice$ kubectl get all
-    NAME READY STATUS RESTARTS AGE
-    pod/petstoreservice-77c556d945-btb65 0/1 ImagePullBackOff 0 14s
-
-    ~/dev/git/azure-cloud/petstore/petstoreservice$ kubectl describe pod/petstoreservice-77c556d945-btb65
+1. Deploy petstorepetservice to AKS
     
+    cd to azure-cloud/petstore/petstorepetservice
 
-    Warning Failed 11s (x3 over 53s) kubelet, aks-nodepool1-56647556-vmss000001 Failed to pull image "petstoreservice:v1": rpc error: code = Unknown desc = Error response from daemon: pull access denied for petstoreservice, repository does not exist or may require 'docker login': denied: requested access to the resource is denied
-    ```
+    ```vi aks-petstorepetservice.yml```
+    
+    update the image path to that of your container registry, save and exit
 
-> 📝 Please Note, In the above, ImagePullBackOff indicated that the image could not be pulled from the Azure Container registry, checking permissions and container image definition in deployment.yaml usually resolves... You can view all of these messages and details within the Azure Portal as well via logging as seen below.
+    ```image: azurepetstorecr.azurecr.io/petstorepetservice:latest```
+    
+    run the deployment
 
-13.  You can view the application logs from the Spring Boot running container via the Azure Portal. If you head to the Azure Portal > Kubernetes Services and select the petstore-akscluster, there will be an Insights link. Select the Containers tab followed by the running container "petstoreservice" from the table below (we only have 1). You can the select "View container logs" which will show standard out from the Spring Boot petstoreservice container.
+    ```kubectl apply -f aks-petstorepetservice.yml --namespace $NAMESPACE```
+    
+    You should see something similar to the below image:
 
-Navigate to the petstoreservice Deployment within your AKS Cluster
+    ![](images/4.png)
 
-You should see something similar to the below image:
+    verify the deployment
 
-![](images/aks1.png)
+    ```kubectl get all --namespace $NAMESPACE```
+    
+    Notice the aks-petstorepetservice in a running state)
 
-Select the service link
+2. Deploy petstoreproductservice
+    
+    cd to azure-cloud/petstore/petstoreproductservice
 
-You should see something similar to the below image:
+    ```vi aks-petstoreproductservice.yml```
+    
+    update the image path to that of your container registry, save and exit
 
-![](images/aks2.png)
+    ```image: azurepetstorecr.azurecr.io/petstoreproductservice:latest```
+    
+    run the deployment
 
-Select Live Logs
+    ```kubectl apply -f aks-petstoreproductservice.yml --namespace $NAMESPACE```
+    
+    You should see something similar to the below image:
 
-You should see something similar to the below image:
+    ![](images/5.png)
 
-![](images/aks3.png)
+    verify the deployment
 
-View Live Logs
+    ```kubectl get all --namespace $NAMESPACE```
 
-You should see something similar to the below image:
+    Notice the aks-petstoreproductservice in a running state)
 
-![](images/aks4.png)
+3. Deploy petstoreorderservice
+    
+    cd to azure-cloud/petstore/petstoreorderservice
 
+    ```vi aks-petstoreorderservice.yml```
+    
+    update the image path to that of your container registry, save and exit
 
-> 📝 Please Note, you can also use kubectl to tail your pod application logs
+    ```image: azurepetstorecr.azurecr.io/petstoreorderservice:latest```
+    
+    run the deployment
 
-```
-kubectl get all
-kubectl logs --follow <pod names here>
-```
+    ```kubectl apply -f aks-petstoreorderservice.yml --namespace $NAMESPACE```
+    
+    You should see something similar to the below image:
+
+    ![](images/6.png)
+
+    verify the deployment
+
+    ```kubectl get all --namespace $NAMESPACE```
+
+    Notice the aks-petstoreorderservice in a running state)
+
+3. Verify all of the pods are up
+    
+    ```kubectl get all --namespace $NAMESPACE```
+   
+     You should see something similar to the below image:
+
+    ![](images/7.png)
+
+    You can also view the application logs from each running pod
+
+    ``` kubectl logs --follow <pod_name_from_command_output_above> --namespace $NAMESPACE
+
+4. Deploy Ingress controller configuration
+
+    cd to azure-cloud/manifests
+
+    ```kubectl apply -f aks-petstoreservices-ingress.yml --namespace $NAMESPACE```
+
+    You should see something similar to the below image:
+
+    ![](images/8.png)
+
+5. Test Ingress to all 3 services
+
+    Get the Ingress controller External IP address and save it off
+    
+    ```kubectl --namespace $NAMESPACE get services -o wide -w ingress-nginx-controller```
+
+    Access petstorepetservice (substituting the external address from above)
+    
+    ```curl http://52.226.196.34/petstorepetservice/v2/pet/info  | json_pp```
+
+    Access petstoreproductservice (substituting the external address from above)
+    
+    ```curl http://52.226.196.34/petstoreproductservice/v2/product/info  | json_pp```
+
+    Access petstorepetservice (substituting the external address from above)
+    
+    ```curl http://52.226.196.34/petstoreorderservice/v2/store/info  | json_pp```
+
+    You should see something similar to the below image:
+
+    ![](images/8.png)
+
+    Congratulations, you now have the 3 services deployed and accessible via the NGINX Ingress controller. The Ingress controller configuration won't change often, however in the next guide you will configure an Azure DevOps Pipelines to continuously deploy the services (k8s deployments of new service code/feature updates)
 
 Things you can now do now with this guide
 
-☑️ Create a Kubernetes Cluster and Administer it
+☑️ Create a Kubernetes cluster and administer it
+
+☑️ Create an Ingress controller and administer it
 
 ---
 ➡️ Next guide: [06 - Configure Azure DevOps Pipeline for CI/CD into Azure Kubernetes Service](../06-configure-ado-pipeline-for-ci-cd-into-aks/README.md)
