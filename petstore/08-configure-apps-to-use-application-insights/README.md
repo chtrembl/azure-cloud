@@ -124,7 +124,7 @@ You should see something similar to the below image:
 
   ![](images/aks.png)
 
-  > 📝 Please Note, if **you are** using Kubernetes secrets, your manifests deployments should look like this
+  > 📝 Please Note, if **you are** using Kubernetes secrets, your manifests deployments should look something like this (will vary based on service)
 
   ```
     - name: PETSTOREPETSERVICE_SERVER_PORT
@@ -346,19 +346,19 @@ You should see something similar to the below image:
 
   You should see something similar to the below image:
 
-  ![](images/ai15.png)
+  ![](images/1.png)
 
-  Click Dog Breeds
+  Click "Shop by breeds" Breeds
 
   You should see something similar to the below image:
 
-  ![](images/ai16.png)
+  ![](images/2.png)
 
   Click on a Dog
 
   You should see something similar to the below image:
 
-  ![](images/ai17.png)
+  ![](images/3.png)
 
   Head to Application Insights > Logs and construct a new query:
 
