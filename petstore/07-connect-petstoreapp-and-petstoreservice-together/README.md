@@ -31,7 +31,7 @@ Do this 3 times, one for PETSTOREPETSERVICE_URL, PETSTOREPRODUCTSERVICE_URL & PE
 
 You should see something similar to the below image:
 
-![](images/appservice1.png)
+![](images/1.png)
 
 Save those, you will get a new container runtime and then you should be able to navigate the application selecting products and adding them to your cart etc...
 
