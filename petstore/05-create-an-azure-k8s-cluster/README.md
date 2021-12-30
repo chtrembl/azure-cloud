@@ -218,7 +218,7 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
     You can also view the application logs from each running pod
 
-    ``` kubectl logs --follow <pod_name_from_command_output_above> --namespace $NAMESPACE
+    ``` kubectl logs --follow <pod_name_from_command_output_above> --namespace $NAMESPACE```
 
 4. Deploy Ingress controller configuration
 
