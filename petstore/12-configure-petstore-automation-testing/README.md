@@ -1,11 +1,10 @@
-
 # 12 - Configure Azure DevOps pipelines to execute automated regression tests
 
-__This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)__
+**This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)**
 
-In the previous guides we've looked at the steps needed to deploy our live Pet Store Application which can be found here [https://azurepetstore.com/](https://azurepetsore.com/). However, we haven't yet looked at automated regression testing and how that fits into this application. Suppose there is a QA team responsible for testing this Pet Store Application.  Perhaps this team is responsible for writing end to end tests which smoke test the application, perform synthetic monitoring and/or verify the UI and all of the functionality of the web application and down stream service(s) is in fact working as expected.  This guide will look at the steps needed to write tests (using Selenium & JUnit) and execute upon successful deployment of the Pet Store Application, acting as the automated regression suite after each and every deployment. For thus we will create a separate project that will trigger independently of the production Pet Store Application code.
+In the previous guides we've looked at the steps needed to deploy our live Pet Store Application which can be found here [https://azurepetstore.com/](https://azurepetsore.com/). However, we haven't yet looked at automated regression testing and how that fits into this application. Suppose there is a QA team responsible for testing this Pet Store Application. Perhaps this team is responsible for writing end to end tests which smoke test the application, perform synthetic monitoring and/or verify the UI and all of the functionality of the web application and down stream service(s) is in fact working as expected. This guide will look at the steps needed to write tests (using Selenium & JUnit) and execute upon successful deployment of the Pet Store Application, acting as the automated regression suite after each and every deployment. For thus we will create a separate project that will trigger independently of the production Pet Store Application code.
 
-> 📝 Please Note,  this automation tests can be written in many different languages, the objective of this guide is to walk through the steps needed to execute your tests from an Azure DevOps Pipeline upon success of an application deployment, You can also execute these regression tests on a schedule if you prefer, for example, you may want to execute daily/hourly etc... to ensure your application is performing as expected, all of which is possible with Azure DevOps as well. For the sake of this guide, we will be triggering upon success of an application deployment.
+> 📝 Please Note, this automation tests can be written in many different languages, the objective of this guide is to walk through the steps needed to execute your tests from an Azure DevOps Pipeline upon success of an application deployment, You can also execute these regression tests on a schedule if you prefer, for example, you may want to execute daily/hourly etc... to ensure your application is performing as expected, all of which is possible with Azure DevOps as well. For the sake of this guide, we will be triggering upon success of an application deployment.
 
 **Step 1**
 The following petstoreautomation project https://github.com/chtrembl/azure-cloud/tree/main/petstore/petstoreautomation contains the tests needed for Pet Store Application. If you inspect https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoreautomation/src/test/java/petstore/automation/AzurePetStoreAutomationTests.java you will see the following:
@@ -51,19 +50,20 @@ public class AzurePetStoreAutomationTests {
 	}
 }
 ```
+
 Using the Junit framework, we can run assertions on various scenarios and HtmlUnitDriver will allow us to execute web requests in a headless browser and easily inspect HTML. For the sake of this guide, I have written two tests:
 
 **testAzurePetStoreTitle**
 **testAzurePetStoreDogBreedCount**
 
-Both of these tests will assert (true/false) based on the condition that has been written. 
+Both of these tests will assert (true/false) based on the condition that has been written.
 
 **testAzurePetStoreTitle** will assert that the https://azurepetstore.com homepage returns with an expected title.
 
 **testAzurePetStoreDogBreedCount** will assert that the https://azurepetstore.com/ page will return with the expected 20 dog breeds, which effectively asserts that the application is running along with the downstream service that is responsible for providing the dog breeds.
 
 > 📝 Please Note, ideally you would have a full suite of tests here meeting all of your business acceptance test criteria etc...
- 
+
 We could certainly ask maven to execute these tests locally
 
 ```
@@ -81,10 +81,11 @@ mvn clean test
 [INFO] Finished at: 2021-08-04T10:35:35-04:00
 [INFO] ------------------------------------------------------------------------
 ```
+
 However, we can take this further by way of automation and trigger these automagically.
 
 **Step 2**
-Install/Configure the Trigger Plugin within Azure DevOps 
+Install/Configure the Trigger Plugin within Azure DevOps
 
 Head to Azure DevOps Marketplace and install the Trigger Plugin Task to your organization, if you have not already done so.
 
@@ -131,14 +132,14 @@ resources:
 stages:
 - stage: Build
   displayName: Build & Test Stage
-  jobs: 
+  jobs:
   - job: Automation
     displayName: Build & Execute Automated Regression Tests
     pool:
       vmImage: 'ubuntu-latest'
     steps:
     - task: Maven@3
-      continueOnError: true 
+      continueOnError: true
       displayName: Build & Execute Automated Regression Tests
       inputs:
         mavenPomFile: 'petstore/petstoreautomation/pom.xml'
@@ -153,7 +154,7 @@ stages:
 
 ```
 
-On any changes to petstore/petstoreautomation/* this pipeline will execute, we will also configure it to execute "Trigger" during CI/CD as well.  Essentially this pipeline just executes our Maven package which runs our Automation suite.
+On any changes to petstore/petstoreautomation/\* this pipeline will execute, we will also configure it to execute "Trigger" during CI/CD as well. Essentially this pipeline just executes our Maven package which runs our Automation suite.
 
 Update https://github.com/chtrembl/azure-cloud/blob/main/manifests/azure-petstoreservice-ci-cd-to-aks-pipeline.yml to include the Trigger task. You can use the (fork/clone) or create one by searching for the Trigger task. This task will contain the service connection that was previously created and the meta data (project/build/manifest/branch) needed to execute during the CI/CD Application Build.
 
@@ -163,12 +164,12 @@ You should see something similar to the below image:
 
 ![](images/trigger2.png)
 
-Prefix this Trigger Task with an Automation Stage. As you will see, their is a 3rd and final stage in the CI/CD Application Build, this stage will "Trigger" the  https://github.com/chtrembl/azure-cloud/blob/main/manifests/azure-petstore-automation-tests.yml Pipeline
+Prefix this Trigger Task with an Automation Stage. As you will see, their is a 3rd and final stage in the CI/CD Application Build, this stage will "Trigger" the https://github.com/chtrembl/azure-cloud/blob/main/manifests/azure-petstore-automation-tests.yml Pipeline
 
 ```yml
 - stage: Automation
   displayName: Automation stage
-  jobs: 
+  jobs:
   - job: Automation
     displayName: Automation Testing
     pool:
@@ -182,7 +183,8 @@ Prefix this Trigger Task with an Automation Stage. As you will see, their is a 3
             buildDefinition: 'azure-petstoreautomation-regression-tests'
             Branch: 'main'
 ```
-Once the CI/CD Pipeline kicks off (manually or automatically when code is submitted to the - petstore/petstoreservice/* branch the 3 stages will execute. (Notice the new Automation stage)
+
+Once the CI/CD Pipeline kicks off (manually or automatically when code is submitted to the - petstore/petstoreservice/\* branch the 3 stages will execute. (Notice the new Automation stage)
 
 You should see something similar to the below image:
 
