@@ -22,7 +22,7 @@
 				<a class="p-2 text-dark"
 					href="/oauth2/authorization/B2C_1_passwordreset">Reset Password</a>
 				<a class="p-2 text-dark" href="/claims">View AD Claims</a>
-				<form style="display: inline" method="post" action="/logout">\
+				<form style="display: inline" method="post" action="/logout">
 				    <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 					<button class="btn btn-outline-primary" type="submit">Log
 						out</button>
