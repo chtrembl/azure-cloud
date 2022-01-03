@@ -135,11 +135,6 @@ Do the same thing as above instead for petstorepetservice do it for petstoreprod
 
 Do the same thing as above instead for petstorepetservice do it for petstoreorderservice, using the petstoreorderservice yml files.
 
-In your version of petstoreorderservice-deployment-everything-enabled.yml you will also want to make sure your PETSTOREPRODUCTSERVICE_URL is pointng to the URL of your AKS External IP from the previous guide. This ensures that the PetStoreOrderService can communicate with the PetStoreProductService.
-
-          - name: PETSTOREPRODUCTSERVICE_URL
-            value: "http://EXTERNAL_IP/"
-
 Head back to Pipelines
 
 You should see something similar to the below image: (minus the regression pipeline which comes in a later guide)
