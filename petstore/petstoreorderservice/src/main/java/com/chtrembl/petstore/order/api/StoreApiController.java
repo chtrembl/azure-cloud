@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -52,6 +53,9 @@ public class StoreApiController implements StoreApi {
 
 	@Autowired
 	private StoreApiCache storeApiCache;
+
+	@Autowired(required = false)
+	private JmsTemplate jmsTemplate;
 
 	@Override
 	public StoreApiCache getBeanToBeAutowired() {
@@ -163,8 +167,14 @@ public class StoreApiController implements StoreApi {
 			}
 
 			try {
-				ApiUtil.setResponse(request, "application/json",
-						new ObjectMapper().writeValueAsString(this.getStoreApiCache(body.getId())));
+				Order order = this.getStoreApiCache(body.getId());
+				String orderJSON = new ObjectMapper().writeValueAsString(order);
+
+				if (order.isComplete() && jmsTemplate != null) {
+					jmsTemplate.convertAndSend("orders", orderJSON);
+				}
+
+				ApiUtil.setResponse(request, "application/json", orderJSON);
 				return new ResponseEntity<>(HttpStatus.OK);
 			} catch (IOException e) {
 				log.error("Couldn't serialize response for content type application/json", e);

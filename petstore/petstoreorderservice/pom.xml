@@ -74,6 +74,13 @@
 		</plugins>
 	</build>
 	<dependencies>
+		
+		<dependency>
+		    <groupId>com.azure.spring</groupId>
+		    <artifactId>azure-spring-boot-starter-servicebus-jms</artifactId>
+		    <version>3.10.0</version>
+		</dependency>
+
 		<dependency>
 			<groupId>com.microsoft.azure</groupId>
 			<artifactId>applicationinsights-spring-boot-starter</artifactId>
