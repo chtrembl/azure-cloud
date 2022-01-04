@@ -120,8 +120,8 @@ public class StoreApiController implements StoreApi {
 					"PetStoreOrderService incoming POST request to petstoreorderservice/v2/order/placeOder for order id:%s",
 					body.getId()));
 
-			this.getStoreApiCache(body.getId()).setId(body.getId());
-			this.getStoreApiCache(body.getId()).setComplete(body.isComplete());
+			this.storeApiCache.getOrder(body.getId()).setId(body.getId());
+			this.storeApiCache.getOrder(body.getId()).setComplete(body.isComplete());
 
 			// 1 product is just an add from a product page so cache needs to be updated
 			if (body.getProducts() != null && body.getProducts().size() == 1) {
@@ -131,7 +131,7 @@ public class StoreApiController implements StoreApi {
 					// removal if one exists...
 					if (incomingProduct.getQuantity() == 0) {
 						existingProducts.removeIf(product -> product.getId().equals(incomingProduct.getId()));
-						this.getStoreApiCache(body.getId()).setProducts(existingProducts);
+						this.storeApiCache.getOrder(body.getId()).setProducts(existingProducts);
 					}
 					// update quantity if one exists or add new entry
 					else {
@@ -150,24 +150,24 @@ public class StoreApiController implements StoreApi {
 							}
 						} else {
 							// existing products but one does not exist matching the incoming product
-							this.getStoreApiCache(body.getId()).addProductsItem(body.getProducts().get(0));
+							this.storeApiCache.getOrder(body.getId()).addProductsItem(body.getProducts().get(0));
 						}
 					}
 				} else {
 					// nothing existing....
 					if (body.getProducts().get(0).getQuantity() > 0) {
-						this.getStoreApiCache(body.getId()).setProducts(body.getProducts());
+						this.storeApiCache.getOrder(body.getId()).setProducts(body.getProducts());
 					}
 				}
 			}
 			// n products is the current order being modified and so cache can be replaced
 			// with it
 			if (body.getProducts() != null && body.getProducts().size() > 1) {
-				this.getStoreApiCache(body.getId()).setProducts(body.getProducts());
+				this.storeApiCache.getOrder(body.getId()).setProducts(body.getProducts());
 			}
 
 			try {
-				Order order = this.getStoreApiCache(body.getId());
+				Order order = this.storeApiCache.getOrder(body.getId());
 				String orderJSON = new ObjectMapper().writeValueAsString(order);
 
 				if (order.isComplete() && jmsTemplate != null) {
@@ -202,7 +202,7 @@ public class StoreApiController implements StoreApi {
 
 			List<Product> products = this.storeApiCache.getProducts();
 
-			Order order = this.getStoreApiCache(orderId);
+			Order order = this.storeApiCache.getOrder(orderId);
 
 			if (products != null) {
 				// cross reference order data (order only has product id and qty) with product
