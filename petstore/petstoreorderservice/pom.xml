@@ -74,11 +74,25 @@
 		</plugins>
 	</build>
 	<dependencies>
+	
+		<!-- was getting netty issues in container with RestTemplate/JMS so introduced this client and CustomHttpComponentsClientHttpRequestFactory -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.13</version>
+		</dependency>
+		
+		<!-- was getting netty class not found issues with JMS in container -->
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+			<version>4.1.63.Final</version>
+		</dependency>
 
 		<dependency>
-			<groupId>com.microsoft.azure</groupId>
-			<artifactId>azure-servicebus-jms-spring-boot-starter</artifactId>
-			<version>2.3.5</version>
+			<groupId>com.azure.spring</groupId>
+			<artifactId>azure-spring-boot-starter-servicebus-jms</artifactId>
+			<version>3.10.0</version>
 		</dependency>
 
 		<dependency>

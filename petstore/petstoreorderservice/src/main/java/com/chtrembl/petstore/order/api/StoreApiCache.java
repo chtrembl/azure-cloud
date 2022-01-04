@@ -1,8 +1,11 @@
 package com.chtrembl.petstore.order.api;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -69,12 +73,13 @@ public class StoreApiCache {
 			headers.add("Content-Type", MediaType.APPLICATION_JSON_VALUE);
 			headers.add("session-id", "PetStoreOrderService");
 			HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+			restTemplate.setRequestFactory(new CustomHttpComponentsClientHttpRequestFactory());
 			response = restTemplate
 					.exchange(String.format("%spetstoreproductservice/v2/product/findByStatus?status=available",
 							this.petStoreProductServiceURL), HttpMethod.GET, entity, String.class);
 		} catch (Exception e) {
 			log.error(String.format(
-					"PetStoreOrderService error retrieving products from %spetstoreproductservice/v2/product/findByStatus?status=available ",
+					"PetStoreOrderService error retrieving products from petstoreproductservice/v2/product/findByStatus?status=available %s",
 					e.getMessage()));
 			// product lookup cannot be done from this container...
 			return products;
@@ -106,5 +111,30 @@ public class StoreApiCache {
 		// should probably wipe when an order is complete or dangling, but for
 		// simplicity in this pet store guide, just wipe everything on a set interval...
 		this.cacheManager.getCacheNames().stream().forEach(cacheName -> cacheManager.getCache(cacheName).clear());
+	}
+
+	private static final class CustomHttpComponentsClientHttpRequestFactory
+			extends HttpComponentsClientHttpRequestFactory {
+
+		@Override
+		protected HttpUriRequest createHttpUriRequest(HttpMethod httpMethod, URI uri) {
+
+			if (HttpMethod.GET.equals(httpMethod)) {
+				return new HttpEntityEnclosingGetRequestBase(uri);
+			}
+			return super.createHttpUriRequest(httpMethod, uri);
+		}
+	}
+
+	private static final class HttpEntityEnclosingGetRequestBase extends HttpEntityEnclosingRequestBase {
+
+		public HttpEntityEnclosingGetRequestBase(final URI uri) {
+			super.setURI(uri);
+		}
+
+		@Override
+		public String getMethod() {
+			return HttpMethod.GET.name();
+		}
 	}
 }
