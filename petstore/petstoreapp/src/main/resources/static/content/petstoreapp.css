@@ -1,6 +1,6 @@
 a {
 	text-decoration:none !important;
-	color: #007bff !important;
+
 }
 
 .cc-message > a {
@@ -42,6 +42,10 @@ a {
 		height: 10%;
 		opacity: 80%;
 	}
+	.banner {
+		width: 90%;
+		filter: drop-shadow(2px 2px 5px black);
+	}
 }
 
 figure {
@@ -54,6 +58,7 @@ figure {
 	}
 	.banner {
 		width: 60%;
+		filter: drop-shadow(2px 2px 5px black);
 	}
 	.azureimagesmall {
 	width: 10%;
@@ -68,23 +73,22 @@ figure {
 }
 
 .cart {
-	height:38px;
-	width:38px;
-	opacity: 90%;
+	height:48px;
+	width:68px;
 }
 
 .cartcontainer {
   position: relative;
   text-align: center;
-  color: white;
+  color: #007bff;
   padding-left: 5px;
   padding-top:5px;
 }
 
 .cartcount {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 57%;
+  left: 53%;
   transform: translate(-50%, -50%);
-  color: #fff;
+  color: #007bff;
 }

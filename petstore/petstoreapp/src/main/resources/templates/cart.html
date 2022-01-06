@@ -36,9 +36,14 @@
 						</td>
 					</tr>
 					<tr><td colspan="4">
-					<a th:onclick="'completecart();'" style="font-weight: bold; text-decoration: none; color: black;"> 
-						<button class="btn btn-outline-primary" type="submit">Complete Order</button>
-					</a>
+					<div th:if="${userLoggedIn} != true">
+						You need to login before placing your order :)
+					</div>
+					<div th:if="${userLoggedIn} == true">
+						<a th:onclick="'completecart();'" style="font-weight: bold; text-decoration: none; color: black;"> 
+							<button class="btn btn-outline-primary" type="submit">Complete Order</button>
+						</a>
+					</div>
 					</td></tr>
 				</div>
 				<div th:if="${order} != null and ${order.complete} == true">

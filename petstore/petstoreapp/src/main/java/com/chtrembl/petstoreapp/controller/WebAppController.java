@@ -174,6 +174,9 @@ public class WebAppController {
 		}
 		this.sessionUser.setCartCount(cartSize);
 		model.addAttribute("cartSize", this.sessionUser.getCartCount());
+		if (token != null) {
+			model.addAttribute("userLoggedIn", true);
+		}
 		return "cart";
 	}
 
@@ -195,7 +198,9 @@ public class WebAppController {
 
 	@PostMapping(value = "/completecart")
 	public String updatecart(Model model, OAuth2AuthenticationToken token, HttpServletRequest request) {
-		this.petStoreService.updateOrder(0, 0, true);
+		if (token != null) {
+			this.petStoreService.updateOrder(0, 0, true);
+		}
 		return "redirect:cart";
 	}
 
