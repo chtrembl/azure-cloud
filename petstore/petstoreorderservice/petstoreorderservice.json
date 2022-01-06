@@ -256,6 +256,9 @@
         "id": {
           "type": "string"
         },
+        "email": {
+          "type": "string"
+        },
          "products": {
           "type": "array",
           "xml": {

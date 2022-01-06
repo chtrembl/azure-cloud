@@ -121,6 +121,7 @@ public class StoreApiController implements StoreApi {
 					body.getId()));
 
 			this.storeApiCache.getOrder(body.getId()).setId(body.getId());
+			this.storeApiCache.getOrder(body.getId()).setEmail(body.getEmail());
 			this.storeApiCache.getOrder(body.getId()).setComplete(body.isComplete());
 
 			// 1 product is just an add from a product page so cache needs to be updated
@@ -171,9 +172,6 @@ public class StoreApiController implements StoreApi {
 				String orderJSON = new ObjectMapper().writeValueAsString(order);
 
 				if (order.isComplete() && jmsTemplate != null) {
-					// jmsTemplate.convertAndSend("orders",
-					// "{\"id\":\"D1A0C939A2E7C684005DDC4DC867F68A\",\"products\":[{\"id\":1,\"quantity\":4,\"name\":\"Toy
-					// Ball\",\"photoURL\":\"https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-toys/ball.jpg?raw=true\"},{\"id\":3,\"quantity\":6,\"name\":\"Bone\",\"photoURL\":\"https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-toys/ball.jpg?raw=true\"}]}");
 					jmsTemplate.convertAndSend("orders", orderJSON);
 				}
 
