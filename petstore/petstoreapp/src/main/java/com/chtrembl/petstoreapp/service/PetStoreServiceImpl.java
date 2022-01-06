@@ -186,7 +186,9 @@ public class PetStoreServiceImpl implements PetStoreService {
 
 		try {
 			Order updatedOrder = new Order();
+
 			updatedOrder.setId(this.sessionUser.getSessionId());
+			updatedOrder.setEmail(this.sessionUser.getEmail());
 
 			if (completeOrder) {
 				updatedOrder.setComplete(true);

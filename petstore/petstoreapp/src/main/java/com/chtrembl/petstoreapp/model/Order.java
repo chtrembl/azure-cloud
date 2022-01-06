@@ -21,6 +21,9 @@ public class Order implements Serializable {
 	@JsonProperty("id")
 	private String id = null;
 
+	@JsonProperty("email")
+	private String email = null;
+
 	@JsonProperty("products")
 	private List<Product> products = null;
 
@@ -82,6 +85,14 @@ public class Order implements Serializable {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public Order products(List<Product> products) {

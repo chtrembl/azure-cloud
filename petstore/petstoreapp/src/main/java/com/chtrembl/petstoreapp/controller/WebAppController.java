@@ -27,6 +27,7 @@ import com.chtrembl.petstoreapp.model.Pet;
 import com.chtrembl.petstoreapp.model.User;
 import com.chtrembl.petstoreapp.service.PetStoreService;
 import com.microsoft.applicationinsights.telemetry.PageViewTelemetry;
+import com.nimbusds.jose.shaded.json.JSONArray;
 
 /**
  * Web Controller for all of the model/presentation construction and various
@@ -56,6 +57,13 @@ public class WebAppController {
 
 		if (token != null) {
 			final OAuth2User user = token.getPrincipal();
+
+			try {
+				this.sessionUser.setEmail((String) ((JSONArray) user.getAttribute("emails")).get(0));
+			} catch (Exception e) {
+				logger.warn(String.format("PetStoreApp  %s logged in, however cannot get email associated: %s",
+						this.sessionUser.getName(), e.getMessage()));
+			}
 
 			// this should really be done in the authentication/pre auth flow....
 			this.sessionUser.setName((String) user.getAttributes().get("name"));
@@ -176,6 +184,7 @@ public class WebAppController {
 		model.addAttribute("cartSize", this.sessionUser.getCartCount());
 		if (token != null) {
 			model.addAttribute("userLoggedIn", true);
+			model.addAttribute("email", this.sessionUser.getEmail());
 		}
 		return "cart";
 	}

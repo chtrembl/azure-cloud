@@ -24,6 +24,7 @@ import com.microsoft.applicationinsights.TelemetryClient;
 public class User implements Serializable {
 	private String name = "Guest";
 	private String sessionId = null;
+	private String email = null;
 
 	// intentionally avoiding spring cache to ensure service calls are made each
 	// time to show Telemetry with APIM requests
@@ -64,6 +65,14 @@ public class User implements Serializable {
 
 	public void setSessionId(String sessionId) {
 		this.sessionId = sessionId;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public TelemetryClient getTelemetryClient() {
