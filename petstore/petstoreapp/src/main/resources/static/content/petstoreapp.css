@@ -1,5 +1,5 @@
-.disclaimer {
-  position: fixed;
+#disclaimerMobile, #disclaimerFull {
+  /*position: fixed;*/
   left: 0;
   bottom: 0;
   width: 100%;
@@ -39,6 +39,13 @@ a {
 }
 
 @media ( max-width : 767px) {
+	#disclaimerMobile {
+		display: block !important;
+		
+	}
+	#disclaimerFull {
+		display: none !important;
+	}
 	.fullTable {
 		width: 0px;
 		display: none;
@@ -71,6 +78,13 @@ figure {
 }
 
 @media ( min-width : 768px) {
+	#disclaimerMobile {
+		display: none !important;
+		
+	}
+	#disclaimerFull {
+		display: block !important;
+	}
 	.thumbnail {
 		width: 20%;
 	}
