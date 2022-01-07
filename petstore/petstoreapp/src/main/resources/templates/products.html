@@ -5,22 +5,25 @@
 
 <body>
 	<div lang="en" th:replace="fragments/header :: header"></div>
-	<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-		<h1 class="display-4">
-			Select a Product
-		</h1>
-		<div style="padding-top:50px;"/>
+	<div
+		class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+		<h1 class="display-4">Select a Product</h1>
+		<div style="padding-top: 50px;" />
 		<table class="table">
 			<div th:if="${products} != null">
 				<tr th:each="product, iStat : ${products}">
 					<td style="text-align: center !important;">
-						<figure><img class="thumbnail" th:src="@{${product.photoURL}}" /></figure>
+						<figure>
+							<img class="thumbnail" th:src="@{${product.photoURL}}" />
+						</figure>
 						<div style="margin-bottom: 20px;">
-							<span style="font-weight: bold;" th:text="${product.name}" /> 
+							<span style="font-weight: bold;" th:text="${product.name}" />
 						</div>
 						<div style="margin-bottom: 20px;">
-							<a th:onclick="'updatecart(\'' + ${product.id} + '\');'" style="font-weight: bold; text-decoration: none; color: black;">
-								<button class="btn btn-outline-primary" type="submit">Add to cart</button>
+							<a th:onclick="'updatecart(\'' + ${product.id} + '\');'"
+								style="font-weight: bold; text-decoration: none; color: black;">
+								<button class="btn btn-outline-primary" type="submit">Add
+									to cart</button>
 							</a>
 						</div>
 					</td>
@@ -28,16 +31,18 @@
 			</div>
 		</table>
 		<form action="updatecart" method="post" id="addProduct">
- 		 <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-		 <input type="hidden" id="productId" name="productId" value="">
-    	</form>
+			<input type="hidden" th:if="${_csrf}"
+				th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> <input
+				type="hidden" id="productId" name="productId" value="">
+		</form>
 	</div>
 	<div lang="en" th:replace="fragments/footer :: footer"></div>
-	<script language="javascript"> 
-	   function updatecart(productId){
-		 document.getElementById('productId').value = productId;
-	     document.getElementById('addProduct').submit();
-	   }
+	<div lang="en" th:replace="fragments/disclaimer :: disclaimer"></div>
+	<script language="javascript">
+		function updatecart(productId) {
+			document.getElementById('productId').value = productId;
+			document.getElementById('addProduct').submit();
+		}
 	</script>
 </body>
 

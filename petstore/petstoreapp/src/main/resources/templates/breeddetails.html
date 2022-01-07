@@ -5,25 +5,29 @@
 
 <body>
 	<div lang="en" th:replace="fragments/header :: header"></div>
-	<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-		<h1 class="display-4">
-			Shop by Product
-		</h1>
-		<div style="padding-top:50px;"/>
+	<div
+		class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+		<h1 class="display-4">Shop by Product</h1>
+		<div style="padding-top: 50px;" />
 		<table class="table">
 			<div th:if="${pet} != null">
 				<tr>
 					<td>
-						<figure> <img class="thumbnail" th:src="@{${pet.photoURL}}" /> </figure>
+						<figure>
+							<img class="thumbnail" th:src="@{${pet.photoURL}}" />
+						</figure>
 						<div style="margin-bottom: 20px;">
-							<span style="font-weight: bold;" th:text="${pet.name}" /> 
+							<span style="font-weight: bold;" th:text="${pet.name}" />
 						</div>
 						<div style="margin-bottom: 20px;">
-							<a th:href="@{'/products?id=' + ${pet.id} + '&category=Toy' }" style="font-weight: bold; text-decoration: none; color: black;">
-								<button class="btn btn-outline-primary" type="submit">Shop Toys</button>
-							</a>
-							<a th:href="@{'/products?id=' + ${pet.id} + '&category=Food' }" style="font-weight: bold; text-decoration: none; color: black;"> 
-								<button class="btn btn-outline-primary" type="submit">Shop Food</button>
+							<a th:href="@{'/products?id=' + ${pet.id} + '&category=Toy' }"
+								style="font-weight: bold; text-decoration: none; color: black;">
+								<button class="btn btn-outline-primary" type="submit">Shop
+									Toys</button>
+							</a> <a th:href="@{'/products?id=' + ${pet.id} + '&category=Food' }"
+								style="font-weight: bold; text-decoration: none; color: black;">
+								<button class="btn btn-outline-primary" type="submit">Shop
+									Food</button>
 							</a>
 						</div>
 					</td>
@@ -32,6 +36,7 @@
 		</table>
 	</div>
 	<div lang="en" th:replace="fragments/footer :: footer"></div>
+	<div lang="en" th:replace="fragments/disclaimer :: disclaimer"></div>
 </body>
 
 </html>

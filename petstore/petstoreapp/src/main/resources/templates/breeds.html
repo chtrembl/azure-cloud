@@ -5,19 +5,24 @@
 
 <body>
 	<div lang="en" th:replace="fragments/header :: header"></div>
-	<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-		<h1 class="display-4">
-			Shop by Pet Breeds
-		</h1>
-		<div style="padding-top:50px;"/>
+	<div
+		class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+		<h1 class="display-4">Shop by Pet Breeds</h1>
+		<div style="padding-top: 50px;" />
 		<table class="table">
 			<div th:if="${pets} != null">
 				<tr th:each="pet, iStat : ${pets}">
 					<td>
-						<figure> <img class="thumbnail" th:src="@{${pet.photoURL}}" /> </figure>
+						<figure>
+							<img class="thumbnail" th:src="@{${pet.photoURL}}" />
+						</figure>
 						<div>
-							<a th:href="@{'/breeddetails?id=' + ${pet.id} + '&category=' + ${pet.category.name} }" style="font-weight: bold; text-decoration: none; color: black;">
-								<button class="btn btn-outline-primary" type="submit">Shop for <span th:text="${pet.name}" /></button>
+							<a
+								th:href="@{'/breeddetails?id=' + ${pet.id} + '&category=' + ${pet.category.name} }"
+								style="font-weight: bold; text-decoration: none; color: black;">
+								<button class="btn btn-outline-primary" type="submit">
+									Shop for <span th:text="${pet.name}" />
+								</button>
 							</a>
 						</div>
 					</td>
@@ -26,6 +31,7 @@
 		</table>
 	</div>
 	<div lang="en" th:replace="fragments/footer :: footer"></div>
+	<div lang="en" th:replace="fragments/disclaimer :: disclaimer"></div>
 </body>
 
 </html>
