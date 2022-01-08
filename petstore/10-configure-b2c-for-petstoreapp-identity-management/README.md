@@ -4,6 +4,8 @@
 
 In this section, we'll use Azure Identity and Access Management to secure your Spring Boot Pet Store Application with Azure Active Directory B2C Spring Boot Starter
 
+> 📝 **Please Note, As with the other guides, the code for this is already complete, it just needs to be enabled via application configuration. The objective of this guide is to walk you through the steps needed to enable & configure the Azure services and Pet Store Application code to make this all of this work.**
+
 Often times, web applications (or parts of web applications) will need to be protected and will require authentication for access. There are many ways to implement identity management, here we will be showing how to achieve this by using Azure Identity and Access management to protect resources in your Spring Boot Pet Store Application. OpenID Connect is an authentication protocol, built on top of OAuth 2.0, that can be used to securely sign users in to web applications. By using the Azure Active Directory B2C (Azure AD B2C) implementation of OpenID Connect, you can **outsource** sign-up, sign-in, and other identity management experiences in your web applications to Azure Active Directory (Azure AD). In this guide we will configure the Pet Store Application to use the Azure Active Directory B2C Spring Boot Starter to receive and process the OAuth 2.0 tokens allowing us to easily construct Spring Authenticated Security Principals that are managed in Azure Active Directory B2C.
 
 Live application can be found here [http://azurepetstore.azurewebsites.net/](http://azurepetstore.azurewebsites.net/)

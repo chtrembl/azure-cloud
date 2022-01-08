@@ -4,29 +4,39 @@
 
 In this section, we'll import and Publish your API with Azure API Management using Products and Rate Limits
 
+> 📝 **Please Note, As with the other guides, the code for this is already complete, it just needs to be enabled via application configuration. The objective of this guide is to walk you through the steps needed to enable & configure the Azure services and Pet Store Application code to make this all of this work.**
+
 [**Azure API Management**](https://azure.microsoft.com/en-us/services/api-management/) is a fully managed service that enables you to publish, secure, transform, maintain, and monitor your API's. For the purpose of this demo I will use [openapi-petstore](https://github.com/OpenAPITools/openapi-petstore) API deployed to Azure as the API chosen to be published with Azure API Management. We will cover Products and Rate Limits and what the Developer experience is like when discovering/subscribing to API's.
 
-> 📝 Please Note, more on monetizing, oAuth, Deployments and Versioning to be covered in the future
+> 📝 Please Note, more on monetizing, oAuth, VNet/App Gateway Integration, Deployments and Versioning to be covered in the future
 
 > 📝 Please Note, We will assume you have forked the azure-cloud repository, it is the easiest way to get going (for instructions on this view the "**Forking the azure-cloud**" section in [00-setup-your-environment](../00-setup-your-environment/README.md). Also, both PetStoreApp and PetStoreService use a Spring Boot Application properties file named application.yml to drive the functionality/configuration of these applications which is located in src/main/resources/application.yml of both projects. By default, this file has all of the properties that are needed throughout the guides, and by default are commented out. This means that the applications will start automatically without having to configure anything. As you progress through the guides, each guide will inform you of what properties to uncomment and configure within your environment. If you have not already done so, login to your GitHub account, head to https://github.com/chtrembl/azure-cloud, and fork.
 
 ## 1. Deploy an Open API and ensure its accessible.
 
-By now we have PetStoreService running in our Azure Kubernetes Cluster, and PetStoreService was built using [[openapi-petstore](https://github.com/OpenAPITools/openapi-petstore) ](https://petstore.swagger.io/) We are going to walk through the steps to configure API Management in front of this Azure Kubernetes Cluster.
+By now you should have PetStorePetService, PetStoreProductService & PetStoreOrderService running in your Azure Kubernetes Cluster. These 3 services were built using [[openapi-petstore](https://github.com/OpenAPITools/openapi-petstore) ](https://petstore.swagger.io/) We are going to walk through the steps to configure API Management in front of this Azure Kubernetes Cluster.
 
 Verify your Azure Cluster is still up and running, if so you will be able to access the AKS cluster via the Service Load Balancer. Since this is dynamic, run the following
 
-`kubectl get services -o jsonpath={.items[*].status.loadBalancer.ingress[0].ip} --namespace=default`
+`kubectl --namespace ingress-petstoreservices get services -o wide -w ingress-nginx-controller`
 
-This will output the Service Load Balancer IP address, 40.88.201.193 for example...
+This will output the ingress-nginx-controller Load Balancer External IP address, 40.88.201.193 for example...
 
-Then access petstoreservice via the ipaddress (40.88.201.193 in my case)
+Then access the services, for example via the ipaddress (40.88.201.193 in my case)
 
 ```
-    curl http://40.88.201.193/v2/pet/findByStatus?status=available | json_pp
+    curl http://40.88.201.193/petstorepetservice/v2/pet/info | json_pp
 ```
 
-We are going to configure PetStoreApp to integrate with the new PetStore API that we create with API Management below.
+```
+    curl http://40.88.201.193/petstoreproductservice/v2/product/info | json_pp
+```
+
+```
+    curl http://40.88.201.193/petstoreorderservice/v2/store/info | json_pp
+```
+
+We are going to configure PetStoreApp to integrate with the new Pet Store API's that we create with API Management. The steps to create the API will be the same for all three services PetStorePetService, PetStoreProductService & PetStoreOrderService. Let's look at how to do this for PetStorePetService below.
 
 ## 2. Create and Configure Azure API Management Service
 
@@ -50,15 +60,26 @@ You should see something similar to the below image:
 
 ![](images/apim3.png)
 
-Fill in the details and paste in your Open API specification from the Azure Kubernetes Service where your App Service is running
+Fill in the details and paste in your Open API specification from the Azure Kubernetes Service where your App Service is running (You will do this three times one for each service)
 
-You can use the following URL https://petstore.swagger.io/v2/swagger.json if you would like
+You can use the corresponding schema for each API. Remember these schemas are the contracts between service producer and service consumer. With a contract first approach, the producing services technically do not need to be developed prior to consumers (PetStoreApp) consuming them. We can generate the API's and mock data if that suits us.
 
-The other fields will prepopulate. I've added a v2 version to cross reference the openapipetstore version I built with PetStoreService. Click "Create"
+PetStorePetService
+https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstorepetservice/petstorepetservice.json
+
+PetStoreProductService
+https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoreproductservice/petstoreproductservice.json
+
+PetStoreOrderService
+https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoreorderservice/petstoreorderservice.json
+
+Below details PetStorePetService (Remember you need to do this for all three)
+
+The other fields will prepopulate. I've added a v2 version to cross reference the openapipetstore version I built with the services. Click "Create"
 
 You should see something similar to the below image:
 
-![](images/apim4.png)
+![](images/1.png)
 
 Your API will automagically get generated!
 
@@ -66,12 +87,14 @@ As seen below, all of your API operations are available. Notice Backend HTTP(s) 
 
 You should see something similar to the below image:
 
-![](images/apim5.png)
-Click on the edit button next to HTTP(s) Backend and update that to point to your Azure Kubernetes PetStoreService Load Balancer and click Save.
+![](images/2.png)
+
+Click on the Settings tab for each of your newly imported API's and update (globally for all operations) the backend Web Service URL of your Azure Kubernetes NGINX Load Balancer IP Address and click Save.
 
 You should see something similar to the below image:
 
-![](images/apim6.png)
+![](images/3.png)
+
 Select and Operation and Test it out... click "Send"
 
 > 📝 Please Note, I've chosen the GET Operation for Find Pets by status "available"

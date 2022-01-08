@@ -68,7 +68,7 @@ You should see the following:
 
 Next you can configure your AKS Cluster and PetStoreOrderService
 
-Locate your petstoreorderservice-deployment-everything-enabled.yml and inspect it. FOr reference here is the file I am using https://github.com/chtrembl/azure-cloud/blob/main/manifests/petstoreorderservice-deployment-everything-enabled.yml. 
+Locate your petstoreorderservice-deployment-everything-enabled.yml and inspect it. For reference here is the file I am using https://github.com/chtrembl/azure-cloud/blob/main/manifests/petstoreorderservice-deployment-everything-enabled.yml. 
 
 You will need to make sure your passing in ``` ${PETSTOREORDERSERVICE_EMAIL_TOPIC_CONNECTION_STRING}``` and ```${PETSTOREORDERSERVICE_SUBSCRIPTION_ID}``` accordingly. 
 
@@ -102,11 +102,11 @@ This is the Azure Service Bus Spring Boot Starter, based on a couple of applicat
 Notice the following:
 
 ```xml
-	<dependency>
-        <groupId>com.azure.spring</groupId>
-        <artifactId>azure-spring-boot-starter-servicebus-jms</artifactId>
-        <version>3.10.0</version>
-    </dependency>
+<dependency>
+    <groupId>com.azure.spring</groupId>
+    <artifactId>azure-spring-boot-starter-servicebus-jms</artifactId>
+    <version>3.10.0</version>
+</dependency>
 ```
 
 Inspect your application.ynl and make a couple of changes. For reference you can view https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoreorderservice/src/main/resources/application.yml
