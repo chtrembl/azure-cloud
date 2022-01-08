@@ -89,15 +89,19 @@ You should see something similar to the below image:
 
 ![](images/2.png)
 
-Click on the Settings tab for each of your newly imported API's and update (globally for all operations) the backend Web Service URL of your Azure Kubernetes NGINX Load Balancer IP Address and click Save.
+Click on the Settings tab for each of your newly imported API's and update (Doing this in settings will update globally for all HTTP operations, if you need to change this per operation you can do so but for our implementation all operation will go to the same back end) the backend Web Service URL of your Azure Kubernetes NGINX Load Balancer IP Address and click Save.
 
 You should see something similar to the below image:
 
 ![](images/3.png)
 
-Select and Operation and Test it out... click "Send"
+Select and Operation and Test it out... 
 
 > 📝 Please Note, I've chosen the GET Operation for Find Pets by status "available"
+
+You'll need to pass the status parameter "available" and the 2 required headers "Accept" and "Content-Type" both of which are "application/json". APIM will automagically insert the subscription headers for us at this point.
+
+click "Send"
 
 You should see something similar to the below image:
 
