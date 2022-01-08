@@ -207,7 +207,7 @@ You should see something similar to the below image:
 
 Test out the API as a consuming/subscribed developer using one of your Subscription keys seen above against your Gateway URL.
 
-Make a GET request 5 times within 30 seconds to https://azurepetstoreapim.azure-api.net/v2/pet/findByStatus?status=available&subscription-key=....
+Make a GET request 5 times within 30 seconds to https://azurepetstoreapim.azure-api.net/v2/pet/findByStatus?status=available once again through just as you did earlier with the test and you'll see the rate limit policy take effect.
 
 > 📝 Please Note, use your Gateway URL
 
@@ -215,7 +215,7 @@ You should see something similar to the below image:
 
 ![](images/apim20_a.png)
 
-Now update your App Service App Configuration to specify the API Management Gateway URL and the API Management Subscription ID so that Pet Store App can pass this data to API Management instead of Azure Kubernetes Service directly.
+Now update your App Service App Configuration to specify the API Management Gateway URL and the API Management Subscription ID so that Pet Store App can pass this data to API Management instead of Azure Kubernetes Service directly. You can use the same subscription key for all 3 services.
 
 ```
 PETSTORESERVICES_URL
