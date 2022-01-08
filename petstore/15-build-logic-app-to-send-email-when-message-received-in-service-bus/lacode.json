@@ -1,0 +1,217 @@
+{
+    "definition": {
+        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+        "actions": {
+            "Compose": {
+                "inputs": "<!DOCTYPE html>\n<html>\n   <head>\n      <title></title>\n      <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n      <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n      <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />\n      <style type=\"text/css\">\n@media (max-width :767px) {\n.logo {\nwidth:40%;\n}\n}\n\n         body,\n         table,\n         td,\n         a {\n         -webkit-text-size-adjust: 100%;\n         -ms-text-size-adjust: 100%;\n         }\n         table,\n         td {\n         mso-table-lspace: 0pt;\n         mso-table-rspace: 0pt;\n         }\n         img {\n         -ms-interpolation-mode: bicubic;\n         }\n         img {\n         border: 0;\n         height: auto;\n         line-height: 100%;\n         outline: none;\n         text-decoration: none;\n         }\n         table {\n         border-collapse: collapse !important;\n         }\n         body {\n         height: 100% !important;\n         margin: 0 !important;\n         padding: 0 !important;\n         width: 100% !important;\n         }\n         a[x-apple-data-detectors] {\n         color: inherit !important;\n         text-decoration: none !important;\n         font-size: inherit !important;\n         font-family: inherit !important;\n         font-weight: inherit !important;\n         line-height: inherit !important;\n         }\n         @media screen and (max-width: 480px) {\n         .mobile-hide {\n         display: none !important;\n         }\n         .mobile-center {\n         text-align: center !important;\n         }\n         }\n         div[style*=\"margin: 16px 0;\"] {\n         margin: 0 !important;\n         }\n         #order table {\n         cellspacing: 0;\n         cellpadding: 0;\n         border: 0;\n         width: 100%;\n         }\n         #order th,tr,td {\n         width: 50%;\n         bgcolor: #eeeeee;\n         font-family: Open Sans, Helvetica, Arial, sans-serif; \n         font-size: 16px; \n         font-weight: 800; \n         line-height: 24px; \n         padding: 10px;\n         }\n         #order td {\n         font-weight: normal !important;\n         }\n         #order th {\n         text-align: left !important;\n         }\n\n      </style>\n   <body style=\"margin: 0 !important; padding: 0 !important; background-color: #eeeeee;\" bgcolor=\"#eeeeee\">\n      <table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\n         <tr>\n            <td align=\"center\" style=\"background-color: #eeeeee;\" bgcolor=\"#eeeeee\">\n               <table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"max-width:600px;\">\n                  <tr>\n                     <td align=\"center\" valign=\"top\" style=\"font-size:0; padding: 35px;\" bgcolor=\"#3c7bb7\">\n                        <div style=\"display:inline-block; max-width:100%; min-width:200px; vertical-align:top; width:100%;\">\n                           <table align=\"left\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\">\n                              <tr>\n                                 <td align=\"center\" valign=\"top\" style=\"font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 36px; font-weight: 800; line-height: 48px;\" class=\"mobile-center\">\n                                    <img src=\"https://azurepetstore.com/content/banner.png\" style=\"40%; filter: drop-shadow(2px 2px 5px black);\"/>\n                                    <h1 style=\"font-size: 36px; font-weight: 800; margin: 0; color: #ffffff; text-align: center;\">Azure Pet Store</h1>\n                                 </td>\n                              </tr>\n                           </table>\n                        </div>\n                     </td>\n                  </tr>\n                  <tr>\n                     <td align=\"center\" style=\"padding: 35px 35px 20px 35px; background-color: #ffffff;\" bgcolor=\"#ffffff\">\n                        <table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"max-width:600px;\">\n                           <tr>\n                              <td align=\"center\" style=\"font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-top: 25px;\">\n                                 <img src=\"https://img.icons8.com/carbon-copy/100/000000/checked-checkbox.png\" width=\"125\" height=\"120\" style=\"display: block; border: 0px;\" /><br>\n                                 <h2 style=\"font-size: 30px; font-weight: 800; line-height: 36px; color: #333333; margin: 0;\"> Thank You For Your Order! </h2>\n                              </td>\n                           </tr>\n                           <tr>\n                              <td align=\"left\" style=\"padding-top: 20px;\">\n                                 <table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"100%\">\n                                    <tr>\n                                       <td width=\"75%\" align=\"left\" bgcolor=\"#eeeeee\" style=\"font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;\"> Order Confirmation # </td>\n                                       <td width=\"25%\" align=\"left\" bgcolor=\"#eeeeee\" style=\"font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px;\">@{body('Parse_JSON')?['id']}</td>\n                                    </tr>\n                                 </table>\n                                 <div id=\"order\">\n                                    @{body('Create_HTML_table')}\n                                 </div>\n                              </td>\n                           </tr>\n                           <tr>\n                              <td align=\"left\" style=\"padding-top: 20px;\">\n                                 <table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"100%\">\n                                    <tr>\n                                       <td width=\"75%\" align=\"left\" style=\"font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;\"> TOTAL </td>\n                                       <td width=\"25%\" align=\"left\" style=\"font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 800; line-height: 24px; padding: 10px; border-top: 3px solid #eeeeee; border-bottom: 3px solid #eeeeee;\">FREE</td>\n                                    </tr>\n                                 </table>\n                              </td>\n                           </tr>\n                        </table>\n                     </td>\n                  </tr>\n                  <tr>\n                     <td align=\"center\" height=\"100%\" valign=\"top\" width=\"100%\" style=\"padding: 0 35px 35px 35px; background-color: #ffffff;\" bgcolor=\"#ffffff\">\n                        <table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"max-width:660px;\">\n                           <tr>\n                              <td align=\"center\" valign=\"top\" style=\"font-size:0;\">\n                                 <div style=\"display:inline-block; max-width:50%; min-width:240px; vertical-align:top; width:100%;\">\n                                    <table align=\"left\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"max-width:300px;\">\n                                       <tr>\n                                          <td align=\"left\" valign=\"top\" style=\"font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;\">\n                                             <p style=\"font-weight: 800;\">Delivery Address</p>\n                                             <p>1 Azure Pet Store Drive<br>Burlington, MA 01803</p>\n                                          </td>\n                                       </tr>\n                                    </table>\n                                 </div>\n                                 <div style=\"display:inline-block; max-width:50%; min-width:240px; vertical-align:top; width:100%;\">\n                                    <table align=\"left\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"max-width:300px;\">\n                                       <tr>\n                                          <td align=\"left\" valign=\"top\" style=\"font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;\">\n                                             <p style=\"font-weight: 800;\">Estimated Delivery Date</p>\n                                             <p>Soon :)</p>\n                                          </td>\n                                       </tr>\n                                    </table>\n                                 </div>\n                              </td>\n                           </tr>\n                        </table>\n                     </td>\n                  </tr>\n                  <tr>\n                     <td align=\"center\" style=\" padding: 35px; background-color: #3c7bb7;\" bgcolor=\"#3c7bb7\">\n                        <table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"max-width:600px;\">\n                           <tr>\n                              <td align=\"center\" style=\"font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px; padding-top: 25px;\">\n                                 <h2 style=\"font-size: 24px; font-weight: 800; line-height: 30px; color: #ffffff; margin: 0;\"> Get 30% off your next order. </h2>\n                              </td>\n                           </tr>\n                           <tr>\n                              <td align=\"center\" style=\"padding: 25px 0 15px 0;\">\n                                 <table border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n                                    <tr>\n                                       <td align=\"center\" style=\"border-radius: 5px;\" bgcolor=\"#3c7bb7\"> <a href=\"#\" target=\"_blank\" style=\"font-size: 18px; font-family: Open Sans, Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; border-radius: 5px; background-color: #3c7bb7; padding: 15px 30px; border: 1px solid #fff; display: block;\">Shop Again</a> </td>\n                                    </tr>\n                                 </table>\n                              </td>\n                           </tr>\n                        </table>\n                     </td>\n                  </tr>\n                  <tr>\n                     <td align=\"center\" style=\"padding: 35px; background-color: #ffffff;\" bgcolor=\"#ffffff\">\n                        <table align=\"center\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" style=\"max-width:600px;\">\n                           <tr>\n                              <td align=\"left\" style=\"font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 400; line-height: 24px;\">\n                                 <p style=\"font-size: 14px; font-weight: 400; line-height: 20px; color: #777777;\">Please note, The Azure Pet Store is a hypothetical open source\n         application developed to help you learn about and build awesome\n         software on Azure. This is not official Microsoft documentation but\n         rather an opinionated approach/guidance to help you get started. It\n         is comprised of the Pet Store App and several Pet Store Microservices\n         that are referenced in the Azure Pet Store Reference Architecture\n         located here <a href=\"https://chtrembl.github.io/azure-cloud/\"\n            target=\"_blank\" />https://chtrembl.github.io/azure-cloud/</a> Covered\n         are the many services in Azure such as CI/CD, TDD, Automated Testing,\n         Container Strategy with App Services and AKS, Correlated Telemetry,\n         Power Apps, Serverless Functions, Logic Apps and much more.</p>\n                              </td>\n                           </tr>\n                        </table>\n                     </td>\n                  </tr>\n               </table>\n            </td>\n         </tr>\n      </table>\n   </body>\n</html>",
+                "runAfter": {
+                    "Create_HTML_table": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Compose"
+            },
+            "Create_HTML_table": {
+                "inputs": {
+                    "columns": [
+                        {
+                            "header": "Name",
+                            "value": "@item()?['name']"
+                        },
+                        {
+                            "header": "Quantity",
+                            "value": "@item()?['quantity']"
+                        }
+                    ],
+                    "format": "HTML",
+                    "from": "@body('Parse_JSON')?['products']"
+                },
+                "runAfter": {
+                    "Parse_JSON": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Table"
+            },
+            "Initialize_variable_-_jsonBody": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "jsonBody",
+                            "type": "string",
+                            "value": "@base64ToString(triggerBody()?['ContentData'])"
+                        }
+                    ]
+                },
+                "runAfter": {},
+                "type": "InitializeVariable"
+            },
+            "Initialize_variable_-_jsonBodyLeadingQuotesRemoved": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "jsonBodyLeadingQuotesRemoved",
+                            "type": "string",
+                            "value": "@{replace(variables('jsonBody'), '\"{', '{')}"
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Set_variable_-_remove_body_quotes": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "InitializeVariable"
+            },
+            "Initialize_variable_-_jsonBodyTrailingQuotesRemoved": {
+                "inputs": {
+                    "variables": [
+                        {
+                            "name": "jsonBodyTrailingQuotesRemoved",
+                            "type": "string",
+                            "value": "@{replace(variables('jsonBodyLeadingQuotesRemoved'), '}\"', '}')}"
+                        }
+                    ]
+                },
+                "runAfter": {
+                    "Initialize_variable_-_jsonBodyLeadingQuotesRemoved": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "InitializeVariable"
+            },
+            "Parse_JSON": {
+                "inputs": {
+                    "content": "@variables('jsonBodyTrailingQuotesRemoved')",
+                    "schema": {
+                        "properties": {
+                            "email": {
+                                "type": "string"
+                            },
+                            "id": {
+                                "type": "string"
+                            },
+                            "products": {
+                                "items": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "photoURL": {
+                                            "type": "string"
+                                        },
+                                        "quantity": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "required": [
+                                        "id",
+                                        "quantity",
+                                        "name",
+                                        "photoURL"
+                                    ],
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "runAfter": {
+                    "Initialize_variable_-_jsonBodyTrailingQuotesRemoved": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "ParseJson"
+            },
+            "Send_an_email_(V2)": {
+                "inputs": {
+                    "body": {
+                        "Body": "<p>@{outputs('Compose')}</p>",
+                        "Importance": "Normal",
+                        "Subject": "Exciting news from Azure Pet Store, your order: @{body('Parse_JSON')?['id']} was received",
+                        "To": "@body('Parse_JSON')?['email']"
+                    },
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['office365']['connectionId']"
+                        }
+                    },
+                    "method": "post",
+                    "path": "/v2/Mail"
+                },
+                "runAfter": {
+                    "Compose": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "ApiConnection"
+            },
+            "Set_variable_-_remove_body_quotes": {
+                "inputs": {
+                    "name": "jsonBody",
+                    "value": "@{replace(actions('Initialize_variable_-_jsonBody').inputs.variables[0].value, '\\\"', '\"')}"
+                },
+                "runAfter": {
+                    "Initialize_variable_-_jsonBody": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "SetVariable"
+            }
+        },
+        "contentVersion": "1.0.0.0",
+        "outputs": {},
+        "parameters": {
+            "$connections": {
+                "defaultValue": {},
+                "type": "Object"
+            }
+        },
+        "triggers": {
+            "When_a_message_is_received_in_a_topic_subscription_(auto-complete)": {
+                "evaluatedRecurrence": {
+                    "frequency": "Minute",
+                    "interval": 3
+                },
+                "inputs": {
+                    "host": {
+                        "connection": {
+                            "name": "@parameters('$connections')['servicebus']['connectionId']"
+                        }
+                    },
+                    "method": "get",
+                    "path": "/@{encodeURIComponent(encodeURIComponent('orders'))}/subscriptions/@{encodeURIComponent('email')}/messages/head",
+                    "queries": {
+                        "subscriptionType": "Main"
+                    }
+                },
+                "recurrence": {
+                    "frequency": "Minute",
+                    "interval": 3
+                },
+                "type": "ApiConnection"
+            }
+        }
+    },
+    "parameters": {
+        "$connections": {
+            "value": {
+                "office365": {
+                    "connectionId": "/subscriptions/6f6e705b-038d-425c-ae32-b1c2c3dd885c/resourceGroups/azurepetstorerg/providers/Microsoft.Web/connections/office365",
+                    "connectionName": "office365",
+                    "id": "/subscriptions/6f6e705b-038d-425c-ae32-b1c2c3dd885c/providers/Microsoft.Web/locations/eastus/managedApis/office365"
+                },
+                "servicebus": {
+                    "connectionId": "/subscriptions/6f6e705b-038d-425c-ae32-b1c2c3dd885c/resourceGroups/azurepetstorerg/providers/Microsoft.Web/connections/servicebus",
+                    "connectionName": "servicebus",
+                    "id": "/subscriptions/6f6e705b-038d-425c-ae32-b1c2c3dd885c/providers/Microsoft.Web/locations/eastus/managedApis/servicebus"
+                }
+            }
+        }
+    }
+}

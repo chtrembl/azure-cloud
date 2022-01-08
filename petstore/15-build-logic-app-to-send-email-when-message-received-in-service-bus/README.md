@@ -30,7 +30,7 @@ You should see the following:
 
 ![](images/3.png)
 
-Create a topic for your Service Bus. This is the way in which our PetStorOrderService will communicate with other system(s) (1 to many communication). We are using a topic instead of message queue (1 to 1 communication). Just imagine an order is placed, your PetStoreOrderService may want to use a topic as a way of informing many systems (more than 1) of an order being placed, for example, the logic app to send an email, perhaps a fulfillment center system needs to know as well so it can pull the products and so on... Give it a name "order" and the meta data for which is should need such as message sizing and TTL. For this demo the defaults are fine. Select "Create"
+Create a topic for your Service Bus. This is the way in which our PetStorOrderService will communicate with other system(s) (1 to many communication). We are using a topic instead of message queue (1 to 1 communication). Just imagine an order is placed, your PetStoreOrderService may want to use a topic as a way of informing many systems (more than 1) of an order being placed, for example, the logic app needs to send an email, perhaps a fulfillment center system needs to know as well so it can pull the products and so on... Give it a name "orders" and the meta data for which is should need such as message sizing and TTL. For this guide the defaults are fine. Select "Create"
 
 You should see the following:
 
@@ -48,7 +48,7 @@ You should see the following:
 
 ![](images/6.png)
 
-Give the SAS a name. I am using "azurepetstore". You can use whichever name you would like. THis is where we can control permissions (Send, Receive, Listen). Select "Create"
+Give the SAS a name. I am using "azurepetstore". You can use whichever name you would like. This is where we can control permissions (Send, Receive, Listen). Select "Create"
 
 You should see the following:
 
@@ -133,6 +133,10 @@ If the PetStoreOrderService receives a complete order, JMS (Java Messaging Servi
 }
 ```
 
+We will be building out the following steps, below is our end result so you can get an idea of what we are solving for.
+
+![](images/16.png)
+
 Now lets create the Logic App to receive and compose an email when these messages are sent.
 
 From the Azure Portal, search for Logic Apps and select "Create"
@@ -147,9 +151,29 @@ You should see the following:
 
 ![](images/11.png)
 
-We will be building out the following steps, below is our end result so you can get an idea of what we are solving for. 
+First Step in our new Logic App is to receive the message, Search for "Service Bus" for your first step.
 
-![](images/16.png)
+You should see the following:
+
+![](images/12.png)
+
+Select "When a message is received in a topic subscription (auto-complete)" to inform the entry point step of the Logic App, which is when a new message arrives to the specified topic.
+
+You should see the following:
+
+![](images/13.png)
+
+Specify the meta data requested. "orders" is the topic we created earlier and the topic PetStoreOrderService is sending to. Also paste in your connection string, you can use the primary one from the SAS policy.
+
+You should see the following:
+
+![](images/14.png)
+
+Specify the subscription "email" to use and how often you want to check the topic for new messages.
+
+You should see the following:
+
+![](images/15.png)
 
 Things you can now do now with this guide
 
