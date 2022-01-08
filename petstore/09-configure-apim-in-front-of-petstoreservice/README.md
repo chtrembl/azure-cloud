@@ -44,13 +44,13 @@ Head to Azure Portal and Search for API Management Services and Create a New Ins
 
 You should see something similar to the below image:
 
-![](images/apim1.png)
+![](images/1.png)
 
 Below shows the newly created API Management Service Dashboard
 
 You should see something similar to the below image:
 
-![](images/apim2.png)
+![](images/2.png)
 
 Select API's, + Add API and click OpenAPI (Under Create From Definition)
 
@@ -58,7 +58,7 @@ Select API's, + Add API and click OpenAPI (Under Create From Definition)
 
 You should see something similar to the below image:
 
-![](images/apim3.png)
+![](images/3.png)
 
 Fill in the details and paste in your Open API specification from the Azure Kubernetes Service where your App Service is running (You will do this three times one for each service)
 
