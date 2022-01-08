@@ -25,15 +25,15 @@ This will output the ingress-nginx-controller Load Balancer External IP address,
 Then access the services, for example via the ipaddress (40.88.201.193 in my case)
 
 ```
-    curl http://40.88.201.193/petstorepetservice/v2/pet/info | json_pp
+curl http://40.88.201.193/petstorepetservice/v2/pet/info | json_pp
 ```
 
 ```
-    curl http://40.88.201.193/petstoreproductservice/v2/product/info | json_pp
+curl http://40.88.201.193/petstoreproductservice/v2/product/info | json_pp
 ```
 
 ```
-    curl http://40.88.201.193/petstoreorderservice/v2/store/info | json_pp
+curl http://40.88.201.193/petstoreorderservice/v2/store/info | json_pp
 ```
 
 We are going to configure PetStoreApp to integrate with the new Pet Store API's that we create with API Management. The steps to create the API will be the same for all three services PetStorePetService, PetStoreProductService & PetStoreOrderService. Let's look at how to do this for PetStorePetService below.
