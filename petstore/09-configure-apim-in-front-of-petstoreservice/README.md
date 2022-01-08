@@ -79,7 +79,7 @@ The other fields will prepopulate. I've added a v2 version to cross reference th
 
 You should see something similar to the below image:
 
-![](images/4.png)
+![](images/1.png)
 
 Your API will automagically get generated!
 
@@ -87,13 +87,13 @@ As seen below, all of your API operations are available. Notice Backend HTTP(s) 
 
 You should see something similar to the below image:
 
-![](images/5.png)
+![](images/2.png)
 
 Click on the Settings tab for each of your newly imported API's and update (globally for all operations) the backend Web Service URL of your Azure Kubernetes NGINX Load Balancer IP Address and click Save.
 
 You should see something similar to the below image:
 
-![](images/6.png)
+![](images/3.png)
 
 Select and Operation and Test it out... click "Send"
 
