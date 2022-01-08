@@ -66,6 +66,70 @@ You should see the following:
 
 ![](images/9.png)
 
+Next you can configure your AKS Cluster and PetStoreOrderService
+
+Locate your petstoreorderservice-deployment-everything-enabled.yml and inspect it. FOr reference here is the file I am using https://github.com/chtrembl/azure-cloud/blob/main/manifests/petstoreorderservice-deployment-everything-enabled.yml. 
+
+You will need to make sure your passing in ``` ${PETSTOREORDERSERVICE_EMAIL_TOPIC_CONNECTION_STRING}``` and ```${PETSTOREORDERSERVICE_SUBSCRIPTION_ID}``` accordingly. 
+
+You will need to make sure you have 2 more env variables
+
+```yml
+    - name: PETSTOREORDERSERVICE_EMAIL_TOPIC_CONNECTION_STRING
+    valueFrom:
+        secretKeyRef:
+        name: emailtopicconnstring
+        key: secret
+    - name: PETSTOREORDERSERVICE_SUBSCRIPTION_ID
+    valueFrom:
+        secretKeyRef:
+        name: subscriptionid
+        key: secret
+```
+
+As you recall from previous guides you can create secrets as followed
+
+```kubectl create secret generic emailtopicconnstring --from-literal=secret=<your connection string from earlier>```
+
+```kubectl create secret generic subscriptionid --from-literal=secret=<your subscription id from earlier>```
+
+Once these secrets are created and you have committed your petstoreorderservice-deployment-everything-enabled.yml changes you can update the application.yml below, as seen below.
+
+Inspect https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoreorderservice/pom.xml 
+
+This is the Azure Service Bus Spring Boot Starter, based on a couple of application properties this Spring starter will wire up a jmsTemplate bean for you to use and post messages with.
+
+Notice the following:
+
+```xml
+	<dependency>
+        <groupId>com.azure.spring</groupId>
+        <artifactId>azure-spring-boot-starter-servicebus-jms</artifactId>
+        <version>3.10.0</version>
+    </dependency>
+```
+
+Inspect your application.ynl and make a couple of changes. For reference you can view https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoreorderservice/src/main/resources/application.yml
+
+You can now comment out the autoconfigure exclude properties abd uncomment the jms properties
+
+Your application.yml should have the following
+
+```yml
+spring:
+  application:
+    name: petstoreorderservice
+  #autoconfigure:
+    #exclude: com.azure.spring.autoconfigure.jms.ServiceBusJMSAutoConfiguration,org.springframework.boot.autoconfigure.jms.JmsAutoConfiguration,com.azure.spring.#autoconfigure.jms.NonPremiumServiceBusJMSAutoConfiguration,com.microsoft.azure.spring.autoconfigure.jms.ServiceBusJMSAutoConfiguration
+  jms:
+    servicebus:
+      connection-string: ${PETSTOREORDERSERVICE_EMAIL_TOPIC_CONNECTION_STRING}
+      pricing-tier: Standard
+      topic-client-id: ${PETSTOREORDERSERVICE_SUBSCRIPTION_ID}  
+```
+
+With these changes above, these new application properties ``` ${PETSTOREORDERSERVICE_EMAIL_TOPIC_CONNECTION_STRING}``` and ```${PETSTOREORDERSERVICE_SUBSCRIPTION_ID}``` will need to be passed to the container at runtime. Once you make these changes you will need to commit them and take a build/deploy.
+
 Next we will be creating the Logic App. Before we do so, it's important to understand what data we are working with and why we are building the following.
 
 If you inspect the StoreAPIController.java class from the PetStoreOrderService https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoreorderservice/src/main/java/com/chtrembl/petstore/order/api/StoreApiController.java You will notice the following code:
@@ -281,18 +345,49 @@ You should see the following:
 
 ![](images/24.png)
 
-Next create a "Compose" step. Here we can construct the HTML contents for our email. For the inputs field you can paste in your HTML. I've already generated a sample HTML page that I would like consumers to receive when an order is complete.
+Next create a "Compose" step. Here we can construct the HTML contents for our email. For the inputs field you can paste in your HTML. I've already generated a sample 
+HTML page that I would like consumers to receive when an order is complete.
 
+Copy the raw contents of the following into your Inputs field of the Compose step.
+ 
+https://github.com/chtrembl/azure-cloud/blob/main/petstore/15-build-logic-app-to-send-email-when-message-received-in-service-bus/email.html
+
+You should see the following:
+
+![](images/25.png)
+
+Update the two placeholders in this HTML, "<ORDER HERE>" and "<PRODUCTS HERE>" with the dynamic data that you have been building above. ```id``` from the Dynamic JSON that was parsed and ```Output``` from the "Create HTML table" step above.
+ 
 You should see the following:
 
 ![](images/26.png)
 
-Last but not least, create a "Send an email (V2)" step. Here we can use the composed HTML from above 
+Last but not least, create a "Send an email (V2)" step. Here we can send off the email to the person who completed their order.
+
+For the Body: field of the email you can use ```Outputs``` from the Compose step above. You can place the JSON parsed dynamic order ```id``` in the Subject: field and the JSON parsed dynamic order ```email``` in the To: field.
 
 You should see the following:
 
-![](images/26.png)
+![](images/27.png)
+
+Test it out! Complete an order and you should see an email!
+
+You should see the following:
+
+![](images/28.png)
+
+![](images/29.png)
+
+If for some reason things do not look right and/or you see failures, head to the Overview and view the status's of your runs, you can inspect all of the steps of your Logic App runs that have failed and fix accordingly.
+
+You should see the following:
+
+![](images/30.png)
 
 Things you can now do now with this guide
 
-☑️ Build a Canvas Power App with Custom Connectors
+☑️ Configure Service Bus
+
+☑️ Configure PetStoreOrderService to use Spring Boot Starter and send messages to a Service Bus topic
+
+☑️ Build an awesome Logic App to notify consumers when a message arrives
