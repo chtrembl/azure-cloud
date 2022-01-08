@@ -76,9 +76,9 @@ public class WebAppController {
 
 				this.sessionUser.setInitialTelemetryRecorded(true);
 			}
+			model.addAttribute("claims", user.getAttributes());
 			model.addAttribute("user", this.sessionUser.getName());
 			model.addAttribute("grant_type", user.getAuthorities());
-			model.addAllAttributes(user.getAttributes());
 		}
 
 		model.addAttribute("userName", this.sessionUser.getName());
@@ -229,11 +229,13 @@ public class WebAppController {
 		PageViewTelemetry pageViewTelemetry = new PageViewTelemetry();
 		pageViewTelemetry.setUrl(new URI(request.getRequestURL().toString()));
 		pageViewTelemetry.setName("slow operation");
-		this.sessionUser.getTelemetryClient().trackPageView(pageViewTelemetry);
 
+		// 30s delay
 		Thread.sleep(30000);
 
-		return "home";
+		this.sessionUser.getTelemetryClient().trackPageView(pageViewTelemetry);
+
+		return "slowness";
 	}
 
 	@GetMapping(value = "/exception")

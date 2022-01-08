@@ -8,7 +8,6 @@
 	<div
 		class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
 		<h1 class="display-4">Select a Product</h1>
-		<div style="padding-top: 50px;" />
 		<table class="table">
 			<div th:if="${products} != null">
 				<tr th:each="product, iStat : ${products}">
@@ -30,20 +29,20 @@
 				</tr>
 			</div>
 		</table>
-		<form action="updatecart" method="post" id="addProduct">
-			<input type="hidden" th:if="${_csrf}"
-				th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> <input
-				type="hidden" id="productId" name="productId" value="">
-		</form>
 	</div>
+	<form action="updatecart" method="post" id="addProduct">
+		<input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}"
+			th:value="${_csrf.token}" /> <input type="hidden" id="productId"
+			name="productId" value="">
+	</form>
 	<div lang="en" th:replace="fragments/footer :: footer"></div>
 	<div lang="en" th:replace="fragments/disclaimer :: disclaimer"></div>
 	<script language="javascript">
-		function updatecart(productId) {
-			document.getElementById('productId').value = productId;
-			document.getElementById('addProduct').submit();
-		}
-	</script>
+			function updatecart(productId) {
+				document.getElementById('productId').value = productId;
+				document.getElementById('addProduct').submit();
+			}
+		</script>
 </body>
 
 </html>

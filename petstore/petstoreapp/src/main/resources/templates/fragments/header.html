@@ -8,20 +8,19 @@
 		<diV
 			class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
 			<h5 class="my-0 mr-md-auto font-weight-normal">
+				<a class="p-2 text-dark"
+					href="/">
 				<img
 					src="content/azure.png"
-					class="azureimagesmall" /><a class="p-2 text-dark"
-					href="/">Azure Pet Store</a>
+					class="azureimagesmall" />Hi <span th:text="${userName}"/>, Welcome to the Azure Pet Store!</a>
 			</h5>
-			<nav class="my-2 my-md-0 mr-md-3">
-				Welcome <span th:text="${userName}">
-			</nav>
+			<p/>
 			<div th:if="${user} != null">
-				<a class="p-2 text-dark"
-					href="/oauth2/authorization/B2C_1_profileediting">Edit Profile</a>
-				<a class="p-2 text-dark"
-					href="/oauth2/authorization/B2C_1_passwordreset">Reset Password</a>
-				<a class="p-2 text-dark" href="/claims">View AD Claims</a>
+				<a class="btn btn-outline-primary"
+					href="/oauth2/authorization/B2C_1_profileediting">Profile</a>
+				<a class="btn btn-outline-primary"
+					href="/oauth2/authorization/B2C_1_passwordreset">Password</a>
+				<a class="btn btn-outline-primary" href="/claims">AD Claims</a>
 				<form style="display: inline" method="post" action="/logout">
 				    <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 					<button class="btn btn-outline-primary" type="submit">Log
@@ -33,7 +32,7 @@
   					<a class="btn btn-outline-primary" href="/oauth2/authorization/B2C_1_signupsignin">Sign up / Sign in</a>
 	  			</div>
   			</div>
-  			<div class="cartcontainer"><a href = "/cart"><img class="cart" src="content/carticon.png"/><div class="cartcount"><div style="margin-left:9px;margin-top:-5px;font-weight: 900;" th:text="${cartSize}" /></div></a></div>
+  			<div class="cartcontainer"><a href = "/cart"><img class="cart" src="content/carticon.png"/><div class="cartcount"><div style="margin-left:9px;margin-top:-7px;font-weight: 900;" th:text="${cartSize}" /></div></a></div>
   		</div>
 	</div>
 </body>

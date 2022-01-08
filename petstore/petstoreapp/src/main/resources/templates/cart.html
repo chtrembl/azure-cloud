@@ -8,7 +8,9 @@
 	<div
 		class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
 		<h1 class="display-4">Shopping Cart Summary</h1>
-		<div style="padding-top: 50px;" />
+		<h2 class="subHeader" th:if="${userLoggedIn} != true">You need to
+			login before placing your order</h2>
+		<p />
 		<div style="display: flex; justify-content: center;">
 			<table class="table" style="width: 80%; align-self: center;">
 				<div
@@ -41,8 +43,6 @@
 					</tr>
 					<tr>
 						<td colspan="4">
-							<div class="subHeader" th:if="${userLoggedIn} != true">You need to login
-								before placing your order :)</div>
 							<div th:if="${userLoggedIn} == true">
 								<a th:onclick="'completecart();'"
 									style="font-weight: bold; text-decoration: none; color: black;">
@@ -58,9 +58,9 @@
 						<td colspan="4">
 							<div class="subHeader" style="padding-top: 50px;">
 								Congratulations, your order is now complete and being processed!
-								An email was sent to <a style="color:#3C7BB7;" th:href="@{'mailto:' + ${email}}" /><span
-									th:text="${email}" /></a>. (Note, you may be able to re open this
-								order if time permits)
+								An email was sent to <a style="color: #3C7BB7;"
+									th:href="@{'mailto:' + ${email}}" /><span th:text="${email}" /></a>.
+								(Note, you may be able to re open this order if time permits)
 							</div>
 						</td>
 					</tr>

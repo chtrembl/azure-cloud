@@ -8,7 +8,6 @@
 	<div
 		class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
 		<h1 class="display-4">Shop by Pet Breeds</h1>
-		<div style="padding-top: 50px;" />
 		<table class="table">
 			<div th:if="${pets} != null">
 				<tr th:each="pet, iStat : ${pets}">
@@ -27,7 +26,6 @@
 						</div>
 					</td>
 				</tr>
-			</div>
 		</table>
 	</div>
 	<div lang="en" th:replace="fragments/footer :: footer"></div>
