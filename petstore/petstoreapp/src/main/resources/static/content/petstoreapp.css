@@ -51,14 +51,9 @@ a {
 	width: 40% !important;
 	}
 	.azureimagesmall {
-	width: 10%;
-	height: 10%;
+	width: 70%;
+	height: 70%;
 	opacity: 80%;
-	}
-	.azureimagelarge {
-		width: 10%;
-		height: 10%;
-		opacity: 80%;
 	}
 	.banner {
 		width: 90%;
@@ -79,14 +74,9 @@ figure {
 		filter: drop-shadow(2px 2px 5px black);
 	}
 	.azureimagesmall {
-	width: 10%;
-	height: 10%;
+	width: 70%;
+	height: 70%;
 	opacity: 80%;
-	}
-	.azureimagelarge {
-		width: 5%;
-		height: 5%;
-		opacity: 80%;
 	}
 }
 
