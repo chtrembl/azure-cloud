@@ -12,9 +12,11 @@
 			<div th:if="${pets} != null">
 				<tr th:each="pet, iStat : ${pets}">
 					<td>
-						<figure>
-							<img class="thumbnail" th:src="@{${pet.photoURL}}" />
-						</figure>
+						<center>
+							<figure>
+								<img class="thumbnail" th:src="@{${pet.photoURL}}" />
+							</figure>
+						</center>
 						<div>
 							<a
 								th:href="@{'/breeddetails?id=' + ${pet.id} + '&category=' + ${pet.category.name} }"
