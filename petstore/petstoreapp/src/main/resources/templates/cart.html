@@ -10,11 +10,15 @@
 		<h1 class="display-4">Shopping Cart Summary</h1>
 		<h2 class="subHeader" th:if="${userLoggedIn} != true">You need to
 			login before placing your order</h2>
+		<p th:if="${order} == null or ${order.products} == null or  (${order.products} != null and ${order.products.size} == 0)">
+			You're shopping cart is empty, add some products!
+		</p>
 		<p />
+		
 		<div style="display: flex; justify-content: center;">
-			<table class="table" style="width: 80%; align-self: center;">
+			<table class="table">
 				<div
-					th:if="${order} != null and ${order.complete} != true and ${order.products} != null">
+					th:if="${order} != null and ${order.complete} != true and ${order.products} != null and ${order.products.size} > 0">
 					<th class="fullTable">Product ID</th>
 					<th>Description</th>
 					<th class="fullTable">Product Name</th>
@@ -43,7 +47,7 @@
 					</tr>
 					<tr>
 						<td colspan="4">
-							<div th:if="${userLoggedIn} == true">
+							<div th:if="${userLoggedIn} == true and  ${order} != null and  ${order.products.size} > 0">
 								<a th:onclick="'completecart();'"
 									style="font-weight: bold; text-decoration: none; color: black;">
 									<button class="btn btn-outline-primary" type="submit">Complete
