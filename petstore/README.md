@@ -94,6 +94,9 @@ Prerequisites and environment setup (Optionaly you can build/deploy locally)
 
    Build a Canvas Power App that uses a Custom Connector to Pull Data
 
+## [15 - Build a Logic App to send an email when a message is received in a Service Bus topic](15-build-logic-app-to-send-email-when-message-received-in-service-bus)
+
+   Build a Logic App to send an email when a message is received in a Service Bus topic
 ---
 
 ## Legal Notices

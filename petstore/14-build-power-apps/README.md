@@ -291,3 +291,5 @@ You should see the following:
 Things you can now do now with this guide
 
 ☑️ Build a Canvas Power App with Custom Connectors
+
+➡️ Next guide: [15 - Build a Logic App to send an email when a message is received in a Service Bus topic](../15-build-logic-app-to-send-email-when-message-received-in-service-bus/README.md)

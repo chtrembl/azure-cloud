@@ -4,5 +4,11 @@
     "azureFunctions.projectLanguage": "Java",
     "azureFunctions.projectRuntime": "~3",
     "debug.internalConsoleOptions": "neverOpen",
-    "azureFunctions.preDeployTask": "package (functions)"
+    "azureFunctions.preDeployTask": "package (functions)",
+    "markdownlint.config": {
+        "MD028": false,
+        "MD025": {
+            "front_matter_title": ""
+        }
+    }
 }
