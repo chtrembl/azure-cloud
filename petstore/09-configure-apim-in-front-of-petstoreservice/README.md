@@ -42,6 +42,8 @@ We are going to configure PetStoreApp to integrate with the new Pet Store API's 
 
 Head to Azure Portal and Search for API Management Services and Create a New Instance using the following data, the defaults for the remaining tabs are fine. Select Review + create.
 
+> 📝 **Please Note, azurepetstoreapim is already taken, you will need to choose another one for your purposes.**
+
 You should see something similar to the below image:
 
 ![](images/4.png)
@@ -123,7 +125,7 @@ Select Products and Add a Product, fill in the meta data and click "Select API"
 
 You should see something similar to the below image:
 
-![](images/apim9.png)
+![](images/apim9_a.png)
 
 Select the newly created Product, Access Control and Add Group
 
@@ -131,7 +133,7 @@ Select the newly created Product, Access Control and Add Group
 
 You should see something similar to the below image:
 
-![](images/apim10.png)
+![](images/apim10_a.png)
 
 Under Policies edit the XML to impose a rate limit of 5 calls per 30 seconds
 
@@ -139,7 +141,7 @@ Under Policies edit the XML to impose a rate limit of 5 calls per 30 seconds
 
 You should see something similar to the below image:
 
-![](images/apim11.png)
+![](images/apim11_a.png)
 
 Under Portal Overview, you can view the Publisher Portal (here you can also customize the look and feel of the externally facing Developer Portal that developers will see when discovering your API's/Products) once complete click "Publish"
 
@@ -149,29 +151,29 @@ You can go ahead and click Publish, and you will want to do this whenever you ma
 
 You should see something similar to the below image:
 
-![](images/apim12.png)
+![](images/apim12_a.png)
 
 Make sure your Pet Store Reseller Product is Published
 
 You should see something similar to the below image:
 
-![](images/apim16.png)
+![](images/apim16_a.png)
 
 Below shows Developer Portal View (This is the default skinned Portal, this can be customized/themed to your liking, this is the view where API developers/owners developing API's will work)
 
 You should see something similar to the below image:
 
-![](images/apim13.png)
+![](images/apim13_a.png)
 
 ## 4. Discover Products and Subscribe to an API
 
-Head to the Developer Portal in a new browser (perhaps incognito mode, we are looking to experience the public view, what public developers consuming your API will see and make sure to use use your URL) [https://azurepetstorerg.developer.azure-api.net/](https://azurepetstorerg.developer.azure-api.net/)
+Head to the Developer Portal in a new browser (perhaps incognito mode, we are looking to experience the public view, what public developers consuming your API will see and make sure to use use your URL) [https://azurepetstoreapim.developer.azure-api.net/](https://azurepetstoreapim.developer.azure-api.net/)
 
 > 📝 Please Note, This is where public users/developers will go to view/subscribe to API's, also in the Publisher Portal this can be skinned to look and feel however you desire.
 
 You should see something similar to the below image:
 
-![](images/apim14.png)
+![](images/apim14_a.png)
 
 Here, as a guest, (potential developer consumer of the API, such as a PetStoreApp Developer) you can search for API's and view information on them
 
@@ -181,7 +183,7 @@ At this point, go ahead and Sign up, you will get an email confirmation once com
 
 You should see something similar to the below image:
 
-![](images/apim15.png)
+![](images/apim15_a.png)
 
 Still in the incognito tab/newly signed up consumer/developer, select the Pet Store Reseller Product, and subscribe, in this example "Pet Store Petstore" will be the developer/company that will be subscribing to this Product/API
 
@@ -189,11 +191,11 @@ Still in the incognito tab/newly signed up consumer/developer, select the Pet St
 
 You should see something similar to the below image:
 
-![](images/apim17.png)
+![](images/apim17_a.png)
 
 You should see something similar to the below image:
 
-![](images/apim18.png)
+![](images/apim18_a.png)
 
 Once subscribed you will see your Developer Profile and Subscription Keys for calling the API's
 
@@ -201,46 +203,48 @@ Once subscribed you will see your Developer Profile and Subscription Keys for ca
 
 You should see something similar to the below image:
 
-![](images/apim19.png)
+![](images/apim19_a.png)
 
 Test out the API as a consuming/subscribed developer using one of your Subscription keys seen above against your Gateway URL.
 
-Make a GET request 5 times within 30 seconds to https://azurepetstorerg.azure-api.net/v2/pet/findByStatus?status=available&subscription-key=....
+Make a GET request 5 times within 30 seconds to https://azurepetstoreapim.azure-api.net/v2/pet/findByStatus?status=available&subscription-key=....
 
 > 📝 Please Note, use your Gateway URL
 
 You should see something similar to the below image:
 
-![](images/apim20.png)
+![](images/apim20_a.png)
 
 Now update your App Service App Configuration to specify the API Management Gateway URL and the API Management Subscription ID so that Pet Store App can pass this data to API Management instead of Azure Kubernetes Service directly.
 
 ```
-PETSTORESERVICE_URL
-PETSTORESERVICE_SUBSCRIPTION_KEY
+PETSTORESERVICES_URL
+PETSTOREPETSERVICE_SUBSCRIPTION_KEY
+PETSTOREPRODUCTSERVICE_SUBSCRIPTION_KEY
+PETSTOREORDERERVICE_SUBSCRIPTION_KEY
 ```
 
 You should see something similar to the below image:
 
-![](images/apim21.png)
+![](images/apim21_a.png)
 
 Now visit the PetStoreApp and hit the Dog Breeds URL, should be business as usual...
 
 You should see something similar to the below image:
 
-![](images/apim22.png)
+![](images/apim22_a.png)
 
 Now refresh the page 6 times within 30 seconds, you should get a 529
 
 You should see something similar to the below image:
 
-![](images/apim23.png)
+![](images/apim23_a.png)
 
 Pretty cool huh? Now head over to Azure Portal > Application Insights Failures and lets check the Telemetry to see what happens. As you can see, the 429 Exception gets indexed. (alerts etc... can be configured to act on this)
 
 You should see something similar to the below image:
 
-![](images/apim24.png)
+![](images/apim24_a.png)
 
 Things you can now do now with this guide
 
