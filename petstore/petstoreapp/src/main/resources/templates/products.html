@@ -12,7 +12,7 @@
 			<div th:if="${products} != null">
 				<tr th:each="product, iStat : ${products}">
 					<td style="text-align: center !important;">
-						<img class="thumbnail" th:src="@{${product.photoURL}}" />
+						<center><img class="thumbnail" th:src="@{${product.photoURL}}" /></center>
 						<div style="margin-bottom: 20px;">
 							<span style="font-weight: bold;" th:text="${product.name}" />
 						</div>
