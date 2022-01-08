@@ -139,6 +139,8 @@ We will be building out the following steps, below is our end result so you can 
 
 Now lets create the Logic App to receive and compose an email when these messages are sent.
 
+> 📝 **Please Note, we will be referencing the Logic Apps Designer below, however the source code for this Logic App can also be viewed here https://github.com/chtrembl/azure-cloud/blob/main/petstore/15-build-logic-app-to-send-email-when-message-received-in-service-bus/lacode.json**
+
 From the Azure Portal, search for Logic Apps and select "Create"
 
 You should see the following:
@@ -151,7 +153,7 @@ You should see the following:
 
 ![](images/11.png)
 
-First Step in our new Logic App is to receive the message, Search for "Service Bus" for your first step.
+First Step in our new Logic App is to receive the message, Search for the "Service Bus" operation for your first step.
 
 You should see the following:
 
@@ -174,6 +176,58 @@ Specify the subscription "email" to use and how often you want to check the topi
 You should see the following:
 
 ![](images/15.png)
+
+Next create 4 more steps, by selecting "Create Step" below your current one from above. Use the "Variables" operation. We will use these 4 operations to transform the JSON that arrives in the message and assign the transformations to instance variables we can then use in our subsequent steps/operations. The first variable step is an "Initialize Variable", the second variable step is a "Set Variable" and the third and fourth are both "Initialize Variable".
+
+You should see the following:
+
+![](images/17.png)
+
+> 📝 **Please Note, If you select the Ellipse to the right of the steps you can bring up the associated meta data and modify it**
+
+Give your Variable steps a name.
+
+I named he first variable step "Initialize variable - jsonBody", gave it a variable name "jsonBody" and set the value to Dynamic Content "Content" which will be the incoming message body content (our JSON from the PetStoreOrderService)
+
+You should see the following:
+
+![](images/18.png)
+
+I named he second variable step "Set variable - remove body quotes", gave it a variable name "jsonBody" and set the value to Expression which you can paste the following, which strips out the escape characters from the body contents (not sure why these get included, the bytestream from the PetStoreOrderService does not send these that I know of)
+
+```
+    replace(actions('Initialize_variable_-_jsonBody').inputs.variables[0].value, '\"', '"')
+```
+
+You should see the following:
+
+![](images/19.png)
+
+I named he third variable step "Initialize variable - jsonBodyLeadingQuotesRemoved", gave it a variable name "jsonBodyLeadingQuotesRemoved" (can't override the existing mutable variable in this context) and set the value to Expression which you can paste the following, which strips out the leading quotes the body contents (not sure why these get included, the bytestream from the PetStoreOrderService does not send these that I know of)
+
+```
+    replace(variables('jsonBody'), '"{', '{')
+```
+
+You should see the following:
+
+![](images/20.png)
+
+I named he fourth variable step "Initialize variable - jsonBodyTrailingQuotesRemoved", gave it a variable name "jsonBodyTrailingQuotesRemoved" (can't override the existing mutable variable in this context) and set the value to Expression which you can paste the following, which strips out the trailing quotes the body contents (not sure why these get included, the bytestream from the PetStoreOrderService does not send these that I know of)
+
+```
+    replace(variables('jsonBodyLeadingQuotesRemoved'), '}"', '}')
+```
+
+You should see the following:
+
+![](images/21.png)
+
+At this point you should have 5 steps.
+
+You should see the following:
+
+![](images/22.png)
 
 Things you can now do now with this guide
 
