@@ -1,7 +1,7 @@
-# Here you will find various [Azure](https://ms.portal.azure.com/) Demos & Tutorials that I've put together for Azure Cloud using DevOps, Container Services and other PaaS offerings.
+# Here you will find various [Azure](https://ms.portal.azure.com/) demos & tutorials that are meant to help you build awesome stuff on Azure.
 
 ## [Full Azure Pet Store Reference Guide](https://github.com/chtrembl/azure-cloud/tree/main/petstore)
 
-Extensive Demo's & Step by Step Tutorial's for a Hypothetical Azure Pet Store walking you thorugh many Azure services and development scenarios using pre built Web Applications and Micro Services.
+Extensive guides for a hypothetical Azure Pet Store walking you thorugh many Azure services and development scenarios using pre built web applications and microdervices.
 
 > 📝 Please Note, You can view the live deployment here https://azurepetstore.com/
