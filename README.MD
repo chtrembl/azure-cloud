@@ -1,4 +1,4 @@
-# Here you will find various [Azure](https://ms.portal.azure.com/) demos & guides that are meant to help you build awesome stuff on Azure.
+# Here you will find various [Azure](https://ms.portal.azure.com/) demos & learning guides that are meant to help you build awesome stuff on Azure.
 
 ## [View Azure Pet Store Learning Guides](https://github.com/chtrembl/azure-cloud/tree/main/petstore)
 
