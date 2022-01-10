@@ -73,7 +73,7 @@ mvn azure-functions:run
 
 You should see the following:
 
-![](images/fa1_1.png)
+![](images/13_1.png)
 
 ```
 curl http://localhost:7071/api/HttpExample?name=Hello%20PetStore%20Shopper
@@ -142,9 +142,9 @@ Create an Application Insights App Key and make note of it along with your App I
 
 You should see the following:
 
-![](images/fa2.png)
+![](images/13_2.png)
 
-![](images/fa3.png)
+![](images/13_3.png)
 
 Open up Function.java and update the Function class entirely.
 
@@ -313,9 +313,9 @@ Head to the Azure Container Registry.
 
 You should see the following:
 
-![](images/fa4.png)
+![](images/13_4.png)
 
-![](images/fa5.png)
+![](images/13_5.png)
 
 ## 7. Let's Create the Azure Function App and Deploy our Docker Image
 
@@ -345,19 +345,19 @@ Set the appId and apiKey as Application Settings / Environment Variables
 
 You should see the following:
 
-![](images/fa6.png)
+![](images/13_6.png)
 
 Confiure the Azure Function App for Continuous Integration, As we push new Docker Images our Function App will automagically create a new container with the "latest" tag.
 
 You should see the following:
 
-![](images/fa7.png)
+![](images/13_7.png)
 
 Grab the URL of your Azure Function App and test it out!
 
 You should see the following:
 
-![](images/fa8.png)
+![](images/13_8.png)
 
 ```
 curl https://azurepetstorefunctions.azurewebsites.net/api/petStoreCurrentSessionTelemetry?minsAgo=5m&apiKey=<yourapiKeyHere>

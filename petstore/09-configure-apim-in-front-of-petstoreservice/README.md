@@ -46,13 +46,13 @@ Head to Azure Portal and Search for API Management Services and Create a New Ins
 
 You should see something similar to the below image:
 
-![](images/4.png)
+![](images/09_1.png)
 
 Below shows the newly created API Management Service Dashboard
 
 You should see something similar to the below image:
 
-![](images/5.png)
+![](images/09_2.png)
 
 Select API's, + Add API and click OpenAPI (Under Create From Definition)
 
@@ -60,7 +60,7 @@ Select API's, + Add API and click OpenAPI (Under Create From Definition)
 
 You should see something similar to the below image:
 
-![](images/6.png)
+![](images/09_3.png)
 
 Fill in the details and paste in your Open API specification from the Azure Kubernetes Service where your App Service is running (You will do this three times one for each service)
 
@@ -81,7 +81,7 @@ The other fields will prepopulate. I've added a v2 version to cross reference th
 
 You should see something similar to the below image:
 
-![](images/1.png)
+![](images/09_4.png)
 
 Your API will automagically get generated!
 
@@ -89,13 +89,13 @@ As seen below, all of your API operations are available. Notice Backend HTTP(s) 
 
 You should see something similar to the below image:
 
-![](images/2.png)
+![](images/09_5.png)
 
 Click on the Settings tab for each of your newly imported API's and update (Doing this in settings will update globally for all HTTP operations, if you need to change this per operation you can do so but for our implementation all operation will go to the same back end) the backend Web Service URL of your Azure Kubernetes NGINX Load Balancer IP Address and click Save.
 
 You should see something similar to the below image:
 
-![](images/3.png)
+![](images/09_6.png)
 
 Select and Operation and Test it out... 
 
@@ -107,11 +107,11 @@ click "Send"
 
 You should see something similar to the below image:
 
-![](images/apim7.png)
+![](images/09_7.png)
 
 You should see something similar to the below image:
 
-![](images/apim8.png)
+![](images/09_8.png)
 
 > 📝 Please Note, At this point we are able to interact with our Azure Kubernetes PetStoreService via API Management using a generic Test Subscription. There is much more we can do with policies, tranformations, mocks etc... We are just scratching the surface
 
@@ -125,7 +125,7 @@ Select Products and Add a Product, fill in the meta data and click "Select API"
 
 You should see something similar to the below image:
 
-![](images/apim9_a.png)
+![](images/09_9.png)
 
 Select the newly created Product, Access Control and Add Group
 
@@ -133,7 +133,7 @@ Select the newly created Product, Access Control and Add Group
 
 You should see something similar to the below image:
 
-![](images/apim10_a.png)
+![](images/09_10.png)
 
 Under Policies edit the XML to impose a rate limit of 5 calls per 30 seconds
 
@@ -141,7 +141,7 @@ Under Policies edit the XML to impose a rate limit of 5 calls per 30 seconds
 
 You should see something similar to the below image:
 
-![](images/apim11_a.png)
+![](images/09_11.png)
 
 Under Portal Overview, you can view the Publisher Portal (here you can also customize the look and feel of the externally facing Developer Portal that developers will see when discovering your API's/Products) once complete click "Publish"
 
@@ -151,19 +151,19 @@ You can go ahead and click Publish, and you will want to do this whenever you ma
 
 You should see something similar to the below image:
 
-![](images/apim12_a.png)
+![](images/09_12.png)
 
 Make sure your Pet Store Reseller Product is Published
 
 You should see something similar to the below image:
 
-![](images/apim16_a.png)
+![](images/09_13.png)
 
 Below shows Developer Portal View (This is the default skinned Portal, this can be customized/themed to your liking, this is the view where API developers/owners developing API's will work)
 
 You should see something similar to the below image:
 
-![](images/apim13_a.png)
+![](images/09_14.png)
 
 ## 4. Discover Products and Subscribe to an API
 
@@ -173,7 +173,7 @@ Head to the Developer Portal in a new browser (perhaps incognito mode, we are lo
 
 You should see something similar to the below image:
 
-![](images/apim14_a.png)
+![](images/09_15.png)
 
 Here, as a guest, (potential developer consumer of the API, such as a PetStoreApp Developer) you can search for API's and view information on them
 
@@ -183,7 +183,7 @@ At this point, go ahead and Sign up, you will get an email confirmation once com
 
 You should see something similar to the below image:
 
-![](images/apim15_a.png)
+![](images/09_16.png)
 
 Still in the incognito tab/newly signed up consumer/developer, select the Pet Store Reseller Product, and subscribe, in this example "Pet Store Petstore" will be the developer/company that will be subscribing to this Product/API
 
@@ -191,11 +191,11 @@ Still in the incognito tab/newly signed up consumer/developer, select the Pet St
 
 You should see something similar to the below image:
 
-![](images/apim17_a.png)
+![](images/09_17.png)
 
 You should see something similar to the below image:
 
-![](images/apim18_a.png)
+![](images/09_18.png)
 
 Once subscribed you will see your Developer Profile and Subscription Keys for calling the API's
 
@@ -203,7 +203,7 @@ Once subscribed you will see your Developer Profile and Subscription Keys for ca
 
 You should see something similar to the below image:
 
-![](images/apim19_a.png)
+![](images/09_19.png)
 
 Test out the API as a consuming/subscribed developer using one of your Subscription keys seen above against your Gateway URL.
 
@@ -213,7 +213,7 @@ Make a GET request 5 times within 30 seconds to https://azurepetstoreapim.azure-
 
 You should see something similar to the below image:
 
-![](images/apim20_a.png)
+![](images/09_20.png)
 
 Now update your App Service App Configuration to specify the API Management Gateway URL and the API Management Subscription ID so that Pet Store App can pass this data to API Management instead of Azure Kubernetes Service directly. You can use the same subscription key for all 3 services.
 
@@ -226,25 +226,25 @@ PETSTOREORDERERVICE_SUBSCRIPTION_KEY
 
 You should see something similar to the below image:
 
-![](images/apim21_a.png)
+![](images/09_21.png)
 
 Now visit the PetStoreApp and hit the Dog Breeds URL, should be business as usual...
 
 You should see something similar to the below image:
 
-![](images/apim22_a.png)
+![](images/09_22.png)
 
 Now refresh the page 6 times within 30 seconds, you should get a 529
 
 You should see something similar to the below image:
 
-![](images/apim23_a.png)
+![](images/09_23.png)
 
 Pretty cool huh? Now head over to Azure Portal > Application Insights Failures and lets check the Telemetry to see what happens. As you can see, the 429 Exception gets indexed. (alerts etc... can be configured to act on this)
 
 You should see something similar to the below image:
 
-![](images/apim24_a.png)
+![](images/09_24.png)
 
 Things you can now do now with this guide
 

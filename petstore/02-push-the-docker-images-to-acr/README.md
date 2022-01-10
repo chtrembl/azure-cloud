@@ -46,11 +46,11 @@ run the following commands:
 
 You should see something similar to the below image:
 
-![](images/petstoreapp_push.png)
+![](images/02_1.png)
 
 If you head to Azure Portal and view your Container Registry Resource "youraliaspetstorecr" you should see something similar to the below image:
 
-![](images/petstoreapp_cr.png)
+![](images/02_2.png)
 
 **2. Push the Pet Store Pet Service Docker Image to Azure Container Registry**
 

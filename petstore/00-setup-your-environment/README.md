@@ -14,13 +14,13 @@ Head to https://github.com/chtrembl/azure-cloud and select Fork in the top right
 
 You should see something similar to the below image:
 
-![](images/fork.png)
+![](images/00_1.png)
 
 Clone this fork in your tool of choice (GitHub Desktop or command line)
 
 Either
 
-![](images/gh.png)
+![](images/00_2.png)
 
 or
 
@@ -61,7 +61,7 @@ With the contents of id_rsa.pub on your clipboard, head to your GitHub Profile >
 
 You should see something similar to the below image:
 
-![](images/gh2.png)
+![](images/00_3.png)
 
 You're now able to update your GitHub Clone, of the https://github.com/chtrembl/azure-cloud Fork, with updates from he upstream https://github.com/chtrembl/azure-cloud Repo which allows you to work on your fork while still fetching upstream changes, when needed.
 
@@ -103,13 +103,13 @@ Go ahead and Deploy to Azure
 
 You should see something similar to the below image:
 
-![](images/deployment.png)
+![](images/00_4.png)
 
 > ⏱ The resource provisioning will take some time. **Do not wait!** Continue with the guides. Remember your Resource Group!
 
 If you head over to your Azure Resource Group (once completed) You should see something similar to the below image:
 
-![](images/deployment2.png)
+![](images/00_5.png)
 
 ---
 

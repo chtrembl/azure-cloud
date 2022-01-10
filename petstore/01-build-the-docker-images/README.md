@@ -54,7 +54,7 @@ Open a browser and head to `http://localhost:8081`
 
 You should see something similar to the below image:
 
-![](images/1.png)
+![](images/01_1.png)
 
 run the following command:
 
@@ -62,7 +62,7 @@ run the following command:
 
 You should see something similar to the below image, which shows one process/container running (petstorepetservice:latest) and the image command used to start the application.
 
-![](images/2.png)
+![](images/01_2.png)
 
 **2. Build and Run the Pet Store Product Service Docker Image**
 
@@ -96,7 +96,7 @@ Open a browser and head to `http://localhost:8082`
 
 You should see something similar to the below image:
 
-![](images/3.png)
+![](images/01_3.png)
 
 run the following command:
 
@@ -104,7 +104,7 @@ run the following command:
 
 You should see something similar to the below image, which now shows two processes/containers running (petstorepetservice:latest & petstoreproductservice:latest) and the image commands used to start the applications.
 
-![](images/4.png)
+![](images/01_4.png)
 
 **3. Build and Run the Pet Store Order Service Docker Image**
 
@@ -138,7 +138,7 @@ Open a browser and head to `http://localhost:8083`
 
 You should see something similar to the below image:
 
-![](images/5.png)
+![](images/01_5.png)
 
 run the following command:
 
@@ -146,7 +146,7 @@ run the following command:
 
 You should see something similar to the below image, which now shows three processes/containers running (petstorepetservice:latest & petstoreproductservice:latest & petstoreorderservice:latest) and the image commands used to start the applications.
 
-![](images/6.png)
+![](images/01_6.png)
 
 **4. Build and Run the Pet Store App Docker Image**
 
@@ -176,7 +176,7 @@ run the following command 3 times (substituting the <container_name_or_id> for p
 
 You should see something similar to the below image (remember you will want to run the command 3 times to get the ip address for all 3 pet store services)
 
-![](images/7.png)
+![](images/01_7.png)
 
 Lets now test our Pet Store Application (You will be using the 3 ip addresses from above)
 
@@ -192,29 +192,29 @@ Open a browser and head to http://localhost:8080
 
 You should see something similar to the below image:
 
-![](images/8.png)
+![](images/01_8.png)
 
 Now test that the PetStoreApp can communicate with the PetStorePetService and PetStoreProductService by selecting Breeds and Products. (Don't worry about the PetStoreOrderService just yet, we haven't configured the PetStoreOrderService to communicate with the PetStoreProductService therefore it cannot function properly and hence the Shopping Cart functionality will not yet work, we will address this when we deploy to Azure.)
 
 You should see something similar to the below image:
 
-![](images/9.png)
+![](images/01_9.png)
 
 You should see something similar to the below image:
 
-![](images/10.png)
+![](images/01_10.png)
 
 You should see something similar to the below image:
 
-![](images/12.png)
+![](images/01_12.png)
 
 run the following command:
 
 `docker ps `
 
-You should see something similar to the below image, which now shows four processes/containers running (petstoreapp:latest && petstorepetservice:latest & petstoreproductservice:latest & petstoreorderservice:latest) and the image commands used to start the applications.
+You should see something similar to the below image, which now shows four processes/containers running (petstoreapp:latest & petstorepetservice:latest & petstoreproductservice:latest & petstoreorderservice:latest) and the image commands used to start the applications.
 
-![](images/11.png)
+![](images/01_11.png)
 
 To kill all running containers with Docker run the following command:
 

@@ -26,7 +26,7 @@ The image below depicts typical a [Web Application Insights Telemetry Model](htt
 
 You should see something similar to the below image:
 
-![](images/ai0.png)
+![](images/08_0.png)
 
 A Web Application/Microservice of this type can/will offer the following types of transactions withing Azure Monitor
 
@@ -69,19 +69,19 @@ _Before we get started, there are two ways to enable application monitoring for 
 
   You should see something similar to the below image:
 
-  ![](images/ai1.png)
+  ![](images/08_1.png)
 
   Wait for this to complete ...
 
   You should see something similar to the below image:
 
-  ![](images/ai2.png)
+  ![](images/08_2.png)
 
   Make note of the Instrumentation Key, it is needed below.
 
   You should see something similar to the below image:
 
-  ![](images/ai3.png)
+  ![](images/08_3.png)
 
 - **Enable/Configure Spring Boot Application Code**
 
@@ -110,7 +110,7 @@ Head to Azure Portal and update Azure App Service Configuration for PetStoreApp 
 
 You should see something similar to the below image:
 
-  ![](images/ai12.png)
+  ![](images/08_4.png)
 
   Head to GitHub and view manifests/petstorepetservice-deployment-everything-enabled.yml, manifests/petstoreproductservice-deployment-everything-enabled.yml & manifests/petstoreorderservice-deployment-everything-enabled.yml Remember this is the manifest that tells Azure Kubernetes Cluster our desired state. You'll notice that PETSTORESERVICES_AI_INSTRUMENTATION_KEY references a secretKeyRef. Since my project is publicly available, I do not want to persist sensitive data in source control. Instead I am persisting the PETSTORESERVICES_AI_INSTRUMENTATION_KEY value in Azure Kubernetes Secrets. (For App Service we store this in App Service Configuration) You have a decision to make, you can source your value right inline with value: "<your instrumentation key here>" within your deployment.yml instead of going through the secret process (if your repository is private). Up to you. Below are the steps to create a Kubernetes Secret.
 
@@ -124,7 +124,7 @@ You should see something similar to the below image:
 
   You should see something similar to the below image:
 
-  ![](images/aks.png)
+  ![](images/08_5.png)
 
   > 📝 Please Note, if **you are** using Kubernetes secrets, your manifests deployments should look something like this (will vary based on service)
 
@@ -333,13 +333,13 @@ Under Transaction Search in the left navigation you can filter transactions with
 
 You should see something similar to the below image:
 
-![](images/ai4.png)
+![](images/08_6.png)
 
 If you select one, you can view all the transactions associated (end to end) for that request (Remember the illustration from above that depicts the user flow). For example, Login: A request comes in (Request Transaction), it gets tracked (Custom Event Transaction), the request handler mapping determines the view (Page View Transaction) and the routing occurs (Logging Transaction from the Application Insights Appender)
 
 You should see something similar to the below image:
 
-![](images/ai5.png)
+![](images/08_7.png)
 
 - **Write Custom Log Queries (Kusto (KQL) for common use case**
   Often times it is beneficial to get a transactional flow based on user activity. You can do this by individual transaction types (Requests, Page Views, Traces etc...) or perhaps you want to combine results across various sources. Perhaps you have a correlated id/session id that spans multiple application sources (web application and N micro services) Since our Spring boot application is logging the session id (this is in the PetStoreApp footer) for Traces and Events, we can easily capture this via Kusto Queries.
@@ -348,19 +348,19 @@ You should see something similar to the below image:
 
   You should see something similar to the below image:
 
-  ![](images/1.png)
+  ![](images/08_8.png)
 
   Click "Shop by breeds" Breeds
 
   You should see something similar to the below image:
 
-  ![](images/2.png)
+  ![](images/08_9.png)
 
   Click on a Dog
 
   You should see something similar to the below image:
 
-  ![](images/3.png)
+  ![](images/08_10.png)
 
   Head to Application Insights > Logs and construct a new query:
 
@@ -378,7 +378,7 @@ You should see something similar to the below image:
 
   You should see something similar to the below image:
 
-  ![](images/appinsights.png)
+  ![](images/08_11.png)
 
   Things you can now do now with this guide
 

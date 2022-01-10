@@ -10,7 +10,7 @@ You should see something similar to the below image:
 
 > 📝 Please Note, you will have to enable Admin user
 
-![](images/1.png)
+![](images/04_1.png)
 
 Head to GitHub. By now you should have already cloned or forked https://github.com/chtrembl/azure-cloud and are working in the same repository structure within your GitHub account
 
@@ -18,19 +18,19 @@ Head to GitHub. By now you should have already cloned or forked https://github.c
 
 You should see something similar to the below image:
 
-![](images/gh1.png)
+![](images/04_2.png)
 
 Head to Settings > Secrets, Add a secret to store the Azure Container Registry Secret from above. Create a PETSTORECRSECRET, and paste in password from above.
 
 You should see something similar to the below image:
 
-![](images/gh2.png)
+![](images/04_3.png)
 
 Head to Actions, and select "I Agree" to enable Actions...
 
 You should see something similar to the below image:
 
-![](images/gh4.png)
+![](images/04_4.png)
 
 Head to azure-cloud/blob/main/.github/workflows/petstoresapp_ci_cd_to_appservice.yml and update the following properties to reflect your Container Registry and your Username from above:
 
@@ -119,23 +119,23 @@ Head to your azure-cloud/petstore/petstoreapp folder and edit your README.MD fil
 
 You should see something similar to the below image:
 
-![](images/gh3.png)
+![](images/04_5.png)
 
 Head to Actions again and your action should bow be building/deploying
 
 You should see something similar to the below image:
 
-![](images/gh5.png)
+![](images/04_6.png)
 
 Once successful you will see something like
 
-![](images/gh6.png)
+![](images/04_7.png)
 
 > 📝 Please Note, verify your Azure App Service Container Settings are set for Continuous Deployments of the Images being built in this guide, you may have skipped this step in the previous guide 03-configure-app-service-for-cd
 
 If successful you can head to a browser and visit your FQDN Azure App Service URL as seen below (this is the URL from the previous guide 03-configure-app-service-for-cd)
 
-![](images/4.png)
+![](images/04_8.png)
 
 🎉Congratulations, you now have Pet Store App Continuously Deploying into your App Service each and every time an image is pushed to Azure Container Registry from your Git Hub Action. Notice the Date/Version within your App Service HTML Footer (seen in browser) matches the Git Hub Action Build Meta Data.
 
@@ -149,7 +149,7 @@ Things you can now do now with this guide
 
 > 📝 Please Note, if you're interested in viewing the web hook that got created, **automagically**, when Container Configuration was updated to sync with Azure Container Registry, you can view these under the Azure Container Registry as seen below.
 
-![](images/webhook.png)
+![](images/04_9.png)
 
 ---
 

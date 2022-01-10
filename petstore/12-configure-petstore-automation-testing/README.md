@@ -93,25 +93,25 @@ Head to Azure DevOps Marketplace and install the Trigger Plugin Task to your org
 
 You should see something similar to the below image:
 
-![](images/1.png)
+![](images/12_1.png)
 
 Create a Personal Access Token, this will be needed for the Service Connection that we will be creating.
 
 You should see something similar to the below image:
 
-![](images/2.png)
+![](images/12_2.png)
 
 I've named mine "Automation" and expires in 90 days.
 
 You should see something similar to the below image:
 
-![](images/3.png)
+![](images/12_3.png)
 
 Within your organization create a new Service Connection, this will allow the Pet Store Application CI/CD build "Trigger" the Pet Store Automation Build.
 
 You should see something similar to the below image:
 
-![](images/4.png)
+![](images/12_4.png)
 
 Create the azure-petstore-automation-tests.yml pipeline manifest as seen here https://github.com/chtrembl/azure-cloud/blob/main/manifests/azure-petstore-automation-tests.yml (or use the following from your fork/clone)
 
@@ -162,9 +162,9 @@ Update https://github.com/chtrembl/azure-cloud/blob/main/manifests/azure-petstor
 
 You should see something similar to the below image:
 
-![](images/trigger1.png)
+![](images/12_5.png)
 
-![](images/trigger2.png)
+![](images/12_6.png)
 
 Prefix this Trigger Task with an Automation Stage. As you will see, their is a 3rd and final stage in the CI/CD Application Build, this stage will "Trigger" the https://github.com/chtrembl/azure-cloud/blob/main/manifests/azure-petstore-automation-tests.yml Pipeline
 
@@ -190,19 +190,19 @@ Once the CI/CD Pipeline kicks off (manually or automatically when code is submit
 
 You should see something similar to the below image:
 
-![](images/5.png)
+![](images/12_7.png)
 
 The Automation stage will then execute the https://github.com/chtrembl/azure-cloud/blob/main/manifests/azure-petstore-automation-tests.yml pipeline manifest.
 
 You should see something similar to the below image:
 
-![](images/6.png)
+![](images/12_8.png)
 
 Once complete you can inspect the Automation Pipeline and view the test report.
 
 You should see something similar to the below image:
 
-![](images/8.png)
+![](images/12_9.png)
 
 Things you can now do now with this guide
 

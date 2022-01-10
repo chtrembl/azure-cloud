@@ -16,55 +16,55 @@ Search for Service Bus and select "Create" or "Create service bus namespace"
 
 You should see the following:
 
-![](images/1.png)
+![](images/15_1.png)
 
 Give your namespace a name and fill in the other meta data requested. The namespace will be used to locate your Service Bus instance via FQDN. Select "Review and create"
 
 You should see the following:
 
-![](images/2.png)
+![](images/15_2.png)
 
 Select "Create"
 
 You should see the following:
 
-![](images/3.png)
+![](images/15_3.png)
 
 Create a topic for your Service Bus. This is the way in which our PetStorOrderService will communicate with other system(s) (1 to many communication). We are using a topic instead of message queue (1 to 1 communication). Just imagine an order is placed, your PetStoreOrderService may want to use a topic as a way of informing many systems (more than 1) of an order being placed, for example, the logic app needs to send an email, perhaps a fulfillment center system needs to know as well so it can pull the products and so on... Give it a name "orders" and the meta data for which is should need such as message sizing and TTL. For this guide the defaults are fine. Select "Create"
 
 You should see the following:
 
-![](images/4.png)
+![](images/15_4.png)
 
 Create a subscription. This is used for the subscribers, and in our case this is the subscription our Logic App will be using. We will call this "email". You can also specify a max delivery count. In this guide we will choose 1. One message will be sent and that is it. If the Logic App receives it, perfect, it can process it. Otherwise no other attempt will be made. For this guide this is sufficient because we know the logic app will send an email to the consumer every time it has received a message. In a production example you may want to use a higher number, perhaps you have subscribers that are not responding to messages in a timely manner and/or are experiencing technical issues and cannot respond (perhaps the logic app is down etc...), perhaps you'll want to try sending multiple times, at which point when the max attempts has occurred these messages can be moved and inspected/troubleshooted etc... The other defaults are fine.  Select "Create"
 
 You should see the following:
 
-![](images/5.png)
+![](images/15_5.png)
 
 Let's now add a Shared Access Policy (SAS). We need this to establish our connections for the publisher (PetStoreOrderService) and consumer (Logic App).
 
 You should see the following:
 
-![](images/6.png)
+![](images/15_6.png)
 
 Give the SAS a name. I am using "azurepetstore". You can use whichever name you would like. This is where we can control permissions (Send, Receive, Listen). Select "Create"
 
 You should see the following:
 
-![](images/7.png)
+![](images/15_7.png)
 
 Copy the Keys and Connection Strings off somewhere, you will need them when you configure your PetStoreOrderService.
 
 You should see the following:
 
-![](images/8.png)
+![](images/15_8.png)
 
 Head back to the Overview page and make note of your Subscription ID, , you will need them when you configure your PetStoreOrderService.
 
 You should see the following:
 
-![](images/9.png)
+![](images/15_9.png)
 
 Next you can configure your AKS Cluster and PetStoreOrderService
 
@@ -199,7 +199,7 @@ If the PetStoreOrderService receives a complete order, JMS (Java Messaging Servi
 
 We will be building out the following steps, below is our end result so you can get an idea of what we are solving for.
 
-![](images/16.png)
+![](images/15_16.png)
 
 Now lets create the Logic App to receive and compose an email when these messages are sent.
 
@@ -209,43 +209,43 @@ From the Azure Portal, search for Logic Apps and select "Create"
 
 You should see the following:
 
-![](images/10.png)
+![](images/15_10.png)
 
 We will start with a blank Logic App.
 
 You should see the following:
 
-![](images/11.png)
+![](images/15_11.png)
 
 First Step in our new Logic App is to receive the message, Search for the "Service Bus" operation for your first step.
 
 You should see the following:
 
-![](images/12.png)
+![](images/15_12.png)
 
 Select "When a message is received in a topic subscription (auto-complete)" to inform the entry point step of the Logic App, which is when a new message arrives to the specified topic.
 
 You should see the following:
 
-![](images/13.png)
+![](images/15_13.png)
 
 Specify the meta data requested. "orders" is the topic we created earlier and the topic PetStoreOrderService is sending to. Also paste in your connection string, you can use the primary one from the SAS policy.
 
 You should see the following:
 
-![](images/14.png)
+![](images/15_14.png)
 
 Specify the subscription "email" to use and how often you want to check the topic for new messages.
 
 You should see the following:
 
-![](images/15.png)
+![](images/15_15.png)
 
 Next create 4 more steps, by selecting "Create Step" below your current one from above. Use the "Variables" operation. We will use these 4 operations to transform the JSON that arrives in the message and assign the transformations to instance variables we can then use in our subsequent steps/operations. The first variable step is an "Initialize Variable", the second variable step is a "Set Variable" and the third and fourth are both "Initialize Variable".
 
 You should see the following:
 
-![](images/17.png)
+![](images/15_17.png)
 
 > 📝 **Please Note, If you select the Ellipse to the right of the steps you can bring up the associated meta data and modify it**
 
@@ -255,7 +255,7 @@ I named he first variable step "Initialize variable - jsonBody", gave it a varia
 
 You should see the following:
 
-![](images/18.png)
+![](images/15_18.png)
 
 I named he second variable step "Set variable - remove body quotes", gave it a variable name "jsonBody" and set the value to Expression which you can paste the following, which strips out the escape characters from the body contents (not sure why these get included, the bytestream from the PetStoreOrderService does not send these that I know of)
 
@@ -265,7 +265,7 @@ I named he second variable step "Set variable - remove body quotes", gave it a v
 
 You should see the following:
 
-![](images/19.png)
+![](images/15_19.png)
 
 I named he third variable step "Initialize variable - jsonBodyLeadingQuotesRemoved", gave it a variable name "jsonBodyLeadingQuotesRemoved" (can't override the existing mutable variable in this context) and set the value to Expression which you can paste the following, which strips out the leading quotes the body contents (not sure why these get included, the bytestream from the PetStoreOrderService does not send these that I know of)
 
@@ -275,7 +275,7 @@ I named he third variable step "Initialize variable - jsonBodyLeadingQuotesRemov
 
 You should see the following:
 
-![](images/20.png)
+![](images/15_20.png)
 
 I named he fourth variable step "Initialize variable - jsonBodyTrailingQuotesRemoved", gave it a variable name "jsonBodyTrailingQuotesRemoved" (can't override the existing mutable variable in this context) and set the value to Expression which you can paste the following, which strips out the trailing quotes the body contents (not sure why these get included, the bytestream from the PetStoreOrderService does not send these that I know of) ```jsonBodyTrailingQuotesRemoved``` is now ready to be parsed up.
 
@@ -285,13 +285,13 @@ I named he fourth variable step "Initialize variable - jsonBodyTrailingQuotesRem
 
 You should see the following:
 
-![](images/21.png)
+![](images/15_21.png)
 
 At this point you should have 5 steps.
 
 You should see the following:
 
-![](images/22.png)
+![](images/15_22.png)
 
 Next create a "Parse JSON" Step. This step will use the Content from above (JSON String) which is the value of the ```jsonBodyLeadingQuotesRemoved```` variable, you also need to specify the schema to ensure the Logic Apps processor can parse it and so that the value can be referenced accordingly. You can paste the schema from below.
 
@@ -337,13 +337,13 @@ Next create a "Parse JSON" Step. This step will use the Content from above (JSON
 
 You should see the following:
 
-![](images/23.png)
+![](images/15_23.png)
 
 Next create a "Create HTML Table" step. This step is pretty cool, automagically Logic Apps can generate a table from our JSON. Based on the schema we can get an autogenerated table of products from our order ```jsonBodyLeadingQuotesRemoved``` This step will iterate through the Products array for us and generate a structure to our liking. You can specify the From to use Dynamic JSON data, "products" and in this case on each iteration we would like to display 2 more pieces of dynamic data "name" and "quantity"
 
 You should see the following:
 
-![](images/24.png)
+![](images/15_24.png)
 
 Next create a "Compose" step. Here we can construct the HTML contents for our email. For the inputs field you can paste in your HTML. I've already generated a sample 
 HTML page that I would like consumers to receive when an order is complete.
@@ -354,13 +354,13 @@ https://github.com/chtrembl/azure-cloud/blob/main/petstore/15-build-logic-app-to
 
 You should see the following:
 
-![](images/25.png)
+![](images/15_25.png)
 
 Update the two placeholders in this HTML, "<ORDER HERE>" and "<PRODUCTS HERE>" with the dynamic data that you have been building above. ```id``` from the Dynamic JSON that was parsed and ```Output``` from the "Create HTML table" step above.
  
 You should see the following:
 
-![](images/26.png)
+![](images/15_26.png)
 
 Last but not least, create a "Send an email (V2)" step. Here we can send off the email to the person who completed their order.
 
@@ -368,21 +368,21 @@ For the Body: field of the email you can use ```Outputs``` from the Compose step
 
 You should see the following:
 
-![](images/27.png)
+![](images/15_27.png)
 
 Test it out! Complete an order and you should see an email!
 
 You should see the following:
 
-![](images/28.png)
+![](images/15_28.png)
 
-![](images/29.png)
+![](images/15_29.png)
 
 If for some reason things do not look right and/or you see failures, head to the Overview and view the status's of your runs, you can inspect all of the steps of your Logic App runs that have failed and fix accordingly.
 
 You should see the following:
 
-![](images/30.png)
+![](images/15_30.png)
 
 Things you can now do now with this guide
 

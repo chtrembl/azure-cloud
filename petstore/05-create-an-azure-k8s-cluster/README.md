@@ -97,7 +97,7 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
    You should see something similar to the below image:
 
-   ![](images/1.png)
+   ![](images/05_1.png)
 
 6. Instruct Helm to install and configure the Ingress controller with the images
 
@@ -124,7 +124,7 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
    You should see something similar to the below image:
 
-   ![](images/2.png)
+   ![](images/05_2.png)
 
    Verify it is up and running
 
@@ -132,7 +132,7 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
    You should see something similar to the below image:
 
-   ![](images/3.png)
+   ![](images/05_3.png)
 
 ## Deploy Pet Store Services to AKS
 
@@ -152,7 +152,7 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
    You should see something similar to the below image:
 
-   ![](images/4.png)
+   ![](images/05_4.png)
 
    verify the deployment
 
@@ -176,7 +176,7 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
    You should see something similar to the below image:
 
-   ![](images/5.png)
+   ![](images/05_5.png)
 
    verify the deployment
 
@@ -200,7 +200,7 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
    You should see something similar to the below image:
 
-   ![](images/6.png)
+   ![](images/05_6.png)
 
    verify the deployment
 
@@ -214,7 +214,7 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
    You should see something similar to the below image:
 
-   ![](images/7.png)
+   ![](images/05_7.png)
 
    You can also view the application logs from each running pod
 
@@ -228,7 +228,7 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
    You should see something similar to the below image:
 
-   ![](images/8.png)
+   ![](images/05_8.png)
 
 6. Test Ingress to all 3 services
 
@@ -250,7 +250,7 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
    You should see something similar to the below image:
 
-   ![](images/9.png)
+   ![](images/05_9.png)
 
    🎉Congratulations, you now have the 3 services deployed and accessible via the NGINX Ingress controller. The Ingress controller configuration won't change often, however in the next guide you will configure an Azure DevOps Pipelines to continuously deploy the services (k8s deployments of new service code/feature updates)
 

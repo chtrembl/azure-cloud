@@ -48,85 +48,85 @@ Head to Azure Portal https://ms.portal.azure.com and search for Azure Active Dir
 
 You should see something similar to the below image:
 
-![](images/ap1.png)
+![](images/10_1.png)
 
 Select the first option Create a new Azure AD B2C Tenant. (In this tutorial, we will want to manage our users in a separate isolated tenant)
 
 You should see something similar to the below image:
 
-![](images/ap2.png)
+![](images/10_2.png)
 
 Select Create a directory. You can give your tenant an Organization Name and a Domain, that will be used in the user flows that we mentioned above (Sign In, Sign out etc...)
 
 You should see something similar to the below image:
 
-![](images/ap3.png)
+![](images/10_3.png)
 
 Confirm your settings and select Create, this will take a few minutes to provision
 
 You should see something similar to the below image:
 
-![](images/ap4.png)
+![](images/10_4.png)
 
 In the top right, toggle directories and select your newly created Directory/Tenant
 
 You should see something similar to the below image:
 
-![](images/ap5.png)
+![](images/10_5.png)
 
 Once you are in the new directory, search for Azure Active Directory
 
 You should see something similar to the below image:
 
-![](images/ap6.png)
+![](images/10_6.png)
 
 This will show you the details of your newly created Directory/Tenant
 
 You should see something similar to the below image:
 
-![](images/ap7.png)
+![](images/10_7.png)
 
 Select App Registrations
 
 You should see something similar to the below image:
 
-![](images/ap8.png)
+![](images/10_8.png)
 
 Register the Azure Pet Store Application that we are building. Notice the redirect URI, this is Spring Boot Pet Store Application that Azure will send request(s) to. You may want to use http://localhost:8080 if you are testing locally. I have the Azure Pet Store Application running in an Azure Container already, hence the reason for not using localhost.
 
 You should see something similar to the below image:
 
-![](images/ap9.png)
+![](images/10_9.png)
 
 > 📝 Please Note, After registering, take note of the meta data, you will need this when configuring the Spring Boot Application
 
 You should see something similar to the below image:
 
-![](images/ap10.png)
+![](images/10_10.png)
 
 To further configure and view users etc... search for Azure AD B2C (Note, you could of also done the previous registration through this flow as well)
 
 You should see something similar to the below image:
 
-![](images/ap11.png)
+![](images/10_11.png)
 
 Select Applications (Legacy)
 
 You should see something similar to the below image:
 
-![](images/ap12.png)
+![](images/10_12.png)
 
 You will notice the application "rhodypetstoreapp" from the registration previously created above. Select it.
 
 You should see something similar to the below image:
 
-![](images/ap13.png)
+![](images/10_13.png)
 
 Select Yes for Web App (We are configuring for an externally facing Spring Boot Pet Store Application) and Yes for implicit flow to ensure our Spring Boot Pet Store Application can use Open Id Connect to Sign In.
 
 You should see something similar to the below image:
 
-![](images/ap14.png)
+![](images/10_14.png)
 
 Select Keys and Generate Key
 
@@ -134,37 +134,37 @@ Select Keys and Generate Key
 
 You should see something similar to the below image:
 
-![](images/ap15.png)
+![](images/10_15.png)
 
 Select User Flows, here you will create 3 flows (Sign Up/Sign In, Profile Editing and Password Reset) These are the flows that are being offloaded to Azure Identity Management.
 
 You should see something similar to the below image:
 
-![](images/ap16.png)
+![](images/10_16.png)
 
 Go through all three flows below, and select the User Claims necessary. This is the meta data associated with each user. I have selected all, for tutorial purposes, and display all claims within the Azure Pet Store Spring Boot Application.
 
 You should see something similar to the below image:
 
-![](images/ap17.png)
+![](images/10_17.png)
 
 Enter a name for each flow and create, here we are using "signupsignin", this will get referenced in the Azure Pet Store Application
 
 You should see something similar to the below image:
 
-![](images/ap18.png)
+![](images/10_18.png)
 
 Enter a name for each flow and create, here we are using "profileediting", this will get referenced in the Azure Pet Store Application
 
 You should see something similar to the below image:
 
-![](images/ap19.png)
+![](images/10_19.png)
 
 Enter a name for each flow and create, here we are using "passwordreset", this will get referenced in the Azure Pet Store Application
 
 You should see something similar to the below image:
 
-![](images/ap20.png)
+![](images/10_20.png)
 
 ## 3. Configure the Spring Boot Application to properly authenticate sign-up, sign-in and edit users
 
@@ -313,7 +313,7 @@ Update your Azure Pet Store App Configuration to reflect these new properties as
 
 You should see something similar to the below image:
 
-![](images/appservice.png)
+![](images/10_21.png)
 
 ## 4. Demo
 
@@ -321,7 +321,7 @@ Head to your Azure Pet Store App
 
 You should see something similar to the below image:
 
-![](images/publicview.png)
+![](images/10_22.png)
 
 Sign in flow (new user registration as well)
 
@@ -331,21 +331,21 @@ Fill out and submit...
 
 You should see something similar to the below image:
 
-![](images/app2.png)
+![](images/10_23.png)
 
 You should see something similar to the below image:
 
-![](images/app3.png)
+![](images/10_24.png)
 
 You should see something similar to the below image:
 
-![](images/authenticatedview.png)
+![](images/10_25.png)
 
 Back in Azure Portal you can view the registered users in your App Registration
 
 You should see something similar to the below image:
 
-![](images/ap22.png)
+![](images/10_26.png)
 
 Things you can now do now with this guide
 

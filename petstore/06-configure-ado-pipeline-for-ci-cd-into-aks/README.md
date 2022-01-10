@@ -24,7 +24,7 @@ If you had over to Project Settings > Service Connections, you will see that you
 
 You should see something similar to the below image:
 
-![](images/1.png)
+![](images/06_1.png)
 
 There a few ways to add these Service Connections, each time you create a pipeline, ADO will generate them for you, that is the approach we are going to take here, just to get them created, then we are going to reuse them for all 3 pipelines by substituting in the values for each of the yml's I have provided here https://github.com/chtrembl/azure-cloud/tree/main/manifests.
 
@@ -32,19 +32,19 @@ Head back to Pipelines and select "Create Pipeline" or "New Pipeline"
 
 You should see something similar to the below image:
 
-![](images/2.png)
+![](images/06_2.png)
 
 Select GitHub and the repository that you have forked
 
 You should see something similar to the below image:
 
-![](images/3.png)
+![](images/06_3.png)
 
 Select "Deploy to Azure Kubernetes Service"
 
 You should see something similar to the below image:
 
-![](images/4.png)
+![](images/06_4.png)
 
 Select your Azure Subscription and Continue
 
@@ -52,7 +52,7 @@ Specify your AKS Cluster name, namespace and container registry that you have pr
 
 You should see something similar to the below image:
 
-![](images/5.png)
+![](images/06_5.png)
 
 Select "Validate and configure"
 
@@ -60,13 +60,13 @@ This next step is very important. Make note of your dockerRegistryServiceConnect
 
 You should see something similar to the below image:
 
-![](images/6.png)
+![](images/06_6.png)
 
 You do not need to save this Pipeline. Discard it. Head back to Service Connections.
 
 You should see something similar to the below image:
 
-![](images/6.png)
+![](images/06_6.png)
 
 You now have 3 Service Connections and the values needed to re use them in your new Pipelines that you create. Your going to be creating a pipeline for each service that deploys to AKS, substituting my yml into your pipelines.
 
@@ -84,13 +84,13 @@ Paste in the contents of azure-petstorepetservice-ci-cd-to-aks-pipeline.yml from
 
 You should see something similar to the below image:
 
-![](images/8.png)
+![](images/06_8.png)
 
 Select variables > new variable and paste in your crImagePullSecretGlobal key and password (This is sensitive so lets inject it so that others cannot gain access to your Container Registry Service Connection) and select "Ok".
 
 You should see something similar to the below image:
 
-![](images/9.png)
+![](images/06_9.png)
 
 You can Save and Run. This should version a new Pipeline yml for you with the file name you specified.
 
@@ -119,13 +119,13 @@ Head back to the Pipelines and you may notice that your Pipeline has a funky nam
 
 You should see something similar to the below image:
 
-![](images/10.png)
+![](images/06_10.png)
 
 You can give it a meaningful name
 
 You should see something similar to the below image:
 
-![](images/11.png)
+![](images/06_11.png)
 
 ## Setup azure-petstoreproductservice-ci-cd-to-aks-pipeline Pipeline
 
@@ -139,7 +139,7 @@ Head back to Pipelines
 
 You should see something similar to the below image: (minus the regression pipeline which comes in a later guide)
 
-![](images/12.png)
+![](images/06_12.png)
 
 You can also go back into Service Connections and delete the newly generated ones that are not being used. (You should just have the 3 that were originally created and were re used)
 

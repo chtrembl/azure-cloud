@@ -26,19 +26,19 @@ Select your subscription, resource group, region and pricing tier. Be sure to gi
 
 You should see something similar to the below image:
 
-![](images/data1.png)
+![](images/11_1.png)
 
 Select Review & Create (This may take some time).
 
 You should see something similar to the below image:
 
-![](images/data2.png)
+![](images/11_2.png)
 
 Deployment of resources will occur.
 
 You should see something similar to the below image:
 
-![](images/data3.png)
+![](images/11_3.png)
 
 Once complete you will be taken to the landing page for this Azure Databricks resource.
 
@@ -46,25 +46,25 @@ Once complete you will be taken to the landing page for this Azure Databricks re
 
 You should see something similar to the below image:
 
-![](images/data4.png)
+![](images/11_4.png)
 
 Select "Launch Workspace" which will open a tab into Databricks.
 
 You should see something similar to the below image:
 
-![](images/data5.png)
+![](images/11_5.png)
 
 Select "New Cluster" which will prompt us to configure the compute resources where we will ultimately run our Python Notebook. Give it a cluster name and select the remaining defaults as seen below and select "Create Cluster".
 
 You should see something similar to the below image:
 
-![](images/data6.png)
+![](images/11_6.png)
 
 Once complete you will be taken to the configuration tab of your cluster where various administration tasks can be performed.
 
 You should see something similar to the below image:
 
-![](images/data7.png)
+![](images/11_7.png)
 
 From the left navigation, let's go ahead and create two folders, one called "dev" and one called "prod".
 
@@ -72,19 +72,19 @@ From the left navigation, let's go ahead and create two folders, one called "dev
 
 You should see something similar to the below image:
 
-![](images/data8.png)
+![](images/11_8.png)
 
 Create a new notebook in the dev folder.
 
 You should see something similar to the below image:
 
-![](images/data9.png)
+![](images/11_9.png)
 
 Give the notebook a name, language (Python) and cluster (select the cluster you previously created) and select create.
 
 You should see something similar to the below image:
 
-![](images/data10.png)
+![](images/11_10.png)
 
 Now add some data that we can load and analyze with our Python notebook code. Drag/Drop the [breeds.csv](https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoredataops/breeds.csv) into Files and click "Create Table with UI". This will give us the Python scaffolding/boiler plate code needed to load/process the csv data.
 
@@ -92,31 +92,31 @@ Now add some data that we can load and analyze with our Python notebook code. Dr
 
 You should see something similar to the below image:
 
-![](images/data11.png)
+![](images/11_11.png)
 
 Once created you will get a notebook that has been generated automagically for you. Inspect the Notebook code, you will see that it loads the CSV data into a temp table and generates a query to pull back all data for you. From here your data team can start writing more complex queries/etl logic etc...
 
 You should see something similar to the below image:
 
-![](images/data12.png)
+![](images/11_12.png)
 
 In the top right, click "Revision history" and click "Git: Not linked" to link up Git Hub and add this notebook to GitHub.
 
 You should see something similar to the below image:
 
-![](images/data13.png)
+![](images/11_13.png)
 
 Add your GitHub Repo Link, Branch and Path to where this Python notebook should reside and click "Save".
 
 You should see something similar to the below image:
 
-![](images/data14.png)
+![](images/11_14.png)
 
 Give it a commit message and click "Save".
 
 You should see something similar to the below image:
 
-![](images/data15.png)
+![](images/11_15.png)
 
 If you head to GitHub and browse your repository you should see the newly committed Python notebook of code.
 
@@ -124,7 +124,7 @@ If you head to GitHub and browse your repository you should see the newly commit
 
 You should see something similar to the below image:
 
-![](images/data16.png)
+![](images/11_16.png)
 
 Back in Databricks, locate your name in the top right, click that and under "User Settings", lets go ahead and click "Generate New Token"
 
@@ -132,7 +132,7 @@ Back in Databricks, locate your name in the top right, click that and under "Use
 
 You should see something similar to the below image:
 
-![](images/data21.png)
+![](images/11_17.png)
 
 Give it a comment and lifetime (expiration) and click "Generate".
 
@@ -144,7 +144,7 @@ Get your Databricks ClusterId from the cluster "Tags" view under "Advanced Optio
 
 You should see something similar to the below image:
 
-![](images/info1.png)
+![](images/11_18.png)
 
 Now let's get Azure DevOps configured properly. Head to Azure DevOps Marketplace and search for "databricks".
 
@@ -152,25 +152,25 @@ Now let's get Azure DevOps configured properly. Head to Azure DevOps Marketplace
 
 You should see something similar to the below image:
 
-![](images/data17.png)
+![](images/11_19.png)
 
 Install the Azure DevOps for Azure Databricks tasks.
 
 You should see something similar to the below image:
 
-![](images/data18.png)
+![](images/11_20.png)
 
 Select your organization and click "Install".
 
 You should see something similar to the below image:
 
-![](images/data19.png)
+![](images/11_21.png)
 
 Click "Proceed to organization"
 
 You should see something similar to the below image:
 
-![](images/data20.png)
+![](images/11_22.png)
 
 Create a new Azure DevOps Pipeline. You can paste in the contents of mine located here [azure-petstoredataops-ci-cd-to-databricks.yml](https://github.com/chtrembl/azure-cloud/blob/main/manifests/azure-petstoredataops-ci-cd-to-databricks.yml)
 
@@ -223,27 +223,27 @@ stages:
 
 You should see something similar to the below image:
 
-![](images/data23.png)
+![](images/11_23.png)
 
 Add a new pipeline variable/secret and paste in your Databricks token value.
 
 You should see something similar to the below image:
 
-![](images/data24.png)
+![](images/11_24.png)
 
 Head over to Azure DevOps Boards and create a new Work Item Task (that will allow us to track our development efforts from a project management standpoint, in this case I have a work item to track the development of writing a new query that is breed specific, one that will pull Dog breeds back)
 
 > 📝 Please Note, make note of your Work Item ID.
 
-![](images/data25.png)
+![](images/11_25.png)
 
 Back in the Databricks **dev** workspace folder, make a change to the notebook. This is the change that corresponds to the Work Item that was created in Azure DevOps Boards. For example, add a query to select a specific breed, in this case Dog breeds.
 
 You should see something similar to the below image:
 
-![](images/data26.png)
+![](images/11_26.png)
 
-![](images/data27.png)
+![](images/11_27.png)
 
 Save this Notebook Revision with the commit message and prefix it with "AB#ID" where id is the Azure DevOps Work Item. At the moment, the new Dog breed query is only in the dev workspace folder. Ultimately we are using DataOps practices to source this change, and implement CI/CD to automagically deploy elsewhere (prod).
 
@@ -251,9 +251,9 @@ Save this Notebook Revision with the commit message and prefix it with "AB#ID" w
 
 You should see something similar to the below image:
 
-![](images/data28.png)
+![](images/11_28.png)
 
-![](images/data30.png)
+![](images/11_29.png)
 
 Once committed, the Azure DevOps pipeline will automagically execute and upon success will deploy into the Databricks **prod** workspace folder.
 
@@ -261,15 +261,15 @@ The Azure DevOps Boards Item will have the link to the GitHub Python notebook co
 
 You should see something similar to the below image:
 
-![](images/data31.png)
+![](images/11_30.png)
 
 The Azure Databricks **prod** workspace folder now contains the changes that were made in **dev** (notebook with Dog breed query), these were continuously deployed for us automagically, which is extremely useful for CI/CD. We could also add in approval checks, perhaps Prod needs elevated access or scheduled deployments etc... For the sake of this guide we have not done so, but it is certainly possible within Azure DevOps.
 
 You should see something similar to the below image:
 
-![](images/data32.png)
+![](images/11_31.png)
 
-![](images/data33.png)
+![](images/11_32.png)
 
 Things you can now do now with this guide
 

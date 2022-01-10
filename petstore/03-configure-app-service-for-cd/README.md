@@ -14,7 +14,7 @@ Head to Azure Portal > App Services and find your App Service that was created i
 
 You should see something similar to the below image:
 
-![](images/1.png)
+![](images/03_1.png)
 
 > 📝 Please Note, the URL listed is how we will be accessing our Pet Store App. If you visit that URL in a browser, you should see a generic App Service Page, deployed from a generic Azure Docker image. Keep this URL handy.
 
@@ -22,13 +22,13 @@ Select Deployment Center
 
 You should see something similar to the below image:
 
-![](images/2.png)
+![](images/03_2.png)
 
 > 📝 Please Note, this is the default configuration we are going to change this up. Change Image Source to Azure Container Registry, Find your Pet Store Image Name and Tag and Select On for Continuous Deployment. Make sure to click Save. (If you didn't complete 01-build-the-docker-images and 02-push-the-docker-images-to-acr which were for Local Development, then you probably do not have any Docker Images in your Container Registry yet and will need to move ahead now to Next guide: [04 - Configure Git Hub Action for CI/CD into App Service](../04-configure-git-hub-action-for-ci-cd-into-app-service/README.md) It's ok, you will do the steps below, again, either way, in the next guide)
 
 You should see something similar to the below image:
 
-![](images/3.png)
+![](images/03_3.png)
 
 Once you update this form with your meta data, select Save. Head back to the Overview page and click "Restart" to cycle your container.
 
@@ -40,7 +40,7 @@ Open a browser and head to your URL from above
 
 You should see something similar to the below image:
 
-![](images/4.png)
+![](images/03_4.png)
 
 🎉Congratulations, you now have Pet Store App Continuously Deploying into your App Service each and every time an image is pushed to Azure Container Registry.
 
