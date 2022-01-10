@@ -4,7 +4,7 @@
 
 ### My Azure Demos, Tutorials & Guides
 
-[View the Git Hub Pet Store Reference Guide](/azure-cloud/petstore)
+[View the Git Hub Pet Store Reference Guides](/azure-cloud/petstore)
 <a href="https://github.com/chtrembl/azure-cloud/raw/main/petstore/petstore_architecture.png?raw=true" target="_blank"><img src="https://github.com/chtrembl/azure-cloud/raw/main/petstore/petstore_architecture.png?raw=true"/></a>
 
 <p/>
