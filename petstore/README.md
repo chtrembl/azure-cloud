@@ -10,23 +10,23 @@ As mentioned above, the objective is for you to be able to learn and showcase th
 
 - CI/CD into Azure App Service & Azure Kubernetes Service using Azure DevOps Pipelines and GitHub Actions
 
-- N-Tiered Architecture using Pet Store Application deployed to App Services and Pet Store Service deployed to Azure Kubernetes Service
+- N-Tiered Architecture using Pet Store Application deployed to App Services and Pet Store Services deployed to Azure Kubernetes Service
 
 - N-Tiered Correlated Telemetry between the layers, allowing for Full End to End Reporting using KQL within Azure Application Insights
 
 - Authentication of Pet Store Application users via Azure B2C
 
-- API Management in front of Pet Store Service, ensuring Pet Store Application is subscribed to and requests are made within rate/quota limits
-
-- Azure Key Vault to store sensitive keys
+- API Management in front of Pet Store Services, ensuring Pet Store Application is subscribed to and requests are made within rate/quota limits
 
 - Blue/Green Deployments to Pet Store Application via Deployment Slots
   
 - Functional Spring Boot code showcasing the Azure SDK's for integrating with these services
 
-- Azure Serverless
+- Azure Serverless (Logic Apps and Function Apps)
 
 - Azure Power Apps
+
+- Azure Service Bus
 
 ## This is not official Microsoft documentation but rather an opinionated approach/guidance
 
