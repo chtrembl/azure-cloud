@@ -166,7 +166,12 @@ public class WebAppController {
 		}
 		logger.info(String.format("PetStoreApp /products requested for %s, routing to products view...", category));
 
-		Collection<Pet> pets = this.petStoreService.getPets(category);
+		// for stateless container(s), this container may not have products loaded, this
+		// is a temp fix until we implement a distributed/redis cache
+		Collection<Pet> pets = null;
+		if (this.sessionUser.getPets() == null || this.sessionUser.getPets().size() == 0) {
+			pets = this.petStoreService.getPets(category);
+		}
 		Pet pet = new Pet();
 
 		if (pets != null) {
