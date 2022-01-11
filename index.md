@@ -2,9 +2,9 @@
 
 ---
 
-### My Azure Demos, Tutorials & Guides
+### My Azure Demos & Learning Guides
 
-[View the Git Hub Pet Store Reference Guide](/azure-cloud/petstore)
+[Learn Azure with the Pet Store Learning Guides](/azure-cloud/petstore)
 <a href="https://github.com/chtrembl/azure-cloud/raw/main/petstore/petstore_architecture.png?raw=true" target="_blank"><img src="https://github.com/chtrembl/azure-cloud/raw/main/petstore/petstore_architecture.png?raw=true"/></a>
 
 <p/>
@@ -13,4 +13,4 @@ Often, it is handy to have an N-Tiered Azure architected deployment ready to go,
 
 <p/>
 
-You can view the live deployment here: <a href="https://azurepetstore.com" target="_blank">https://azurepetstore.com</a>
+You can view the live deployment here <a href="https://azurepetstore.com" target="_blank">https://azurepetstore.com</a>

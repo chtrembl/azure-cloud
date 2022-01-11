@@ -1,8 +1,8 @@
-# Azure Pet Store Reference Guide
+# Azure Pet Store Learning Guides
 
 Often, it is handy to have an N-Tiered Azure architected deployment ready to go, complete with functional code, CI/CD and various services for you to experiment Azure with. Since it is usually hard to find one that hits many of the App Dev Services of Azure, I've decided to build one. Perhaps you're learning new Azure technologies, giving Azure demos, looking for a prototype with Azure or simply just curious about Azure, these guides will get you on your way to running a full Hypothetical Azure Pet Store Application and its dependencies, using the Azure technologies illustrated below. Already built and cloud agnostic are a Pet Store web app and 3 Pet Store micro services that you can deploy into Azure App Service (petstoreapp) and Azure Kubernetes Service (petstorepetservice, petstoreproductservice & petstoreorderservice). You will first build and run these locally (optional) and slowly add in the other services depicted (Azure B2C, Application Insights, API Management, Function App, Power App, Regression Suite etc...). These applications were built with Java/Spring Boot and while the guides are not necessarily focused on coding (not required) you are encouraged to build/deploy them locally (All you need is Docker locally) to get the full developer experience. You can however use Azure DevOps Pipelines and GitHub Actions to do the build & deploys for you and make changes directly in your cloud repository instead of locally.
 
-> You can view the live deployment here https://azurepetstore.com/
+> You can view the live deployment here [https://azurepetstore.com](https://azurepetstore.com) 
 
 ![](https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstore_architecture.png?raw=true)
   
@@ -10,23 +10,23 @@ As mentioned above, the objective is for you to be able to learn and showcase th
 
 - CI/CD into Azure App Service & Azure Kubernetes Service using Azure DevOps Pipelines and GitHub Actions
 
-- N-Tiered Architecture using Pet Store Application deployed to App Services and Pet Store Service deployed to Azure Kubernetes Service
+- N-Tiered Architecture using Pet Store Application deployed to App Services and Pet Store Services deployed to Azure Kubernetes Service
 
 - N-Tiered Correlated Telemetry between the layers, allowing for Full End to End Reporting using KQL within Azure Application Insights
 
 - Authentication of Pet Store Application users via Azure B2C
 
-- API Management in front of Pet Store Service, ensuring Pet Store Application is subscribed to and requests are made within rate/quota limits
-
-- Azure Key Vault to store sensitive keys
+- API Management in front of Pet Store Services, ensuring Pet Store Application is subscribed to and requests are made within rate/quota limits
 
 - Blue/Green Deployments to Pet Store Application via Deployment Slots
   
 - Functional Spring Boot code showcasing the Azure SDK's for integrating with these services
 
-- Azure Serverless
+- Azure Serverless (Logic Apps and Function Apps)
 
 - Azure Power Apps
+
+- Azure Service Bus
 
 ## This is not official Microsoft documentation but rather an opinionated approach/guidance
 
