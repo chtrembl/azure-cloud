@@ -2,6 +2,7 @@ package com.chtrembl.petstoreapp.controller;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Collection;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -165,7 +166,12 @@ public class WebAppController {
 		}
 		logger.info(String.format("PetStoreApp /products requested for %s, routing to products view...", category));
 
-		Pet pet = this.sessionUser.getPets().get(id - 1);
+		Collection<Pet> pets = this.petStoreService.getPets(category);
+		Pet pet = new Pet();
+
+		if (pets != null) {
+			pet = this.sessionUser.getPets().get(id - 1);
+		}
 
 		model.addAttribute("products",
 				this.petStoreService.getProducts(pet.getCategory().getName() + " " + category, pet.getTags()));
