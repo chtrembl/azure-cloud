@@ -13,4 +13,4 @@ Often, it is handy to have an N-Tiered Azure architected deployment ready to go,
 
 <p/>
 
-You can view the live deployment here: <a href="https://azurepetstore.com" target="_blank">https://azurepetstore.com</a>
+You can view the live deployment here <a href="https://azurepetstore.com" target="_blank">https://azurepetstore.com</a>
