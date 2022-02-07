@@ -27,6 +27,7 @@ public class ContainerEnvironment implements Serializable {
 	private String appVersion = null;
 	private String appDate = null;
 	private String year = null;
+	private String author = "Chris Tremblay";
 
 	@PostConstruct
 	private void initialize() throws JoranException {
@@ -88,5 +89,9 @@ public class ContainerEnvironment implements Serializable {
 
 	public void setYear(String year) {
 		this.year = year;
+	}
+
+	public String getAuthor() {
+		return author;
 	}
 }
