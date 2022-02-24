@@ -27,7 +27,7 @@ public class ContainerEnvironment implements Serializable {
 	private String appVersion = null;
 	private String appDate = null;
 	private String year = null;
-	private String author = "Chris Tremblay";
+	private String author = "Chris Tremblay Azure Specialist";
 
 	@PostConstruct
 	private void initialize() throws JoranException {
