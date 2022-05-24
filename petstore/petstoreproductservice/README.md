@@ -38,3 +38,5 @@ GET Request for service info (No headers needed)
 GET request for Pets (Accept: application/json and Content-Type: application/json headers needed)
 
 ```http://localhost:8082/petstoreproductservice/v2/product/findByStatus?status=available```
+
+test
