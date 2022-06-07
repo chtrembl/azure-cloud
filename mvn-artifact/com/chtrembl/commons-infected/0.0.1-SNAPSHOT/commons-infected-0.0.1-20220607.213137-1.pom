@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.7.0</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.chtrembl</groupId>
+	<artifactId>commons-infected</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>commons-infected</name>
+	<description>Commons library used for academic purposes to show transient CVE vulnerabilities</description>
+	<properties>
+		<java.version>1.8</java.version>
+        <!--Put your own  properties-->
+        <repository-owner>chtrembl</repository-owner>
+        <repository-name>azure-cloud</repository-name>
+        <branch-name>main</branch-name>
+        <github.global.server>github</github.global.server>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+	</properties>
+
+    <distributionManagement>
+        <repository>
+            <id>internal.repo</id>
+            <name>Temporary Staging Repository</name>
+            <url>file://${project.build.directory}/mvn-artifact</url>
+        </repository>
+    </distributionManagement>
+
+	<dependencies>
+
+		<!-- For academic purposes and use for transient dependency scanning with Azure Defender -->
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-core</artifactId>
+		    <version>2.0.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.2</version>
+                <configuration>
+                    <altDeploymentRepository>
+                        internal.repo::default::file://${project.build.directory}/mvn-artifact
+                    </altDeploymentRepository>
+                </configuration>
+            </plugin>
+            <plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-source-plugin</artifactId>
+			    <version>3.1.0</version>
+			    <executions>
+			        <execution>
+			            <id>attach-sources</id>
+			                <goals>
+			                    <goal>jar</goal>
+			                </goals>
+			        </execution>
+			    </executions>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+			    <groupId>com.github.github</groupId>
+			    <artifactId>site-maven-plugin</artifactId>
+			    <version>0.12</version>
+			    <configuration>
+			        <message>Maven artifacts for ${project.version}</message>
+			        <noJekyll>true</noJekyll>
+			        <outputDirectory>${project.build.directory}</outputDirectory>
+			        <branch>refs/heads/${branch-name}</branch>
+			        <includes>
+			            <include>**/*</include>
+			        </includes>
+			        <merge>true</merge>
+                    <repositoryName>${repository-name}</repositoryName>
+                    <repositoryOwner>${repository-owner}</repositoryOwner>
+			        <server>github</server>
+			    </configuration>
+			    <executions>
+			        <execution>
+			            <goals>
+			                <goal>site</goal>
+			            </goals>
+			            <phase>deploy</phase>
+			        </execution>
+			    </executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
