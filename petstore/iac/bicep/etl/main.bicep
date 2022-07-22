@@ -66,7 +66,7 @@ var consistencyPolicy = {
 }
 var locations = [
   {
-    locationName: 'East US 2'
+    locationName: cosmosPrimaryRegion
     failoverPriority: 0
     isZoneRedundant: false
   }

@@ -1,19 +1,19 @@
 name: Deploy ETL Infrastructure
 
 parameters:
-- name: resourceGroupName
-  displayName: Resource Group
+- name: resourceGroup
+  displayName: ETL Resource Group
   type: string
   default: ETLTest
-- name: location
-  displayName: Location
+- name: region
+  displayName: ETL Region
   type: string
-  default: eastus
+  default: East US 2
   values:
-  - eastus
-  - eastus2
-  - westus
-  - westus2
+  - East US
+  - East US 2
+  - West US
+  - West US 2
 - name: cosmosAccountName
   displayName: Cosmos Account Name
   type: string
@@ -48,6 +48,6 @@ steps:
     scriptLocation: inlineScript
     inlineScript: |
       az --version
-      az group create --name ${{ parameters.resourceGroupName }} --location ${{ parameters.location }}
+      az group create --name ${{ parameters.resourceGroup }} --location 'eastus'
       az deployment group create \
-        --resource-group ${{ parameters.resourceGroupName }} --template-file $(templateFile) --parameters cosmosAccountName='${{ parameters.cosmosAccountName }}' cosmosPrimaryRegion='${{ parameters.location }}' cosmosDatabaseName='${{ parameters.cosmosDatabaseName }}' cosmosContainerName='${{ parameters.cosmosContainerName }}' cosmosThroughput='${{ parameters.cosmosThroughput }}'
+        --resource-group ${{ parameters.resourceGroup }} --template-file $(templateFile) --parameters cosmosAccountName='${{ parameters.cosmosAccountName }}' cosmosPrimaryRegion='${{ parameters.region }}' cosmosDatabaseName='${{ parameters.cosmosDatabaseName }}' cosmosContainerName='${{ parameters.cosmosContainerName }}' cosmosThroughput='${{ parameters.cosmosThroughput }}'
