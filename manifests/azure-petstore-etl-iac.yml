@@ -28,7 +28,7 @@ parameters:
   default: Orders
 - name: cosmosThroughput
   displayName: Cosmos Throughput
-  type: int
+  type: integer
   default: 400
 
 trigger: none
