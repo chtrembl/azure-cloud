@@ -49,4 +49,11 @@ steps:
     inlineScript: |
       az --version
       az group create --name ${{ parameters.resourceGroupName }} --location ${{ parameters.location }}
-      az deployment group create --resource-group ${{ parameters.resourceGroupName }} --template-file $(templateFile) --parameters cosmosAccountName=${{ parameters.cosmosAccountName }} --parameters cosmosPrimaryRegion=${{ parameters.location }} --parameters cosmosDatabaseName=${{ parameters.cosmosDatabaseName }} --parameters cosmosContainerName=${{ parameters.cosmosContainerName }} --parameters cosmosThroughput=${{ parameters.cosmosThroughput }}
+      az deployment group create \
+        --resource-group ${{ parameters.resourceGroupName }} \ 
+        --template-file $(templateFile) \ 
+        --parameters cosmosAccountName='${{ parameters.cosmosAccountName }}' \ 
+        --parameters cosmosPrimaryRegion='${{ parameters.location }}' \ 
+        --parameters cosmosDatabaseName='${{ parameters.cosmosDatabaseName }}' \ 
+        --parameters cosmosContainerName='${{ parameters.cosmosContainerName }}' \ 
+        --parameters cosmosThroughput='${{ parameters.cosmosThroughput }}'
