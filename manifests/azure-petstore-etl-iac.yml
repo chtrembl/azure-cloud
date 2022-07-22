@@ -1,0 +1,34 @@
+name: Deploy Bicep files
+
+parameters:
+- name: resourceGroupName
+  displayName: Resource Group
+  type: string
+  default: ETLTest
+- name: location
+  displayName: Location
+  type: string
+  default: eastus
+  values:
+  - eastus
+  - eastus2
+  - westus
+  - westus2
+
+variables:
+  vmImageName: 'ubuntu-latest'
+  azureServiceConnection: 'Azure'
+  templateFile: 'azure-cloud/petstore/iac/bicep/etl/main.bicep'
+pool:
+  vmImage: $(vmImageName)
+
+steps:
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: $(azureServiceConnection)
+    scriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      az --version
+      az group create --name $(resourceGroupName) --location $(location)
+      az deployment group create --resource-group $(resourceGroupName) --template-file $(templateFile)
