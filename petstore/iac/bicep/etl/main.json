@@ -5,25 +5,25 @@
     "_generator": {
       "name": "bicep",
       "version": "0.8.9.13224",
-      "templateHash": "10637854297645369287"
+      "templateHash": "2924542553547674623"
     }
   },
   "parameters": {
-    "accountName": {
+    "cosmosAccountName": {
       "type": "string",
       "defaultValue": "[format('sql-{0}', uniqueString(resourceGroup().id))]",
       "metadata": {
         "description": "Cosmos DB account name, max length 44 characters"
       }
     },
-    "location": {
+    "cosmosLocation": {
       "type": "string",
       "defaultValue": "[resourceGroup().location]",
       "metadata": {
         "description": "Location for the Cosmos DB account."
       }
     },
-    "primaryRegion": {
+    "cosmosPrimaryRegion": {
       "type": "string",
       "metadata": {
         "description": "The primary replica region for the Cosmos DB account."
@@ -72,21 +72,21 @@
         false
       ]
     },
-    "databaseName": {
+    "cosmosDatabaseName": {
       "type": "string",
       "defaultValue": "myDatabase",
       "metadata": {
         "description": "The name for the database"
       }
     },
-    "containerName": {
+    "cosmosContainerName": {
       "type": "string",
       "defaultValue": "myContainer",
       "metadata": {
         "description": "The name for the container"
       }
     },
-    "throughput": {
+    "cosmosThroughput": {
       "type": "int",
       "defaultValue": 400,
       "metadata": {
@@ -118,7 +118,7 @@
     },
     "locations": [
       {
-        "locationName": "[parameters('primaryRegion')]",
+        "locationName": "[parameters('cosmosPrimaryRegion')]",
         "failoverPriority": 0,
         "isZoneRedundant": false
       }
@@ -128,8 +128,8 @@
     {
       "type": "Microsoft.DocumentDB/databaseAccounts",
       "apiVersion": "2021-10-15",
-      "name": "[toLower(parameters('accountName'))]",
-      "location": "[parameters('location')]",
+      "name": "[toLower(parameters('cosmosAccountName'))]",
+      "location": "[parameters('cosmosLocation')]",
       "kind": "GlobalDocumentDB",
       "properties": {
         "consistencyPolicy": "[variables('consistencyPolicy')[parameters('defaultConsistencyLevel')]]",
@@ -141,23 +141,23 @@
     {
       "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases",
       "apiVersion": "2021-10-15",
-      "name": "[format('{0}/{1}', toLower(parameters('accountName')), parameters('databaseName'))]",
+      "name": "[format('{0}/{1}', toLower(parameters('cosmosAccountName')), parameters('cosmosDatabaseName'))]",
       "properties": {
         "resource": {
-          "id": "[parameters('databaseName')]"
+          "id": "[parameters('cosmosDatabaseName')]"
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.DocumentDB/databaseAccounts', toLower(parameters('accountName')))]"
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts', toLower(parameters('cosmosAccountName')))]"
       ]
     },
     {
       "type": "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers",
       "apiVersion": "2021-10-15",
-      "name": "[format('{0}/{1}', format('{0}/{1}', toLower(parameters('accountName')), parameters('databaseName')), parameters('containerName'))]",
+      "name": "[format('{0}/{1}', format('{0}/{1}', toLower(parameters('cosmosAccountName')), parameters('cosmosDatabaseName')), parameters('cosmosContainerName'))]",
       "properties": {
         "resource": {
-          "id": "[parameters('containerName')]",
+          "id": "[parameters('cosmosContainerName')]",
           "partitionKey": {
             "paths": [
               "/myPartitionKey"
@@ -167,11 +167,11 @@
           "defaultTtl": 86400
         },
         "options": {
-          "throughput": "[parameters('throughput')]"
+          "throughput": "[parameters('cosmosThroughput')]"
         }
       },
       "dependsOn": [
-        "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', split(format('{0}/{1}', toLower(parameters('accountName')), parameters('databaseName')), '/')[0], split(format('{0}/{1}', toLower(parameters('accountName')), parameters('databaseName')), '/')[1])]"
+        "[resourceId('Microsoft.DocumentDB/databaseAccounts/sqlDatabases', split(format('{0}/{1}', toLower(parameters('cosmosAccountName')), parameters('cosmosDatabaseName')), '/')[0], split(format('{0}/{1}', toLower(parameters('cosmosAccountName')), parameters('cosmosDatabaseName')), '/')[1])]"
       ]
     }
   ]

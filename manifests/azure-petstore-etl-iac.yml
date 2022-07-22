@@ -14,6 +14,22 @@ parameters:
   - eastus2
   - westus
   - westus2
+- name: cosmosAccountName
+  displayName: Cosmos Account Name
+  type: string
+  default: AzurePetStore
+- name: cosmosDatabaseName
+  displayName: Cosmos Database Name
+  type: string
+  default: E-Commerce
+- name: cosmosContainerName
+  displayName: Cosmos Container Name
+  type: string
+  default: Orders
+- name: cosmosThroughput
+  displayName: Cosmos Throughput
+  type: int
+  default: 400
 
 trigger: none
 
@@ -33,4 +49,4 @@ steps:
     inlineScript: |
       az --version
       az group create --name ${{ parameters.resourceGroupName }} --location ${{ parameters.location }}
-      az deployment group create --resource-group ${{ parameters.resourceGroupName }} --template-file $(templateFile)
+      az deployment group create --resource-group ${{ parameters.resourceGroupName }} --template-file $(templateFile) --parameters cosmosAccountName=${{ parameters.cosmosAccountName }} --parameters cosmosPrimaryRegion=${{ parameters.location }} --parameters cosmosDatabaseName=${{ parameters.cosmosDatabaseName }} --parameters cosmosContainerName=${{ parameters.cosmosContainerName }} --parameters cosmosThroughput=${{ parameters.cosmosThroughput }}

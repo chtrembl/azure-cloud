@@ -1,11 +1,11 @@
 @description('Cosmos DB account name, max length 44 characters')
-param accountName string = 'sql-${uniqueString(resourceGroup().id)}'
+param cosmosAccountName string = 'sql-${uniqueString(resourceGroup().id)}'
 
 @description('Location for the Cosmos DB account.')
-param location string = resourceGroup().location
+param cosmosLocation string = resourceGroup().location
 
 @description('The primary replica region for the Cosmos DB account.')
-param primaryRegion string
+param cosmosPrimaryRegion string
 
 @allowed([
   'Eventual'
@@ -35,15 +35,15 @@ param maxIntervalInSeconds int = 300
 param automaticFailover bool = true
 
 @description('The name for the database')
-param databaseName string = 'myDatabase'
+param cosmosDatabaseName string = 'myDatabase'
 
 @description('The name for the container')
-param containerName string = 'myContainer'
+param cosmosContainerName string = 'myContainer'
 
 @minValue(400)
 @maxValue(1000000)
 @description('The throughput for the container')
-param throughput int = 400
+param cosmosThroughput int = 400
 
 var consistencyPolicy = {
   Eventual: {
@@ -66,15 +66,15 @@ var consistencyPolicy = {
 }
 var locations = [
   {
-    locationName: primaryRegion
+    locationName: cosmosPrimaryRegion
     failoverPriority: 0
     isZoneRedundant: false
   }
 ]
 
 resource account 'Microsoft.DocumentDB/databaseAccounts@2021-10-15' = {
-  name: toLower(accountName)
-  location: location
+  name: toLower(cosmosAccountName)
+  location: cosmosLocation
   kind: 'GlobalDocumentDB'
   properties: {
     consistencyPolicy: consistencyPolicy[defaultConsistencyLevel]
@@ -85,19 +85,19 @@ resource account 'Microsoft.DocumentDB/databaseAccounts@2021-10-15' = {
 }
 
 resource database 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2021-10-15' = {
-  name: '${account.name}/${databaseName}'
+  name: '${account.name}/${cosmosDatabaseName}'
   properties: {
     resource: {
-      id: databaseName
+      id: cosmosDatabaseName
     }
   }
 }
 
 resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2021-10-15' = {
-  name: '${database.name}/${containerName}'
+  name: '${database.name}/${cosmosContainerName}'
   properties: {
     resource: {
-      id: containerName
+      id: cosmosContainerName
       partitionKey: {
         paths: [
           '/myPartitionKey'
@@ -107,7 +107,7 @@ resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/container
       defaultTtl: 86400
     }
     options: {
-      throughput: throughput
+      throughput: cosmosThroughput
     }
   }
 }
