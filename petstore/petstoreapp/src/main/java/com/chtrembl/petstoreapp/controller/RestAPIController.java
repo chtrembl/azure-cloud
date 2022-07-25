@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,7 +41,7 @@ public class RestAPIController {
 	}
 
 	@SuppressWarnings("unlikely-arg-type")
-	@PostMapping(value = "/introspectionSimulation", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/introspectionSimulation", produces = MediaType.APPLICATION_JSON_VALUE)
 	public String introspectionSimulation(Model model, HttpServletRequest request,
 			@RequestParam(name = "sessionIdToIntrospect") Optional<String> sessionIdToIntrospect) {
 		if (sessionIdToIntrospect != null && sessionIdToIntrospect.isPresent() && sessionIdToIntrospect.get() != null

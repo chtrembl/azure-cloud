@@ -39,7 +39,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		if (this.aadB2COidcLoginConfigurerWrapper != null
 				&& this.aadB2COidcLoginConfigurerWrapper.getConfigurer() != null) {
 
-			http.csrf().ignoringAntMatchers("/introspectionSimulation*").and().authorizeRequests().antMatchers("/")
+			http.authorizeRequests().antMatchers("/")
 					.permitAll()
 					.antMatchers("/*breed*").permitAll()
 					.antMatchers("/*product*").permitAll()
