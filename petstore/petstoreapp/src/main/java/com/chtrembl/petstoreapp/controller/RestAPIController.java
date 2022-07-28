@@ -40,26 +40,19 @@ public class RestAPIController {
 		return this.sessionUser.getSessionId();
 	}
 
-	@SuppressWarnings("unlikely-arg-type")
 	@GetMapping(value = "/introspectionSimulation", produces = MediaType.APPLICATION_JSON_VALUE)
 	public String introspectionSimulation(Model model, HttpServletRequest request,
 			@RequestParam(name = "sessionIdToIntrospect") Optional<String> sessionIdToIntrospect) {
-		if (sessionIdToIntrospect != null && sessionIdToIntrospect.isPresent() && sessionIdToIntrospect.get() != null
-				&& sessionIdToIntrospect.get().equals(request.getHeader("session-id"))) {
+		boolean active = (sessionIdToIntrospect != null && sessionIdToIntrospect.isPresent()
+				&& sessionIdToIntrospect.get() != null
+				&& sessionIdToIntrospect.get().equals(request.getHeader("session-id")));
+
 			return "{\n" + 
-					"  \"active\": true,\n" + 
+				"  \"active\": " + active + ",\n" + 
 					"  \"scope\": \"read write email\",\n" + 
 					"  \"client_id\": \""+request.getHeader("session-id")+"\",\n" + 
 					"  \"username\": \""+request.getHeader("session-id")+"\",\n" + 
 					"  \"exp\": 1911221039\n" + 
 					"}";
 		}
-			return "{\n" + 
-					"  \"active\": false,\n" + 
-					"  \"scope\": \"read write email\",\n" + 
-					"  \"client_id\": \""+request.getHeader("session-id")+"\",\n" + 
-					"  \"username\": \""+request.getHeader("session-id")+"\",\n" + 
-					"  \"exp\": 1911221039\n" + 
-					"}";
-	}
 }

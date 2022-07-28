@@ -48,6 +48,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 					.antMatchers("/slowness").permitAll()
 					.antMatchers("/exception").permitAll()
 					.antMatchers("/introspectionSimulation*").permitAll()
+					.antMatchers("/bingSearch*").permitAll()
 					.antMatchers("/login*").permitAll().anyRequest()
 					.authenticated().and().apply(this.aadB2COidcLoginConfigurerWrapper.getConfigurer()).and()
 					.oauth2Login().loginPage("/login");

@@ -1,6 +1,10 @@
 #logging:
 #  level:
 #    org.springframework: DEBUG
+bing:
+  search:
+    subscription:
+      key: ${BING_SEARCH_SUBSCRIPTION_KEY}
 petstore:
   service:
     pet:

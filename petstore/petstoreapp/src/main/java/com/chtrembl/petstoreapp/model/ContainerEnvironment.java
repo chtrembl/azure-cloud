@@ -54,6 +54,12 @@ public class ContainerEnvironment implements Serializable {
 	@Value("${ga.tracking.id:}")
 	private String gaTrackingId;
 
+	@Value("${bing.search.url:https://api.bing.microsoft.com/}")
+	private String bingSearchURL;
+
+	@Value("${bing.search.subscription.key:}")
+	private String bingSearchSubscriptionKey;
+
 	@PostConstruct
 	private void initialize() throws JoranException {
 		// LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
@@ -161,4 +167,13 @@ public class ContainerEnvironment implements Serializable {
 	public String getGaTrackingId() {
 		return gaTrackingId;
 	}
+
+	public String getBingSearchURL() {
+		return bingSearchURL;
+	}
+
+	public String getBingSearchSubscriptionKey() {
+		return bingSearchSubscriptionKey;
+	}
+
 }

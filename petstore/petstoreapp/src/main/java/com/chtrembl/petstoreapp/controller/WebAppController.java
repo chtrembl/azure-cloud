@@ -2,7 +2,10 @@ package com.chtrembl.petstoreapp.controller;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +29,9 @@ import com.chtrembl.petstoreapp.model.ContainerEnvironment;
 import com.chtrembl.petstoreapp.model.Order;
 import com.chtrembl.petstoreapp.model.Pet;
 import com.chtrembl.petstoreapp.model.User;
+import com.chtrembl.petstoreapp.model.WebPages;
 import com.chtrembl.petstoreapp.service.PetStoreService;
+import com.chtrembl.petstoreapp.service.SearchService;
 import com.microsoft.applicationinsights.telemetry.PageViewTelemetry;
 import com.nimbusds.jose.shaded.json.JSONArray;
 
@@ -43,6 +48,9 @@ public class WebAppController {
 
 	@Autowired
 	private PetStoreService petStoreService;
+
+	@Autowired
+	private SearchService searchService;
 
 	@Autowired
 	private User sessionUser;
@@ -271,5 +279,19 @@ public class WebAppController {
 		pageViewTelemetry.setName("landing");
 		this.sessionUser.getTelemetryClient().trackPageView(pageViewTelemetry);
 		return "home";
+	}
+
+	@GetMapping(value = "/bingSearch")
+	public String bingSearch(Model model) throws URISyntaxException {
+		logger.info(String.format("PetStoreApp /bingsearch requested for %s, routing to bingSearch view...",
+				this.sessionUser.getName()));
+		String companies[] = { "Chewy", "PetCo", "PetSmart", "Walmart" };
+		List<String> companiesList = Arrays.asList(companies);
+		List<WebPages> webpages = new ArrayList<>();
+		companiesList.forEach(company -> webpages.add(this.searchService.bingSearch(company)));
+		model.addAttribute("companies", companiesList);
+		model.addAttribute("webpages", webpages);
+
+		return "bingSearch";
 	}
 }
