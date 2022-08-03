@@ -13,9 +13,6 @@
     },
     "cosmosContainerName": {
       "value": "Orders"
-    },
-    "cosmosThroughput": {
-      "value": 400
     }
   }
 }

@@ -40,11 +40,6 @@ param cosmosDatabaseName string = 'myDatabase'
 @description('The name for the container')
 param cosmosContainerName string = 'myContainer'
 
-@minValue(400)
-@maxValue(1000000)
-@description('The throughput for the container')
-param cosmosThroughput int = 400
-
 var consistencyPolicy = {
   Eventual: {
     defaultConsistencyLevel: 'Eventual'
@@ -100,14 +95,11 @@ resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/container
       id: cosmosContainerName
       partitionKey: {
         paths: [
-          '/myPartitionKey'
+          '/customer/zipcode'
         ]
         kind: 'Hash'
       }
       defaultTtl: 86400
-    }
-    options: {
-      throughput: cosmosThroughput
     }
   }
 }

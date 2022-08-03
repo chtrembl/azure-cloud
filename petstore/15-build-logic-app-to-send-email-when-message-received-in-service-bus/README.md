@@ -391,3 +391,5 @@ Things you can now do now with this guide
 ☑️ Configure PetStoreOrderService to use Spring Boot Starter and send messages to a Service Bus topic
 
 ☑️ Build an awesome Logic App to notify consumers when a message arrives
+
+➡️ Next guide: [16 - Build a Bicep IAC Template and Configure a DevOps Pipeline for Self Service Deployment of Azure Infrastructure](../16-build-bicep-iac-template-configure-devops-pipeline-self-service-deployment-azure-infrastructure/README.md)

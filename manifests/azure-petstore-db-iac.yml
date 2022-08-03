@@ -26,10 +26,6 @@ parameters:
   displayName: Cosmos Container Name
   type: string
   default: Orders
-- name: cosmosThroughput
-  displayName: Cosmos Throughput
-  type: string
-  default: 400
 
 trigger: none
 
