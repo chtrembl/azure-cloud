@@ -32,7 +32,7 @@ trigger: none
 variables:
   vmImageName: 'ubuntu-latest'
   azureServiceConnection: 'Azure'
-  templateFile: 'petstore/iac/bicep/etl/main.bicep'
+  templateFile: 'petstore/iac/bicep/db/main.bicep'
 pool:
   vmImage: $(vmImageName)
 
