@@ -6,7 +6,7 @@ Just imagine you're a developer for the azurepetstore.com e-commerce website. Yo
 
 In this section we'll look at IaC (Infrastructure as Code) and see how to build a Bicep Template that can be used to provision Azure Infrastructure, specifically an Azure Cosmos DB. We will then build an Azure DevOps Pipeline to deploy this Bicep Template via Self Service / On Demand. We will then configure the existing Logic App to push orders into this Cosmos DB.
 
-Think of Bicep as an abstraction layer on top of ARM (Azure Resource Manager), it is a domain-specific language (DSL) that uses declarative syntax to deploy Azure resources. In a Bicep file, you define the infrastructure you want to deploy to Azure, and then use that file throughout the development lifecycle to repeatedly deploy your infrastructure. Built Bicep templates will generate ARM Json that we will use to deploy to Azure. 
+Think of Bicep as an abstraction layer on top of ARM (Azure Resource Manager), it is a domain-specific language (DSL) that uses declarative syntax to deploy Azure resources. In a Bicep file, you define the infrastructure you want to deploy to Azure, and then use that file throughout the development lifecycle to repeatedly deploy your infrastructure. Built Bicep templates will generate ARM Json that we will use to deploy to Azure.
 
 More on [Bicep](https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview?tabs=bicep)
 
@@ -19,6 +19,7 @@ More on [Quickstart Templates](https://azure.microsoft.com/en-us/resources/templ
 ## Step 1 Create your Bicep Template ##
 
 Within VS Code, install the Bicep Extension
+
 ![](images/1.png)
 
 If you cloned/forked this repository you will notice a iac/bicep/db folder containing a parameters file, bicep file and the built main.json ARM Template. It does not matter where these files reside, you will specify location when you deploy the ARM Template. You can create your own folder in iac/bicep/<newfoldername> and/or just follow ahead. I used 'db' to indicate that this as for database infrastructure.
@@ -26,6 +27,7 @@ If you cloned/forked this repository you will notice a iac/bicep/db folder conta
 Within Visual Studio Code you can use Ctrl + Shift + P to help facilitate the creation of these files and/or you can create them manually.
 
 I manually created the following two files:
+
 ```iac\bicep\db\azuredeploy.parameters.json```
 ```iac\bicep\db\main.bicep```
 
@@ -165,11 +167,12 @@ resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/container
   }
 }
 ```
+
 ## Step 2 Configure a DevOps Pipeline to Deploy a Bicep Template (Azure Cosmos DB) as Self Service ##
 
 ## Step 3 Add step to Logic App to persist azurepetstore.com order into new Azure Cosmos DB ##
 
-> 📝 **Please Note, **
+> 📝 Please Note,
 
 Things you can now do now with this guide
 

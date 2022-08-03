@@ -97,7 +97,9 @@ Prerequisites and environment setup (Optionaly you can build/deploy locally)
 ## [15 - Build a Logic App to send an email when a message is received in a Service Bus topic](15-build-logic-app-to-send-email-when-message-received-in-service-bus)
 
    Build a Logic App to send an email when a message is received in a Service Bus topic
-   
+
+## [16 - Build a Bicep IaC Template and Configure a DevOps Pipeline for Self Service Deployment of Azure Infrastructure](16-build-bicep-iac-template-configure-devops-pipeline-self-service-deployment-azure-infrastructure/README.md)
+
 ---
 
 ## Legal Notices
