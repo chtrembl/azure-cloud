@@ -31,7 +31,7 @@ I manually created the following two files:
 
 I populated these two files from the following [Cosmos DB Quickstart Template](https://github.com/Azure/azure-quickstart-templates/tree/master/quickstarts/microsoft.documentdb/cosmosdb-sql)
 
-For my use case the defaults are fine
+For my use case the defaults are fine, I am going to be externalizing the Cosmos Resource Group, Cosmos Account Name, Cosmos Region, Cosmos Database Name and Cosmos Container Name. There are may other parameters that we can externalize (pricing sku, partition key, througput etc... ) however for the sake of this guide that is required. These parameters will allow you to deploy a Cosmos DB and container to persist Azure Pet Store Orders in any Azure Region of choice using values you specify.
 
 azuredeploy.parameters.json:
 
@@ -51,15 +51,13 @@ azuredeploy.parameters.json:
     },
     "cosmosContainerName": {
       "value": "Orders"
-    },
-    "cosmosThroughput": {
-      "value": 400
     }
   }
 }
 ```
 
-main.bicep
+main.bicep:
+
 ```bicep
 @description('Cosmos DB account name, max length 44 characters')
 param cosmosAccountName string = 'sql-${uniqueString(resourceGroup().id)}'
@@ -167,7 +165,9 @@ resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/container
   }
 }
 ```
+## Step 2 Configure a DevOps Pipeline to Deploy a Bicep Template (Azure Cosmos DB) as Self Service ##
 
+## Step 3 Add step to Logic App to persist azurepetstore.com order into new Azure Cosmos DB ##
 
 > 📝 **Please Note, **
 
@@ -175,6 +175,6 @@ Things you can now do now with this guide
 
 ☑️ Build a Bicep Template
 
-☑️ Deploy a Bicep Template
+☑️ Configure a DevOps Pipeline to Deploy a Bicep Template (Azure Cosmos DB) as Self Service
 
-☑️ Configure a DevOps Pipeline to Deploy a Bicep Template as Self Service
+☑️ Add step to Logic App to persist azurepetstore.com order into new Azure Cosmos DB
