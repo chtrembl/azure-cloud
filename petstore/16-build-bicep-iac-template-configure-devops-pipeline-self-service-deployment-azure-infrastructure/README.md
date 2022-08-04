@@ -2,9 +2,9 @@
 
 **This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)**
 
-Just imagine you're a developer for the azurepetstore.com e-commerce website. Your code will have a dependency on infrastructure. For example, you may need an Azure Kubernetes Cluster, a Service Bus or perhaps a Cosmos DB. Sure you can head over to the Azure Portal (as we did in the previous guides) and provision your infrastructure manually and/or use the Azure CLI. But there are challenges with this approach. How does this scale? What about state changes? Version Control? Automatic Deployments? 
+Just imagine you're a developer for the azurepetstore.com e-commerce website. Your code will have a dependency on infrastructure. For example, you may need an Azure Kubernetes Cluster, a Service Bus or perhaps a Cosmos DB. Sure you can head over to the Azure Portal (as we did in the previous guides) and provision your infrastructure manually and/or use the Azure CLI. But there are challenges with this approach. How does this scale? What about state changes? Version Control? Automatic Deployments?
 
-In this section we'll look at IaC (Infrastructure as Code) and see how to build a Bicep Template that can be used to provision Azure Infrastructure, specifically an Azure Cosmos DB. We will then build an Azure DevOps Pipeline to deploy this Bicep Template via Self Service / On Demand. We will then configure the existing Logic App to push orders into this Cosmos DB.
+In this section we'll look at IaC (Infrastructure as Code) and see how to build a Bicep Template that can be used to provision Azure Infrastructure, specifically an Azure Cosmos DB. We will then build an Azure DevOps Pipeline to deploy this Bicep Template via Self Service / On Demand. We will then configure the existing Logic App, from the previous guide, to push azurepetstore.com orders into this Cosmos DB.
 
 Think of Bicep as an abstraction layer on top of ARM (Azure Resource Manager), it is a domain-specific language (DSL) that uses declarative syntax to deploy Azure resources. In a Bicep file, you define the infrastructure you want to deploy to Azure, and then use that file throughout the development lifecycle to repeatedly deploy your infrastructure. Built Bicep templates will generate ARM Json that we will use to deploy to Azure.
 
@@ -22,7 +22,7 @@ Within VS Code, install the Bicep Extension
 
 ![](images/1.png)
 
-If you cloned/forked this repository you will notice a iac/bicep/db folder containing a parameters file, bicep file and the built main.json ARM Template. It does not matter where these files reside, you will specify location when you deploy the ARM Template. You can create your own folder in iac/bicep/<newfoldername> and/or just follow ahead. I used 'db' to indicate that this as for database infrastructure.
+If you cloned/forked this repository you will notice a ```iac/bicep/db ``` folder containing a parameters file, Bicep file and the built main.json ARM Template. It does not matter where these files reside and/or the naming conventions of them. You may even have a parameters file for each environment you are deploying to (dev, qa, prod, perf etc...) where you alter different settings like sku's and scale settings etc... The point is this allows for extensibility. You will specify file names and locations when you deploy the ARM Template. You can create your own folder in ```iac/bicep/<newfoldername>``` and/or just follow ahead as is. I used 'db' to indicate that this as for database infrastructure.
 
 Within Visual Studio Code you can use Ctrl + Shift + P to help facilitate the creation of these files and/or you can create them manually.
 
@@ -33,7 +33,7 @@ I manually created the following two files:
 
 I populated these two files from the following [Cosmos DB Quickstart Template](https://github.com/Azure/azure-quickstart-templates/tree/master/quickstarts/microsoft.documentdb/cosmosdb-sql)
 
-For my use case the defaults are fine, I am going to be externalizing the Cosmos Resource Group, Cosmos Account Name, Cosmos Region, Cosmos Database Name and Cosmos Container Name. There are may other parameters that we can externalize (pricing sku, partition key, througput etc... ) however for the sake of this guide that is required. These parameters will allow you to deploy a Cosmos DB and container to persist Azure Pet Store Orders in any Azure Region of choice using values you specify.
+For my use case the defaults are fine, I am going to be externalizing the Cosmos Resource Group, Cosmos Account Name, Cosmos Region, Cosmos Database Name and Cosmos Container Name. There are may other parameters that we can externalize (pricing sku, partition key, througput etc... ) however for the sake of this guide that is required. These parameters will allow you to deploy a Cosmos DB and container to persist Azure Pet Store Orders in any Azure Region of choice using values you specify. You can read about the various configurations for the Azure resources corresponding to their versions [here](https://docs.microsoft.com/en-us/azure/templates/microsoft.documentdb/databaseaccounts?tabs=bicep) 
 
 azuredeploy.parameters.json:
 
@@ -57,6 +57,8 @@ azuredeploy.parameters.json:
   }
 }
 ```
+
+> 📝 Please Note, if/when you deploy with this parameter file, seen above, these parameters will be injected into the Bicep template during deployment. 
 
 main.bicep:
 
@@ -167,6 +169,24 @@ resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/container
   }
 }
 ```
+
+> 📝 Please Note, if/when you Build/Deploy this Bicep file/ATM Template, seen above, the parameters will be injected otherwise defaults will be used. There are 3 resources being provisioned in this scenario, a Cosmos Database Account, Cosmos Database and Cosmos Database Container. Since this is Bicep and it gets built, we can apply software design principles such as validation on our parameters/configuration to ensure our IaC is proper. We do this with the @minValue and @maxValue annotations, which is helpful when externalizing configurations and/or leveraging templates for re-use. We can also define our externalized parameters via ```param``` and inject them accordingly. The intellisense baked within VSCode allows you to view all of the possible configuration options as you consider what to externalize and/or what you hard code. I went with the defaults and hard coded the pricing SKU (Standard) and the partionKey to '/customer/zipcode', both of which are options you may want to externalize in a real world example if this Cosmos DB IaC is going to be reused.
+
+At this point you could select Ctrl + Shift + P from within Visual Studio Code and follow the instructions to Build Bicep file, VS Code/Bicep will generate a main.json ARM Template if successful.
+
+![](images/2.png)
+
+If you right click on your Bicep ARM Template (main.json) and select Deploy Bicep File, you can then walk through the UI selecting your parameters file and various other meta data for which VS Visual Studio Code will deploy.
+
+You could optionally hop on the CLI and run the following which would also do the deployment to Azure
+
+```
+bash
+az deployment group create \
+        --resource-group resourceGroup --template-file templateFilePath --parameters cosmosAccountName='cosmosAccountName' cosmosPrimaryRegion='parameters.region' cosmosDatabaseName='parameters.cosmosDatabaseName' cosmosContainerName='parameters.cosmosContainerName'
+```
+
+However, we are going to take this a step further and make this Self Service via Azure DevOps
 
 ## Step 2 Configure a DevOps Pipeline to Deploy a Bicep Template (Azure Cosmos DB) as Self Service ##
 
