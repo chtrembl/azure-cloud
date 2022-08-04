@@ -1,12 +1,12 @@
-name: Deploy ETL Infrastructure
+name: Deploy Database Infrastructure
 
 parameters:
 - name: resourceGroup
-  displayName: ETL Resource Group
+  displayName: Database Resource Group
   type: string
-  default: ETLTest
+  default: Test
 - name: region
-  displayName: ETL Region
+  displayName: Database Region
   type: string
   default: East US 2
   values:
