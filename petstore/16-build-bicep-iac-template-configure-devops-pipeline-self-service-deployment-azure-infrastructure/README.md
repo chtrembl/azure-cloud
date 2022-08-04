@@ -190,6 +190,108 @@ However, we are going to take this a step further and make this Self Service via
 
 ## Step 2 Configure a DevOps Pipeline to Deploy a Bicep Template (Azure Cosmos DB) as Self Service ##
 
+First you need to ensure that you have a Service Connection to Azure Resource Manager to be able to successfully provision infrastructure, in this case an Azure Cosmos DB.
+
+Head to Service Connections and create a new Service Connection, one to your Azure subscription, as seen below. For reference I called mine "Azure"
+
+![](images/3.png)
+
+![](images/4.png)
+
+If you cloned/forked this repository you will notice a ```manifests/azure-petstore-db-iac.yml``` pipeline that you can import into your Azure DevOps Pipelines, as seen below. I gave my Pipeline a meaningful name "Deploy Database Infrastructure"
+
+![](images/5.png)
+
+> 📝 Please Note, Below are the contents of ```manifests/azure-petstore-db-iac.yml``` if you wish to copy them into another pipeline as opposed to importing
+
+```yaml
+name: Deploy ETL Infrastructure
+
+parameters:
+- name: resourceGroup
+  displayName: ETL Resource Group
+  type: string
+  default: ETLTest
+- name: region
+  displayName: ETL Region
+  type: string
+  default: East US 2
+  values:
+  - East US
+  - East US 2
+  - West US
+  - West US 2
+- name: cosmosAccountName
+  displayName: Cosmos Account Name
+  type: string
+  default: AzurePetStore
+- name: cosmosDatabaseName
+  displayName: Cosmos Database Name
+  type: string
+  default: E-Commerce
+- name: cosmosContainerName
+  displayName: Cosmos Container Name
+  type: string
+  default: Orders
+
+trigger: none
+
+variables:
+  vmImageName: 'ubuntu-latest'
+  azureServiceConnection: 'Azure'
+  templateFile: 'petstore/iac/bicep/db/main.bicep'
+pool:
+  vmImage: $(vmImageName)
+
+steps:
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: $(azureServiceConnection)
+    scriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      az --version
+      if [ $(az group exists --name ${{ parameters.resourceGroup }}) = false ]; then
+        az group create --name ${{ parameters.resourceGroup }} --location 'eastus'
+      fi
+      az deployment group create \
+        --resource-group ${{ parameters.resourceGroup }} --template-file $(templateFile) --parameters cosmosAccountName='${{ parameters.cosmosAccountName }}' cosmosPrimaryRegion='${{ parameters.region }}' cosmosDatabaseName='${{ parameters.cosmosDatabaseName }}' cosmosContainerName='${{ parameters.cosmosContainerName }}'
+
+```
+
+As seen above, this pipeline do not have a trigger on source code commits, it gets executed manually (self service from Azure DevOps).
+
+I am defining a parameters section with default values that can be overridden by the end user during self service.
+
+We define the Azure Service Connection ```azureServiceConnection: 'Azure'```
+
+We define the Azure Service Connection ```templateFile: 'petstore/iac/bicep/db/main.bicep'```
+
+We then define the CLI scripts to run on demand 
+
+```cli
+ inlineScript: |
+      az --version
+      if [ $(az group exists --name ${{ parameters.resourceGroup }}) = false ]; then
+        az group create --name ${{ parameters.resourceGroup }} --location 'eastus'
+      fi
+      az deployment group create \
+        --resource-group ${{ parameters.resourceGroup }} --template-file $(templateFile) --parameters cosmosAccountName='${{ parameters.cosmosAccountName }}' cosmosPrimaryRegion='${{ parameters.region }}' cosmosDatabaseName='${{ parameters.cosmosDatabaseName }}' cosmosContainerName='${{ parameters.cosmosContainerName }}'
+```
+If the resource group does not exist, create it, then deploy the Bicep Template (Azure Cosmos DB)
+
+One you have your new pipeline saved you can head back to the Pipelines view and select your new Pipeline, as seen below:
+
+![](images/6.png)
+
+Select "Run pipeline", as seen below:
+
+![](images/7.png)
+
+You can specify your resource group and parameters (I chose the default Cosmos Account Name, Cosmos DB and Cosmos Container and Region), as seen below:
+
+![](images/8.png)
+
 ## Step 3 Add step to Logic App to persist azurepetstore.com order into new Azure Cosmos DB ##
 
 > 📝 Please Note,
