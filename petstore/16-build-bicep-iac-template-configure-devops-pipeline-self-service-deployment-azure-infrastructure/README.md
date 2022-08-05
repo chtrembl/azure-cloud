@@ -292,9 +292,31 @@ You can specify your resource group and parameters (I chose the default Cosmos A
 
 ![](images/8.png)
 
+Once the Pipeline completes you will see the logs followed by an email as seen below:
+
+![](images/9.png)
+
+![](images/9_a.png)
+
+If you head to the Azure Portal you will now see your newly provisioned Cosmos DB.
+
+![](images/10.png)
+
+Now you are ready to use your Cosmos DB. We could always take this a step further and enhance the automation. We could add checks and approvals to the Pipeline so that once a user initiates a pipeline an approval chain fires off before deployment starts. Or perhaps we could build a logic app to trigger on this pipeline when a DevOps Work Item moves to a specific state. In conclusion there are many possibilities and this process is very extensible. We also now have IaC sourced in GitHub and get the benefits of SDLC as we would with any other software.
+
 ## Step 3 Add step to Logic App to persist azurepetstore.com order into new Azure Cosmos DB ##
 
-> 📝 Please Note,
+Head to your Logic App from the previous guide and add a New "Create or update document (V3)" step just after the "Send an email (V2)" that triggers when a new order is placed into the Service Bus, as seen below:
+
+![](images/11.png)
+
+Authenticate to your Cosmos DB using Cosmos Access Keys or Managed Identities and populate the document meta data using the JSON from the Service Bus, as seen below:
+
+![](images/12.png)
+
+Place and order in your azurepetstore application and then head to Azure Portal, your Cosmos Database and refresh the Orders container, you should see a new order, as seen below:
+
+![](images/12.png)
 
 Things you can now do now with this guide
 
