@@ -316,7 +316,7 @@ Authenticate to your Cosmos DB using Cosmos Access Keys or Managed Identities an
 
 Place and order in your azurepetstore application and then head to Azure Portal, your Cosmos Database and refresh the Orders container, you should see a new order, as seen below:
 
-![](images/12.png)
+![](images/13.png)
 
 Things you can now do now with this guide
 
