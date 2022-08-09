@@ -28,6 +28,8 @@ You should see the following:
 
 ## Step2 Use Bing Search ##
 
+[Bing Search API Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-web-search/)
+
 You can use POSTMan for Free, to initiate GET Request(s) to Bing Search API
 
 Download POSTMan [here](https://www.postman.com/)
