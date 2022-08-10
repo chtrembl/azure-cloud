@@ -28,6 +28,8 @@ You should see the following:
 
 ## Step2 Use Bing Search ##
 
+[Bing Search API Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-web-search/)
+
 You can use POSTMan for Free, to initiate GET Request(s) to Bing Search API
 
 Download POSTMan [here](https://www.postman.com/)
@@ -40,6 +42,9 @@ You should see the following:
 
 As seen in the above screenshot I created a new GET Request, gave it a URL ```https://api.bing.microsoft.com/v7.0/search?q=microsoft``` and specified 1 header with a key: ```Ocp-Apim-Subscription-Key``` and value: ```<The step where you copied the key off somewhere safe>```
 
+```
+curl --header "Ocp-Apim-Subscription-Key: keyhere" https://api.bing.microsoft.com/v7.0/search?q=microsoft
+```
 You can also programatically integrate with this Bing Search API from code as well. Below I will detail how it can be done with Java
 
 [https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoreapp/src/main/java/com/chtrembl/petstoreapp/controller/WebAppController.java](https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoreapp/src/main/java/com/chtrembl/petstoreapp/controller/WebAppController.java) Snippet:
