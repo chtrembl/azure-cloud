@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
@@ -59,6 +60,12 @@ public class ContainerEnvironment implements Serializable {
 
 	@Value("${bing.search.subscription.key:}")
 	private String bingSearchSubscriptionKey;
+
+	@Value("#{T(java.util.Arrays).asList('${petstore.logging.additional-headers-to-log:}')}") 
+	private List<String> additionalHeadersToLog;
+
+	@Value("#{T(java.util.Arrays).asList('${petstore.logging.additional-headers-to-send:}')}") 
+	private List<String> additionalHeadersToSend;
 
 	@PostConstruct
 	private void initialize() throws JoranException {
@@ -176,4 +183,11 @@ public class ContainerEnvironment implements Serializable {
 		return bingSearchSubscriptionKey;
 	}
 
+	public List<String> getAdditionalHeadersToLog() {
+		return additionalHeadersToLog;
+	}
+
+	public List<String> getAdditionalHeadersToSend() {
+		return additionalHeadersToSend;
+	}
 }

@@ -7,6 +7,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.logging.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,19 @@ public class LoggingFilter implements Filter {
 		MDC.put("appDate", this.containerEnvironment.getAppDate());
 		MDC.put("containerHostName", this.containerEnvironment.getContainerHostName());
 
+		String additionalHeadersToLog = "";
+		if(containerEnvironment.getAdditionalHeadersToLog().size()>0)
+		{
+			StringBuilder sb = new StringBuilder();
+			// building out %X{additionalHeadersToLog}
+			for (String headerKey : containerEnvironment.getAdditionalHeadersToLog())
+			{
+				sb.append(' ' + headerKey.trim() + "=" + ((HttpServletRequest) request).getHeader(headerKey));
+			}
+			additionalHeadersToLog = sb.toString();
+		}
+
+		MDC.put("additionalHeadersToLog", additionalHeadersToLog);
 		chain.doFilter(request, response);
 	}
 

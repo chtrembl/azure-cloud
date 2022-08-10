@@ -4,7 +4,7 @@
 bing:
   search:
     subscription:
-      key: ${BING_SEARCH_SUBSCRIPTION_KEY}
+      key: ${BING_SEARCH_SUBSCRIPTION_KEY:}
 petstore:
   service:
     pet:
@@ -17,6 +17,9 @@ petstore:
       key: ${PETSTORESERVICES_SUBSCRIPTION_KEY}
   apim:
     host: ${PETSTORE_APIM_HOST}
+  logging:
+    additional-headers-to-log: ${PETSTORE_ADDITIONAL_HEADERS_TO_LOG:}
+    additional-headers-to-send: ${PETSTORE_ADDITIONAL_HEADERS_TO_SEND:}
 server:
   port: ${PETSTOREAPP_SERVER_PORT}
 azure:
