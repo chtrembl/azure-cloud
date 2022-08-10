@@ -43,7 +43,7 @@ public class LoggingFilter implements Filter {
 			// building out %X{additionalHeadersToLog}
 			for (String headerKey : containerEnvironment.getAdditionalHeadersToLog())
 			{
-				sb.append(' ' + headerKey.trim() + "=" + ((HttpServletRequest) request).getHeader(headerKey));
+				sb.append(headerKey.trim() + "=" + ((HttpServletRequest) request).getHeader(headerKey) + ' ');
 			}
 			additionalHeadersToLog = sb.toString();
 		}
