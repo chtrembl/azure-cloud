@@ -15,6 +15,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import com.chtrembl.petstoreapp.model.ContainerEnvironment;
+import com.chtrembl.petstoreapp.model.WebRequest;
 
 /**
  * First Filter in the chain to set some MDC data for logging purposes, since
@@ -27,6 +28,9 @@ public class LoggingFilter implements Filter {
 
 	@Autowired
 	private ContainerEnvironment containerEnvironment;
+
+	@Autowired
+	private WebRequest webRequest;
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -43,7 +47,15 @@ public class LoggingFilter implements Filter {
 			// building out %X{additionalHeadersToLog}
 			for (String headerKey : containerEnvironment.getAdditionalHeadersToLog())
 			{
-				sb.append(headerKey.trim() + "=" + ((HttpServletRequest) request).getHeader(headerKey) + ' ');
+				String headerValue = ((HttpServletRequest) request).getHeader(headerKey);
+
+				sb.append(headerKey.trim() + "=" + headerValue + ' ');
+
+				if (containerEnvironment.getAdditionalHeadersToSend().size() > 0) {
+					if (containerEnvironment.getAdditionalHeadersToSend().contains(headerKey.trim())) {
+						this.webRequest.addHeader(headerKey, headerValue);
+					}
+				}
 			}
 			additionalHeadersToLog = sb.toString();
 		}

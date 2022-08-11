@@ -6,6 +6,7 @@ package com.chtrembl.petstoreapp.service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
@@ -14,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -27,6 +29,7 @@ import com.chtrembl.petstoreapp.model.Pet;
 import com.chtrembl.petstoreapp.model.Product;
 import com.chtrembl.petstoreapp.model.Tag;
 import com.chtrembl.petstoreapp.model.User;
+import com.chtrembl.petstoreapp.model.WebRequest;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -42,6 +45,9 @@ public class PetStoreServiceImpl implements PetStoreService {
 
 	@Autowired
 	private ContainerEnvironment containerEnvironment;
+
+	@Autowired
+	private WebRequest webRequest;
 
 	private WebClient petServiceWebClient = null;
 	private WebClient productServiceWebClient = null;
@@ -66,8 +72,11 @@ public class PetStoreServiceImpl implements PetStoreService {
 						this.sessionUser.getName()),
 				this.sessionUser.getCustomEventProperties(), null);
 		try {
+			Consumer<HttpHeaders> consumer = it -> it.addAll(this.webRequest.getHeaders());
 			pets = this.petServiceWebClient.get().uri("petstorepetservice/v2/pet/findByStatus?status=available")
-					.accept(MediaType.APPLICATION_JSON).header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+					.accept(MediaType.APPLICATION_JSON)
+					.headers(consumer)
+					.header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
 					.header("host", this.containerEnvironment.getPetstoreAPIMHost())
 					.header("session-id", this.sessionUser.getSessionId())
 					.header("Ocp-Apim-Subscription-Key", this.containerEnvironment.getPetStoreServicesSubscriptionKey())
@@ -121,9 +130,12 @@ public class PetStoreServiceImpl implements PetStoreService {
 						"PetStoreApp user %s is requesting to retrieve products from the PetStoreProductService",
 						this.sessionUser.getName()), this.sessionUser.getCustomEventProperties(), null);
 		try {
+			Consumer<HttpHeaders> consumer = it -> it.addAll(this.webRequest.getHeaders());
 			products = this.productServiceWebClient.get()
 					.uri("petstoreproductservice/v2/product/findByStatus?status=available")
-					.accept(MediaType.APPLICATION_JSON).header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+					.accept(MediaType.APPLICATION_JSON)
+					.headers(consumer)
+					.header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
 					.header("host", this.containerEnvironment.getPetstoreAPIMHost())
 					.header("session-id", this.sessionUser.getSessionId())
 					.header("Ocp-Apim-Subscription-Key", this.containerEnvironment.getPetStoreServicesSubscriptionKey())
@@ -205,9 +217,13 @@ public class PetStoreServiceImpl implements PetStoreService {
 					.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)
 					.configure(SerializationFeature.FAIL_ON_SELF_REFERENCES, false).writeValueAsString(updatedOrder);
 
+			Consumer<HttpHeaders> consumer = it -> it.addAll(this.webRequest.getHeaders());
+			
 			updatedOrder = this.orderServiceWebClient.post().uri("petstoreorderservice/v2/store/order")
 					.body(BodyInserters.fromPublisher(Mono.just(orderJSON), String.class))
-					.accept(MediaType.APPLICATION_JSON).header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+					.accept(MediaType.APPLICATION_JSON)
+					.headers(consumer)
+					.header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
 					.header("host", this.containerEnvironment.getPetstoreAPIMHost())
 					.header("session-id", this.sessionUser.getSessionId())
 					.header("Ocp-Apim-Subscription-Key", this.containerEnvironment.getPetStoreServicesSubscriptionKey())
@@ -228,9 +244,13 @@ public class PetStoreServiceImpl implements PetStoreService {
 
 		Order order = null;
 		try {
+			Consumer<HttpHeaders> consumer = it -> it.addAll(this.webRequest.getHeaders());
+			
 			order = this.orderServiceWebClient.get()
 					.uri(uriBuilder -> uriBuilder.path("petstoreorderservice/v2/store/order/{orderId}").build(orderId))
-					.accept(MediaType.APPLICATION_JSON).header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+					.accept(MediaType.APPLICATION_JSON)
+					.headers(consumer)
+					.header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
 					.header("host", "azurepetstoreapim.azure-api.net")
 					.header("session-id", this.sessionUser.getSessionId())
 					.header("Ocp-Apim-Subscription-Key", this.containerEnvironment.getPetStoreServicesSubscriptionKey())
