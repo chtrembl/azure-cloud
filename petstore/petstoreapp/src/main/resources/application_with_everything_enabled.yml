@@ -24,6 +24,8 @@ petstore:
     negotiation-url: ${SIGNALR_NEGOTIATION_URL:}
     service-url: ${SIGNALR_SERVICE_URL:}
     key: ${SIGNALR_SERVICE_KEY:}
+    update:
+      fixedRate: ${SIGNALR_UPDATE_FIXEDRATE:60000}
 server:
   port: ${PETSTOREAPP_SERVER_PORT}
 azure:

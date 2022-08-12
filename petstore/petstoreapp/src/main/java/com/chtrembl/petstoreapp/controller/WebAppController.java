@@ -63,7 +63,8 @@ public class WebAppController {
 	@ModelAttribute
 	public void setModel(HttpServletRequest request, Model model, OAuth2AuthenticationToken token) {
 
-		CaffeineCache caffeineCache = (CaffeineCache) this.currentUsersCacheManager.getCache("currentUsers");
+		CaffeineCache caffeineCache = (CaffeineCache) this.currentUsersCacheManager
+				.getCache(ContainerEnvironment.CURRENT_USERS_HUB);
 		com.github.benmanes.caffeine.cache.Cache<Object, Object> nativeCache = caffeineCache.getNativeCache();
 
 		// this is used for n tier correlated Telemetry. Keep the same one for anonymous
@@ -71,13 +72,13 @@ public class WebAppController {
 		if (this.sessionUser.getSessionId() == null) {
 			String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
 			this.sessionUser.setSessionId(sessionId);
-		}
-		else {
+			// put session in TTL cache so its there after initial login
 			caffeineCache.put(this.sessionUser.getSessionId(), this.sessionUser.getName());
+			this.containerEnvironment.sendCurrentUsers();
 		}
 
-		int currentUsersOnSite = nativeCache.asMap().keySet().size();
-		this.containerEnvironment.sendMessage(currentUsersOnSite);
+		// put session in TTL cache to refresh TTL
+		caffeineCache.put(this.sessionUser.getSessionId(), this.sessionUser.getName());
 
 		if (token != null) {
 			final OAuth2User user = token.getPrincipal();
@@ -114,7 +115,7 @@ public class WebAppController {
 
 		model.addAttribute("cartSize", this.sessionUser.getCartCount());
 
-		model.addAttribute("currentUsersOnSite", currentUsersOnSite);
+		model.addAttribute("currentUsersOnSite", nativeCache.asMap().keySet().size());
 		model.addAttribute("signalRNegotiationURL", this.containerEnvironment.getSignalRNegotiationURL());
 
 		MDC.put("session_Id", this.sessionUser.getSessionId());

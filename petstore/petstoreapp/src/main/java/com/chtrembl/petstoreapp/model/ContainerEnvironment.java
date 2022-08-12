@@ -19,9 +19,14 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -40,6 +45,7 @@ import reactor.core.publisher.Mono;
  */
 @SuppressWarnings("serial")
 @Component
+@EnableScheduling
 public class ContainerEnvironment implements Serializable {
 	private static Logger logger = LoggerFactory.getLogger(ContainerEnvironment.class);
 	private String containerHostName = null;
@@ -89,6 +95,11 @@ public class ContainerEnvironment implements Serializable {
 	private String signalRKey;
 
 	private WebClient signalRWebClient = null;
+
+	public static String CURRENT_USERS_HUB = "currentUsers";
+
+	@Autowired
+	private CacheManager currentUsersCacheManager;
 
 	@PostConstruct
 	private void initialize() throws JoranException {
@@ -253,21 +264,28 @@ public class ContainerEnvironment implements Serializable {
 		return signalRKey;
 	}
 
-	public void sendMessage(int size) {
-		if (this.signalRWebClient != null) {
-			String hubUri = "/api/v1/hubs/currentUsers";
-			String hubUrl = getSignalRServiceURL() + hubUri;
-			String accessKey = generateJwt(hubUrl, null);
-	
-			this.signalRWebClient.post().uri(hubUri)
-					.body(BodyInserters.fromPublisher(
-							Mono.just(new SignalRMessage("newMessage", new Object[] { size })),
-							SignalRMessage.class))
-					.accept(MediaType.APPLICATION_JSON)
-					.header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-					.header("Cache-Control", "no-cache")
-					.header("Authorization", "Bearer " + accessKey).retrieve()
-					.bodyToMono(Object.class).block();
+	@Scheduled(fixedRateString = "${petstore.signalr.update.fixedRate:60000}")
+	public void sendCurrentUsers() {
+		if (this.signalRWebClient == null) {
+			return;
 		}
+		String hubUri = "/api/v1/hubs/" + ContainerEnvironment.CURRENT_USERS_HUB;
+		String hubUrl = getSignalRServiceURL() + hubUri;
+		String accessKey = generateJwt(hubUrl, null);
+
+		CaffeineCache caffeineCache = (CaffeineCache) this.currentUsersCacheManager
+				.getCache(ContainerEnvironment.CURRENT_USERS_HUB);
+		com.github.benmanes.caffeine.cache.Cache<Object, Object> nativeCache = caffeineCache.getNativeCache();
+		int size = nativeCache.asMap().keySet().size();
+
+		logger.info("@Scheduled sending current users of size " + size);
+
+		this.signalRWebClient.post().uri(hubUri)
+				.body(BodyInserters.fromPublisher(
+						Mono.just(new SignalRMessage("currentUsersUpdated", new Object[] { size })),
+						SignalRMessage.class))
+				.accept(MediaType.APPLICATION_JSON).header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+				.header("Cache-Control", "no-cache").header("Authorization", "Bearer " + accessKey).retrieve()
+				.bodyToMono(Object.class).block();
 	}
 }
