@@ -9,7 +9,7 @@
 		class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
 		<h1 class="display-4">Welcome to the Azure Pet Store</h1>
 		<h1 class="display-4" style="font-size:2.5rem;" th:if="${!#strings.isEmpty(signalRNegotiationURL)}">
-				There is currently <span id="currentUsers" style="font-weight:500;color:#3C7BB7;" th:text="${currentUsersOnSite}"></span> Live Shoppers, via <a href="https://azure.microsoft.com/en-us/services/signalr-service/" target="blank"><img style="height:3%;width:3%;" src="content/SignalR-logo.png" /></a></h1>
+				There is currently <span id="currentUsers" style="font-weight:500;color:#3C7BB7;" th:text="${currentUsersOnSite}"></span> live shoppers online <a href="https://azure.microsoft.com/en-us/services/signalr-service/" target="blank"><img class="signalR" src="content/SignalR-logo.png" /></a></h1>
 		<h2 class="subHeader">Start exploring & learning Azure today!</h2>
 		<p>Begin by shopping for products below!</p>
 		<div id="banner">
