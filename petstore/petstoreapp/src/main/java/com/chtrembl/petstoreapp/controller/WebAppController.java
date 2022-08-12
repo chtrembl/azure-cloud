@@ -77,7 +77,7 @@ public class WebAppController {
 		}
 
 		int currentUsersOnSite = nativeCache.asMap().keySet().size();
-		this.containerEnvironment.sendMessage(currentUsersOnSite == 0 ? 1 : currentUsersOnSite);
+		this.containerEnvironment.sendMessage(currentUsersOnSite);
 
 		if (token != null) {
 			final OAuth2User user = token.getPrincipal();
