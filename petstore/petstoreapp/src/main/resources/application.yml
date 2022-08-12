@@ -20,6 +20,10 @@ petstore:
   logging:
     additional-headers-to-log: ${PETSTORE_ADDITIONAL_HEADERS_TO_LOG:}
     additional-headers-to-send: ${PETSTORE_ADDITIONAL_HEADERS_TO_SEND:}
+  signalR:
+    negotiation-url: ${SIGNALR_NEGOTIATION_URL:}
+    service-url: ${SIGNALR_SERVICE_URL:}
+    key: ${SIGNALR_SERVICE_KEY:}
 server:
   port: ${PETSTOREAPP_SERVER_PORT:8080}
 #azure:
@@ -52,4 +56,6 @@ spring:
   application:
     name: petstoreapp
   thymeleaf:
-    cache: false  
+    cache: false
+  cache:
+    cache-names: currentUsers

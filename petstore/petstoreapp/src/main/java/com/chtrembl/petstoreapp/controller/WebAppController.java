@@ -15,6 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
@@ -55,14 +57,27 @@ public class WebAppController {
 	@Autowired
 	private User sessionUser;
 
+	@Autowired
+	private CacheManager currentUsersCacheManager;
+
 	@ModelAttribute
 	public void setModel(HttpServletRequest request, Model model, OAuth2AuthenticationToken token) {
 
+		CaffeineCache caffeineCache = (CaffeineCache) this.currentUsersCacheManager.getCache("currentUsers");
+		com.github.benmanes.caffeine.cache.Cache<Object, Object> nativeCache = caffeineCache.getNativeCache();
+
 		// this is used for n tier correlated Telemetry. Keep the same one for anonymous
-		// sessions that get authenticated
+		// sessions that get authenticateds
 		if (this.sessionUser.getSessionId() == null) {
-			this.sessionUser.setSessionId(RequestContextHolder.currentRequestAttributes().getSessionId());
+			String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
+			this.sessionUser.setSessionId(sessionId);
 		}
+		else {
+			caffeineCache.put(this.sessionUser.getSessionId(), this.sessionUser.getName());
+		}
+
+		int currentUsersOnSite = nativeCache.asMap().keySet().size();
+		this.containerEnvironment.sendMessage(currentUsersOnSite);
 
 		if (token != null) {
 			final OAuth2User user = token.getPrincipal();
@@ -98,6 +113,9 @@ public class WebAppController {
 		model.addAttribute("appVersion", this.containerEnvironment.getAppVersion());
 
 		model.addAttribute("cartSize", this.sessionUser.getCartCount());
+
+		model.addAttribute("currentUsersOnSite", currentUsersOnSite);
+		model.addAttribute("signalRNegotiationURL", this.containerEnvironment.getSignalRNegotiationURL());
 
 		MDC.put("session_Id", this.sessionUser.getSessionId());
 	}

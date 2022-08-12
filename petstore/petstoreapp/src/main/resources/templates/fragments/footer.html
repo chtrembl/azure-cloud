@@ -60,6 +60,45 @@
 				ga('send', 'pageview');
 			</script>
 		</div>
+		
+		<script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@3.0.0/dist/browser/signalr.min.js"></script>  
+		<script src="https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.min.js"></script>
+		
+		<input type="hidden" id="signalRNegotiationURL" th:value="${signalRNegotiationURL}"/>
+		
+		<script>
+			
+			const apiBaseUrl = document.getElementById('signalRNegotiationURL').value;
+		
+			console.log(apiBaseUrl);
+			
+			if(apiBaseUrl.length > 0)
+			{
+				const data = {
+			      newMessage: '',
+			      messages: [],
+			      ready: false
+			    }
+			
+			    const connection = new signalR.HubConnectionBuilder()
+			      .withUrl(`${apiBaseUrl}/signalr`)
+			      .withAutomaticReconnect()
+			      .configureLogging(signalR.LogLevel.Information)
+			      .build()
+			
+			    connection.on('newMessage', newMessage)
+			
+			    connection.start()
+			      .then(() => data.ready = true)
+			      .catch(console.error)
+			
+			    let counter = 0
+			    function newMessage(message) {
+			    	document.getElementById('currentUsers').innerHTML=message;
+			      	data.messages.unshift(message)
+			    }
+			}
+		</script>
 
 	</div>
 </body>

@@ -7,21 +7,33 @@ import java.io.Reader;
 import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.crypto.spec.SecretKeySpec;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microsoft.applicationinsights.core.dependencies.google.common.io.CharStreams;
 
 import ch.qos.logback.core.joran.spi.JoranException;
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import reactor.core.publisher.Mono;
 
 /**
  * Singleton to store container state
@@ -67,10 +79,26 @@ public class ContainerEnvironment implements Serializable {
 	@Value("#{T(java.util.Arrays).asList('${petstore.logging.additional-headers-to-send:}')}") 
 	private List<String> additionalHeadersToSend;
 
+	@Value("${petstore.signalr.negotiation-url:}")
+	private String signalRNegotiationURL;
+
+	@Value("${petstore.signalr.service-url:}")
+	private String signalRServiceURL;
+	
+	@Value("${petstore.signalr.key:}")
+	private String signalRKey;
+
+	private WebClient signalRWebClient = null;
+
 	@PostConstruct
 	private void initialize() throws JoranException {
 		// LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
 
+		if (StringUtils.isNoneEmpty(this.getSignalRKey()) && StringUtils.isNoneEmpty(this.getSignalRNegotiationURL())
+				&& StringUtils.isNoneEmpty(this.getSignalRServiceURL())) {
+			this.signalRWebClient = WebClient.builder().baseUrl(this.getSignalRServiceURL()).build();
+		}
+		
 		try {
 			this.setContainerHostName(
 					InetAddress.getLocalHost().getHostAddress() + "/" + InetAddress.getLocalHost().getHostName());
@@ -102,6 +130,28 @@ public class ContainerEnvironment implements Serializable {
 		// context.putProperty("appVersion", this.getAppVersion());
 		// context.putProperty("appDate", this.getAppDate());
 		// context.putProperty("containerHostName", this.getContainerHostName());
+	}
+
+	public String generateJwt(String audience, String userId) {
+		SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+
+		long nowMillis = System.currentTimeMillis();
+		Date now = new Date(nowMillis);
+
+		long expMillis = nowMillis + (30 * 30 * 1000);
+		Date exp = new Date(expMillis);
+
+		byte[] apiKeySecretBytes = this.getSignalRKey().getBytes(StandardCharsets.UTF_8);
+		Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
+
+		JwtBuilder builder = Jwts.builder().setAudience(audience).setIssuedAt(now).setExpiration(exp)
+				.signWith(signingKey);
+
+		if (userId != null) {
+			builder.claim("nameid", userId);
+		}
+
+		return builder.compact();
 	}
 
 	public String getContainerHostName() {
@@ -189,5 +239,34 @@ public class ContainerEnvironment implements Serializable {
 
 	public List<String> getAdditionalHeadersToSend() {
 		return additionalHeadersToSend;
+	}
+
+	public String getSignalRNegotiationURL() {
+		return signalRNegotiationURL;
+	}
+
+	public String getSignalRServiceURL() {
+		return signalRServiceURL;
+	}
+
+	public String getSignalRKey() {
+		return signalRKey;
+	}
+
+	public void sendMessage(int size) {
+		if (this.signalRWebClient != null) {
+			String hubUri = "/api/v1/hubs/currentUsers";
+			String hubUrl = getSignalRServiceURL() + hubUri;
+			String accessKey = generateJwt(hubUrl, null);
+	
+			this.signalRWebClient.post().uri(hubUri)
+					.body(BodyInserters.fromPublisher(Mono.just(new SignalRMessage("newMessage", new Object[] { size })),
+							SignalRMessage.class))
+					.accept(MediaType.APPLICATION_JSON)
+					.header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+					.header("Cache-Control", "no-cache")
+					.header("Authorization", "Bearer " + accessKey).retrieve()
+					.bodyToMono(Object.class).block();
+		}
 	}
 }
