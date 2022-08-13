@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,7 +57,7 @@ public class SignalRController {
 		return new SignalRConnectionInfo(hubUrl, accessKey);
 	}
 
-	@GetMapping("/signalr/test")
+	@PostMapping("/signalr/test")
 	public void sendCurrentUsers(@RequestParam(required = false) String userId,
 			@RequestParam(required = false) String mockSize) {
 		if (this.signalRWebClient == null) {

@@ -34,7 +34,7 @@ public class AppConfig implements WebMvcConfigurer {
 
 	@Bean
 	public Caffeine caffeineConfig() {
-		return Caffeine.newBuilder().expireAfterAccess(60, TimeUnit.SECONDS);
+		return Caffeine.newBuilder().expireAfterAccess(300, TimeUnit.SECONDS);
 	}
 
 	@Bean
