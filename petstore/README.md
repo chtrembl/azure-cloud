@@ -100,6 +100,8 @@ Prerequisites and environment setup (Optionaly you can build/deploy locally)
 
 ## [16 - Build a Bicep IaC Template and Configure a DevOps Pipeline for Self Service Deployment of Azure Infrastructure](16-build-bicep-iac-template-configure-devops-pipeline-self-service-deployment-azure-infrastructure/README.md)
 
+## [17 - Configure SignalR to send Real-Time Analytics to Client Browser](17-configure-signalr-to-send-real-time-analytics-to-client-browser/README.md)
+
 ---
 
 ## Legal Notices

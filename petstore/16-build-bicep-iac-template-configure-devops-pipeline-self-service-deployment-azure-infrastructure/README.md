@@ -325,3 +325,5 @@ Things you can now do now with this guide
 ☑️ Configure a DevOps Pipeline to Deploy a Bicep Template (Azure Cosmos DB) as Self Service
 
 ☑️ Add step to Logic App to persist azurepetstore.com order into new Azure Cosmos DB
+
+➡️ Next guide: [17 - Configure SignalR to send Real-Time Analytics to Client Browser](../17-configure-signalr-to-send-real-time-analytics-to-client-browser/README.md)
