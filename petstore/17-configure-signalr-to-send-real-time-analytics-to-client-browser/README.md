@@ -106,6 +106,8 @@ https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoreapp/src/main/
 ```
 
 Signal R Controller updates:
+https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoreapp/src/main/java/com/chtrembl/petstoreapp/controller/SignalRController.java
+
 ```java
 	@PostMapping(value = "/signalr/negotiate", produces = MediaType.APPLICATION_JSON_VALUE)
 	public SignalRConnectionInfo negotiate() {
@@ -182,8 +184,70 @@ A connection to the negotiation server will be made to retrieve the JWT Token, t
 
 ## Step 4 test it out ##
 
+Head to your Pet Store Application and you should notice the current live shopper count.
+
+![](images/3.png)
+
+View your browsers Developer Tools, inspect the Web Socket Tab, you will see all of the Signal R communication. Also open a new private tab and/or another browser and visit the Pet Store Application, you will see the Web Socket ```currentUsersUpdated``` message arrive and the count change.
+
+![](images/4.png)
+
+SignalR also has the ability to send messages to groups and/or specific users. I built out a POST Method that allows you to specify a sessionId for which you want to send messages (counts) to.
+
+Signal R Controller updates:
+https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoreapp/src/main/java/com/chtrembl/petstoreapp/controller/SignalRController.java
+
+```java
+@PostMapping("/signalr/test")
+	public void sendCurrentUsers(@RequestParam(required = false) String userId,
+			@RequestParam(required = false) String mockSize) {
+		if (this.signalRWebClient == null) {
+			return;
+		}
+		String uri = "/api/v1/hubs/" + ContainerEnvironment.CURRENT_USERS_HUB;
+
+		if (StringUtils.isNoneEmpty(userId)) {
+			uri += "/users/" + userId;
+		}
+
+		String hubUrl = this.containerEnvironment.getSignalRServiceURL() + uri;
+
+		String accessKey = this.containerEnvironment.generateJwt(hubUrl, null);
+
+		CaffeineCache caffeineCache = (CaffeineCache) this.currentUsersCacheManager.getCache(ContainerEnvironment.CURRENT_USERS_HUB);
+		com.github.benmanes.caffeine.cache.Cache<Object, Object> nativeCache = caffeineCache.getNativeCache();
+		int size = nativeCache.asMap().keySet().size();
+
+		if (StringUtils.isNoneEmpty(mockSize) && Integer.valueOf(mockSize) >= 0) {
+			size = Integer.valueOf(mockSize);
+		}
+
+		logger.info("test sending current users of size " + size);
+
+		this.signalRWebClient.post().uri(uri)
+				.body(BodyInserters.fromPublisher(
+						Mono.just(new SignalRMessage("currentUsersUpdated", new Object[] { size })),
+						SignalRMessage.class))
+		.accept(MediaType.APPLICATION_JSON)
+		.header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+		.header("Cache-Control", "no-cache")
+		.header("Authorization", "Bearer " + accessKey).retrieve()
+				.bodyToMono(Object.class).block();
+	}
+```
+
+This test method will will you to POST in a sessionId and mockSize to send to a client. You can grab your session id from the footer of the Pet Store Application homepage and test it out, notice the live shopper count change.
+
+* THe SignalR Serverless Hub will send the count to this session only (browser connection) and the count will be short lived until the next message arrives, effectively overwriting this test one *
+
+```bash
+curl -d "userId=20FCE47617B5EBFA7706150BCB354C6B&mockSize=200000000" -X POST https://azurepetstore.com/signalr/test
+```
+
+![](images/5.png)
+
 **This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)**
 
 Things you can now do now with this guide
 
-☑️ SignalR
+☑️ SignalR Server & Client communication
