@@ -4,7 +4,7 @@ Just imagine you are developing a progressive/single page web application that r
 
 In this guide we will configure the petstoreapp to send real-time azurepetstore.com analytics to client browsers via SignalR. Customers visiting azurepetstore.com will initiate a SignalR connection and receive azurepetstore.com live shopper counts, real-time, as shoppers visit the application, this count will be displayed on the homepage without any page refreshes.
 
-My colleague (Anthony Chu)[https://github.com/anthonychu] has an awesome tutorial detailing ho to implement a SingalR chat feature within a Spring Boot application, I have essentially followed his guidance as seen [Add Real-Time to a Java App with Azure SignalR Service](https://anthonychu.ca/post/java-spring-boot-azure-signalr-service/) and will recap the steps with some additional changes I have made this use case.
+My colleague [Anthony Chu](https://github.com/anthonychu) has an awesome tutorial detailing ho to implement a SingalR chat feature within a Spring Boot application, I have essentially followed his guidance as seen [Add Real-Time to a Java App with Azure SignalR Service](https://anthonychu.ca/post/java-spring-boot-azure-signalr-service/) and will recap the steps with some additional changes I have made this use case.
 
 ## Step 1 Create your Azure SignalR Service ##
 
