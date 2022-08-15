@@ -2,17 +2,17 @@
 
 Just imagine you are developing a progressive/single page web application that requires real-time data. Sure you can have your end users refresh the page, and reload/re render the data and html, server side, but that would be a less than idea user experience. You could also build out the control plane to facilitate client/server invocations using WebSockets, but that would require you to integrate/write more pub/sub code to integrate with a centralized cache/hub. Another option is [SignalR](https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/introduction-to-signalr), a technology that simplifies the process of adding real-time web functionality to your application that allows your client & server code to send data back and forth, instantly as it becomes available, rather than having the server wait for a client to request new data, freeing up more time for you to be productive and more write code that provides business value.
 
-In this guide we will configure the petstoreapp to send real-time azurepetstore.com analytics to client browsers via SignalR. Customers visiting azurepetstore.com will initiate a SignalR connection and receive azurepetstore.com live shopper counts, real-time, as shoppers visit the application, this count will be displayed on the homepage without any page refreshes.
+In this guide we will configure the PetStoreApp to send real-time azurepetstore.com analytics to client browsers via SignalR. Customers visiting azurepetstore.com will initiate a SignalR connection and receive azurepetstore.com live shopper counts, real-time, as shoppers visit the application, this count will be displayed on the homepage without any page refreshes.
 
-My colleague [Anthony Chu](https://github.com/anthonychu) has an awesome tutorial detailing ho to implement a SingalR chat feature within a Spring Boot application, I have essentially followed his guidance as seen [Add Real-Time to a Java App with Azure SignalR Service](https://anthonychu.ca/post/java-spring-boot-azure-signalr-service/) and will recap the steps with some additional changes I have made this use case.
+My colleague [Anthony Chu](https://github.com/anthonychu) has an awesome tutorial detailing how to implement a SingalR chat feature within a Spring Boot application, I have essentially followed his guidance as seen [Add Real-Time to a Java App with Azure SignalR Service](https://anthonychu.ca/post/java-spring-boot-azure-signalr-service/) and will recap the steps with some additional changes I have made this use case.
 
 ## Step 1 Create your Azure SignalR Service ##
 
-From the Azure Portal you can create a new SignalR Service as seen below. I've decided to go with Serverless mode as the PetStoreApp will be using the REST API ([QuickStart Guide Here](https://docs.microsoft.com/en-us/azure/azure-signalr/signalr-quickstart-rest-api)) to broadcast the messages (shopper counts) and will not require SignalR SDK/Default mode.
+From the Azure Portal you can create a new SignalR Service as seen below. I've decided to go with Serverless mode as the PetStoreApp will be using the REST API ([QuickStart Guide Here](https://docs.microsoft.com/en-us/azure/azure-signalr/signalr-quickstart-rest-api)) to send the messages (shopper counts) and will not require SignalR SDK/Default mode.
 
 ![](images/1.png)
 
-Make not of your Host Name and Key from the Settings > Keys Section
+Make note of your Host Name and Key from the Settings > Keys Section
 
 ![](images/2.png)
 
@@ -31,6 +31,7 @@ Unrelated to SignalR I made a few updates to the PetStoreApp to implement a Live
  *If there is more than 1 container then the counts will not be accurate as each container will be aggregating shopper counts pertaining to the corresponding container via the in memory cache, hence the callout for ideally putting this in a centralized store*
 
 App Config Updates:
+
 https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoreapp/src/main/java/com/chtrembl/petstoreapp/AppConfig.java
 
 New Caffeine Cache that holds sessions (users) for 5 minutes (300seconds), each time a session (user) visits the PetStoreApp (azurepetstore.com) then the 5 minute interval resets. The goal is to send a message to the Serverless SignalR Hub each time a user hits the applications/and/or on a specified polling interval.
@@ -53,6 +54,7 @@ New Caffeine Cache that holds sessions (users) for 5 minutes (300seconds), each 
 ```
 
 Web App Controller updates:
+
 https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoreapp/src/main/java/com/chtrembl/petstoreapp/controller/WebAppController.java
 
 *This logic should really be implemented in an interceptor/controller advice to accomodate controller scale but I have refactored it yet*
@@ -79,6 +81,7 @@ https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoreapp/src/main/
 Essentially on all PetStoreApp requests this modelAttribute will fire. If its a new user (shopper), and a new session, then put this into the Caffeine cache and send a message to the Serverless Hub (which will in turn notify all consumers, in our case browsers). On all other requests just refresh the Caffeine cache TTL (Time To Live) by invoking another .put() (The cache expired 5 minutes after last access.)
 
 Container Environment updates:
+
 https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoreapp/src/main/java/com/chtrembl/petstoreapp/model/ContainerEnvironment.java
 
 ```java
@@ -106,6 +109,7 @@ https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoreapp/src/main/
 ```
 
 Signal R Controller updates:
+
 https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoreapp/src/main/java/com/chtrembl/petstoreapp/controller/SignalRController.java
 
 ```java
@@ -129,6 +133,7 @@ Client browsers will first request a JWT Token/Access key from the PetStoreApp S
 ## Step 3 Changes in the PetStoreApp (Client Side) ##
 
 footer.htnl updates:
+
 https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoreapp/src/main/resources/templates/fragments/footer.html
 
 ```javascript
@@ -195,6 +200,7 @@ View your browsers Developer Tools, inspect the Web Socket Tab, you will see all
 SignalR also has the ability to send messages to groups and/or specific users. I built out a POST Method that allows you to specify a sessionId for which you want to send messages (counts) to.
 
 Signal R Controller updates:
+
 https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoreapp/src/main/java/com/chtrembl/petstoreapp/controller/SignalRController.java
 
 ```java
