@@ -34,7 +34,7 @@ App Config Updates:
 
 https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoreapp/src/main/java/com/chtrembl/petstoreapp/AppConfig.java
 
-New Caffeine Cache that holds sessions (users) for 5 minutes (300seconds), each time a session (user) visits the PetStoreApp (azurepetstore.com) then the 5 minute interval resets. The goal is to send a message to the Serverless SignalR Hub each time a user hits the applications/and/or on a specified polling interval.
+New Caffeine Cache that holds sessions (users) for 5 minutes (300 seconds), each time a session (user) visits the PetStoreApp (azurepetstore.com) then the 5 minute interval resets. The goal is to send a message to the Serverless SignalR Hub each time a user hits the applications/and/or on a specified polling interval.
 
 *5 minutes was the number I guessed to benchmark live shoppers, any sessions that have been active for 5 minutes...*
 
@@ -69,7 +69,7 @@ https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoreapp/src/main/
 		if (this.sessionUser.getSessionId() == null) {
 			String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
 			this.sessionUser.setSessionId(sessionId);
-			// put session in TTL cache so its there after initial login
+			// put session in TTL cache so its there after initial login and count is accurate when the sendCurrentUsers() occurs
 			caffeineCache.put(this.sessionUser.getSessionId(), this.sessionUser.getName());
 			this.containerEnvironment.sendCurrentUsers();
 		}
@@ -128,7 +128,7 @@ https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoreapp/src/main/
 
 *I borrowed Anthony's implementation along with the generateJwt method.*
 
-Client browsers will first request a JWT Token/Access key from the PetStoreApp Server code as seen in the ```java @PostMapping(value = "/signalr/negotiate``` method. Instead of returning the access keys that were assigned from Azure Portal, which would be a security vulnerability by exposing this sensitive data to all browsers across the world, we instead use those keys to sign a JWT Token and instead return that token to the browsers. Notice the JWT token is built with an audience, this audience is typically the resource server endpoint that can accept the token that is generated (knows how it was signed), which in our case will be the ```petstore.signalr.service-url``` injected value, something like https://azurepetstoresr.service.signalr.net, matching whatever you created in Step 1. We can optionally set claims (perhaps you want to interrogate these for other use cases) so we will set the ```nameid``` to the sessionId.
+Client browsers will first request a JWT Token/Access key from the PetStoreApp Server code as seen in the ```java @PostMapping(value = "/signalr/negotiate")``` method. Instead of returning the access keys that were assigned from Azure Portal, which would be a security vulnerability by exposing this sensitive data to all browsers across the world, we instead use those keys to sign a JWT Token and instead return that token to the browsers. Notice the JWT token is built with an audience, this audience is typically the resource server endpoint that can accept the token that is generated (knows how it was signed), which in our case will be the ```petstore.signalr.service-url``` injected value, something like https://azurepetstoresr.service.signalr.net, matching whatever you created in Step 1. We can optionally set claims (perhaps you want to interrogate these for other use cases) so we will set the ```nameid``` to the sessionId.
 
 ## Step 3 Changes in the PetStoreApp (Client Side) ##
 
@@ -244,7 +244,7 @@ https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstoreapp/src/main/
 
 This test method will will you to POST in a sessionId and mockSize to send to a client. You can grab your session id from the footer of the Pet Store Application homepage and test it out, notice the live shopper count change.
 
-* THe SignalR Serverless Hub will send the count to this session only (browser connection) and the count will be short lived until the next message arrives, effectively overwriting this test one *
+*The SignalR Serverless Hub will send the count to this session only (browser connection) and the count will be short lived until the next message arrives, effectively overwriting this test one*
 
 ```bash
 curl -d "userId=20FCE47617B5EBFA7706150BCB354C6B&mockSize=200000000" -X POST https://azurepetstore.com/signalr/test
