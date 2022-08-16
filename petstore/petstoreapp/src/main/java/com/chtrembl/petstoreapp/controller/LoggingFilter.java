@@ -1,6 +1,7 @@
 package com.chtrembl.petstoreapp.controller;
 
 import java.io.IOException;
+import java.util.Enumeration;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -39,6 +40,14 @@ public class LoggingFilter implements Filter {
 		MDC.put("appVersion", this.containerEnvironment.getAppVersion());
 		MDC.put("appDate", this.containerEnvironment.getAppDate());
 		MDC.put("containerHostName", this.containerEnvironment.getContainerHostName());
+
+		Enumeration<String> headerNames = ((HttpServletRequest) request).getHeaderNames();
+
+		if (headerNames != null) {
+			while (headerNames.hasMoreElements()) {
+				System.out.println("Header: " + ((HttpServletRequest) request).getHeader(headerNames.nextElement()));
+			}
+		}
 
 		String additionalHeadersToLog = "";
 		if(containerEnvironment.getAdditionalHeadersToLog().size()>0)
