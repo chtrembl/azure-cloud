@@ -45,8 +45,8 @@ public class LoggingFilter implements Filter {
 
 		if (headerNames != null) {
 			while (headerNames.hasMoreElements()) {
-				// System.out.println("Header: " + ((HttpServletRequest)
-				// request).getHeader(headerNames.nextElement()));
+				System.out.println("Header: " + headerNames.nextElement() + " = "
+						+ ((HttpServletRequest) request).getHeader(headerNames.nextElement()));
 			}
 		}
 
