@@ -180,6 +180,10 @@ If you right click on your Bicep ARM Template ```main.json``` and select Deploy 
 
 You could optionally hop on the CLI and run the following which would also do the deployment to Azure
 
+*Note if you select "Open Bicep Visualizer" the VS Code Bicep Extension will generate a nice diagram of your Azure IaC*
+
+![](images/14.png)
+
 ```
 bash
 az deployment group create \
