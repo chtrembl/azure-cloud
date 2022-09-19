@@ -1,6 +1,3 @@
-variables:
-  packageVersion: $[counter('buildCounter',1)]
-
 trigger:
   branches:
     include:
@@ -29,7 +26,7 @@ steps:
 - script: |
     ls -l
     cd petstore/petstorepackages/petstorecommon
-    sed -i 's/BUILD_COUNTER/$(packageVersion)/g' pyproject.toml
+    sed -i 's/BUILD_COUNTER/$(Rev:r)/g' pyproject.toml
     more pyproject.toml
     python -m build
   displayName: 'Python build'
