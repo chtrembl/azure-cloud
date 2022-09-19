@@ -4,4 +4,4 @@ def getBreeds(animal):
     elif animal == "Cat":
         return "Abyssinian, American Bobtail"
     elif animal == "Fish":
-        return "Goldfish"
+        return "Goldfish, Bass"

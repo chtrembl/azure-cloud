@@ -1,5 +1,5 @@
-from utility import *
+from petstorecommon import utility
 
-print(getBreeds("Dog"))
-print(getBreeds("Cat"))
-print(getBreeds("Fish"))
+print(utility.getBreeds("Dog"))
+print(utility.getBreeds("Cat"))
+print(utility.getBreeds("Fish"))
