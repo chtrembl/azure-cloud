@@ -1,6 +1,6 @@
 ## Using Azure DevOps Artifacts to push/pull Python packages
 
-Are you looking for a collaborative way for developers to source and distribute reusable Python packages? The following will walk through the steps needed to configure a Azure DevOps Pipeline to build and deploy Python Packages to Azure Artifacts for consumption by developers across your organization.
+Are you looking for a collaborative way for developers to source and distribute reusable Python packages? The following will walk through the steps needed to configure an Azure DevOps Pipeline to build and deploy Python Packages to Azure Artifacts for consumption by developers across your organization.
 
 ## Step1 Clone this repository and understand the contents ##
 
