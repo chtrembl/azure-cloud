@@ -16,7 +16,37 @@ petstorecommonconsumer is a sample Python project that consumed the reusable Pyt
 build-publish-petstorecommon-package-pipeline is the pipeine that you will import into Azure DevOps Pipelines
 ```azure-cloud/petstore/petstorepackages/build-publish-petstorecommon-package-pipeline.yml```
 
-## Step2 Create an Azure DevOps Artifacts feed ##
+## Step2 Understand the petstorecommon package that we are building ##
+
+Inspect ```azure-cloud/petstore/petstorepackages/petstorecommon/src/utility.py```
+
+```python
+def getBreeds(animal):
+    if animal == "Dog":
+        return "Afador, American Bulldog, Australian Retriever"
+    elif animal == "Cat":
+        return "Abyssinian, American Bobtail"
+    elif animal == "Fish":
+        return "Goldfish, Bass"
+```
+
+This is the script that we will center our package around, a resusable package to retrieve pet breeds as needed.
+
+In your terminal run the following:
+
+```cd azure-cloud/petstore/petstorepackages/petstorecommon/src/petstorecommon```
+
+```python run.py```
+
+```bash
+/opt/homebrew/bin/python3 /Users/christremblay/Development/git/azure-cloud/petstore/petstorepackages/petstorecommon/src/petstorecommon/run.py
+Afador, American Bulldog, Australian Retriever
+Abyssinian, American Bobtail
+Goldfish, Bass
+```
+
+You will notice a litst
+## Step3 Create an Azure DevOps Artifacts feed ##
 
 Head to Azure DevOps and create a new Azure Artifacts feed, give it a name, for example ```petstore_packages```
 
@@ -28,7 +58,7 @@ You should see the following:
 
 > 📝 Please Note, Now that the Artifacts feed is setup, we will come back to it in a bit
 
-## Step2 Create an Azure DevOps Pipeline ##
+## Step4 Create an Azure DevOps Pipeline ##
 
 Import the ```azure-cloud/petstore/petstorepackages/build-publish-petstorecommon-package-pipeline.yml``` and select run (which saves the pipeline)
 
@@ -95,4 +125,25 @@ steps:
 
 ![](images/4.png)
 
-The build will inititiate, and on each subsequent commit to your repository folder ```petstorepackages``` it will run as well. Essentially every time a developer commits a change to ```petstorecommon``` we will inititate a new pipeline to build and deploy a new package
+![](images5.png)
+
+The build will inititiate via ```python -m build```, and on each subsequent commit to your repository folder ```petstorepackages/petstorecommon``` it will run as well. Essentially every time a developer commits a change to ```petstorepackages/petstorecommon``` we will inititate a new pipeline to build and deploy a new package so the other team members/developers can consume. The build label gets injected as well via ```sed -i "s|PACKAGE_VERSION|$(Build.BuildNumber)|g" pyproject.toml``` and twine is used to deploy the package to Artifacts via the Artifact feed that we previously created ```petstore_packages```
+
+> 📝 Please Note, The build will fail because there isn't yet permissions for this Pipeline to deploy to the Artifact feed.
+
+![](images6.png)
+
+Head to the settings of your Artifacts and add the ```Contributor``` permission.
+
+![](images7.png)
+
+![](images8.png)
+
+Rerun the job and it should be successful, you will notice the Artifact gets populated with all of the meta data around it including steps to consume it.
+
+![](images9.png)
+
+![](images10.png)
+
+
+## Step2 Create an Azure DevOps Pipeline ##
