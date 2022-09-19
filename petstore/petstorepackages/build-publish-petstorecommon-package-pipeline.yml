@@ -50,4 +50,5 @@ steps:
   displayName: Twine Authenticate
     
 - script: |
+    ls -l
     python -m twine upload -r petstore_packages --config-file $(PYPIRC_PATH) dist/*.whl --verbose
