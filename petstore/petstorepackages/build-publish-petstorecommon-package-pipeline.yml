@@ -26,6 +26,7 @@ steps:
 - script: |
     ls -l
     cd petstore/petstorepackages/petstorecommon
+    sed -i "s|PACKAGE_VERSION|$(Rev:r)|g" pyproject.toml
     python -m build
   displayName: 'Python build'
 
