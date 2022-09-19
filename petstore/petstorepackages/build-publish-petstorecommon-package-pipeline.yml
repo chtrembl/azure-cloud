@@ -4,7 +4,7 @@ trigger:
     - main
   paths:
     include:
-    - petstore/petstorepackages/*
+    - petstore/petstorepackages/petstorecommon/*
 
 pool:
   vmImage: ubuntu-latest
