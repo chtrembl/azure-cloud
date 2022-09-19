@@ -171,7 +171,7 @@ Traceback (most recent call last):
     from petstorecommon import utility
 ```
 
-This fails because the petstorecommon package does not exist
+This fails because the petstorecommon package does not exist (we haven't installed the package yet)
 
 In your terminal run the following:
 
