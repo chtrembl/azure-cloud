@@ -36,3 +36,19 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'dist'
     publishLocation: 'Container'
+  displayName: Publish Build Artifacts
+  
+- script: |
+    pip install wheel
+    pip install twine
+
+- script: |
+    python setup.py bdist_wheel
+
+- task: TwineAuthenticate@1
+  inputs:
+    artifactFeed: PetStore/petstore_packages
+  displayName: Twine Authenticate
+    
+- script: |
+    python -m twine upload -r petstore_packages --config-file $(PYPIRC_PATH) dist/*.whl --verbose
