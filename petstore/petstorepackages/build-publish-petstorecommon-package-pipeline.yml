@@ -24,6 +24,8 @@ steps:
   displayName: 'PIP Upgrade'
  
 - script: |
+    ls -l
+    cd petstore/petstorepackages/petstorecommon
     python -m build
   displayName: 'Python build'
 
@@ -48,5 +50,6 @@ steps:
   displayName: Twine Authenticate
     
 - script: |
+    ls -l
     cd petstore/petstorepackages/petstorecommon
     python -m twine upload -r petstore_packages --config-file $(PYPIRC_PATH) dist/*.whl --verbose
