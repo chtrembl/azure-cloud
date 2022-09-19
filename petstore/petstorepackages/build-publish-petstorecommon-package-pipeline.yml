@@ -24,6 +24,8 @@ steps:
   displayName: 'PIP Upgrade'
  
 - script: |
+    ls -l
+    cd petstore/petstorepackages/petstorecommon
     python -m build
   displayName: 'Python build'
 
