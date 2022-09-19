@@ -44,9 +44,6 @@ steps:
     pip install wheel
     pip install twine
 
-- script: |
-    python setup.py bdist_wheel
-
 - task: TwineAuthenticate@1
   inputs:
     artifactFeed: PetStore/petstore_packages
