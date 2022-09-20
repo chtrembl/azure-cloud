@@ -222,7 +222,7 @@ In your terminal run the following:
 ❯ python run.py 
 Afador, American Bulldog, Australian Retriever
 Abyssinian, American Bobtail
-Goldfish
+Goldfish, Bass
 ```
 
 Now as you make changes to your petstorecommon package your DevOps pipeline will automatically build/deploy a package to Artifacts and you can choose which petstorecommon Artifact to consume with the pip install command above, toggling between different versions. You can optionally remove the package as well with ```pip uninstall petstorecommon```
