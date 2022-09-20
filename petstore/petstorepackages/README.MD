@@ -227,4 +227,6 @@ Abyssinian, American Bobtail
 Goldfish, Bass
 ```
 
-Now as you make changes to your petstorecommon package your DevOps pipeline will automatically build/deploy a package to Artifacts and you can choose which petstorecommon Artifact to consume with the pip install command above, toggling between different versions. You can optionally remove the package as well with ```pip uninstall petstorecommon```
+## Step6 Make petstorecommon changes, initiate a DevOps Pipeline, retest ##
+
+Now as you make changes to your petstorecommon package script(s) and commit them, your DevOps pipeline will automatically build/deploy a package to Artifacts and you can choose which petstorecommon Artifact to consume with the pip install command above, toggling between different versions. You can optionally remove the package as well with ```pip uninstall petstorecommon```
