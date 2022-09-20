@@ -18,6 +18,8 @@ build-publish-petstorecommon-package-pipeline is the pipeline that you will impo
 
 ## Step2 Understand the petstorecommon package that we are building ##
 
+> 📝 Please Note, The petstorecommon project was built using the packaging structure detailed here https://packaging.python.org/en/latest/tutorials/packaging-projects/
+
 Inspect ```azure-cloud/petstore/petstorepackages/petstorecommon/src/utility.py```
 
 ```python
