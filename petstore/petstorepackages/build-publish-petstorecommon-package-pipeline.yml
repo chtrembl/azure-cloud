@@ -53,5 +53,4 @@ steps:
 - script: |
     ls -l
     cd petstore/petstorepackages/petstorecommon
-    more $(PYPIRC_PATH)
     python -m twine upload -r petstore_packages --config-file $(PYPIRC_PATH) dist/*.whl --verbose
