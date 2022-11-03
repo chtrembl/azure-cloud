@@ -93,7 +93,7 @@ As you recall from previous guides you can create secrets as followed
 
 ```kubectl create secret generic subscriptionid --from-literal=secret=<your subscription id from earlier>```
 
-> 📝 **Please Note, emailtopicconnstring will need to be wrapped in quotes to protect the connection string
+> 📝 **Please Note, emailtopicconnstring will need to be wrapped in quotes to protect the connection string.**
 
 Once these secrets are created and you have committed your petstoreorderservice-deployment-everything-enabled.yml changes you can update the application.yml below, as seen below.
 
