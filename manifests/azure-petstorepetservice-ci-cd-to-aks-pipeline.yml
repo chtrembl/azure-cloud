@@ -89,7 +89,7 @@ stages:
             inputs: 
               action: createSecret
               kubernetesServiceConnection: azurepetstoreservices-akscluster-ingress-petstoreservices
-              namespace: ingress-petstoreservices
+              namespace: default
               secretType: dockerRegistry
               secretName: $(imagePullSecret)
               dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
