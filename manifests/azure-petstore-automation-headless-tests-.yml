@@ -24,16 +24,7 @@ stages:
       demands:
         - agent.name -equals automation
     steps:
-    - task: Maven@3
-      continueOnError: true 
-      displayName: Build & Execute Automated Regression Tests
-      inputs:
-        mavenPomFile: 'petstore/petstoreautomation/pom.xml'
-        mavenOptions: '-Xmx3072m'
-        javaHomeOption: 'JDKVersion'
-        jdkVersionOption: '8'
-        jdkArchitectureOption: 'x64'
-        publishJUnitResults: true
-        testResultsFiles: 'petstore/petstoreautomation/target/surefire-reports/TEST-*.xml'
-        codeCoverageToolOption: 'jaCoCo'
-        goals: 'package'
+    - script: |
+        ls -l
+        cd c:/Users/chtrembl/agent/_work/1/s/petstore/petstoreautomationheadless
+        mvn clean test
