@@ -60,7 +60,7 @@ You should see the following:
 
 ![](images/15_8.png)
 
-Head back to the Overview page and make note of your Subscription ID, , you will need them when you configure your PetStoreOrderService.
+Head back to the Overview page and make note of your Subscription ID, you will need them when you configure your PetStoreOrderService.
 
 You should see the following:
 
