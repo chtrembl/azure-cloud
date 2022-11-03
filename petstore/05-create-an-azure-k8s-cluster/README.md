@@ -62,7 +62,7 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
    `NAMESPACE=ingress-petstoreservices`
 
-> 📝 Please Note, as of 11/2/2022 you can skip the remaining steps in this section below by just running one command ```helm install quickstart ingress-nginx/ingress-nginx --namespace $NAMESPACE``` and you will not even need to manually configure NGINX as seen in this section, it will be taken care of for you with the quickstart.
+> 📝 Please Note, as of 11/2/2022 you can skip the remaining steps in this section below by just running one command ```helm install quickstart ingress-nginx/ingress-nginx --namespace $NAMESPACE``` and you will not even need to manually configure NGINX as seen in this section, it will be taken care of for you with the quickstart. Also note that at the time of this update there is an issue with AKS 1.24 and above that would require Health Prob updates if you choose to proceed with something 1.24 or greater. If you choose 1.24 or greater you will need to update the health probes to "healthz" seen here https://github.com/Azure/AKS/issues/3210 
 
 2. We will setup a few more variables to simply our commands further down.
 
