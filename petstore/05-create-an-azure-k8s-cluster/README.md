@@ -62,6 +62,8 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
    `NAMESPACE=ingress-petstoreservices`
 
+> 📝 Please Note, as of 11/2/2022 you can skip the remaining steps in this section below by just running one command ```helm install quickstart ingress-nginx/ingress-nginx --namespace $NAMESPACE``` and you will not even need to manually configure NGINX as seen in this section, it will be taken care of for you with the quickstart.
+
 2. We will setup a few more variables to simply our commands further down.
 
    ```cli
@@ -140,7 +142,7 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
    cd to azure-cloud/petstore/petstorepetservice
 
-   `vi aks-petstorepetservice.yml`
+   `vi petstorepetservice-deployment.yml`
 
    update the image path to that of your container registry, save and exit
 
@@ -148,7 +150,9 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
    run the deployment
 
-   `kubectl apply -f aks-petstorepetservice.yml --namespace $NAMESPACE`
+   `kubectl apply -f petstorepetservice-deployment --namespace $NAMESPACE`
+   
+   `kubectl apply -f petstorepetservice-service --namespace $NAMESPACE`
 
    You should see something similar to the below image:
 
@@ -164,7 +168,7 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
    cd to azure-cloud/petstore/petstoreproductservice
 
-   `vi aks-petstoreproductservice.yml`
+   `vi petstoreproductservice-deployment.yml`
 
    update the image path to that of your container registry, save and exit
 
@@ -172,7 +176,9 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
    run the deployment
 
-   `kubectl apply -f aks-petstoreproductservice.yml --namespace $NAMESPACE`
+   `kubectl apply -f petstoreproductservice-deployment --namespace $NAMESPACE`
+   
+   `kubectl apply -f petstoreproductservice-service --namespace $NAMESPACE`
 
    You should see something similar to the below image:
 
@@ -188,7 +194,7 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
    cd to azure-cloud/petstore/petstoreorderservice
 
-   `vi aks-petstoreorderservice.yml`
+   `vi petstoreorderservice-deployment.yml`
 
    update the image path to that of your container registry, save and exit
 
@@ -196,7 +202,9 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
    run the deployment
 
-   `kubectl apply -f aks-petstoreorderservice.yml --namespace $NAMESPACE`
+   `kubectl apply -f petstoreorderservice-deployment --namespace $NAMESPACE`
+   
+   `kubectl apply -f petstoreorderservice-service --namespace $NAMESPACE`
 
    You should see something similar to the below image:
 
