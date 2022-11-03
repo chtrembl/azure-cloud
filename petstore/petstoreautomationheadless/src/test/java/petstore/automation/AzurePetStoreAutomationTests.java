@@ -7,7 +7,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-//import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 /**
  * Automation Tests for Azure Pet Store
@@ -18,10 +17,8 @@ public class AzurePetStoreAutomationTests {
 
 	@Test
 	public void testAzurePetStoreShoppingCartCount() {
-		//System.setProperty("webdriver.chrome.driver", "/Users/christremblay/Development/tools/chromedriver");
-		System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
+		System.setProperty("webdriver.chrome.driver", "/automation/chromedriver/107/chromedriver.exe");
 		ChromeOptions options = new ChromeOptions();
-		options.addArguments("--proxy-server=socks5://172.17.0.2:4444");
 		options.addArguments("--headless");
 		options.addArguments("--disable-gpu");
 		options.addArguments("--window-size=1400,800");
