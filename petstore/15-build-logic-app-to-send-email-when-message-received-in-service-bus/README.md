@@ -54,7 +54,7 @@ You should see the following:
 
 ![](images/15_7.png)
 
-Copy the Keys and Connection Strings off somewhere, you will need them when you configure your PetStoreOrderService.
+Copy the Connection Strings off somewhere, you will need one of them when you configure your PetStoreOrderService.
 
 You should see the following:
 
@@ -89,9 +89,11 @@ You will need to make sure you have 2 more env variables
 
 As you recall from previous guides you can create secrets as followed
 
-```kubectl create secret generic emailtopicconnstring --from-literal=secret=<your connection string from earlier>```
+```kubectl create secret generic emailtopicconnstring --from-literal=secret="<your connection string from earlier>"```
 
 ```kubectl create secret generic subscriptionid --from-literal=secret=<your subscription id from earlier>```
+
+> 📝 **Please Note, emailtopicconnstring will need to be wrapped in quotes to protect the connection string
 
 Once these secrets are created and you have committed your petstoreorderservice-deployment-everything-enabled.yml changes you can update the application.yml below, as seen below.
 
