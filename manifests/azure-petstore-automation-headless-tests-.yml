@@ -19,8 +19,10 @@ stages:
   jobs: 
   - job: Automation
     displayName: Build & Execute Automated Regression Tests
-    pool:
-      vmImage: 'ubuntu-latest'
+    pool: 
+      name: Azure Automation Pipelines
+      demands:
+        - agent.name -equals automation
     steps:
     - task: Maven@3
       continueOnError: true 
