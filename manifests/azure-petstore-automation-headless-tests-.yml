@@ -14,11 +14,10 @@ resources:
 - repo: self
 
 stages:
-- stage: Build
-  displayName: Build & Test Stage
+- stage: Compile
+  displayName: Compile & Execute Regression Test(s) Stage
   jobs: 
   - job: Automation
-    displayName: Build & Execute Automated Regression Tests
     pool: 
       name: Azure Automation Pipelines
       demands:
@@ -28,3 +27,8 @@ stages:
         ls -l
         cd c:/Users/chtrembl/agent/_work/1/s/petstore/petstoreautomationheadless
         mvn clean test
+
+    - task: PublishTestResults@2
+      inputs:
+         testResultsFormat: 'JUnit'
+         testResultsFiles: 'c:/Users/chtrembl/agent/_work/1/s/petstore/petstoreautomationheadless/target/surefire-reports/TEST-*.xml'
