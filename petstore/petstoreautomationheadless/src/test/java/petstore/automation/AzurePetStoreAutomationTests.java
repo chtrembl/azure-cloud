@@ -17,7 +17,7 @@ public class AzurePetStoreAutomationTests {
 
 	@Test
 	public void testAzurePetStoreShoppingCartCount() {
-		System.setProperty("webdriver.chrome.driver", "/automation/chromedriver/107/chromedriver");
+		System.setProperty("webdriver.chrome.driver", "$HOME/Development/automation/chromedriver/107/chromedriver");
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--headless");
 		options.addArguments("--disable-gpu");
