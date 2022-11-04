@@ -24,10 +24,10 @@ stages:
         - agent.name -equals automation
     steps:
     - script: |
-        cd ~/Development/automation/vsts-agent-osx-x64-2.211.1/_work/1/s/petstore/petstoreautomationheadless
+        cd /Users/christremblay/automation/vsts-agent-osx-x64-2.211.1/_work/1/s/petstore/petstoreautomationheadless
         mvn clean test
 
     - task: PublishTestResults@2
       inputs:
          testResultsFormat: 'JUnit'
-         testResultsFiles: '~/Development/automation/vsts-agent-osx-x64-2.211.1/_work/1/s/petstore/petstoreautomationheadless/target/surefire-reports/TEST-*.xml'
+         testResultsFiles: '/Users/christremblay/Development/automation/vsts-agent-osx-x64-2.211.1/_work/1/s/petstore/petstoreautomationheadless/target/surefire-reports/TEST-*.xml'
