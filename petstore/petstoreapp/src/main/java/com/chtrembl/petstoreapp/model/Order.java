@@ -8,6 +8,7 @@ import java.util.Objects;
 
 import org.springframework.stereotype.Component;
 
+import com.azure.spring.data.cosmos.core.mapping.Container;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -17,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 @SuppressWarnings("serial")
 @Component
+@Container(containerName = "Orders")
 public class Order implements Serializable {
 	@JsonProperty("id")
 	private String id = null;

@@ -32,10 +32,13 @@ import com.chtrembl.petstoreapp.model.Order;
 import com.chtrembl.petstoreapp.model.Pet;
 import com.chtrembl.petstoreapp.model.User;
 import com.chtrembl.petstoreapp.model.WebPages;
+import com.chtrembl.petstoreapp.repository.ECommerceRepository;
 import com.chtrembl.petstoreapp.service.PetStoreService;
 import com.chtrembl.petstoreapp.service.SearchService;
 import com.microsoft.applicationinsights.telemetry.PageViewTelemetry;
 import com.nimbusds.jose.shaded.json.JSONArray;
+
+import reactor.core.publisher.Flux;
 
 /**
  * Web Controller for all of the model/presentation construction and various
@@ -60,9 +63,11 @@ public class WebAppController {
 	@Autowired
 	private CacheManager currentUsersCacheManager;
 
+	@Autowired(required = false)
+	private ECommerceRepository ecommerceRepository;
+	  
 	@ModelAttribute
 	public void setModel(HttpServletRequest request, Model model, OAuth2AuthenticationToken token) {
-
 		CaffeineCache caffeineCache = (CaffeineCache) this.currentUsersCacheManager
 				.getCache(ContainerEnvironment.CURRENT_USERS_HUB);
 		com.github.benmanes.caffeine.cache.Cache<Object, Object> nativeCache = caffeineCache.getNativeCache();
@@ -312,5 +317,26 @@ public class WebAppController {
 		model.addAttribute("webpages", webpages);
 
 		return "bingSearch";
+	}
+	
+	@GetMapping(value = "/cosmosOrders")
+	public String orders(Model model, HttpServletRequest request) throws URISyntaxException {
+		logger.info("PetStoreApp /cosmosOrders requested, routing to cosmosOrders view...");
+
+		PageViewTelemetry pageViewTelemetry = new PageViewTelemetry();
+		pageViewTelemetry.setUrl(new URI(request.getRequestURL().toString()));
+		pageViewTelemetry.setName("cosmosOrders");
+		this.sessionUser.getTelemetryClient().trackPageView(pageViewTelemetry);
+		
+		List<Order> cosmosOrders = null;
+		
+		if(this.ecommerceRepository != null)
+		{
+			cosmosOrders = this.ecommerceRepository.findAll().collectList().block();
+		}
+		
+		model.addAttribute("cosmosOrders", cosmosOrders);
+		
+		return "cosmosOrders";
 	}
 }
