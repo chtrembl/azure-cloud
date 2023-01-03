@@ -67,7 +67,7 @@ spring:
   cloud:
     azure:
       cosmos:
-        endpoint: https://azurepetstore.documents.azure.com:443/
+        endpoint: https://azurepetstorehcservicebus.servicebus.windows.net/azurepetstorecosmosdb:443/
         key: t05vyZouFDGh7RdTD4wdhMeKLtSQzPVJ7O9pVDbTe65ZskJTXsoKhZ5oBJApxyrDkYdBVXEZtLRQqVh1eWG9hQ==
         database: E-Commerce
         populate-query-metrics: true
