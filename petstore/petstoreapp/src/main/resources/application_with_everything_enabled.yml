@@ -64,13 +64,6 @@ spring:
     cache: false  
   cache:
     cache-names: currentUsers
-  #cloud:
-  #  azure:
-  #    cosmos:
-  #      endpoint: https://azurepetstorecosmosdb.azure.com:443/
-  #      key: 
-  #      database: E-Commerce
-  #      populate-query-metrics: true
 ga:
   tracking:
     id: ${GA_TRACKING_ID}

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
-import com.azure.spring.cloud.autoconfigure.aadb2c.AadB2cOidcLoginConfigurer;
+import com.microsoft.azure.spring.autoconfigure.b2c.AADB2COidcLoginConfigurer;
 
 /**
  * Ebables Azure B2C if and only when the required Azure properties are present
@@ -16,13 +16,13 @@ import com.azure.spring.cloud.autoconfigure.aadb2c.AadB2cOidcLoginConfigurer;
 public class AADB2COidcLoginConfigurerWrapper {
 
 	@Autowired(required = false)
-	private AadB2cOidcLoginConfigurer configurer = null;
+	private AADB2COidcLoginConfigurer configurer = null;
 
-	public AadB2cOidcLoginConfigurer getConfigurer() {
+	public AADB2COidcLoginConfigurer getConfigurer() {
 		return configurer;
 	}
 
-	public void setConfigurer(AadB2cOidcLoginConfigurer configurer) {
+	public void setConfigurer(AADB2COidcLoginConfigurer configurer) {
 		this.configurer = configurer;
 	}
 }
