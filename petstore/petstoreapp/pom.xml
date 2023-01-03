@@ -29,6 +29,7 @@
 			<classifier>osx-aarch_64</classifier>
 		</dependency>
 		-->
+		
 		<dependency>
 		  <groupId>com.azure.spring</groupId>
 		  <artifactId>spring-cloud-azure-starter-data-cosmos</artifactId>
