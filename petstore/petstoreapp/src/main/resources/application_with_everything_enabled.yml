@@ -64,6 +64,10 @@ spring:
     cache: false  
   cache:
     cache-names: currentUsers
+  datasource:
+    url: ${PETSTOREAPP_MYSQL_HC_CONN_STRING}
+    username: ${PETSTOREAPP_MYSQL_HC_USERNAME}
+    password: ${PETSTOREAPP_MYSQL_HC_PASSWORD}
 ga:
   tracking:
     id: ${GA_TRACKING_ID}

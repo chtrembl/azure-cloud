@@ -27,11 +27,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 
+import com.chtrembl.petstoreapp.model.Breed;
 import com.chtrembl.petstoreapp.model.ContainerEnvironment;
 import com.chtrembl.petstoreapp.model.Order;
 import com.chtrembl.petstoreapp.model.Pet;
 import com.chtrembl.petstoreapp.model.User;
 import com.chtrembl.petstoreapp.model.WebPages;
+import com.chtrembl.petstoreapp.repository.BreedRepository;
 import com.chtrembl.petstoreapp.service.PetStoreService;
 import com.chtrembl.petstoreapp.service.SearchService;
 import com.microsoft.applicationinsights.telemetry.PageViewTelemetry;
@@ -59,7 +61,10 @@ public class WebAppController {
 
 	@Autowired
 	private CacheManager currentUsersCacheManager;
-	  
+	
+	@Autowired(required = false)
+	private BreedRepository breedRepository;
+	
 	@ModelAttribute
 	public void setModel(HttpServletRequest request, Model model, OAuth2AuthenticationToken token) {
 		CaffeineCache caffeineCache = (CaffeineCache) this.currentUsersCacheManager
@@ -311,5 +316,22 @@ public class WebAppController {
 		model.addAttribute("webpages", webpages);
 
 		return "bingSearch";
+	}
+	
+	@GetMapping(value = "/hybridConnection")
+	public String hybridConnection(Model model) throws URISyntaxException {
+		logger.info(String.format("PetStoreApp /hybridConnection requested for %s, routing to hybridConnection view...",
+				this.sessionUser.getName()));
+		
+		List<Breed> breeds = null;
+		
+		if(this.breedRepository != null)
+		{
+			breeds = this.breedRepository.findAll();
+		}
+		
+		model.addAttribute("breeds", breeds);
+
+		return "hybridConnection";
 	}
 }
