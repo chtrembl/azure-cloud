@@ -21,7 +21,7 @@
 	</properties>
 
 	<dependencies>
-		<!-- 
+		<!-- MAC M1 CHIPS
 		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-resolver-dns-native-macos</artifactId>

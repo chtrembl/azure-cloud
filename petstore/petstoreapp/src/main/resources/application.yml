@@ -61,3 +61,5 @@ spring:
     cache: false
   cache:
     cache-names: currentUsers
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration #disable if hybrid connection demo turned off
