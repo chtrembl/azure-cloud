@@ -67,7 +67,7 @@ var locations = [
   }
 ]
 
-resource account 'Microsoft.DocumentDB/databaseAccounts@2021-10-15' = {
+resource account 'Microsoft.DocumentDB/databaseAccounts@2022-05-15' = {
   name: toLower(cosmosAccountName)
   location: cosmosLocation
   kind: 'GlobalDocumentDB'
@@ -79,7 +79,7 @@ resource account 'Microsoft.DocumentDB/databaseAccounts@2021-10-15' = {
   }
 }
 
-resource database 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2021-10-15' = {
+resource database 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2022-05-15' = {
   name: '${account.name}/${cosmosDatabaseName}'
   properties: {
     resource: {
@@ -88,14 +88,14 @@ resource database 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2021-10-15
   }
 }
 
-resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2021-10-15' = {
+resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2022-05-15' = {
   name: '${database.name}/${cosmosContainerName}'
   properties: {
     resource: {
       id: cosmosContainerName
       partitionKey: {
         paths: [
-          '/zipCode'
+          '/customer/zipCode'
         ]
         kind: 'Hash'
       }
