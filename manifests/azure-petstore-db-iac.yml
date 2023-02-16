@@ -33,6 +33,7 @@ variables:
   vmImageName: 'ubuntu-latest'
   azureServiceConnection: 'Azure'
   templateFile: 'petstore/iac/bicep/db/main.bicep'
+
 pool:
   vmImage: $(vmImageName)
 
@@ -62,4 +63,4 @@ stages:
                     az group create --name ${{ parameters.resourceGroup }} --location 'eastus'
                   fi
                   az deployment group create \
-                    --resource-group ${{ parameters.resourceGroup }} --template-file $(templateFile) --parameters cosmosAccountName='${{ parameters.cosmosAccountName }}' cosmosPrimaryRegion='${{ parameters.region }}' cosmosDatabaseName='${{ parameters.cosmosDatabaseName }}' cosmosContainerName='${{ parameters.cosmosContainerName }}'
+                    --resource-group ${{ parameters.resourceGroup }} --template-file "petstore/iac/bicep/db/main.bicep" --parameters cosmosAccountName='${{ parameters.cosmosAccountName }}' cosmosPrimaryRegion='${{ parameters.region }}' cosmosDatabaseName='${{ parameters.cosmosDatabaseName }}' cosmosContainerName='${{ parameters.cosmosContainerName }}'
