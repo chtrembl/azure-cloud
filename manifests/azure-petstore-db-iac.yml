@@ -57,6 +57,7 @@ stages:
                 scriptLocation: inlineScript
                 inlineScript: |
                   az --version
+                  az upgrade
                   if [ $(az group exists --name ${{ parameters.resourceGroup }}) = false ]; then
                     az group create --name ${{ parameters.resourceGroup }} --location 'eastus'
                   fi
