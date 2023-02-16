@@ -95,7 +95,7 @@ resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/container
       id: cosmosContainerName
       partitionKey: {
         paths: [
-          '/customer/zipcode'
+          '/zipCode'
         ]
         kind: 'Hash'
       }
