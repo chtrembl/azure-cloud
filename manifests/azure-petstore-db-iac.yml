@@ -36,16 +36,20 @@ variables:
 pool:
   vmImage: $(vmImageName)
 
-steps:
-- task: AzureCLI@2
-  inputs:
-    azureSubscription: $(azureServiceConnection)
-    scriptType: bash
-    scriptLocation: inlineScript
-    inlineScript: |
-      az --version
-      if [ $(az group exists --name ${{ parameters.resourceGroup }}) = false ]; then
-        az group create --name ${{ parameters.resourceGroup }} --location 'eastus'
-      fi
-      az deployment group create \
-        --resource-group ${{ parameters.resourceGroup }} --template-file $(templateFile) --parameters cosmosAccountName='${{ parameters.cosmosAccountName }}' cosmosPrimaryRegion='${{ parameters.region }}' cosmosDatabaseName='${{ parameters.cosmosDatabaseName }}' cosmosContainerName='${{ parameters.cosmosContainerName }}'
+  jobs:
+  - deployment: Deploy Database Infrastructure
+    displayName: Deploy Database Infrastructure
+    environment: 'Development'
+    steps:
+      - task: AzureCLI@2
+        inputs:
+          azureSubscription: $(azureServiceConnection)
+          scriptType: bash
+          scriptLocation: inlineScript
+          inlineScript: |
+            az --version
+            if [ $(az group exists --name ${{ parameters.resourceGroup }}) = false ]; then
+              az group create --name ${{ parameters.resourceGroup }} --location 'eastus'
+            fi
+            az deployment group create \
+              --resource-group ${{ parameters.resourceGroup }} --template-file $(templateFile) --parameters cosmosAccountName='${{ parameters.cosmosAccountName }}' cosmosPrimaryRegion='${{ parameters.region }}' cosmosDatabaseName='${{ parameters.cosmosDatabaseName }}' cosmosContainerName='${{ parameters.cosmosContainerName }}'
