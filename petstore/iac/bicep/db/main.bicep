@@ -1,105 +1,95 @@
-@description('Cosmos DB account name, max length 44 characters')
-param cosmosAccountName string = 'sql-${uniqueString(resourceGroup().id)}'
+@description('Azure Cosmos DB account name')
+param accountName string = 'sql-${uniqueString(resourceGroup().id)}'
 
-@description('Location for the Cosmos DB account.')
-param cosmosLocation string = resourceGroup().location
-
-@description('The primary replica region for the Cosmos DB account.')
-param cosmosPrimaryRegion string
-
-@allowed([
-  'Eventual'
-  'ConsistentPrefix'
-  'Session'
-  'BoundedStaleness'
-  'Strong'
-])
-@description('The default consistency level of the Cosmos DB account.')
-param defaultConsistencyLevel string = 'Session'
-
-@minValue(10)
-@maxValue(2147483647)
-@description('Max stale requests. Required for BoundedStaleness. Valid ranges, Single Region: 10 to 1000000. Multi Region: 100000 to 1000000.')
-param maxStalenessPrefix int = 100000
-
-@minValue(5)
-@maxValue(86400)
-@description('Max lag time (minutes). Required for BoundedStaleness. Valid ranges, Single Region: 5 to 84600. Multi Region: 300 to 86400.')
-param maxIntervalInSeconds int = 300
-
-@allowed([
-  true
-  false
-])
-@description('Enable automatic failover for regions')
-param automaticFailover bool = true
+@description('Location for the Azure Cosmos DB account.')
+param location string = resourceGroup().location
 
 @description('The name for the database')
-param cosmosDatabaseName string = 'myDatabase'
+param databaseName string = 'database1'
 
 @description('The name for the container')
-param cosmosContainerName string = 'myContainer'
+param containerName string = 'container1'
 
-var consistencyPolicy = {
-  Eventual: {
-    defaultConsistencyLevel: 'Eventual'
-  }
-  ConsistentPrefix: {
-    defaultConsistencyLevel: 'ConsistentPrefix'
-  }
-  Session: {
-    defaultConsistencyLevel: 'Session'
-  }
-  BoundedStaleness: {
-    defaultConsistencyLevel: 'BoundedStaleness'
-    maxStalenessPrefix: maxStalenessPrefix
-    maxIntervalInSeconds: maxIntervalInSeconds
-  }
-  Strong: {
-    defaultConsistencyLevel: 'Strong'
-  }
-}
+@description('The partition key for the container')
+param partitionKeyPath string = '/partitionKey'
+
+@description('The throughput policy for the container')
+@allowed([
+  'Manual'
+  'Autoscale'
+])
+param throughputPolicy string = 'Autoscale'
+
+@description('Throughput value when using Manual Throughput Policy for the container')
+@minValue(400)
+@maxValue(1000000)
+param manualProvisionedThroughput int = 400
+
+@description('Maximum throughput when using Autoscale Throughput Policy for the container')
+@minValue(1000)
+@maxValue(1000000)
+param autoscaleMaxThroughput int = 1000
+
+@description('Time to Live for data in analytical store. (-1 no expiry)')
+@minValue(-1)
+@maxValue(2147483647)
+param analyticalStoreTTL int = -1
+
 var locations = [
   {
-    locationName: cosmosPrimaryRegion
+    locationName: location
     failoverPriority: 0
     isZoneRedundant: false
   }
 ]
+var throughput_Policy = {
+  Manual: {
+    throughput: manualProvisionedThroughput
+  }
+  Autoscale: {
+    autoscaleSettings: {
+      maxThroughput: autoscaleMaxThroughput
+    }
+  }
+}
 
 resource account 'Microsoft.DocumentDB/databaseAccounts@2022-05-15' = {
-  name: toLower(cosmosAccountName)
-  location: cosmosLocation
-  kind: 'GlobalDocumentDB'
+  name: toLower(accountName)
+  location: location
   properties: {
-    consistencyPolicy: consistencyPolicy[defaultConsistencyLevel]
-    locations: locations
+    consistencyPolicy: {
+      defaultConsistencyLevel: 'Session'
+    }
     databaseAccountOfferType: 'Standard'
-    enableAutomaticFailover: automaticFailover
+    locations: locations
+    enableAnalyticalStorage: true
   }
 }
 
 resource database 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases@2022-05-15' = {
-  name: '${account.name}/${cosmosDatabaseName}'
+  parent: account
+  name: databaseName
   properties: {
     resource: {
-      id: cosmosDatabaseName
+      id: databaseName
     }
   }
 }
 
 resource container 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers@2022-05-15' = {
-  name: '${database.name}/${cosmosContainerName}'
+  parent: database
+  name: containerName
   properties: {
     resource: {
-      id: cosmosContainerName
+      id: containerName
       partitionKey: {
         paths: [
-          '/customer/zipCode'
+          partitionKeyPath
         ]
         kind: 'Hash'
       }
-      defaultTtl: 86400
+      analyticalStorageTtl: analyticalStoreTTL
     }
+    options: throughput_Policy[throughputPolicy]
   }
 }
