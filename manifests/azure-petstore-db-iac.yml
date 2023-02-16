@@ -36,20 +36,28 @@ variables:
 pool:
   vmImage: $(vmImageName)
 
+stages:
+- stage: Deploy
+  displayName: Deploy Database Infrastructure Stage
   jobs:
-  - deployment: Deploy Database Infrastructure
-    displayName: Deploy Database Infrastructure
+  - deployment: Deploy
+    displayName: Deploy Database Infrastructure Job
+    pool:
+      vmImage: 'ubuntu-latest'
     environment: 'Development'
-    steps:
-      - task: AzureCLI@2
-        inputs:
-          azureSubscription: $(azureServiceConnection)
-          scriptType: bash
-          scriptLocation: inlineScript
-          inlineScript: |
-            az --version
-            if [ $(az group exists --name ${{ parameters.resourceGroup }}) = false ]; then
-              az group create --name ${{ parameters.resourceGroup }} --location 'eastus'
-            fi
-            az deployment group create \
-              --resource-group ${{ parameters.resourceGroup }} --template-file $(templateFile) --parameters cosmosAccountName='${{ parameters.cosmosAccountName }}' cosmosPrimaryRegion='${{ parameters.region }}' cosmosDatabaseName='${{ parameters.cosmosDatabaseName }}' cosmosContainerName='${{ parameters.cosmosContainerName }}'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - task: AzureCLI@2
+              inputs:
+                azureSubscription: $(azureServiceConnection)
+                scriptType: bash
+                scriptLocation: inlineScript
+                inlineScript: |
+                  az --version
+                  if [ $(az group exists --name ${{ parameters.resourceGroup }}) = false ]; then
+                    az group create --name ${{ parameters.resourceGroup }} --location 'eastus'
+                  fi
+                  az deployment group create \
+                    --resource-group ${{ parameters.resourceGroup }} --template-file $(templateFile) --parameters cosmosAccountName='${{ parameters.cosmosAccountName }}' cosmosPrimaryRegion='${{ parameters.region }}' cosmosDatabaseName='${{ parameters.cosmosDatabaseName }}' cosmosContainerName='${{ parameters.cosmosContainerName }}'
