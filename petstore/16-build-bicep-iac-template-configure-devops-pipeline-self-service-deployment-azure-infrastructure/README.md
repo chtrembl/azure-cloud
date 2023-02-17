@@ -177,7 +177,7 @@ You could optionally hop on the CLI and run the following which would also do th
 ```
 bash
 az deployment group create \
-        --resource-group resourceGroup --template-file templateFilePath --parameters cosmosAccountName='cosmosAccountName' cosmosPrimaryRegion='parameters.region' cosmosDatabaseName='parameters.cosmosDatabaseName' cosmosContainerName='parameters.cosmosContainerName'
+                    --resource-group ${{ parameters.resourceGroup }} --template-file $(templateFile) --parameters accountName='${{ parameters.cosmosAccountName }}' location='${{ parameters.region }}' databaseName='${{ parameters.cosmosDatabaseName }}' containerName='${{ parameters.cosmosContainerName }}' partitionKeyPath='/partition' --verbose
 ```
 
 However, we are going to take this a step further and make this Self Service via Azure DevOps
