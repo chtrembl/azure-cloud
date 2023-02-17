@@ -334,7 +334,7 @@ If you head to the Azure Portal you will now see your newly provisioned Cosmos D
 
 ![](images/10.png)
 
-Now you are ready to use your Cosmos DB. We could always take this a step further and enhance the automation. We could add checks and approvals to the Pipeline so that once a user initiates a pipeline an approval chain fires off before deployment starts. Or perhaps we could build a logic app to trigger on this pipeline when a DevOps Work Item moves to a specific state. In conclusion there are many possibilities and this process is very extensible. We also now have IaC sourced in GitHub and get the benefits of SDLC as we would with any other software.
+Now you are ready to use your Cosmos DB. We could always take this a step further and enhance the automation. We could add more checks to the Pipeline etc.. Or perhaps we could build a logic app to trigger on this pipeline when a DevOps Work Item moves to a specific state.  We could also grab the Cosmos connection strings needed for this new Developer to start consuming and send them to the Developer etc... In conclusion there are many possibilities and this process is very extensible. We also now have IaC sourced in GitHub and get the benefits of SDLC as we would with any other software.
 
 ## Step 3 Add step to Logic App to persist azurepetstore.com order into new Azure Cosmos DB ##
 
