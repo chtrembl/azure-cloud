@@ -199,15 +199,15 @@ If you cloned/forked this repository you will notice a ```manifests/azure-petsto
 > 📝 Please Note, Below are the contents of ```manifests/azure-petstore-db-iac.yml``` if you wish to copy them into another pipeline as opposed to importing
 
 ```yaml
-name: Deploy ETL Infrastructure
+name: Deploy Database Infrastructure
 
 parameters:
 - name: resourceGroup
-  displayName: ETL Resource Group
+  displayName: Database Resource Group
   type: string
-  default: ETLTest
+  default: Test
 - name: region
-  displayName: ETL Region
+  displayName: Database Region
   type: string
   default: East US 2
   values:
@@ -234,23 +234,37 @@ variables:
   vmImageName: 'ubuntu-latest'
   azureServiceConnection: 'Azure'
   templateFile: 'petstore/iac/bicep/db/main.bicep'
+
 pool:
   vmImage: $(vmImageName)
 
-steps:
-- task: AzureCLI@2
-  inputs:
-    azureSubscription: $(azureServiceConnection)
-    scriptType: bash
-    scriptLocation: inlineScript
-    inlineScript: |
-      az --version
-      if [ $(az group exists --name ${{ parameters.resourceGroup }}) = false ]; then
-        az group create --name ${{ parameters.resourceGroup }} --location 'eastus'
-      fi
-      az deployment group create \
-        --resource-group ${{ parameters.resourceGroup }} --template-file $(templateFile) --parameters cosmosAccountName='${{ parameters.cosmosAccountName }}' cosmosPrimaryRegion='${{ parameters.region }}' cosmosDatabaseName='${{ parameters.cosmosDatabaseName }}' cosmosContainerName='${{ parameters.cosmosContainerName }}'
-
+stages:
+- stage: Deploy
+  displayName: Deploy Database Infrastructure Stage
+  jobs:
+  - deployment: Deploy
+    displayName: Deploy Database Infrastructure Job
+    pool:
+      vmImage: 'ubuntu-latest'
+    environment: 'Development'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: self
+            - task: AzureCLI@2
+              inputs:
+                azureSubscription: $(azureServiceConnection)
+                scriptType: bash
+                scriptLocation: inlineScript
+                inlineScript: |
+                  az --version
+                  ls -l
+                  if [ $(az group exists --name ${{ parameters.resourceGroup }}) = false ]; then
+                    az group create --name ${{ parameters.resourceGroup }} --location 'eastus'
+                  fi
+                  az deployment group create \
+                    --resource-group ${{ parameters.resourceGroup }} --template-file $(templateFile) --parameters accountName='${{ parameters.cosmosAccountName }}' location='${{ parameters.region }}' databaseName='${{ parameters.cosmosDatabaseName }}' containerName='${{ parameters.cosmosContainerName }}' partitionKeyPath='/partition' --verbose
 ```
 
 As seen above, this pipeline does not have a trigger on source code commits, it gets executed manually (self service from Azure DevOps).
