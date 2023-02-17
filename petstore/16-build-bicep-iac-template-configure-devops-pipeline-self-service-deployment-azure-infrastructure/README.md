@@ -192,6 +192,22 @@ Head to Service Connections and create a new Service Connection, specify your Az
 
 ![](images/4.png)
 
+Head to the Environments section under Pipelines. You will want to create an Environment for your IaC Pipeline to deploy to, we will call this 'Development'. This is a logical concept in Azure DevOps, an Environment is a collection of resources that can be targeted by deployments from a pipeline, we will use this new Environment to apply Approvals before the Pipeline actually runs and deploys. There are many other things you can do as well such as Gates and Checks etc....
+
+![](images/env.png)
+
+Once you have the Environment created you can then add an Approval and save that. I will select a user to approve this pipeline (myself) and click 'Create'. There are lots of possibilities here. Perhaps you would want to invoke a REST API to decide on the behavior (true/false) etc... on how to proceed.
+
+![](images/env2.png)
+
+![](images/env3.png)
+
+![](images/env4.png)
+
+![](images/env5.png)
+
+At this point your 'Development' Azure DevOps Environment is ready.
+
 If you cloned/forked this repository you will notice a ```manifests/azure-petstore-db-iac.yml``` pipeline that you can import into your Azure DevOps Pipelines, as seen below. I gave my Pipeline a meaningful name "Deploy Database Infrastructure"
 
 ![](images/5.png)
@@ -299,6 +315,14 @@ Select "Run pipeline", as seen below:
 You can specify your resource group and parameters. I chose the default Cosmos Account Name, Cosmos DB and Cosmos Container and Region. I also specified an existing resource group that I wanted to deploy the Cosmos DB into, as seen below:
 
 ![](images/8.png)
+
+Once you click "Run" the Pipeline will initiate and the Approval will kick in.
+
+![](images/approval.png)
+
+You can "Approve" or "Reject" (This would typically be a different user(s) than the one inititiating the Pipeline)
+
+![](images/approval2.png)
 
 Once the Pipeline completes you will see the logs followed by an email as seen below:
 
