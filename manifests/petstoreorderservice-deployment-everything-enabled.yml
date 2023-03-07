@@ -14,6 +14,7 @@ spec:
     spec:
       nodeSelector:
         "beta.kubernetes.io/os": linux
+        agentpool: petstorenp2
       containers:
       - name: petstoreorderservice
         image: azurepetstorecr.azurecr.io/petstoreorderservice:latest
