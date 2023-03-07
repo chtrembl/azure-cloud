@@ -89,7 +89,7 @@ stages:
             inputs: 
               action: createSecret
               kubernetesServiceConnection: azurepetstoreservices-akscluster
-              namespace: default
+              namespace: petstorenp2
               secretType: dockerRegistry
               secretName: $(imagePullSecret)
               dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
