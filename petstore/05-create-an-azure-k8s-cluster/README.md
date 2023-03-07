@@ -62,7 +62,18 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
    `NAMESPACE=ingress-petstoreservices`
 
-> 📝 Please Note, as of 11/2/2022 you can skip the remaining steps in this section below by just running one command ```helm install quickstart ingress-nginx/ingress-nginx --namespace $NAMESPACE``` and you will not even need to manually configure NGINX as seen in this section, it will be taken care of for you with the quickstart. Also note that at the time of this update there is an issue with AKS 1.24 and above that would require Health Prob updates if you choose to proceed with something 1.24 or greater. If you choose 1.24 or greater you will need to update the health probes to "healthz" seen here https://github.com/Azure/AKS/issues/3210 
+> 📝 Please Note, you can skip the remaining steps (2-6) in this section below by just running these basic commands from the basic configuration here https://learn.microsoft.com/en-us/azure/aks/ingress-basic?tabs=azure-cli, you will want to check this document because often times annotations can/will change. With this, you will not be required to configure NGINX as seen in this section, it will be taken care of for you with the quickstart.
+
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+
+helm repo update
+
+helm install ingress-nginx ingress-nginx/ingress-nginx \
+  --create-namespace \
+  --namespace $NAMESPACE \
+  --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-health-probe-request-path"=/healthz
+
+Also note that at the time of this update there is an issue with AKS 1.24 and above that would require Health Prob updates if you choose to proceed with something 1.24 or greater. If you choose 1.24 or greater you will need to update the health probes to "healthz" seen here https://github.com/Azure/AKS/issues/3210 
 
 2. We will setup a few more variables to simply our commands further down.
 
@@ -241,6 +252,12 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 6. Test Ingress to all 3 services
 
    Get the Ingress controller External IP address and save it off
+   
+   quickstart:
+
+   `kubectl --namespace $NAMESPACE get services -o wide -w quickstart-ingress-nginx-controller`
+    
+   traditional:
 
    `kubectl --namespace $NAMESPACE get services -o wide -w ingress-nginx-controller`
 
