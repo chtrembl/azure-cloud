@@ -88,7 +88,7 @@ stages:
             displayName: Create secret
             inputs: 
               action: createSecret
-              kubernetesServiceConnection: azurepetstore-akscluster
+              kubernetesServiceConnection: azurepetstoreservices-akscluster
               namespace: default
               secretType: dockerRegistry
               secretName: $(imagePullSecret)
@@ -97,7 +97,7 @@ stages:
             displayName: Deploy to Kubernetes cluster
             inputs:
               action: deploy
-              kubernetesServiceConnection: azurepetstore-akscluster
+              kubernetesServiceConnection: azurepetstoreservices-akscluster
               manifests: |
                 $(Pipeline.Workspace)/manifests/petstoreproductservice-deployment-everything-enabled.yml
                 $(Pipeline.Workspace)/manifests/petstoreproductservice-service-everything-enabled.yml
