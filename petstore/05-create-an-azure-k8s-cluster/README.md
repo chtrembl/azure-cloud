@@ -241,6 +241,12 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 6. Test Ingress to all 3 services
 
    Get the Ingress controller External IP address and save it off
+   
+   quickstart:
+
+   `kubectl --namespace $NAMESPACE get services -o wide -w quickstart-ingress-nginx-controller`
+    
+   traditional:
 
    `kubectl --namespace $NAMESPACE get services -o wide -w ingress-nginx-controller`
 
