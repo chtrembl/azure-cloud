@@ -56,11 +56,11 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
 11. Add a user nodepool for the petstore services 
     
-```$ az aks nodepool add \
-    --resource-group azurepetstorerg \
-    --cluster-name azurepetstore-akscluster \
-    --name petstorenp2 \
-    --node-count 3```
+    ```$ az aks nodepool add \
+        --resource-group azurepetstorerg \
+        --cluster-name azurepetstore-akscluster \
+        --name petstorenp2 \
+        --node-count 3```
 
 12. Install Helm and get familiar with Ingress controllers (An Ingress controller abstracts away the complexity of Kubernetes application traffic routing and provides a bridge between Kubernetes services and external ones.). There is a nice guide here https://docs.microsoft.com/en-us/azure/aks/ingress-basic I will provide the commands below but it would be a good idea to read through the document as well. It explains the Ingress controller concept. We are going to be using it to expose/route the 3 Pet Store Services (petstorepetservice, petstoreproductservice and petstoreorderservice) to our Pet Store App running in App Service.
 
