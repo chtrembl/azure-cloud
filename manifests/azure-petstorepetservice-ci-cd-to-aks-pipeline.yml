@@ -85,16 +85,6 @@ stages:
         deploy:
           steps:
           - task: KubernetesManifest@0
-            displayName: Create secret
-            inputs: 
-              action: createSecret
-              kubernetesServiceConnection: azurepetstoreservices-akscluster
-              namespace: petstoreservices
-              secretType: dockerRegistry
-              #secretName: $(imagePullSecret)
-              secretName: acr-secret
-              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
-          - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
             inputs:
               action: deploy
@@ -104,7 +94,6 @@ stages:
                 $(Pipeline.Workspace)/manifests/petstorepetservice-deployment-everything-enabled.yml
                 $(Pipeline.Workspace)/manifests/petstorepetservice-service-everything-enabled.yml
               imagePullSecrets: |
-                #$(imagePullSecret)
                 acr-secret
               containers: |
                 $(containerRegistry)/$(imageRepository):$(tag)
