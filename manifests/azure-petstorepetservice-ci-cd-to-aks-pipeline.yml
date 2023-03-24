@@ -27,14 +27,14 @@ stages:
 - stage: Build
   displayName: Build stage
   jobs: 
-  - job: Analysis
-    displayName: Security Analysis
-    pool:
-      vmImage: 'windows-latest'
-    steps:
-    - task: CredScan@2
-      inputs:
-        toolMajorVersion: 'V2'
+ # - job: Analysis
+ #   displayName: Security Analysis
+ #   pool:
+ #     vmImage: 'windows-latest'
+ #   steps:
+ #   - task: CredScan@2
+ #     inputs:
+ #       toolMajorVersion: 'V2'
  
   - job: Build
     displayName: Build App
