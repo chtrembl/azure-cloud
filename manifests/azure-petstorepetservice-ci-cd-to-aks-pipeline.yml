@@ -21,8 +21,9 @@ variables:
   containerRegistry: 'azurepetstorecontainerregistry.azurecr.io'
   dockerfilePath: 'petstore/petstorepetservice/Dockerfile'
   tag: '$(Build.BuildId)'
-  imagePullSecret: '$(crImagePullSecretGlobal)'
-
+  #imagePullSecret: '$(crImagePullSecretGlobal)'
+  imagePullSecret: 'acr-secret'
+  
 stages:
 - stage: Build
   displayName: Build stage
