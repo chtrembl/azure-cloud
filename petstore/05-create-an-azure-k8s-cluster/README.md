@@ -54,7 +54,7 @@ In this section, we'll get an AKS Cluster provisioned in the same Resource Group
 
     `az aks get-credentials --resource-group=<yourresourcegroup> --name=<youralias>azurepetstore-akscluster`
 
-11. Install Helm and get familiar with Ingress controllers (An Ingress controller abstracts away the complexity of Kubernetes application traffic routing and provides a bridge between Kubernetes services and external ones.). There is a nice guide here https://docs.microsoft.com/en-us/azure/aks/ingress-basic I will provide the commands below but it would be a good idea to read through the document as well. It explains the Ingress controller concept. We are going to be using it to expose/route the 3 Pet Store Services (petstorepetservice, petstoreproductservice and petstoreorderservice) to our Pet Store App running in App Service.
+12. Install Helm and get familiar with Ingress controllers (An Ingress controller abstracts away the complexity of Kubernetes application traffic routing and provides a bridge between Kubernetes services and external ones.). There is a nice guide here https://docs.microsoft.com/en-us/azure/aks/ingress-basic I will provide the commands below but it would be a good idea to read through the document as well. It explains the Ingress controller concept. We are going to be using it to expose/route the 3 Pet Store Services (petstorepetservice, petstoreproductservice and petstoreorderservice) to our Pet Store App running in App Service.
 
 ## Install and Configure NGINX Ingress controller
 
@@ -149,7 +149,15 @@ Also note that at the time of this update there is an issue with AKS 1.24 and ab
 
 ## Deploy Pet Store Services to AKS
 
-1. Deploy petstorepetservice to AKS
+1.  Add a user nodepool for the petstore services, the deployment yam's will use the nodeSelector ```agentpool: petstorenp2``` to deploy to this pool
+    
+    ```az aks nodepool add \
+        --resource-group azurepetstorerg \
+        --cluster-name azurepetstore-akscluster \
+        --name petstorenp2 \
+        --node-count 3
+    ```
+2. Deploy petstorepetservice to AKS
 
    cd to azure-cloud/petstore/petstorepetservice
 
@@ -175,7 +183,7 @@ Also note that at the time of this update there is an issue with AKS 1.24 and ab
 
    Notice the aks-petstorepetservice in a running state)
 
-2. Deploy petstoreproductservice
+3. Deploy petstoreproductservice
 
    cd to azure-cloud/petstore/petstoreproductservice
 
@@ -201,7 +209,7 @@ Also note that at the time of this update there is an issue with AKS 1.24 and ab
 
    Notice the aks-petstoreproductservice in a running state)
 
-3. Deploy petstoreorderservice
+4. Deploy petstoreorderservice
 
    cd to azure-cloud/petstore/petstoreorderservice
 
@@ -227,7 +235,7 @@ Also note that at the time of this update there is an issue with AKS 1.24 and ab
 
    Notice the aks-petstoreorderservice in a running state)
 
-4. Verify all of the pods are up
+5. Verify all of the pods are up
 
    `kubectl get all --namespace $NAMESPACE`
 
@@ -239,7 +247,7 @@ Also note that at the time of this update there is an issue with AKS 1.24 and ab
 
    ` kubectl logs --follow <pod_name_from_command_output_above> --namespace $NAMESPACE`
 
-5. Deploy Ingress controller configuration
+6. Deploy Ingress controller configuration
 
    cd to azure-cloud/manifests
 
@@ -249,7 +257,7 @@ Also note that at the time of this update there is an issue with AKS 1.24 and ab
 
    ![](images/05_8.png)
 
-6. Test Ingress to all 3 services
+7. Test Ingress to all 3 services
 
    Get the Ingress controller External IP address and save it off
    

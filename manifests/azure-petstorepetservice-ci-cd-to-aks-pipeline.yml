@@ -16,25 +16,25 @@ resources:
 variables:
 
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '2f7c9697-f237-4d5b-994d-4228eed03f32'
+  dockerRegistryServiceConnection: 'azurepetstorecr'
   imageRepository: 'petstorepetservice'
-  containerRegistry: 'azurepetstorecr.azurecr.io'
+  containerRegistry: 'azurepetstorecontainerregistry.azurecr.io'
   dockerfilePath: 'petstore/petstorepetservice/Dockerfile'
   tag: '$(Build.BuildId)'
-  imagePullSecret: '$(crImagePullSecretGlobal)'
-
+  imagePullSecret: '$(crImagePullSecretGlobalV2)'
+  
 stages:
 - stage: Build
   displayName: Build stage
   jobs: 
-  - job: Analysis
-    displayName: Security Analysis
-    pool:
-      vmImage: 'windows-latest'
-    steps:
-    - task: CredScan@2
-      inputs:
-        toolMajorVersion: 'V2'
+ # - job: Analysis
+ #   displayName: Security Analysis
+ #   pool:
+ #     vmImage: 'windows-latest'
+ #   steps:
+ #   - task: CredScan@2
+ #     inputs:
+ #       toolMajorVersion: 'V2'
  
   - job: Build
     displayName: Build App
@@ -85,24 +85,16 @@ stages:
         deploy:
           steps:
           - task: KubernetesManifest@0
-            displayName: Create secret
-            inputs: 
-              action: createSecret
-              kubernetesServiceConnection: azurepetstoreservices-akscluster-ingress-petstoreservices
-              namespace: default
-              secretType: dockerRegistry
-              secretName: $(imagePullSecret)
-              dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
-          - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
             inputs:
               action: deploy
-              kubernetesServiceConnection: azurepetstoreservices-akscluster-ingress-petstoreservices
+              kubernetesServiceConnection: azurepetstoreservices-akscluster
+              namespace: petstoreservices
               manifests: |
                 $(Pipeline.Workspace)/manifests/petstorepetservice-deployment-everything-enabled.yml
                 $(Pipeline.Workspace)/manifests/petstorepetservice-service-everything-enabled.yml
               imagePullSecrets: |
-                $(imagePullSecret)
+                acr-secret
               containers: |
                 $(containerRegistry)/$(imageRepository):$(tag)
                 
