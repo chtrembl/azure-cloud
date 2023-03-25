@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +56,16 @@ public class StoreApiController implements StoreApi {
 	private StoreApiCache storeApiCache;
 
 	@Autowired(required = false)
-	private JmsTemplate jmsTemplate;
+	private JmsTemplate jmsTemplate = null;
+	
+	@Value("${spring.jms.servicebus.connection-string:}")
+	private String jmsConnectionString;
+	
+	@Value("${spring.jms.servicebus.pricing-tier:}")
+	private String jmsPricingTier;
+	
+	@Value("${spring.jms.servicebus.topic-client-id:}")
+	private String jmsTopicClientId;
 
 	@Override
 	public StoreApiCache getBeanToBeAutowired() {
@@ -172,9 +182,13 @@ public class StoreApiController implements StoreApi {
 				Order order = this.storeApiCache.getOrder(body.getId());
 				String orderJSON = new ObjectMapper().writeValueAsString(order);
 
-				if (order.isComplete() && jmsTemplate != null && order.getEmail() != null
+				log.info(String.format("jmsTemplate:%s connection-string:%s, pricing-tier:%s, topic-client-id:%s", this.jmsTemplate, this.jmsConnectionString, this.jmsPricingTier, this.jmsTopicClientId));
+				
+				log.info(String.format("order:%s", order.toString()));
+				
+				if (order!=null && order.isComplete() && this.jmsTemplate != null && order.getEmail() != null
 						&& order.getEmail().trim().toLowerCase().endsWith("microsoft.com")) {
-					jmsTemplate.convertAndSend("orders", orderJSON);
+					this.jmsTemplate.convertAndSend("orders", orderJSON);
 				}
 
 				ApiUtil.setResponse(request, "application/json", orderJSON);

@@ -219,7 +219,7 @@ public class PetStoreServiceImpl implements PetStoreService {
 
 			Consumer<HttpHeaders> consumer = it -> it.addAll(this.webRequest.getHeaders());
 			
-			updatedOrder = this.orderServiceWebClient.post().uri("petstoreorderservice/v2/store/order")
+			this.orderServiceWebClient.post().uri("petstoreorderservice/v2/store/order")
 					.body(BodyInserters.fromPublisher(Mono.just(orderJSON), String.class))
 					.accept(MediaType.APPLICATION_JSON)
 					.headers(consumer)
@@ -251,7 +251,7 @@ public class PetStoreServiceImpl implements PetStoreService {
 					.accept(MediaType.APPLICATION_JSON)
 					.headers(consumer)
 					.header("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-					.header("host", "azurepetstoreapim.azure-api.net")
+					.header("host", this.containerEnvironment.getPetstoreAPIMHost())
 					.header("session-id", this.sessionUser.getSessionId())
 					.header("Ocp-Apim-Subscription-Key", this.containerEnvironment.getPetStoreServicesSubscriptionKey())
 					.header("Cache-Control", "no-cache").header("Ocp-Apim-Trace", "true").retrieve()

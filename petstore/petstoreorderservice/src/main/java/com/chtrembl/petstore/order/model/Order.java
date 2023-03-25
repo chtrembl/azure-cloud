@@ -259,6 +259,7 @@ public class Order implements Serializable {
 		sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
 		sb.append("    status: ").append(toIndentedString(status)).append("\n");
 		sb.append("    complete: ").append(toIndentedString(complete)).append("\n");
+		sb.append("    email: ").append(toIndentedString(email)).append("\n");
 		sb.append("}");
 		return sb.toString();
 	}

@@ -13,11 +13,11 @@ spec:
         app: aks-petstoreproductservice
     spec:
       nodeSelector:
-        "beta.kubernetes.io/os": linux
+        "kubernetes.io/os": linux
         agentpool: petstorenp2
       containers:
       - name: petstoreproductservice
-        image: azurepetstorecr.azurecr.io/petstoreproductservice:latest
+        image: azurepetstorecontainerregistry.azurecr.io/petstoreproductservice:latest
         resources:
           requests:
             cpu: 250m
