@@ -28,7 +28,6 @@ petstore:
       fixedRate: ${SIGNALR_UPDATE_FIXEDRATE:60000}
 server:
   port: ${PETSTOREAPP_SERVER_PORT:8080}
-  max-http-header-size: 80KB
 #azure:
 #  activedirectory:
 #    b2c:
