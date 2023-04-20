@@ -231,6 +231,8 @@ You should see the following:
 
 ![](images/15_13.png)
 
+> 📝 **Please Note, You may need to create a new service bus connection using the SAS Level key from the service bus service, to get this connector to activate**
+
 Specify the meta data requested. "orders" is the topic we created earlier and the topic PetStoreOrderService is sending to. Also paste in your connection string, you can use the primary one from the SAS policy.
 
 You should see the following:
