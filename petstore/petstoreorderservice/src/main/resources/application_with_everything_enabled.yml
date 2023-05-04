@@ -21,13 +21,6 @@ spring:
       connection-string: ${PETSTOREORDERSERVICE_EMAIL_TOPIC_CONNECTION_STRING}
       pricing-tier: Standard
       topic-client-id: ${PETSTOREORDERSERVICE_SUBSCRIPTION_ID}
-      
-azure:
-    application-insights:
-      instrumentation-key: ${PETSTORESERVICES_AI_INSTRUMENTATION_KEY}
-      web:
-        enable-W3C: true
-        enable-W3C-backcompat-mode: true
 
 management:
   endpoints:

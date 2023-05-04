@@ -46,7 +46,6 @@ public class ContainerEnvironment implements Serializable {
 		    byte[] bdata = FileCopyUtils.copyToByteArray(resource);
 		    String text = new String(bdata, StandardCharsets.UTF_8);
 	
-
 			Version version = objectMapper.readValue(text, Version.class);
 			this.setAppVersion(version.getVersion());
 			this.setAppDate(version.getDate());

@@ -2,10 +2,6 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
     
-    <appender name="aiAppender"
-              class="com.microsoft.applicationinsights.logback.ApplicationInsightsAppender">
-    </appender>
-   
     <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
     <conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
     <conversionRule conversionWord="wEx" converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
@@ -19,7 +15,6 @@
     </appender>
    
     <root level="INFO">
-    	<appender-ref ref="aiAppender" />
     	<appender-ref ref="consoleAppender" />
     </root>
 </configuration>

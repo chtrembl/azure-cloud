@@ -22,4 +22,4 @@ RUN curl "https://repo1.maven.org/maven2/com/microsoft/azure/applicationinsights
 COPY --from=build /build/target/*.jar /app/petstoreproductservice.jar
 COPY applicationinsights.json /app/applicationinsights.json
 EXPOSE 8080
-ENTRYPOINT ["java", "-javaagent:applicationinsights-agent-3.4.12.jar", "-jar","/app/petstoreproductservice.jar"]
+ENTRYPOINT ["java", "-javaagent:applicationinsights-agent-3.4.12.jar", "-jar","petstoreproductservice.jar"]
