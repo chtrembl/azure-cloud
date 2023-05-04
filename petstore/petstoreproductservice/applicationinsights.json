@@ -1,0 +1,3 @@
+{
+  "connectionString": "${PETSTORESERVICES_AI_INSTRUMENTATION_KEY}"
+}

@@ -7,6 +7,7 @@ import java.io.Reader;
 import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 
 import javax.annotation.PostConstruct;
@@ -14,9 +15,9 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.FileCopyUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.microsoft.applicationinsights.core.dependencies.google.common.io.CharStreams;
 
 import ch.qos.logback.core.joran.spi.JoranException;
 
@@ -40,11 +41,10 @@ public class ContainerEnvironment implements Serializable {
 
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
-			InputStream resourcee = new ClassPathResource("version.json").getInputStream();
-			String text = null;
-			try (final Reader reader = new InputStreamReader(resourcee)) {
-				text = CharStreams.toString(reader);
-			}
+			InputStream resource = new ClassPathResource("version.json").getInputStream();
+			
+		    byte[] bdata = FileCopyUtils.copyToByteArray(resource);
+		    String text = new String(bdata, StandardCharsets.UTF_8);
 
 			Version version = objectMapper.readValue(text, Version.class);
 			this.setAppVersion(version.getVersion());

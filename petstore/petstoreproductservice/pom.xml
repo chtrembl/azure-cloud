@@ -74,18 +74,14 @@
 		</plugins>
 	</build>
 	<dependencies>
+		
+		<!-- https://learn.microsoft.com/en-us/azure/azure-monitor/app/opentelemetry-enable?tabs=java applicationinsights-core for custom telemetry done programatically with classic ai -->
 		<dependency>
-			<groupId>com.microsoft.azure</groupId>
-			<artifactId>applicationinsights-spring-boot-starter</artifactId>
-			<version>2.6.1</version>
+		    <groupId>com.microsoft.azure</groupId>
+		    <artifactId>applicationinsights-core</artifactId>
+		    <version>3.4.12</version>
 		</dependency>
-
-		<dependency>
-			<groupId>com.microsoft.azure</groupId>
-			<artifactId>applicationinsights-logging-logback</artifactId>
-			<version>2.6.1</version>
-		</dependency>
-
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
