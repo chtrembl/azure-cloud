@@ -1,6 +1,6 @@
 {
   "connectionString": "${APPLICATIONINSIGHTS_CONNECTION_STRING}",
   "role": {   
-    "name": "Azure Pet Store App"
+    "name": "azurepetstoreapp"
   }
 }
