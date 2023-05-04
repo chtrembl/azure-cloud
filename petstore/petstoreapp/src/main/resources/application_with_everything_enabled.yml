@@ -42,11 +42,6 @@ azure:
         sign-up-or-sign-in: B2C_1_signupsignin
         profile-edit: B2C_1_profileediting
         password-reset: B2C_1_passwordreset
-  application-insights:
-      instrumentation-key: ${PETSTOREAPP_AI_INSTRUMENTATION_KEY}
-      web:
-        enable-W3C: true
-        enable-W3C-backcompat-mode: true
 management:
   endpoints:
     web:
@@ -65,14 +60,16 @@ spring:
     cache: false  
   cache:
     cache-names: currentUsers
-  jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
-  datasource:
-    url: ${PETSTOREAPP_MYSQL_HC_CONN_STRING}
-    username: ${PETSTOREAPP_MYSQL_HC_USERNAME}
-    password: ${PETSTOREAPP_MYSQL_HC_PASSWORD}
+  #jpa:
+  #  properties:
+  #    hibernate:
+  #      dialect: org.hibernate.dialect.MySQLDialect
+  #datasource:
+  #  url: ${PETSTOREAPP_MYSQL_HC_CONN_STRING}
+  #  username: ${PETSTOREAPP_MYSQL_HC_USERNAME}
+  #  password: ${PETSTOREAPP_MYSQL_HC_PASSWORD}
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration #disable if hybrid connection demo turned off
 ga:
   tracking:
     id: ${GA_TRACKING_ID}

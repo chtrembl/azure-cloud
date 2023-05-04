@@ -47,7 +47,7 @@ public class User implements Serializable {
 	@PostConstruct
 	private void initialize() {
 		if (this.telemetryClient == null) {
-			this.telemetryClient = new com.chtrembl.petstoreapp.service.TelemetryClient();
+			this.telemetryClient = new TelemetryClient();
 		}
 	}
 

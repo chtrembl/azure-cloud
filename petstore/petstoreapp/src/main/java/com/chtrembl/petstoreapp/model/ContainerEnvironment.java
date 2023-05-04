@@ -2,8 +2,6 @@ package com.chtrembl.petstoreapp.model;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -28,11 +26,12 @@ import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.microsoft.applicationinsights.core.dependencies.google.common.io.CharStreams;
+//import com.microsoft.applicationinsights.core.dependencies.google.common.io.CharStreams;
 
 import ch.qos.logback.core.joran.spi.JoranException;
 import io.jsonwebtoken.JwtBuilder;
@@ -103,7 +102,6 @@ public class ContainerEnvironment implements Serializable {
 
 	@PostConstruct
 	private void initialize() throws JoranException {
-		// LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
 
 		if (StringUtils.isNoneEmpty(this.getSignalRKey()) && StringUtils.isNoneEmpty(this.getSignalRNegotiationURL())
 				&& StringUtils.isNoneEmpty(this.getSignalRServiceURL())) {
@@ -119,13 +117,12 @@ public class ContainerEnvironment implements Serializable {
 
 		try {
 			ObjectMapper objectMapper = new ObjectMapper();
-			InputStream resourcee = new ClassPathResource("static/content/version.json").getInputStream();
-			String text = null;
-			try (final Reader reader = new InputStreamReader(resourcee)) {
-				text = CharStreams.toString(reader);
-			}
-
-			Version version = objectMapper.readValue(text, Version.class);
+			InputStream resource = new ClassPathResource("static/content/version.json").getInputStream();
+			
+		    byte[] bdata = FileCopyUtils.copyToByteArray(resource);
+		    String text = new String(bdata, StandardCharsets.UTF_8);
+	
+		    Version version = objectMapper.readValue(text, Version.class);
 			this.setAppVersion(version.getVersion());
 			this.setAppDate(version.getDate());
 		} catch (IOException e) {
