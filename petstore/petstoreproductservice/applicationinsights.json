@@ -1,3 +1,6 @@
 {
-  "connectionString": "${APPLICATIONINSIGHTS_CONNECTION_STRING}"
+  "connectionString": "${APPLICATIONINSIGHTS_CONNECTION_STRING}",
+  "role": {   
+    "name": "Azure Pet Store Product Service"
+  }
 }
