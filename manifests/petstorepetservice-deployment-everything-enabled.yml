@@ -32,7 +32,7 @@ spec:
             value: "80"
           - name: spring.config.name
             value: application_with_everything_enabled
-          - name: PETSTORESERVICES_AI_INSTRUMENTATION_KEY
+          - name: APPLICATIONINSIGHTS_CONNECTION_STRING
             valueFrom:
               secretKeyRef:
                 name: aisecretkey
