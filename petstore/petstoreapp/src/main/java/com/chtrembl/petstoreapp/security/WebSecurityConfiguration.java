@@ -51,6 +51,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 					.antMatchers("/signalr/negotiate").permitAll()
 					.antMatchers("/signalr/test").permitAll()
 					.antMatchers("/login*").permitAll()
+					.antMatchers("/soulmachines*").permitAll()
 					.antMatchers("/hybridConnection").permitAll().anyRequest()
 					.authenticated().and().apply(this.aadB2COidcLoginConfigurerWrapper.getConfigurer()).and()
 					.oauth2Login().loginPage("/login");

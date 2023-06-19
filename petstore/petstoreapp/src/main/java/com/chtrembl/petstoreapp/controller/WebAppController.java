@@ -334,4 +334,12 @@ public class WebAppController {
 
 		return "hybridConnection";
 	}
+	
+	@GetMapping(value = "/soulmachines")
+	public String soulmachines(Model model) throws URISyntaxException {
+		logger.info(String.format("PetStoreApp /soulmachines requested for %s, routing to soulmachines view...",
+				this.sessionUser.getName()));
+	
+		return "soulmachines";
+	}
 }
