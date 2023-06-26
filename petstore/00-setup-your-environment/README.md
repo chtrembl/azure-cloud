@@ -3,6 +3,7 @@
 **This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)**
 
 In this section, we'll begin to set up your environment both for local development (Optional) and for Azure.
+This is going to be fun!
 
 ---
 
