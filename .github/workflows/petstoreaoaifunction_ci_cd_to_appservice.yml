@@ -10,7 +10,7 @@ on:
 
 env:
   AZURE_FUNCTIONAPP_NAME: 'azurepetstoreaoaifunctionapp'   # set this to your function app name on Azure
-  POM_XML_DIRECTORY: '/petstore/petstoreaoaifunction'                    # set this to the directory which contains pom.xml file
+  POM_XML_DIRECTORY: './petstore/petstoreaoaifunction'                    # set this to the directory which contains pom.xml file
   JAVA_VERSION: '17'                         # set this to the java version to use (e.g. '8', '11', '17')
 
 jobs:
