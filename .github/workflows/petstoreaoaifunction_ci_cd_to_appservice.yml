@@ -1,4 +1,4 @@
-name: Deploy Java project to Azure Function App
+name: Pet Store AOAI Function App CI/CD to Azure App Service
 
 on:
   push:
