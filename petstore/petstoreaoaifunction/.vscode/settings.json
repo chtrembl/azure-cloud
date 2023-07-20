@@ -1,0 +1,11 @@
+{
+    "azureFunctions.javaBuildTool": "maven",
+    "azureFunctions.deploySubpath": "target/azure-functions/petstoreaoaifunction",
+    "azureFunctions.projectLanguage": "Java",
+    "azureFunctions.projectRuntime": "~4",
+    "debug.internalConsoleOptions": "neverOpen",
+    "azureFunctions.preDeployTask": "package (functions)",
+    "java.home": "/Users/christremblay/Development/sdks/java/jdk-17.0.4.1+1/Contents/Home",
+    "appService.preDeployTask": "package:petstoreaoaifunction",
+    "appService.deploySubpath": "target/petstoreaoaifunction-1.0-SNAPSHOT.jar"
+}

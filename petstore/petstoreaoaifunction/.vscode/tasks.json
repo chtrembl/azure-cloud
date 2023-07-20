@@ -1,0 +1,38 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "func",
+			"label": "func: host start",
+			"command": "host start",
+			"problemMatcher": "$func-java-watch",
+			"isBackground": true,
+			"options": {
+				"cwd": "${workspaceFolder}/target/azure-functions/petstoreaoaifunction"
+			},
+			"dependsOn": "package (functions)"
+		},
+		{
+			"label": "package (functions)",
+			"command": "mvn clean package",
+			"type": "shell",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"command": "mvn",
+			"type": "shell",
+			"group": "build",
+			"args": [
+				"clean",
+				"package"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"label": "package:petstoreaoaifunction"
+		}
+	]
+}
