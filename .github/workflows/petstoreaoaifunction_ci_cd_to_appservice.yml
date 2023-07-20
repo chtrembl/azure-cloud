@@ -38,6 +38,6 @@ jobs:
       id: fa
       with:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-        package: '${{ env.POM_XML_DIRECTORY }}/target/azure-functions/${{ env.POM_FUNCTIONAPP_NAME }' # if there are multiple function apps in same project, then this path will be like './${{ env.POM_XML_DIRECTORY }}/target/azure-functions/petstoreaoaifunction'
+        package: '${{ env.POM_XML_DIRECTORY }}/target/azure-functions/petstoreaoaifunction' # if there are multiple function apps in same project, then this path will be like './${{ env.POM_XML_DIRECTORY }}/target/azure-functions/petstoreaoaifunction'
         publish-profile: ${{ secrets.AZUREPETSTOREAOAI_FUNCTIONAPP_PUBLISH_PROFILE }}
         respect-pom-xml: true
