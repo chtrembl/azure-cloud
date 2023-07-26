@@ -342,4 +342,12 @@ public class WebAppController {
 	
 		return "soulmachines";
 	}
+	
+	@GetMapping(value = "/intelligence")
+	public String intelligence(Model model) throws URISyntaxException {
+		logger.info(String.format("PetStoreApp /intelligence requested for %s, routing to soulmachines view...",
+				this.sessionUser.getName()));
+	
+		return "intelligence";
+	}
 }
