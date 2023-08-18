@@ -66,6 +66,16 @@ public class Pet implements Serializable {
 	@JsonProperty("status")
 	private StatusEnum status;
 
+	public Pet() {
+		super();
+	}
+	
+	public Pet(String name, Category category) {
+		super();
+		this.name = name;
+		this.category = category;	
+	}
+
 	public Pet id(Long id) {
 		this.id = id;
 		return this;

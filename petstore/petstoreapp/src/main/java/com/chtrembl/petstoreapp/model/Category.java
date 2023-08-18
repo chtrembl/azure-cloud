@@ -13,6 +13,16 @@ public class Category implements Serializable {
 	@JsonProperty("name")
 	private String name;
 
+	public Category() {
+		super();
+	}
+
+	public Category(int id, String name) {
+		super();
+		this.id = Long.valueOf(id);
+		this.name = name;
+	}
+
 	public Category id(Long id) {
 		this.id = id;
 		return this;

@@ -60,10 +60,10 @@ spring:
     cache: false  
   cache:
     cache-names: currentUsers
-  #jpa:
-  #  properties:
-  #    hibernate:
-  #      dialect: org.hibernate.dialect.MySQLDialect
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
   #datasource:
   #  url: ${PETSTOREAPP_MYSQL_HC_CONN_STRING}
   #  username: ${PETSTOREAPP_MYSQL_HC_USERNAME}
