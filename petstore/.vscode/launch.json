@@ -8,6 +8,31 @@
             "hostName": "127.0.0.1",
             "port": 5005,
             "preLaunchTask": "func: host start"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-PetstoreappApplication<petstoreapp>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.chtrembl.petstoreapp.PetstoreappApplication",
+            "projectName": "petstoreapp",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "env": {
+                "PETSTOREPETSERVICE_URL": "http://20.232.80.1/",
+                "PETSTORESERVICES_SUBSCRIPTION_KEY": "c188da3994064bccbcf852098d0f4dff",
+                "PETSTORE_APIM_HOST": "azurepetstoreapimgmnt.azure-api.net"
+            }
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-OpenAPI2SpringBoot<org.openapitools-petstoreapi>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "org.openapitools.OpenAPI2SpringBoot",
+            "projectName": "org.openapitools-petstoreapi",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
