@@ -2,6 +2,10 @@
 
 Often, it is handy to have an N-Tiered Azure architected deployment ready to go, complete with functional code, CI/CD and various services for you to experiment Azure with. Since it is usually hard to find one that hits many of the App Dev Services of Azure, I've decided to build one. Perhaps you're learning new Azure technologies, giving Azure demos, looking for a prototype with Azure or simply just curious about Azure, these guides will get you on your way to running a full Hypothetical Azure Pet Store Application and its dependencies, using the Azure technologies illustrated below. Already built and cloud agnostic are a Pet Store web app and 3 Pet Store micro services that you can deploy into Azure App Service (petstoreapp) and Azure Kubernetes Service (petstorepetservice, petstoreproductservice & petstoreorderservice). You will first build and run these locally (optional) and slowly add in the other services depicted (Azure B2C, Application Insights, API Management, Function App, Power App, Regression Suite etc...). These applications were built with Java/Spring Boot and while the guides are not necessarily focused on coding (not required) you are encouraged to build/deploy them locally (All you need is Docker locally) to get the full developer experience. You can however use Azure DevOps Pipelines and GitHub Actions to do the build & deploys for you and make changes directly in your cloud repository instead of locally.
 
+Watch an ove
+
+[![Watch an overview video here](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)]([https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE](https://dms-exp2.licdn.com/playlist/vid/D4E05AQERWdFUsZiASA/mp4-720p-30fp-crf28/0/1693516336595?e=1694127600&v=beta&t=QjaCse-lsOZxo-MzOiUKQJF9PdqsDbE-g0bu3ExTom4))
+
 > You can view the live deployment here [https://azurepetstore.com](https://azurepetstore.com) 
 
 ![](https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstore_architecture.png?raw=true)
