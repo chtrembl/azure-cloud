@@ -6,6 +6,8 @@ Often, it is handy to have an N-Tiered Azure architected deployment ready to go,
 
 > [![Azure Pet Store Overview](https://github.com/chtrembl/azure-cloud/blob/main/petstore/azurepetstorethumb.png?raw=true)](https://dms-exp2.licdn.com/playlist/vid/D4E05AQERWdFUsZiASA/mp4-720p-30fp-crf28/0/1693516336595?e=1694127600&v=beta&t=QjaCse-lsOZxo-MzOiUKQJF9PdqsDbE-g0bu3ExTom4 "Azure PetS tore Overview - Click to Watch!")
 
+<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7103121705719447553" height="654" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
+
 > You can view the live deployment here [https://azurepetstore.com](https://azurepetstore.com) 
 
 ![](https://github.com/chtrembl/azure-cloud/blob/main/petstore/petstore_architecture.png?raw=true)
