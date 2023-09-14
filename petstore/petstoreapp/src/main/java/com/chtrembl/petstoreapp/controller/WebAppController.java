@@ -272,9 +272,17 @@ public class WebAppController {
 	
 	@GetMapping(value = "/intelligence")
 	public String intelligence(Model model) throws URISyntaxException {
-		logger.info(String.format("PetStoreApp /intelligence requested for %s, routing to soulmachines view...",
+		logger.info(String.format("PetStoreApp /intelligence requested for %s, routing to intelligence view...",
 				this.sessionUser.getName()));
 	
 		return "intelligence";
+	}
+
+	@GetMapping(value = "/i2xhack")
+	public String i2xhack(Model model) throws URISyntaxException {
+		logger.info(String.format("PetStoreApp /i2xhack requested for %s, routing to i2xhack view...",
+				this.sessionUser.getName()));
+	
+		return "i2xhack";
 	}
 }
