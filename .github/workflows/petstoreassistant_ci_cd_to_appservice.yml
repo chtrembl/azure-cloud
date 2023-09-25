@@ -17,6 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Update the application.properties hack because the app config injection isnt working for some reason
+      run: echo -n -e "MicrosoftAppId=${{ APPID }}\nMicrosoftAppPassword=${{ APPPASSWORD }}\nserver.port=3978" > petstore/petstoreassistant/src/main/resources/application.properties
+      run: more petstore/petstoreassistant/src/main/resources/application.properties
+    - run: cat petstore/petstoreapp/src/main/resources/static/content/version.json
     - uses: azure/docker-login@v1
       name: Build Docker image
       with:
