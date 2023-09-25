@@ -3,16 +3,19 @@
 
 package com.chtrembl.petstoreassistant;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
+import org.springframework.core.env.Environment;
+
 import com.microsoft.bot.builder.Bot;
 import com.microsoft.bot.integration.AdapterWithErrorHandler;
 import com.microsoft.bot.integration.BotFrameworkHttpAdapter;
 import com.microsoft.bot.integration.Configuration;
 import com.microsoft.bot.integration.spring.BotController;
 import com.microsoft.bot.integration.spring.BotDependencyConfiguration;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
 
 //
 // This is the starting point of the Sprint Boot Bot application.
@@ -32,6 +35,9 @@ import org.springframework.context.annotation.Import;
  * override methods in order to provide custom implementations.
  */
 public class Application extends BotDependencyConfiguration {
+    
+    @Autowired
+    private Environment env;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
@@ -60,6 +66,7 @@ public class Application extends BotDependencyConfiguration {
      */
     @Override
     public BotFrameworkHttpAdapter getBotFrameworkHttpAdaptor(Configuration configuration) {
+        System.out.println("Using the following app id " + env.getProperty("MicrosoftAppId") + " and password " + env.getProperty("MicrosoftAppPassword"));
         return new AdapterWithErrorHandler(configuration);
     }
 }
