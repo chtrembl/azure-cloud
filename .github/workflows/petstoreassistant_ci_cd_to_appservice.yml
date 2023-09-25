@@ -1,0 +1,31 @@
+name: Pet Store Assistant CI/CD to Azure App Service
+  
+env:
+  AZURE_CONTAINER_REGISTRY: azurepetstorecontainerregistry.azurecr.io
+  AZURE_CONTAINER_REGISTRY_USERNAME: azurepetstorecontainerregistry
+  
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - petstore/petstoreassistant/**
+  workflow_dispatch:
+      
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: azure/docker-login@v1
+      name: Build Docker image
+      with:
+        login-server: ${{ env.AZURE_CONTAINER_REGISTRY }}
+        username: ${{ env.AZURE_CONTAINER_REGISTRY_USERNAME }}
+        password: ${{ secrets.PETSTORECRSECRET }}
+    - name: Push Docker image to Azure Container Registry    
+      run: |
+        docker build petstore/petstoreassistant -t ${{env.AZURE_CONTAINER_REGISTRY}}/petstoreassistant:latest -t ${{ env.AZURE_CONTAINER_REGISTRY }}/petstoreassistant:${{ github.sha }}
+        docker push ${{ env.AZURE_CONTAINER_REGISTRY }}/petstoreassistant:${{ github.sha }}
+        docker push  ${{ env.AZURE_CONTAINER_REGISTRY }}/petstoreassistant:latest
+      
