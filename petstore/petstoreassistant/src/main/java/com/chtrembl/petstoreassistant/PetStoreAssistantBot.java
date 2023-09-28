@@ -26,8 +26,9 @@ public class PetStoreAssistantBot extends ActivityHandler {
 
     @Override
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
+       
         return turnContext.sendActivity(
-            MessageFactory.text("Echo: " + turnContext.getActivity().getText())
+            MessageFactory.text("Echo: " + turnContext.getActivity().getText() +  " channeldata:" + turnContext.getActivity().getChannelData() + " entities:" +  turnContext.getActivity().getEntities().toString();)
         ).thenApply(sendResult -> null);
     }
 
