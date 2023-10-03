@@ -285,4 +285,12 @@ public class WebAppController {
 	
 		return "i2xhack";
 	}
+
+	@GetMapping(value = "/raadcnnai")
+	public String raadcnnai(Model model) throws URISyntaxException {
+		logger.info(String.format("PetStoreApp /raadcnnai requested for %s, routing to raadcnnai view...",
+				this.sessionUser.getName()));
+	
+		return "raadcnnai";
+	}
 }
