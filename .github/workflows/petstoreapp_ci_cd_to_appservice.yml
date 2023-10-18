@@ -28,7 +28,7 @@ jobs:
     - name: Copy minified Soul Machines React app to Spring Boot static resources
       run: |
         mv petstore/petstoreapp/soulmachines-react-app/build/static/ petstore/petstoreapp/src/main/resources/static 
-        mv petstore/petstoreapp/soulmachines-react-app/build/index.html petstore/petstoreapp/src/main/resources/templates 
+        mv petstore/petstoreapp/soulmachines-react-app/build/index.html petstore/petstoreapp/src/main/resources/static
     - name: Update the version.json
       run: echo -n -e "{\"version\":\"${{ github.sha }}\",\"date\":\"$(date '+%m-%d-%Y %H:%M:%S')\"}" > petstore/petstoreapp/src/main/resources/static/content/version.json
     - run: cat petstore/petstoreapp/src/main/resources/static/content/version.json
