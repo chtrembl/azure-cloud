@@ -37,7 +37,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
 
     @Override
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
-        LOGGER.info("channel data: "+ turnContext.getActivity().getChannelData().toString());
+        LOGGER.info("channel data: " + turnContext.getActivity().getChannelData() != null ? turnContext.getActivity().getChannelData().toString() : "null");
 
         String text = turnContext.getActivity().getText().toLowerCase();
         String digitalPersonResponse = null;
@@ -56,7 +56,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
         }
 
         return turnContext.sendActivity(
-            MessageFactory.text("Echo: " + turnContext.getActivity().getText() +  " channeldata:" + turnContext.getActivity().getChannelData() + " entities:" +  turnContext.getActivity().getEntities().toString())
+            MessageFactory.text("You said: " + turnContext.getActivity().getText() +  " channeldata: " + turnContext.getActivity().getChannelData() != null ? turnContext.getActivity().getChannelData().toString() : "null" + " entities: " +  turnContext.getActivity().getEntities() != null ? turnContext.getActivity().getEntities().toString() : "null"))
         ).thenApply(sendResult -> null);
     }
 
@@ -69,7 +69,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                         member -> !StringUtils
                                 .equals(member.getId(), turnContext.getActivity().getRecipient().getId()))
                 .map(channel -> turnContext
-                        .sendActivity(MessageFactory.text("Hello and welcome to the Azure Pet Store!")))
+                        .sendActivity(MessageFactory.text("Hello and welcome to the Azure Pet Store, How can I help you?")))
                 .collect(CompletableFutures.toFutureList()).thenApply(resourceResponses -> null);
     }
 }
