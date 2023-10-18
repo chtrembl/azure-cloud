@@ -37,7 +37,15 @@ public class PetStoreAssistantBot extends ActivityHandler {
 
     @Override
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
-        LOGGER.info("channel data: " + turnContext.getActivity().getChannelData() != null ? turnContext.getActivity().getChannelData().toString() : "null");
+        try
+        {
+            LOGGER.info("channel data: " + turnContext.getActivity().getChannelData() != null ? turnContext.getActivity().getChannelData().toString() : "null");
+            LOGGER.info("entity data: " + turnContext.getActivity().getEntities() != null ? turnContext.getActivity().getEntities().toString() : "null");
+        }
+        catch(Exception e)
+        {
+            LOGGER.error("Error getting channel/entity data", e);
+        }
 
         String text = turnContext.getActivity().getText().toLowerCase();
         String digitalPersonResponse = null;
