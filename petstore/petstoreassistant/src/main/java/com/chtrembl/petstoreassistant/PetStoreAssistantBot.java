@@ -39,8 +39,8 @@ public class PetStoreAssistantBot extends ActivityHandler {
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
         try
         {
-            LOGGER.info("channel data: " + turnContext.getActivity().getChannelData() != null ? turnContext.getActivity().getChannelData().toString() : "null");
-            LOGGER.info("entity data: " + turnContext.getActivity().getEntities() != null ? turnContext.getActivity().getEntities().toString() : "null");
+            LOGGER.info("channel data: " + turnContext.getActivity().getChannelData());
+            LOGGER.info("entity data: " + turnContext.getActivity().getEntities());
         }
         catch(Exception e)
         {
@@ -64,7 +64,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
         }
 
         return turnContext.sendActivity(
-            MessageFactory.text("You said: " + turnContext.getActivity().getText() +  " channeldata: " + turnContext.getActivity().getChannelData() != null ? turnContext.getActivity().getChannelData().toString() : "null" + " entities: " +  turnContext.getActivity().getEntities() != null ? turnContext.getActivity().getEntities().toString() : "null")
+            MessageFactory.text("You said: " + turnContext.getActivity().getText() +  " channeldata: " + turnContext.getActivity().getChannelData() + " entities: " +  turnContext.getActivity().getEntities())
         ).thenApply(sendResult -> null);
     }
 
