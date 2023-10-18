@@ -50,14 +50,12 @@ public class PetStoreAssistantBot extends ActivityHandler {
         String text = turnContext.getActivity().getText().toLowerCase();
         String digitalPersonResponse = null;
         if(text.contains("ball")){
-            String jsonString = "{\"type\":\"image\",\"id\":\"image-ball\",\"data\":{\"url\": \"https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-toys/ball.jpg?raw=true\",\"alt\": \"This is a ball\"}}";
+            String jsonString = "{\"type\":\"image\",\"id\":\"image-ball\",\"data\":{\"url\": \"https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-toys/ball.jpg?raw=true\",\"alt\": \"This is a ball\",\\\"title\\\": \\\"Dog Ball\\\",\\\"description\\\": \\\"Great for power chewers, plush and squeaky balls for dogs with a high prey drive, treat-dispensing balls for food-motivated pups.\\\"}}";
             Attachment attachment = new Attachment();
             attachment.setContentType("application/json");
-
             attachment.setContent(new Gson().fromJson(jsonString, JsonObject.class));
             attachment.setName("public-image-ball");
-
-
+        
                     return turnContext.sendActivity(
             MessageFactory.attachment(attachment, "I have something nice to show @showcards(image-ball) you.")
         ).thenApply(sendResult -> null);
