@@ -267,7 +267,7 @@ public class WebAppController {
 		logger.info(String.format("PetStoreApp /soulmachines requested for %s, routing to soulmachines view...",
 				this.sessionUser.getName()));
 	
-		return "soulmachines";
+		return "index";
 	}
 	
 	@GetMapping(value = "/intelligence")

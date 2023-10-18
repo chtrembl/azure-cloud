@@ -27,6 +27,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity web) throws Exception {
 		if (this.aadB2COidcLoginConfigurerWrapper != null
 				&& this.aadB2COidcLoginConfigurerWrapper.getConfigurer() != null) {
+			web.ignoring().antMatchers("/static/**");
 			web.ignoring().antMatchers("/content/**");
 			web.ignoring().antMatchers("/.well-known/**");
 		}

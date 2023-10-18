@@ -1,0 +1,22 @@
+steps:
+- name: node:14
+  entrypoint: npm
+  args: ['install', 'typescript']
+- name: node:14
+  entrypoint: npm
+  args: ['install']
+  # run webpack prod script to create static files
+- name: node:14
+  entrypoint: npm
+  args: ['run','build']
+  env:
+    - 'REACT_APP_API_KEY=${_API_KEY}'
+    - 'REACT_APP_GA_TRACKING_ID=G-G5GWJ2XYRS'
+    - 'DISABLE_ESLINT_PLUGIN=true'
+    - 'REACT_APP_SESSION_SERVER=${_SESSION_SERVER}'
+    - 'REACT_APP_PERSONA_AUTH_MODE=0'
+    - 'REACT_APP_ORCHESTRATION_MODE=false'
+    - 'GENERATE_SOURCEMAP=false'
+- name: "gcr.io/cloud-builders/gcloud"
+  args: ["app", "deploy"]
+timeout: "1600s"
