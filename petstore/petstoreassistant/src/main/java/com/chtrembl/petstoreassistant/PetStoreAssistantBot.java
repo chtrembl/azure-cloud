@@ -56,7 +56,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
         }
 
         return turnContext.sendActivity(
-            MessageFactory.text("Echo: " + turnContext.getActivity().getText() +  " channeldata:" + turnContext.getActivity().getChannelData() + " entities:" +  turnContext.getActivity().getEntities().toString();)
+            MessageFactory.text("Echo: " + turnContext.getActivity().getText() +  " channeldata:" + turnContext.getActivity().getChannelData() + " entities:" +  turnContext.getActivity().getEntities().toString())
         ).thenApply(sendResult -> null);
     }
 
