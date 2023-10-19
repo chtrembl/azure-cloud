@@ -11,7 +11,7 @@ import {
 import { useSelector } from 'react-redux';
 import { XCircle } from 'react-bootstrap-icons';
 import DPChat from './routes/DPChat';
-import Landing from './routes/Landing';
+//import Landing from './routes/Landing';
 import Loading from './routes/Loading';
 import Feedback from './routes/FeedbackRoute';
 import ContentCardTest from './routes/ContentCardTest';

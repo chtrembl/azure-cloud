@@ -618,7 +618,7 @@ export const createScene = createAsyncThunk('sm/createScene', async (_, thunk) =
 export const sendTextMessage = createAsyncThunk('sm/sendTextMessage', async ({ text }, thunk) => {
   if (text === '') return thunk.rejectWithValue('submitted empty string!');
   if (scene !== null && persona !== null) {
-    persona.conversationSetVariables({ "sessionid": "session id", "csrftoken":"csrf token" });
+    persona.conversationSetVariables({ 'sessionid': 'session id', 'csrftoken' : 'csrf token' });
     persona.conversationSend(text);
     return thunk.dispatch(actions.addConversationResult({
       source: 'user',
