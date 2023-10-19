@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +42,8 @@ public class PetStoreAssistantBot extends ActivityHandler {
         {
             LOGGER.info("channel data: " + turnContext.getActivity().getChannelData());
             LOGGER.info("entity data: " + turnContext.getActivity().getEntities());
+            LOGGER.info("properties: " + turnContext.getActivity().getProperties());
+            LOGGER.info("sessionid: " + turnContext.getActivity().getProperties().get("sessionid"));
         }
         catch(Exception e)
         {
