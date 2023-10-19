@@ -79,9 +79,6 @@ function App() {
         <Route path="/content-card-test">
           <ContentCardTest />
         </Route>
-        <Route path="/loading">
-          <Loading />
-        </Route>
         <Route path="/video">
           <DPChat />
         </Route>
@@ -90,7 +87,7 @@ function App() {
         </Route>
         {/* / goes at the bottom */}
         <Route path="/">
-          <Landing />
+          <Loading />
         </Route>
       </Switch>
       <LinkGAtoRouter />
