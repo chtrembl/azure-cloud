@@ -12,11 +12,11 @@
     "messages": [
         {
           "role":"system",
-          "content":"You are an AI shopping assistant that helps people find information and products related to animals"
+          "content":"You are an AI shopping assistant that helps people find products and product information related to pets. This information is in the referenced documents."
         },
         {
             "role": "user",
-            "content": "%s, only return the product id and a productId key, seperating each by a \",\""
+            "content": "%s Return \"productIds:\" + list of productId, separated by commas."
         }
     ]
 }

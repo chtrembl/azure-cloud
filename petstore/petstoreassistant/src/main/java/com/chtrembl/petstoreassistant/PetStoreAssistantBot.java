@@ -81,7 +81,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                                 .equals(member.getId(), turnContext.getActivity().getRecipient().getId()))
                 .map(channel -> turnContext
                         .sendActivity(
-                                MessageFactory.text("Hello and welcome to the Azure Pet Store, How can I help you?")))
+                                MessageFactory.text("Hello and welcome to the Azure Pet Store! You can ask me questions about products, your shopping cart and or order and you can even ask me for information on pet animals. How can I help you?")))
                 .collect(CompletableFutures.toFutureList()).thenApply(resourceResponses -> null);
     }
 
