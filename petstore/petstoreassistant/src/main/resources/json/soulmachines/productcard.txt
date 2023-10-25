@@ -1,0 +1,8 @@
+{
+   "type":"image",
+   "id":"%s",
+   "data":{
+      "url":"%s",
+      "alt":"%s"
+   }
+}

@@ -1,0 +1,224 @@
+{
+    "products": [
+      {
+        "productId": 1,
+        "category": {
+          "categoryId": 1,
+          "name": "Dog Toy"
+        },
+        "name": "Ball",
+        "description": "Great for power chewers, plush and squeaky balls for dogs with a high prey drive, treat-dispensing balls for food-motivated pups, and even balls that promote good dental health. A varied ball collection is great for keeping your dog interested and engaged.",
+        "photoURL": "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-toys/ball.jpg?raw=true",
+        "tags": [
+          {
+            "id": 1,
+            "name": "small"
+          },
+          {
+            "id": 2,
+            "name": "large"
+          }
+        ],
+        "status": "available"
+      },
+      {
+        "productId": 2,
+        "category": {
+          "categoryId": 1,
+          "name": "Dog Toy"
+        },
+        "name": "Ball Launcher",
+  "description": "Help keep your pup stimulated while saving your shoulder, and some can even enable your dog to play fetch solo. They come in a range of styles, from indoor-friendly rollers to powerful outdoor launchers.",
+        "photoURL": "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-toys/ball-launcher.jpg?raw=true",
+        "tags": [
+          {
+            "id": 1,
+            "name": "large"
+          }
+        ],
+        "status": "available"
+      },
+      {
+        "productId": 3,
+        "category": {
+          "categoryId": 1,
+          "name": "Dog Toy"
+        },
+        "name": "Plush Lamb",
+  "description" : "Soft plush toys are wonderful for young puppies because they provide them with a sense of comfort, especially after separation from their mother and littermates. Many older puppies and adult dogs continue to enjoy playing with plush toys and often carry them around, cuddle up to them and sleep with them.",
+        "photoURL": "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-toys/plush-lamb.jpg?raw=true",
+        "tags": [
+          {
+            "id": 1,
+            "name": "small"
+          },
+          {
+            "id": 2,
+            "name": "large"
+          }
+        ],
+        "status": "available"
+      },
+      {
+        "productId": 4,
+        "category": {
+          "categoryId": 1,
+          "name": "Dog Toy"
+        },
+        "name": "Plush Moose",
+  "description": "Soft plush toys are wonderful for young puppies because they provide them with a sense of comfort, especially after separation from their mother and littermates. Many older puppies and adult dogs continue to enjoy playing with plush toys and often carry them around, cuddle up to them and sleep with them.",
+        "photoURL": "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-toys/plush-moose.jpg?raw=true",
+        "tags": [
+          {
+            "id": 1,
+            "name": "small"
+          },
+          {
+            "id": 2,
+            "name": "large"
+          }
+        ],
+        "status": "available"
+      },
+      {
+        "productId": 5,
+        "category": {
+          "categoryId": 1,
+          "name": "Dog Food"
+        },
+        "name": "Large Breed Dry Food",
+        "description":"Generally formulated to promote strong bones and good joint health to support their heavier frames.",
+        "photoURL": "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-food/large-dog.jpg?raw=true",
+        "tags": [
+          {
+            "id": 1,
+            "name": "large"
+          }
+        ],
+        "status": "available"
+      },
+      {
+        "productId": 6,
+        "category": {
+          "categoryId": 1,
+          "name": "Dog Food"
+        },
+        "name": "Small Breed Dry Food",
+  "description":"Small breed kibble is generally better for small dogs because it's easier for them to eat and digest. Small kibble also allows small breed dogs to get all the nutrients they need without eating as much food.",
+        "photoURL": "https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-food/small-dog.jpg?raw=true",
+        "tags": [
+          {
+            "id": 1,
+            "name": "small"
+          }
+        ],
+        "status": "available"
+      },
+      {
+        "productId": 7,
+        "category": {
+          "categoryId": 1,
+          "name": "Cat Toy"
+        },
+        "name": "Mouse",
+        "description" : "Cute Catnip Mice are made of colorful corduroy or cotton cat print bodies with ultra suede ears and tails. All of our Catnip Mice are stuffed with fresh ultra premium catnip. These treats could easily become kitty's favorite mice! * As with any product. please supervise your pet's use of this toy.",
+        "photoURL": "https://raw.githubusercontent.com/chtrembl/staticcontent/master/cat-toys/mouse.jpg?raw=true",
+        "tags": [
+          {
+            "id": 1,
+            "name": "small"
+          },
+          {
+            "id": 2,
+            "name": "large"
+          }
+        ],
+        "status": "available"
+      },
+      {
+        "productId": 8,
+        "category": {
+          "categoryId": 1,
+          "name": "Cat Toy"
+        },
+        "name": "Scratcher",
+  "description": "Scratching helps remove the outer layer from a cat's nails: it's good grooming behavior. Cats scratch to stretch their claws, feet, and bodies. This releases feel-good hormones that help keep your cat healthy.",
+        "photoURL": "https://raw.githubusercontent.com/chtrembl/staticcontent/master/cat-toys/scratcher.jpg?raw=true",
+        "tags": [
+          {
+            "id": 1,
+            "name": "small"
+          },
+          {
+            "id": 2,
+            "name": "large"
+          }
+        ],
+        "status": "available"
+      },
+      {
+        "productId": 9,
+        "category": {
+          "categoryId": 1,
+          "name": "Cat Food"
+        },
+        "name": "All Sizes Cat Dry Food",
+  "description":"The main benefit of dry food is its ease, convenience and cost. Millions of cats over the world are fed dry food (either exclusively or in combination) and can live long healthy lives. Dry food allows for free- feeding and the food can be left out for prolonged periods of time",
+        "photoURL": "https://raw.githubusercontent.com/chtrembl/staticcontent/master/cat-food/cat.jpg?raw=true",
+        "tags": [
+          {
+            "id": 1,
+            "name": "small"
+          },
+          {
+            "id": 2,
+            "name": "large"
+          }
+        ],
+        "status": "available"
+      },
+      {
+        "productId": 10,
+        "category": {
+          "categoryId": 1,
+          "name": "Fish Toy"
+        },
+        "name": "Mangrove Ornament",
+  "description": "With a well decorated tank containing ornaments, fish are more likely to display their natural behavior, show improved coloration, be more active, and spend more time out of hiding!",
+        "photoURL": "https://raw.githubusercontent.com/chtrembl/staticcontent/master/fish-toys/mangrove.jpg?raw=true",
+        "tags": [
+          {
+            "id": 1,
+            "name": "small"
+          },
+          {
+            "id": 2,
+            "name": "large"
+          }
+        ],
+        "status": "available"
+      },
+      {
+        "productId": 11,
+        "category": {
+          "categoryId": 1,
+          "name": "Fish Food"
+        },
+        "name": "All Sizes Fish Food",
+  "description": "A variety of feeds for all your aquarium's needs, including sun-dried sea vegetables, freeze-dried krill, mysis shrimp, bloodworms and other natural prey items.",
+        "photoURL": "https://raw.githubusercontent.com/chtrembl/staticcontent/master/fish-food/fish.jpg?raw=true",
+        "tags": [
+          {
+            "id": 1,
+            "name": "small"
+          },
+          {
+            "id": 2,
+            "name": "large"
+          }
+        ],
+        "status": "available"
+      }
+    ]
+  }
+  

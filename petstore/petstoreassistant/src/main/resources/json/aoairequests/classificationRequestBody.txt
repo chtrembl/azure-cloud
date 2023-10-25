@@ -1,0 +1,12 @@
+{
+    "messages":[
+       {
+          "role":"system",
+          "content":"You are an AI shopping assistant that helps people find information and products related to animals"
+       },
+       {
+          "role":"user",
+          "content":"\"%s\"\nclassify above text into one of the 5 categories \"update shopping cart\", \"view shopping cart\", \"place order\", \"search for products\", \"something else\""
+       }
+    ]
+ }

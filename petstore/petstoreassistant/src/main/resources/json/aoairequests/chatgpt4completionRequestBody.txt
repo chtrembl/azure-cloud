@@ -1,0 +1,12 @@
+{
+    "messages":
+    [
+        {            
+            "role":"system","content": "you can only answer questions related to pets"
+        }
+        ,
+        {
+            "role":"user","content": "%s, answer in one paragraph"
+        }
+    ]
+}
