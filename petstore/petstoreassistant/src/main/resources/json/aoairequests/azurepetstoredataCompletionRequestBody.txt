@@ -4,7 +4,7 @@
             "type": "AzureCognitiveSearch",
             "parameters": {
                 "endpoint": "https://azurepetstore-cs.search.windows.net",
-                "key": "xr1xz6dNJYyDn759kksfYqApg7IqnLMzXWD2wHfHLoAzSeCzeaMG",
+                "key": "8wnPAFFWiy5asJlti29hsQLuFdd4Eto71Tx1zu9rbHAzSeBRmsQG",
                 "indexName": "cosmosdb-indexv2"
             }
         }
