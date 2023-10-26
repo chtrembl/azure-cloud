@@ -17,7 +17,6 @@ public class PetStoreAssistantUtilities {
         DPResponse dpResponse = new DPResponse();
 
         String dpResponseText = "We have,";
-        ;
 
         // remove cog search references
         text = text.replaceAll("\\[(doc\\d+)\\]", "");
@@ -61,6 +60,7 @@ public class PetStoreAssistantUtilities {
     }
 
     public static String cleanDataFromAOAIResponseContent(String content) {
-       return content.replaceAll("[\"']", "").replaceAll("\\\\", "");
+       //remove quotes, slashes and all chars after the last period
+       return content.replaceAll("[\"']", "").replaceAll("\\\\", "").replaceAll("\\.[^.]*$", "");
     }
 }

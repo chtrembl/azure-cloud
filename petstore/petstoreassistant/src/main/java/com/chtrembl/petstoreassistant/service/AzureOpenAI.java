@@ -46,6 +46,9 @@ public class AzureOpenAI implements IAzureOpenAI {
     @Value("${aoai.key}")
     private String aoaiKey;
 
+    @Value("${cognitive.search.key}")
+    private String csKey;
+
     ProductsCache productsCache;
 
     @PostConstruct
@@ -53,7 +56,8 @@ public class AzureOpenAI implements IAzureOpenAI {
         this.classificationRequestBodyString = StreamUtils
                 .copyToString(classificationRequestBodyResource.getInputStream(), Charset.defaultCharset());
         this.azurepetstoredataCompletionRequestBodyString = StreamUtils.copyToString(
-                azurepetstoredataCompletionRequestBodyResource.getInputStream(), Charset.defaultCharset());
+                azurepetstoredataCompletionRequestBodyResource.getInputStream(), Charset.defaultCharset()).replaceAll("CS_KEY",this.csKey);
+
         this.chatgpt4CompletionRequestBodyString = StreamUtils
                 .copyToString(chatgpt4CompletionRequestBodyResource.getInputStream(), Charset.defaultCharset());
         this.productsCache = new ProductsCache();
@@ -114,7 +118,8 @@ public class AzureOpenAI implements IAzureOpenAI {
         LOGGER.info("completion invoked, text: {}", text);
 
         DPResponse dpResponse = new DPResponse();
-
+        dpResponse.setClassification(classification);
+        
         try {
             String aoaiRequestBody = null;
             String uri = null;
@@ -161,10 +166,8 @@ public class AzureOpenAI implements IAzureOpenAI {
                                 .getAsJsonArray().get(0).getAsJsonObject().get("message").getAsJsonObject();
 
                         content = message.get("content").toString().toLowerCase();
-                        dpResponse = PetStoreAssistantUtilities.processAOAIProductsCompletion(content,
-                                this.productsCache);
-
-                        dpResponse.setDpResponseText(content);
+                     
+                        dpResponse.setDpResponseText(PetStoreAssistantUtilities.cleanDataFromAOAIResponseContent(content));
                         break;
                 }
 
