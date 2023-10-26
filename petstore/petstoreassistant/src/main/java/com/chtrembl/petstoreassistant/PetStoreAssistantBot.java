@@ -51,13 +51,13 @@ public class PetStoreAssistantBot extends ActivityHandler {
  
         switch (dpResponse.getClassification()) {
             case UPDATE_SHOPPING_CART:
-                dpResponse.setDpResponseText("Once I get your session ID I will be able to update your shopping cart.");
+                dpResponse.setDpResponseText("Once I get your session information, I will be able to update your shopping cart.");
                 break;
             case VIEW_SHOPPING_CART:
-                dpResponse.setDpResponseText("Once I get your session ID I will be able to display your shopping cart.");
+                dpResponse.setDpResponseText("Once I get your session information, I will be able to display your shopping cart.");
                 break;
             case PLACE_ORDER:
-                dpResponse.setDpResponseText("Once I get your session ID I will be able to place your order.");
+                dpResponse.setDpResponseText("Once I get your session information, I will be able to place your order.");
                 break;
             case SEARCH_FOR_PRODUCTS:
                 dpResponse = this.azureOpenAI.completion(text, dpResponse.getClassification());
@@ -81,7 +81,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                                 .equals(member.getId(), turnContext.getActivity().getRecipient().getId()))
                 .map(channel -> turnContext
                         .sendActivity(
-                                MessageFactory.text("Hello and welcome to the Azure Pet Store! You can ask me questions about products, your shopping cart and or order and you can even ask me for information on pet animals. How can I help you?")))
+                                MessageFactory.text("Hello and welcome to the Azure Pet Store, you can ask me questions about our products, your shopping cart and your order, you can also ask me for information on animals.")))
                 .collect(CompletableFutures.toFutureList()).thenApply(resourceResponses -> null);
     }
 
