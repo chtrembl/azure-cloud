@@ -13,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
+import com.chtrembl.petstoreassistant.model.AzurePetStoreSessionInfo;
 import com.chtrembl.petstoreassistant.model.DPResponse;
 import com.chtrembl.petstoreassistant.service.AzureOpenAI;
+import com.chtrembl.petstoreassistant.utility.PetStoreAssistantUtilities;
 import com.codepoetics.protonpack.collectors.CompletableFutures;
 import com.microsoft.bot.builder.ActivityHandler;
 import com.microsoft.bot.builder.MessageFactory;
@@ -43,9 +45,14 @@ public class PetStoreAssistantBot extends ActivityHandler {
    
     @Override
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
-        logTurnContext(turnContext);
-
         String text = turnContext.getActivity().getText().toLowerCase();
+        
+        // strip out session id and csrf token
+        AzurePetStoreSessionInfo azurePetStoreSessionInfo = PetStoreAssistantUtilities.getAzurePetStoreSessionInfo(text);
+        if(azurePetStoreSessionInfo != null)
+        {
+            text = azurePetStoreSessionInfo.getNewText();
+        }
 
         DPResponse dpResponse = this.azureOpenAI.classification(text);
  
@@ -83,17 +90,5 @@ public class PetStoreAssistantBot extends ActivityHandler {
                         .sendActivity(
                                 MessageFactory.text("Hello and welcome to the Azure Pet Store, you can ask me questions about our products, your shopping cart and your order, you can also ask me for information about pet animals. How can I help you?")))
                 .collect(CompletableFutures.toFutureList()).thenApply(resourceResponses -> null);
-    }
-
-    private void logTurnContext(TurnContext turnContext) {
-        try {
-            LOGGER.info("text: " + turnContext.getActivity().getText());
-            LOGGER.info("channel data: " + turnContext.getActivity().getChannelData());
-            LOGGER.info("entity data: " + turnContext.getActivity().getEntities());
-            LOGGER.info("properties: " + turnContext.getActivity().getProperties());
-            LOGGER.info("sessionid: " + turnContext.getActivity().getProperties().get("sessionid"));
-        } catch (Exception e) {
-            LOGGER.error("Error getting channel/entity data", e);
-        }
     }
 }
