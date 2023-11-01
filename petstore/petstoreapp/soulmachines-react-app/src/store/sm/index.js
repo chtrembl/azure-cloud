@@ -619,7 +619,7 @@ export const sendTextMessage = createAsyncThunk('sm/sendTextMessage', async ({ t
   if (text === '') return thunk.rejectWithValue('submitted empty string!');
   if (scene !== null && persona !== null) {
     persona.conversationSetVariables({ sessionid: 'session id', csrftoken: 'csrf token' });
-    persona.conversationSend('${text} [sid:1234|csrf:6789]');
+    persona.conversationSend('${text} sid:1CA20268285815301ED04895CAFC1951csrf:d28194eb-f4fe-4280-8444-d74fe625c434');
     return thunk.dispatch(actions.addConversationResult({
       source: 'user',
       text,
