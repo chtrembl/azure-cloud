@@ -1,6 +1,7 @@
 package com.chtrembl.petstoreassistant.utility;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,15 +10,15 @@ import org.slf4j.LoggerFactory;
 
 import com.chtrembl.petstoreassistant.model.AzurePetStoreSessionInfo;
 import com.chtrembl.petstoreassistant.model.DPResponse;
-import com.chtrembl.petstoreassistant.model.ProductsCache;
+import com.chtrembl.petstoreassistant.model.Product;
 
 public class PetStoreAssistantUtilities {
     private static final Logger LOGGER = LoggerFactory.getLogger(PetStoreAssistantUtilities.class);
 
-    public static DPResponse processAOAIProductsCompletion(String text, ProductsCache productsCache) {
+    public static DPResponse processAOAIProductsCompletion(String text, HashMap<String, Product> products) {
         DPResponse dpResponse = new DPResponse();
 
-        String dpResponseText = "We have,";
+        String dpResponseText = "We have a ";
 
         // remove cog search references
         text = text.replaceAll("\\[(doc\\d+)\\]", "");
@@ -34,7 +35,10 @@ public class PetStoreAssistantUtilities {
             Matcher matcher = pattern.matcher(substring);
             if (matcher.find()) {
                 String number = matcher.group();
-                productIDs.add(number);
+                if(!productIDs.contains(number))
+                {
+                    productIDs.add(number);
+                }
             } else {
                 LOGGER.info("No product id found in substring: " + substring);
             }
@@ -44,12 +48,12 @@ public class PetStoreAssistantUtilities {
             int i = 0;
             for (String productID : productIDs) {
                 if (i == 0) {
-                    dpResponseText += " " + productsCache.getProducts().get(productID).getName();
+                    dpResponseText += " " + products.get(productID).getName();
                     i++;
                 } else if (i++ != productIDs.size() - 1) {
-                    dpResponseText += ", " + productsCache.getProducts().get(productID).getName();
+                    dpResponseText += ", " + products.get(productID).getName();
                 } else {
-                    dpResponseText += " and " + productsCache.getProducts().get(productID).getName();
+                    dpResponseText += " and " + products.get(productID).getName();
                 }
             }
 

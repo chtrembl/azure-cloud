@@ -7,15 +7,15 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import com.chtrembl.petstoreassistant.model.AzurePetStoreSessionInfo;
 import com.chtrembl.petstoreassistant.model.DPResponse;
-import com.chtrembl.petstoreassistant.service.AzureOpenAI;
+import com.chtrembl.petstoreassistant.service.IAzureOpenAI;
+import com.chtrembl.petstoreassistant.service.IAzurePetStore;
+import com.chtrembl.petstoreassistant.service.AzureOpenAI.Classification;
 import com.chtrembl.petstoreassistant.utility.PetStoreAssistantUtilities;
 import com.codepoetics.protonpack.collectors.CompletableFutures;
 import com.microsoft.bot.builder.ActivityHandler;
@@ -38,11 +38,13 @@ import com.microsoft.bot.schema.ChannelAccount;
 @Component
 @Primary
 public class PetStoreAssistantBot extends ActivityHandler {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PetStoreAssistantBot.class);
     
     @Autowired
-    private AzureOpenAI azureOpenAI;
+    private IAzureOpenAI azureOpenAI;
    
+    @Autowired
+    private IAzurePetStore azurePetStore;
+
     @Override
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
         String text = turnContext.getActivity().getText().toLowerCase();
@@ -58,7 +60,17 @@ public class PetStoreAssistantBot extends ActivityHandler {
  
         switch (dpResponse.getClassification()) {
             case UPDATE_SHOPPING_CART:
-                dpResponse.setDpResponseText("Once I get your session information, I will be able to update your shopping cart.");
+                if(azurePetStoreSessionInfo != null)
+                {
+                    dpResponse = this.azureOpenAI.completion("find the product that is associated with the following text: \'" + text + "\'", Classification.SEARCH_FOR_PRODUCTS);
+                    if(dpResponse.getResponseProductIDs() != null && dpResponse.getResponseProductIDs().size() == 1)
+                    {
+                        dpResponse = this.azurePetStore.updateCart(azurePetStoreSessionInfo, dpResponse.getResponseProductIDs().get(0));
+                    }
+                }
+                else {
+                    dpResponse.setDpResponseText("Once I get your session information, I will be able to update your shopping cart.");
+                }
                 break;
             case VIEW_SHOPPING_CART:
                 dpResponse.setDpResponseText("Once I get your session information, I will be able to display your shopping cart.");

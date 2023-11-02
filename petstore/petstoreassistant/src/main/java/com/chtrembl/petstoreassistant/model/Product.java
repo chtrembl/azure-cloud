@@ -2,12 +2,20 @@ package com.chtrembl.petstoreassistant.model;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Product implements Serializable{
     private String productId = null;
+    
+    @JsonProperty("category.name")
     private String category = null;
     private String name = null;
     private String description = null;
     private String photoURL = null;
+
+    public Product() {
+        super();
+    }
 
     public Product(String productId, String category, String name, String description, String photoURL) {
         super();

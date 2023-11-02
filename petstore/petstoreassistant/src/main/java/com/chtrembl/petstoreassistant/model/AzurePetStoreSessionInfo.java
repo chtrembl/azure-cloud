@@ -9,9 +9,9 @@ public class AzurePetStoreSessionInfo implements Serializable{
 
     public AzurePetStoreSessionInfo(String sessionID, String csrfToken, String newText) {
         super();
-        this.sessionID = sessionID;
-        this.csrfToken = csrfToken;
-        this.newText = newText;
+        this.sessionID = sessionID.trim();
+        this.csrfToken = csrfToken.trim();
+        this.newText = newText.trim();
     }
     public String getSessionID() {
         return sessionID;

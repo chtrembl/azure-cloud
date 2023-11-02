@@ -9,7 +9,9 @@ public class DPResponse {
     private String dpResponseText = "I am not sure how to handle that.";  
     List<Product> products = null;
     List<String> responseProductIDs = null;
-
+    boolean updateCart = false;
+    boolean completeCart = false;
+    
     public DPResponse() {
         super();
     }
@@ -42,4 +44,16 @@ public class DPResponse {
     public void setResponseProductIDs(List<String> responseProductIDs) {
         this.responseProductIDs = responseProductIDs;
     }
+    public boolean isUpdateCart() {
+        return updateCart;
+    }
+    public void setUpdateCart(boolean updateCart) {
+        this.updateCart = updateCart;
+    }
+    public boolean isCompleteCart() {
+        return completeCart;
+    }
+    public void setCompleteCart(boolean completeCart) {
+        this.completeCart = completeCart;
+    }   
 }

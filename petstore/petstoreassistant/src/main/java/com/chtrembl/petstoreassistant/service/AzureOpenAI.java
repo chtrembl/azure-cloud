@@ -6,23 +6,23 @@ import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.chtrembl.petstoreassistant.model.DPResponse;
-import com.chtrembl.petstoreassistant.model.ProductsCache;
 import com.chtrembl.petstoreassistant.utility.PetStoreAssistantUtilities;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-@Component
+@Service
 public class AzureOpenAI implements IAzureOpenAI {
     private static final Logger LOGGER = LoggerFactory.getLogger(AzureOpenAI.class);
 
@@ -48,8 +48,9 @@ public class AzureOpenAI implements IAzureOpenAI {
 
     @Value("${cognitive.search.key}")
     private String csKey;
-
-    ProductsCache productsCache;
+    
+    @Autowired
+    private ICosmosDB cosmosDB;
 
     @PostConstruct
     public void initialize() throws Exception {
@@ -60,7 +61,6 @@ public class AzureOpenAI implements IAzureOpenAI {
 
         this.chatgpt4CompletionRequestBodyString = StreamUtils
                 .copyToString(chatgpt4CompletionRequestBodyResource.getInputStream(), Charset.defaultCharset());
-        this.productsCache = new ProductsCache();
     }
 
     public enum Classification {
@@ -136,7 +136,7 @@ public class AzureOpenAI implements IAzureOpenAI {
             }
 
             if (aoaiRequestBody != null) {
-                String aoaiResoinse = this.aoaiHTTPRequest(
+                String aoaiResponse = this.aoaiHTTPRequest(
                         String.format(aoaiRequestBody,
                                 text),
                         uri);
@@ -146,7 +146,7 @@ public class AzureOpenAI implements IAzureOpenAI {
                 switch (classification) {
                     case SEARCH_FOR_PRODUCTS:
 
-                        JsonArray messages = new Gson().fromJson(aoaiResoinse, JsonElement.class).getAsJsonObject()
+                        JsonArray messages = new Gson().fromJson(aoaiResponse, JsonElement.class).getAsJsonObject()
                                 .get("choices")
                                 .getAsJsonArray().get(0).getAsJsonObject().get("messages").getAsJsonArray();
 
@@ -157,11 +157,11 @@ public class AzureOpenAI implements IAzureOpenAI {
                                 messages.get(messages.size() - 1).getAsJsonObject().get("content").toString()
                                         .toLowerCase());
                         dpResponse = PetStoreAssistantUtilities.processAOAIProductsCompletion(content,
-                                this.productsCache);
+                                this.cosmosDB.getCachedProducts());
                         break;
 
                     case SOMETHING_ELSE:
-                        JsonObject message = new Gson().fromJson(aoaiResoinse, JsonElement.class).getAsJsonObject()
+                        JsonObject message = new Gson().fromJson(aoaiResponse, JsonElement.class).getAsJsonObject()
                                 .get("choices")
                                 .getAsJsonArray().get(0).getAsJsonObject().get("message").getAsJsonObject();
 
