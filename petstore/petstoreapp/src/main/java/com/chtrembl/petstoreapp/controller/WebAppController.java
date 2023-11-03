@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.web.server.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -263,10 +264,12 @@ public class WebAppController {
 	}
 	
 	@GetMapping(value = "/soulmachines")
-	public String soulmachines(Model model) throws URISyntaxException {
+	public String soulmachines(Model model, HttpServletRequest request) throws URISyntaxException {
 		logger.info(String.format("PetStoreApp /soulmachines requested for %s, routing to soulmachines view...",
 				this.sessionUser.getName()));
-	
+		
+		model.addAttribute("sid", this.sessionUser.getSessionId());
+		
 		return "soulmachines";
 	}
 	
