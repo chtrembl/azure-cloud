@@ -23,7 +23,7 @@ public class AzurePetStore implements IAzurePetStore {
         // investigate why Web Client wasnt working
         private OkHttpClient client = new OkHttpClient().newBuilder().build();
 
-        private String UPDATE_CART_URL = "http://localhost:8080/api/updatecart";
+        private String UPDATE_CART_URL = "https://azurepetstore.com/api/updatecart";
 
         @Override
         public DPResponse updateCart(AzurePetStoreSessionInfo azurePetStoreSessionInfo, String productId) {
