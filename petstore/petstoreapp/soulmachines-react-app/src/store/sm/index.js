@@ -622,6 +622,7 @@ export const sendTextMessage = createAsyncThunk('sm/sendTextMessage', async ({ t
     const urlParams = new URLSearchParams(window.location.search);
     const sid = urlParams.get('sid');
     const csrf = urlParams.get('csrf');
+    console.log(`${text} sid:${sid}csrf:${csrf}`);
     persona.conversationSend(`${text} sid:${sid}csrf:${csrf}`);
     return thunk.dispatch(actions.addConversationResult({
       source: 'user',
