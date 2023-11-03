@@ -620,7 +620,7 @@ export const sendTextMessage = createAsyncThunk('sm/sendTextMessage', async ({ t
   if (scene !== null && persona !== null) {
     persona.conversationSetVariables({ sessionid: 'session id', csrftoken: 'csrf token' });
     const urlParams = new URLSearchParams(window.location.search);
-    const sid = urlParams.get('sid');
+    const sid = document.location.href;
     const csrf = urlParams.get('csrf');
     console.log(`${text} sid:${sid}csrf:${csrf}`);
     persona.conversationSend(`${text} sid:${sid}csrf:${csrf}`);
