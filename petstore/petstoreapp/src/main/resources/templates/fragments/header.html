@@ -4,8 +4,12 @@
 </head>
 <body>
 	<div th:fragment="header">
-
-		<diV
+		<script>
+			var sid =[[${sid}]];
+			var csrf =[[${_csrf.token}]];
+		</script>
+		
+		<div
 			class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
 			<table class="my-0 mr-md-auto font-weight-normal">
 				<tr><td style="width:50px;"><a class="p-2 text-dark" href="/">

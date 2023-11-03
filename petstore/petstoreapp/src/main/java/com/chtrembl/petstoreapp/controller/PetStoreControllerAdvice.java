@@ -90,6 +90,8 @@ public class PetStoreControllerAdvice {
 		model.addAttribute("signalRNegotiationURL", this.containerEnvironment.getSignalRNegotiationURL());
 
 		MDC.put("session_Id", this.sessionUser.getSessionId());
+
+		model.addAttribute("sid", this.sessionUser.getSessionId());
 	}
 
 }
