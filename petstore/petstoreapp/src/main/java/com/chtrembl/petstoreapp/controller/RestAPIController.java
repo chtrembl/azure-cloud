@@ -1,17 +1,22 @@
 package com.chtrembl.petstoreapp.controller;
 
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.chtrembl.petstoreapp.model.User;
+import com.chtrembl.petstoreapp.service.PetStoreService;
 
 /**
  * REST controller to facilitate REST calls such as session keep alives
@@ -23,6 +28,9 @@ public class RestAPIController {
 
 	@Autowired
 	private User sessionUser;
+
+	@Autowired
+	private PetStoreService petStoreService;
 
 	@GetMapping("/api/contactus")
 	public String contactus() {
@@ -38,6 +46,23 @@ public class RestAPIController {
 	public String sessionid() {
 
 		return this.sessionUser.getSessionId();
+	}
+
+
+	@PostMapping(value = "/api/updatecart")
+	public String updatecart(Model model, OAuth2AuthenticationToken token, HttpServletRequest request,
+			@RequestParam Map<String, String> params) {
+		int cartCount = 1;
+
+		String operator = params.get("operator");
+		if (StringUtils.isNotEmpty(operator)) {
+			if ("minus".equals(operator)) {
+				cartCount = -1;
+			}
+		}
+
+		this.petStoreService.updateOrder(Long.valueOf(params.get("productId")), cartCount, false);
+		return "success";
 	}
 
 	@GetMapping(value = "/introspectionSimulation", produces = MediaType.APPLICATION_JSON_VALUE)

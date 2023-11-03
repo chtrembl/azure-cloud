@@ -19,7 +19,7 @@ import com.chtrembl.petstoreapp.model.ContainerEnvironment;
 import com.chtrembl.petstoreapp.model.User;
 import com.nimbusds.jose.shaded.json.JSONArray;
 
-@ControllerAdvice(assignableTypes = {WebAppController.class})
+@ControllerAdvice(assignableTypes = {WebAppController.class, RestAPIController.class})
 public class PetStoreControllerAdvice {
 	private static Logger logger = LoggerFactory.getLogger(PetStoreControllerAdvice.class);
     
