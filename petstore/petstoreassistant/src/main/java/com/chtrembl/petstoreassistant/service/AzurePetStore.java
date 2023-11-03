@@ -49,7 +49,7 @@ public class AzurePetStore implements IAzurePetStore {
 
                         dpResponse.setDpResponseText("I just added the "
                                         + this.cosmosDB.getCachedProducts().get(productId).getName()
-                                        + " to your cart.");
+                                        + " to your cart. "+azurePetStoreSessionInfo.getSessionID()+"|"+azurePetStoreSessionInfo.getCsrfToken());
 
                         dpResponse.setUpdateCart(true);
                 } catch (Exception e) {
@@ -57,7 +57,7 @@ public class AzurePetStore implements IAzurePetStore {
                                         + azurePetStoreSessionInfo.getSessionID() + " " + e.getMessage());
                         dpResponse.setDpResponseText("I'm sorry, I wasn't able to add the "
                                         + this.cosmosDB.getCachedProducts().get(productId).getName()
-                                        + " to your cart.");
+                                        + " to your cart. "+azurePetStoreSessionInfo.getSessionID()+"|"+azurePetStoreSessionInfo.getCsrfToken());
                 }
 
                 return dpResponse;
