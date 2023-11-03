@@ -39,10 +39,9 @@ public class PetStoreAssistantUtilities {
                 {
                     productIDs.add(number);
                 }
-            } else {
-                LOGGER.info("No product id found in substring: " + substring);
             }
         }
+        LOGGER.info("Found " + productIDs.size() + " productId's in text: " + text);
                    
         if (productIDs.size() > 0) {
             int i = 0;
