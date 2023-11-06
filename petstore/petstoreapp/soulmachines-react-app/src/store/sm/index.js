@@ -620,11 +620,14 @@ export const sendTextMessage = createAsyncThunk('sm/sendTextMessage', async ({ t
   if (scene !== null && persona !== null) {
     persona.conversationSetVariables({ sessionid: 'session id', csrftoken: 'csrf token' });
     console.log('details...');
-    console.log(`1: ${window.parent.location}`);
-    console.log(`2: ${window.location.url}`);
-    console.log(`3: ${window.location.href}`);
-    console.log(`4: ${document.getElementById('soulmachines').contentWindow.location.href}`);
-    console.log(`5: ${document.getElementById('soulmachines').contentWindow.location.url}`);
+    const iframes = document.getElementsByTagName('iframe');
+    for (var i = 0; i < iframes.length; i++) {
+        try {
+            console.log(iframes[i].contentWindow.location.href);
+        } catch (e) {
+            console.log('Cannot access iframe URL due to same-origin policy:', e);
+        }
+    }
     persona.conversationSend(`${text} sid:${window.top.sid}csrf:${window.parent.csrf}`);
     return thunk.dispatch(actions.addConversationResult({
       source: 'user',
