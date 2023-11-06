@@ -71,12 +71,12 @@ public class PetStoreAssistantUtilities {
     public static AzurePetStoreSessionInfo getAzurePetStoreSessionInfo(String text) {
         AzurePetStoreSessionInfo azurePetStoreSessionInfo = null;
 
-        Pattern pattern = Pattern.compile("sid:(.*)csrf:(.*)");
+        Pattern pattern = Pattern.compile("sid=(.*)csrf=(.*)");
         Matcher matcher = pattern.matcher(text);
         if (matcher.find()) {
             String sessionID = matcher.group(1);
             String csrfToken = matcher.group(2);
-            String newText = text.substring(0, text.indexOf("sid:")).trim();
+            String newText = text.substring(0, text.indexOf("http")).trim();
             azurePetStoreSessionInfo = new AzurePetStoreSessionInfo(sessionID, csrfToken, newText);
             LOGGER.info("Found session id:" + sessionID + " and csrf token:" + csrfToken + " in text: " + text + " new text: " + newText);
         } else {
