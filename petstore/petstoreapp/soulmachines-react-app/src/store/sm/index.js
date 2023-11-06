@@ -618,7 +618,7 @@ export const createScene = createAsyncThunk('sm/createScene', async (_, thunk) =
 export const sendTextMessage = createAsyncThunk('sm/sendTextMessage', async ({ text }, thunk) => {
   if (text === '') return thunk.rejectWithValue('submitted empty string!');
   if (scene !== null && persona !== null) {
-    persona.conversationSetVariables({ url: '${window.parent.location}'});
+    persona.conversationSetVariables({ url: `${window.parent.location}` });
     console.log(`${text} ${window.parent.location}`);
     persona.conversationSend(`${text} ${window.parent.location}`);
     return thunk.dispatch(actions.addConversationResult({
@@ -825,7 +825,7 @@ const smSlice = createSlice({
     sendEvent: (state, { payload }) => {
       const { eventName, payload: eventPayload, kind } = payload;
       if (scene && persona) {
-        persona.conversationSetVariables({ url: '${window.parent.location}'});
+        persona.conversationSetVariables({ url: `${window.parent.location}` });
         console.log(`${eventName} ${eventPayload} ${window.parent.location}`);
         persona.conversationSend(eventName, eventPayload || {}, { kind: kind || 'event' });
       }
