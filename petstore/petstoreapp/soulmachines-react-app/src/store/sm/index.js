@@ -616,14 +616,12 @@ export const createScene = createAsyncThunk('sm/createScene', async (_, thunk) =
 // send plain text to the persona.
 // usually used for typed input or UI elems that trigger a certain phrase
 export const sendTextMessage = createAsyncThunk('sm/sendTextMessage', async ({ text }, thunk) => {
-  var i = 0;
-
   if (text === '') return thunk.rejectWithValue('submitted empty string!');
   if (scene !== null && persona !== null) {
     persona.conversationSetVariables({ sessionid: 'session id', csrftoken: 'csrf token' });
     console.log('details...');
     const iframes = document.getElementsByTagName('iframe');
-    for (i < iframes.length; i += 1;) {
+    for (let i = 0; i = iframes.length; i += 1) {
       try {
         console.log(iframes[i].contentWindow.location.href);
       } catch (e) {
