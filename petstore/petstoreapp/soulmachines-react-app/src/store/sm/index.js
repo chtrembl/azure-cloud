@@ -619,7 +619,7 @@ export const sendTextMessage = createAsyncThunk('sm/sendTextMessage', async ({ t
   if (text === '') return thunk.rejectWithValue('submitted empty string!');
   if (scene !== null && persona !== null) {
     persona.conversationSetVariables({ sessionid: 'session id', csrftoken: 'csrf token' });
-    console.log(`details...`);
+    console.log('details...');
     console.log(`1: ${window.parent.location}`);
     console.log(`2: ${window.location.url}`);
     console.log(`3: ${window.location.href}`);
