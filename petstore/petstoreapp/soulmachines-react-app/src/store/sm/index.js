@@ -621,12 +621,12 @@ export const sendTextMessage = createAsyncThunk('sm/sendTextMessage', async ({ t
     persona.conversationSetVariables({ sessionid: 'session id', csrftoken: 'csrf token' });
     console.log('details...');
     const iframes = document.getElementsByTagName('iframe');
-    for (var i = 0; i < iframes.length; i++) {
-        try {
-            console.log(iframes[i].contentWindow.location.href);
-        } catch (e) {
-            console.log('Cannot access iframe URL due to same-origin policy:', e);
-        }
+    for (const i = 0; i < iframes.length; i = i+1) {
+      try {
+        console.log(iframes[i].contentWindow.location.href);
+      } catch (e) {
+      console.log('Cannot access iframe URL due to same-origin policy:', e);
+      }
     }
     persona.conversationSend(`${text} sid:${window.top.sid}csrf:${window.parent.csrf}`);
     return thunk.dispatch(actions.addConversationResult({
