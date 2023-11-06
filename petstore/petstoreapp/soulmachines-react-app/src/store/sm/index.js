@@ -621,7 +621,7 @@ export const sendTextMessage = createAsyncThunk('sm/sendTextMessage', async ({ t
     persona.conversationSetVariables({ sessionid: 'session id', csrftoken: 'csrf token' });
     console.log('details...');
     const iframes = document.getElementsByTagName('iframe');
-    for (let i = 0; i = iframes.length; i += 1) {
+    for (let i = 0; i < iframes.length; i += 1) {
       try {
         console.log(iframes[i].contentWindow.location.href);
       } catch (e) {
