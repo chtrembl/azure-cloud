@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -263,9 +265,16 @@ public class WebAppController {
 	}
 	
 	@GetMapping(value = "/soulmachines")
-	public String soulmachines(Model model, HttpServletRequest request) throws URISyntaxException {
+	public String soulmachines(Model model, HttpServletRequest request, @RequestParam("sid") Optional<String> sid,  @RequestParam("csrf") Optional<String> csrf) throws URISyntaxException {
 		logger.info(String.format("PetStoreApp /soulmachines requested for %s, routing to soulmachines view...",
 				this.sessionUser.getName()));		
+
+		String url = request.getRequestURL().toString() + "?" + request.getQueryString();	
+		if(!url.contains("sid") || !url.contains("csrf"))
+		{
+			return "redirect:soulmachines?sid="+this.sessionUser.getSessionId()+"&csrf="+new HttpSessionCsrfTokenRepository().loadToken(request).getToken().toString();
+		}
+		
 		return "soulmachines";
 	}
 	
