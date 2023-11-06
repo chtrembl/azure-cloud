@@ -49,7 +49,7 @@ public class AzurePetStore implements IAzurePetStore {
 
                         dpResponse.setDpResponseText("I just added the "
                                         + this.cosmosDB.getCachedProducts().get(productId).getName()
-                                        + " to your cart. "+azurePetStoreSessionInfo.getSessionID()+"|"+azurePetStoreSessionInfo.getCsrfToken());
+                                        + " to your cart.");
 
                         dpResponse.setUpdateCart(true);
                 } catch (Exception e) {

@@ -71,7 +71,7 @@ public class PetStoreAssistantUtilities {
     public static AzurePetStoreSessionInfo getAzurePetStoreSessionInfo(String text) {
         AzurePetStoreSessionInfo azurePetStoreSessionInfo = null;
 
-        Pattern pattern = Pattern.compile("sid=(.*)csrf=(.*)");
+        Pattern pattern = Pattern.compile("sid=(.*)&csrf=(.*)");
         Matcher matcher = pattern.matcher(text);
         if (matcher.find()) {
             String sessionID = matcher.group(1);
