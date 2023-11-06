@@ -623,9 +623,9 @@ export const sendTextMessage = createAsyncThunk('sm/sendTextMessage', async ({ t
     const iframes = document.getElementsByTagName('iframe');
     for (let i = 0; i < iframes.length; i += 1) {
       try {
-          console.log(iframes[i].contentWindow.location.href);
+        console.log(iframes[i].contentWindow.location.href);
       } catch (e) {
-      console.log('Cannot access iframe URL due to same-origin policy:', e);
+        console.log('Cannot access iframe URL due to same-origin policy:', e);
       }
     }
     persona.conversationSend(`${text} sid:${window.top.sid}csrf:${window.parent.csrf}`);
