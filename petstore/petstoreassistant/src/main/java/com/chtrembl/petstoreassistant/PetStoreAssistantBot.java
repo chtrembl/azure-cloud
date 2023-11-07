@@ -114,7 +114,8 @@ public class PetStoreAssistantBot extends ActivityHandler {
         try
         {
             LOGGER.info("trying to get entities");
-            turnContext.getActivity().getEntities().iterator().forEachRemaining(entity -> LOGGER.info(entity.toString()));
+            Object object = turnContext.getActivity().getEntities();
+            LOGGER.info("found a entities object" + object.getClass() + " " + object.toString());
         }
         catch(Exception e)
         {
@@ -124,6 +125,9 @@ public class PetStoreAssistantBot extends ActivityHandler {
         try
         {
             LOGGER.info("trying to channelData");
+            Object object = turnContext.getActivity().getChannelData();
+            LOGGER.info("found a channel data object" + object.getClass()+ " " + object.toString());
+        
             LOGGER.info( turnContext.getActivity().getChannelData().toString() );
         }
         catch(Exception e)
