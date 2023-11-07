@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
@@ -38,7 +40,8 @@ import com.microsoft.bot.schema.ChannelAccount;
 @Component
 @Primary
 public class PetStoreAssistantBot extends ActivityHandler {
-    
+    private static final Logger LOGGER = LoggerFactory.getLogger(PetStoreAssistantBot.class);
+
     @Autowired
     private IAzureOpenAI azureOpenAI;
    
@@ -48,6 +51,8 @@ public class PetStoreAssistantBot extends ActivityHandler {
     @Override
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
         String text = turnContext.getActivity().getText().toLowerCase();
+
+        this.logTurnContext(turnContext);
         
         // strip out session id and csrf token
         AzurePetStoreSessionInfo azurePetStoreSessionInfo = PetStoreAssistantUtilities.getAzurePetStoreSessionInfo(text);
@@ -102,5 +107,51 @@ public class PetStoreAssistantBot extends ActivityHandler {
                         .sendActivity(
                                 MessageFactory.text("Hello and welcome to the Azure Pet Store, you can ask me questions about our products, your shopping cart and your order, you can also ask me for information about pet animals. How can I help you?")))
                 .collect(CompletableFutures.toFutureList()).thenApply(resourceResponses -> null);
+    }
+
+    private void logTurnContext(TurnContext turnContext)
+    {
+        try
+        {
+            LOGGER.info("trying to get entities");
+            turnContext.getActivity().getEntities().iterator().forEachRemaining(entity -> LOGGER.info(entity.toString()));
+        }
+        catch(Exception e)
+        {
+            LOGGER.info("could not get entities " + e.getMessage());
+        }
+
+        try
+        {
+            LOGGER.info("trying to channelData");
+            LOGGER.info( turnContext.getActivity().getChannelData().toString() );
+        }
+        catch(Exception e)
+        {
+            LOGGER.info("could not get channelData " + e.getMessage());
+        }
+
+        try
+        {
+            LOGGER.info("trying to getProperties");
+            turnContext.getActivity().getProperties().entrySet().iterator().forEachRemaining(entry ->  LOGGER.info(entry.getKey() + " " + entry.getValue()));
+       
+        }
+        catch(Exception e)
+        {
+            LOGGER.info("could not get getProperties " + e.getMessage());
+        }
+        
+        try
+        {
+            LOGGER.info("trying to getSumamry");
+            LOGGER.info(turnContext.getActivity().getSummary());
+        }
+        catch(Exception e)
+        {
+            LOGGER.info("could not get getSumamry " + e.getMessage());
+        }
+
+        
     }
 }
