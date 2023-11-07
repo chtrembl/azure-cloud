@@ -272,7 +272,7 @@ public class WebAppController {
 		// if the user hits this page without a sessions/csrf, redirect and establish one
 		if(new HttpSessionCsrfTokenRepository().loadToken(request) == null)
 		{
-			return "redirect:soulmachines";
+			return "redirect:/home";
 		}
 
 		String url = request.getRequestURL().toString() + "?" + request.getQueryString();	
