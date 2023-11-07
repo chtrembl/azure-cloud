@@ -4,6 +4,7 @@
 package com.chtrembl.petstoreassistant;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import org.apache.commons.lang3.StringUtils;
@@ -20,6 +21,7 @@ import com.chtrembl.petstoreassistant.service.IAzurePetStore;
 import com.chtrembl.petstoreassistant.service.AzureOpenAI.Classification;
 import com.chtrembl.petstoreassistant.utility.PetStoreAssistantUtilities;
 import com.codepoetics.protonpack.collectors.CompletableFutures;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.microsoft.bot.builder.ActivityHandler;
 import com.microsoft.bot.builder.MessageFactory;
 import com.microsoft.bot.builder.TurnContext;
@@ -118,87 +120,14 @@ public class PetStoreAssistantBot extends ActivityHandler {
 
          try
         {
-            LOGGER.info("trying to getRecipient id");
-            LOGGER.info(turnContext.getActivity().getRecipient().getId());
+            LOGGER.info("trying to get recipient");
+            Map<String, JsonNode> recipientProperties = turnContext.getActivity().getRecipient().getProperties();
+            recipientProperties.forEach((key, value) -> LOGGER.info("key: " + key + " value: " + value.asText()));
         }
         catch(Exception e)
         {
-            LOGGER.info("could not getRecipient " + e.getMessage());
-        }
-
-        try
-        {
-            LOGGER.info("trying to get entities");
-            Object object = turnContext.getActivity().getEntities();
-            LOGGER.info("found a entities object" + object.getClass() + " " + object.toString());
-        }
-        catch(Exception e)
-        {
-            LOGGER.info("could not get entities " + e.getMessage());
-        }
-
-        try
-        {
-            LOGGER.info("trying to channelData");
-            Object object = turnContext.getActivity().getChannelData();
-            LOGGER.info("found a channel data object" + object.getClass()+ " " + object.toString());
-        
-            LOGGER.info( turnContext.getActivity().getChannelData().toString() );
-        }
-        catch(Exception e)
-        {
-            LOGGER.info("could not get channelData " + e.getMessage());
-        }
-
-        try
-        {
-            LOGGER.info("trying to getProperties");
-            turnContext.getActivity().getProperties().entrySet().iterator().forEachRemaining(entry ->  LOGGER.info(entry.getKey() + " " + entry.getValue()));
-       
-        }
-        catch(Exception e)
-        {
-            LOGGER.info("could not get getProperties " + e.getMessage());
-        }
-        
-        try
-        {
-            LOGGER.info("trying to getSumamry");
-            LOGGER.info(turnContext.getActivity().getSummary());
-        }
-        catch(Exception e)
-        {
-            LOGGER.info("could not get getSumamry " + e.getMessage());
-        }
-
-        try
-        {
-            LOGGER.info("trying to getRecipient");
-            turnContext.getActivity().getRecipient().getProperties().entrySet().iterator().forEachRemaining(entry -> LOGGER.info(entry.getKey() + " " + entry.getValue()));
-        }
-        catch(Exception e)
-        {
-            LOGGER.info("could not get getRecipient " + e.getMessage());
-        }
-
-        try
-        {
-            LOGGER.info("trying to getConversation");
-              turnContext.getActivity().getConversation().getProperties().entrySet().iterator().forEachRemaining(entry -> LOGGER.info(entry.getKey() + " " + entry.getValue()));
-        }
-        catch(Exception e)
-        {
-            LOGGER.info("could not get getConversation " + e.getMessage());
-        }
-
-        try
-        {
-            LOGGER.info("trying to getFrom");
-            turnContext.getActivity().getFrom().getProperties().entrySet().iterator().forEachRemaining(entry -> LOGGER.info(entry.getKey() + " " + entry.getValue()));
-        }
-        catch(Exception e)
-        {
-            LOGGER.info("could not get getFrom " + e.getMessage());
+            LOGGER.info("could not get recipient " + e.getMessage());
         }
     }
+       
 }
