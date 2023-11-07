@@ -99,6 +99,10 @@ public class PetStoreAssistantBot extends ActivityHandler {
     protected CompletableFuture<Void> onMembersAdded(
             List<ChannelAccount> membersAdded,
             TurnContext turnContext) {
+
+                logTurnContext(turnContext);
+
+
         return membersAdded.stream()
                 .filter(
                         member -> !StringUtils
@@ -111,6 +115,17 @@ public class PetStoreAssistantBot extends ActivityHandler {
 
     private void logTurnContext(TurnContext turnContext)
     {
+
+         try
+        {
+            LOGGER.info("trying to getRecipient id");
+            LOGGER.info(turnContext.getActivity().getRecipient().getId());
+        }
+        catch(Exception e)
+        {
+            LOGGER.info("could not getRecipient " + e.getMessage());
+        }
+
         try
         {
             LOGGER.info("trying to get entities");
