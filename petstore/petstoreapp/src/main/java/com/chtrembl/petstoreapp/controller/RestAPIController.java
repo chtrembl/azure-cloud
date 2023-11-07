@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.chtrembl.petstoreapp.model.Order;
 import com.chtrembl.petstoreapp.model.User;
 import com.chtrembl.petstoreapp.service.PetStoreService;
 
@@ -66,6 +67,15 @@ public class RestAPIController {
 		}
 
 		this.petStoreService.updateOrder(Long.valueOf(params.get("productId")), cartCount, false);
+		
+		Order order = this.petStoreService.retrieveOrder(this.sessionUser.getSessionId());
+		model.addAttribute("order", order);
+		int cartSize = 0;
+		if (order != null && order.getProducts() != null && !order.isComplete()) {
+			cartSize = order.getProducts().size();
+		}
+		this.sessionUser.setCartCount(cartSize);
+
 		return "success";
 	}
 
