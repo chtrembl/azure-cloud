@@ -152,6 +152,34 @@ public class PetStoreAssistantBot extends ActivityHandler {
             LOGGER.info("could not get getSumamry " + e.getMessage());
         }
 
-        
+        try
+        {
+            LOGGER.info("trying to getRecipient");
+            turnContext.getActivity().getRecipient().getProperties().entrySet().iterator().forEachRemaining(entry -> LOGGER.info(entry.getKey() + " " + entry.getValue()));
+        }
+        catch(Exception e)
+        {
+            LOGGER.info("could not get getRecipient " + e.getMessage());
+        }
+
+        try
+        {
+            LOGGER.info("trying to getConversation");
+              turnContext.getActivity().getConversation().getProperties().entrySet().iterator().forEachRemaining(entry -> LOGGER.info(entry.getKey() + " " + entry.getValue()));
+        }
+        catch(Exception e)
+        {
+            LOGGER.info("could not get getConversation " + e.getMessage());
+        }
+
+        try
+        {
+            LOGGER.info("trying to getFrom");
+            turnContext.getActivity().getFrom().getProperties().entrySet().iterator().forEachRemaining(entry -> LOGGER.info(entry.getKey() + " " + entry.getValue()));
+        }
+        catch(Exception e)
+        {
+            LOGGER.info("could not get getFrom " + e.getMessage());
+        }
     }
 }
