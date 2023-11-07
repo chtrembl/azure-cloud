@@ -52,6 +52,10 @@ public class RestAPIController {
 	@PostMapping(value = "/api/updatecart")
 	public String updatecart(Model model, OAuth2AuthenticationToken token, HttpServletRequest request,
 			@RequestParam Map<String, String> params) {
+		this.sessionUser.getTelemetryClient().trackEvent(
+				String.format("PetStoreApp user %s requesting Update Cart", this.sessionUser.getName()),
+				this.sessionUser.getCustomEventProperties(), null);
+	
 		int cartCount = 1;
 
 		String operator = params.get("operator");
@@ -63,6 +67,16 @@ public class RestAPIController {
 
 		this.petStoreService.updateOrder(Long.valueOf(params.get("productId")), cartCount, false);
 		return "success";
+	}
+
+	@GetMapping("/api/cartcount")
+	public String cartcount() {
+
+		this.sessionUser.getTelemetryClient().trackEvent(
+				String.format("PetStoreApp user %s requesting Cart Count", this.sessionUser.getName()),
+				this.sessionUser.getCustomEventProperties(), null);
+
+		return String.valueOf(this.sessionUser.getCartCount());
 	}
 
 	@GetMapping(value = "/introspectionSimulation", produces = MediaType.APPLICATION_JSON_VALUE)

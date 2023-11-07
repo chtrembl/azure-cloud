@@ -5,8 +5,8 @@
 <body>
 	<div th:fragment="header">
 		<script>
-			var sid =[[${sid}]];
-			var csrf =[[${_csrf.token}]];
+			var sid = "[[${sid}]]";
+			var csrf = "[[${_csrf.token}]]";
 		</script>
 		
 		<div
@@ -34,7 +34,7 @@
   					<a class="btn btn-outline-primary" href="/oauth2/authorization/B2C_1_signupsignin">Sign up / Sign in</a>
 	  			</div>
   			</div>
-  			<div class="cartcontainer"><a href = "/cart"><img class="cart" src="content/carticon.png"/><div class="cartcount"><div style="margin-left:9px;margin-top:-3px;font-weight: 900;" th:text="${cartSize}" /></div></a></div>
+  			<div class="cartcontainer"><a href = "/cart"><img class="cart" src="content/carticon.png"/><div class="cartcount"><div id="cartcount" style="margin-left:9px;margin-top:-3px;font-weight: 900;" th:text="${cartSize}" /></div></a></div>
   		</div>
 	</div>
 </body>

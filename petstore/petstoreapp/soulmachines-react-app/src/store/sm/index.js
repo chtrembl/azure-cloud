@@ -825,6 +825,7 @@ const smSlice = createSlice({
     sendEvent: (state, { payload }) => {
       const { eventName, payload: eventPayload, kind } = payload;
       if (scene && persona) {
+        console.log(`sending ${eventName}`);
         persona.conversationSetVariables({ url: `${window.parent.location}` });
         console.log(`${eventName} ${eventPayload} ${window.parent.location}`);
         persona.conversationSend(eventName, eventPayload || {}, { kind: kind || 'event' });

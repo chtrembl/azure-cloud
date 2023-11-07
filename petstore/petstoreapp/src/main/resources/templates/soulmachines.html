@@ -14,6 +14,24 @@
 	<div lang="en" th:replace="fragments/footer :: footer"></div>
 	<div lang="en" th:replace="fragments/disclaimer :: disclaimer"></div>
 	
+	<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+	<script>
+		function cartcount(){
+			$.ajax({
+			 url: 'api/cartcount',
+			 type: 'GET',
+			 success: function(size){
+			  console.log("cart count: " + size);
+			  $( "#cartcount" ).html(size);
+			 }
+			});
+		   }
+		   
+		   $(document).ready(function(){
+			setInterval(cartcount,5000);
+		   });
+	</script>
+
 </body>
 
 </html>
