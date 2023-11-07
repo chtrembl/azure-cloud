@@ -269,6 +269,12 @@ public class WebAppController {
 		logger.info(String.format("PetStoreApp /soulmachines requested for %s, routing to soulmachines view...",
 				this.sessionUser.getName()));		
 
+		// if the user hits this page without a sessions/csrf, redirect and establish one
+		if(new HttpSessionCsrfTokenRepository().loadToken(request) == null)
+		{
+			return "redirect:soulmachines";
+		}
+
 		String url = request.getRequestURL().toString() + "?" + request.getQueryString();	
 		if(!url.contains("sid") || !url.contains("csrf"))
 		{
