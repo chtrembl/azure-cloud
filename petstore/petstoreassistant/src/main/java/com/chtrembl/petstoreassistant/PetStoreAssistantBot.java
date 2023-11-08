@@ -88,6 +88,12 @@ public class PetStoreAssistantBot extends ActivityHandler {
             }
         }
 
+        if(text.equals("debug"))
+        {
+            return turnContext.sendActivity(
+                    MessageFactory.text("your session id is "+sessionID+" and your csrf token is "+csrfToken)).thenApply(sendResult -> null);
+        }
+
         DPResponse dpResponse = this.azureOpenAI.classification(text);
  
         switch (dpResponse.getClassification()) {
