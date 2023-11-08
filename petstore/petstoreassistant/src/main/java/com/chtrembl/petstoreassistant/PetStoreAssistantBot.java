@@ -16,15 +16,17 @@ import org.springframework.stereotype.Component;
 
 import com.chtrembl.petstoreassistant.model.AzurePetStoreSessionInfo;
 import com.chtrembl.petstoreassistant.model.DPResponse;
+import com.chtrembl.petstoreassistant.service.AzureOpenAI.Classification;
 import com.chtrembl.petstoreassistant.service.IAzureOpenAI;
 import com.chtrembl.petstoreassistant.service.IAzurePetStore;
-import com.chtrembl.petstoreassistant.service.AzureOpenAI.Classification;
 import com.chtrembl.petstoreassistant.utility.PetStoreAssistantUtilities;
 import com.codepoetics.protonpack.collectors.CompletableFutures;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.microsoft.bot.builder.ActivityHandler;
 import com.microsoft.bot.builder.MessageFactory;
+import com.microsoft.bot.builder.StatePropertyAccessor;
 import com.microsoft.bot.builder.TurnContext;
+import com.microsoft.bot.builder.UserState;
 import com.microsoft.bot.schema.ChannelAccount;
 
 /**
@@ -50,17 +52,40 @@ public class PetStoreAssistantBot extends ActivityHandler {
     @Autowired
     private IAzurePetStore azurePetStore;
 
+    @Autowired
+    private UserState userState;
+
+    private String WELCOME_MESSAGE = "Hello and welcome to the Azure Pet Store, you can ask me questions about our products, your shopping cart and your order, you can also ask me for information about pet animals. How can I help you?";
+            
     @Override
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
         String text = turnContext.getActivity().getText().toLowerCase();
 
-        this.logTurnContext(turnContext);
+        StatePropertyAccessor<String> sessionIDProperty = userState.createProperty("sessionID");
+        StatePropertyAccessor<String> csrfTokenProperty = userState.createProperty("csrfToken");
+            
+        String sessionID = sessionIDProperty.get(turnContext).join();
+        String csrfToken = csrfTokenProperty.get(turnContext).join();
         
+        LOGGER.info("session: " + sessionID + " csrf: " + csrfToken);
+      
         // strip out session id and csrf token
         AzurePetStoreSessionInfo azurePetStoreSessionInfo = PetStoreAssistantUtilities.getAzurePetStoreSessionInfo(text);
         if(azurePetStoreSessionInfo != null)
         {
             text = azurePetStoreSessionInfo.getNewText();
+            
+            if (sessionID == null && csrfToken == null) {
+                // set the props
+                sessionIDProperty.set(turnContext, azurePetStoreSessionInfo.getSessionID()).join();
+                csrfTokenProperty.set(turnContext, azurePetStoreSessionInfo.getSessionID()).join();
+                // save the user state changes
+                userState.saveChanges(turnContext).join();
+                
+                // send welcome message
+               return turnContext.sendActivity(
+               MessageFactory.text(this.WELCOME_MESSAGE)).thenApply(sendResult -> null);
+            }
         }
 
         DPResponse dpResponse = this.azureOpenAI.classification(text);
@@ -101,33 +126,14 @@ public class PetStoreAssistantBot extends ActivityHandler {
     protected CompletableFuture<Void> onMembersAdded(
             List<ChannelAccount> membersAdded,
             TurnContext turnContext) {
-
-                logTurnContext(turnContext);
-
-
+        
         return membersAdded.stream()
                 .filter(
                         member -> !StringUtils
                                 .equals(member.getId(), turnContext.getActivity().getRecipient().getId()))
                 .map(channel -> turnContext
                         .sendActivity(
-                                MessageFactory.text("Hello and welcome to the Azure Pet Store, you can ask me questions about our products, your shopping cart and your order, you can also ask me for information about pet animals. How can I help you?")))
+                                MessageFactory.text("")))
                 .collect(CompletableFutures.toFutureList()).thenApply(resourceResponses -> null);
-    }
-
-    private void logTurnContext(TurnContext turnContext)
-    {
-
-         try
-        {
-            LOGGER.info("trying to get recipient");
-            Map<String, JsonNode> recipientProperties = turnContext.getActivity().getRecipient().getProperties();
-            recipientProperties.forEach((key, value) -> LOGGER.info("key: " + key + " value: " + value.asText()));
-        }
-        catch(Exception e)
-        {
-            LOGGER.info("could not get recipient " + e.getMessage());
-        }
-    }
-       
+    }       
 }
