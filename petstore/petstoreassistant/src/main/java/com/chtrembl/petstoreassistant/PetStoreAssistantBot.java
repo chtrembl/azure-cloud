@@ -4,7 +4,6 @@
 package com.chtrembl.petstoreassistant;
 
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import org.apache.commons.lang3.StringUtils;
@@ -21,7 +20,6 @@ import com.chtrembl.petstoreassistant.service.IAzureOpenAI;
 import com.chtrembl.petstoreassistant.service.IAzurePetStore;
 import com.chtrembl.petstoreassistant.utility.PetStoreAssistantUtilities;
 import com.codepoetics.protonpack.collectors.CompletableFutures;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.microsoft.bot.builder.ActivityHandler;
 import com.microsoft.bot.builder.MessageFactory;
 import com.microsoft.bot.builder.StatePropertyAccessor;
@@ -45,24 +43,27 @@ import com.microsoft.bot.schema.ChannelAccount;
 @Primary
 public class PetStoreAssistantBot extends ActivityHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(PetStoreAssistantBot.class);
-
+    
     @Autowired
     private IAzureOpenAI azureOpenAI;
    
     @Autowired
     private IAzurePetStore azurePetStore;
 
-    @Autowired
+    private String WELCOME_MESSAGE = "Hello and welcome to the Azure Pet Store, you can ask me questions about our products, your shopping cart and your order, you can also ask me for information about pet animals. How can I help you?";
+    
     private UserState userState;
 
-    private String WELCOME_MESSAGE = "Hello and welcome to the Azure Pet Store, you can ask me questions about our products, your shopping cart and your order, you can also ask me for information about pet animals. How can I help you?";
-            
+    public PetStoreAssistantBot(UserState userState) {
+        this.userState = userState;
+    }
+
     @Override
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
         String text = turnContext.getActivity().getText().toLowerCase();
 
-        StatePropertyAccessor<String> sessionIDProperty = userState.createProperty("sessionID");
-        StatePropertyAccessor<String> csrfTokenProperty = userState.createProperty("csrfToken");
+        StatePropertyAccessor<String> sessionIDProperty = this.userState.createProperty("sessionID");
+        StatePropertyAccessor<String> csrfTokenProperty = this.userState.createProperty("csrfToken");
             
         String sessionID = sessionIDProperty.get(turnContext).join();
         String csrfToken = csrfTokenProperty.get(turnContext).join();
@@ -80,7 +81,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 sessionIDProperty.set(turnContext, azurePetStoreSessionInfo.getSessionID()).join();
                 csrfTokenProperty.set(turnContext, azurePetStoreSessionInfo.getCsrfToken()).join();
                 // save the user state changes
-                userState.saveChanges(turnContext).join();
+                this.userState.saveChanges(turnContext).join();
                 
                 // send welcome message
                return turnContext.sendActivity(
