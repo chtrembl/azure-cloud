@@ -54,8 +54,15 @@ public class PetStoreAssistantBot extends ActivityHandler {
     
     private UserState userState;
 
-    public PetStoreAssistantBot(UserState userState) {
-        this.userState = userState;
+    public PetStoreAssistantBot(UserState withUserState) {
+        this.userState = withUserState;
+    }
+
+    // onTurn processing, with saving of state after each turn.
+    @Override
+    public CompletableFuture<Void> onTurn(TurnContext turnContext) {
+        return super.onTurn(turnContext)
+            .thenCompose(saveResult -> userState.saveChanges(turnContext));
     }
 
     @Override
@@ -68,7 +75,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
         String sessionID = sessionIDProperty.get(turnContext).join();
         String csrfToken = csrfTokenProperty.get(turnContext).join();
         
-        LOGGER.info("session: " + sessionID + " csrf: " + csrfToken);
+        LOGGER.info("found session: " + sessionID + " and csrf: " + csrfToken);
       
         // strip out session id and csrf token if one was passed from soul machines sendTextMessage() function
         AzurePetStoreSessionInfo azurePetStoreSessionInfo = PetStoreAssistantUtilities.getAzurePetStoreSessionInfo(text);

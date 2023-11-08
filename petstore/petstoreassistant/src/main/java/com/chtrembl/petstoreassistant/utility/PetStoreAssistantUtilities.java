@@ -80,7 +80,7 @@ public class PetStoreAssistantUtilities {
             azurePetStoreSessionInfo = new AzurePetStoreSessionInfo(sessionID, csrfToken, newText);
             LOGGER.info("Found session id:" + sessionID + " and csrf token:" + csrfToken + " in text: " + text + " new text: " + newText);
         } else {
-            LOGGER.info("No session id or csrf token found in text: " + text);
+            LOGGER.info("No new session id or csrf token found in text: " + text);
         }
         
         return azurePetStoreSessionInfo;
