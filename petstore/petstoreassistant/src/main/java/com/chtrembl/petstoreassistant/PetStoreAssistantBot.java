@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import org.apache.commons.lang3.StringUtils;
+import org.checkerframework.checker.units.qual.s;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +76,10 @@ public class PetStoreAssistantBot extends ActivityHandler {
         String sessionID = sessionIDProperty.get(turnContext).join();
         String csrfToken = csrfTokenProperty.get(turnContext).join();
         
-        LOGGER.info("found session: " + sessionID + " and csrf: " + csrfToken);
+        // state isnt working with SM right now, every sm isntances it leveraging the same state for some reason sm side, not a bot service thing. for now need to pass sid and csrf on every request
+        sessionID = null;
+        csrfToken = null;
+        //LOGGER.info("found session: " + sessionID + " and csrf: " + csrfToken);
       
         // strip out session id and csrf token if one was passed from soul machines sendTextMessage() function
         AzurePetStoreSessionInfo azurePetStoreSessionInfo = PetStoreAssistantUtilities.getAzurePetStoreSessionInfo(text);
@@ -91,14 +95,14 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 this.userState.saveChanges(turnContext).join();
                 
                 // send welcome message
-               return turnContext.sendActivity(
-               MessageFactory.text(this.WELCOME_MESSAGE)).thenApply(sendResult -> null);
+               //return turnContext.sendActivity(
+               //MessageFactory.text(this.WELCOME_MESSAGE)).thenApply(sendResult -> null);
             }
         }
         //if we have user state in the turn context use that instead
-        else if (sessionID != null && csrfToken != null) {
-            azurePetStoreSessionInfo = new AzurePetStoreSessionInfo(sessionID, csrfToken, text);
-        }
+        //else if (sessionID != null && csrfToken != null) {
+        //    azurePetStoreSessionInfo = new AzurePetStoreSessionInfo(sessionID, csrfToken, text);
+        //}
 
         // for debugging during development :)
         if(text.equals("debug"))
@@ -157,7 +161,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                                 .equals(member.getId(), turnContext.getActivity().getRecipient().getId()))
                 .map(channel -> turnContext
                         .sendActivity(
-                                MessageFactory.text("")))
+                                MessageFactory.text(this.WELCOME_MESSAGE)))
                 .collect(CompletableFutures.toFutureList()).thenApply(resourceResponses -> null);
     }       
 }
