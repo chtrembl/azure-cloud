@@ -78,7 +78,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
             if (sessionID == null && csrfToken == null) {
                 // set the props
                 sessionIDProperty.set(turnContext, azurePetStoreSessionInfo.getSessionID()).join();
-                csrfTokenProperty.set(turnContext, azurePetStoreSessionInfo.getSessionID()).join();
+                csrfTokenProperty.set(turnContext, azurePetStoreSessionInfo.getCsrfToken()).join();
                 // save the user state changes
                 userState.saveChanges(turnContext).join();
                 
