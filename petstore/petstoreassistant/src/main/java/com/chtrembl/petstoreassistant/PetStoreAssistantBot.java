@@ -69,16 +69,16 @@ public class PetStoreAssistantBot extends ActivityHandler {
     @Override
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
         String text = turnContext.getActivity().getText().toLowerCase();
-
-        StatePropertyAccessor<String> sessionIDProperty = this.userState.createProperty("sessionID");
-        StatePropertyAccessor<String> csrfTokenProperty = this.userState.createProperty("csrfToken");
-            
-        String sessionID = sessionIDProperty.get(turnContext).join();
-        String csrfToken = csrfTokenProperty.get(turnContext).join();
         
-        // state isnt working with SM right now, every sm isntances it leveraging the same state for some reason sm side, not a bot service thing. for now need to pass sid and csrf on every request
-        sessionID = null;
-        csrfToken = null;
+        // state isnt working with SM right now, every sm instances it leveraging the same state for some reason sm side, not a bot service thing. for now need to pass sid and csrf on every request
+        // comment for now
+
+        // StatePropertyAccessor<String> sessionIDProperty = this.userState.createProperty("sessionID");
+        // StatePropertyAccessor<String> csrfTokenProperty = this.userState.createProperty("csrfToken");
+            
+        // String sessionID = sessionIDProperty.get(turnContext).join();
+        // String csrfToken = csrfTokenProperty.get(turnContext).join();
+        
         //LOGGER.info("found session: " + sessionID + " and csrf: " + csrfToken);
       
         // strip out session id and csrf token if one was passed from soul machines sendTextMessage() function
@@ -86,21 +86,18 @@ public class PetStoreAssistantBot extends ActivityHandler {
         if(azurePetStoreSessionInfo != null)
         {
             text = azurePetStoreSessionInfo.getNewText();
-            sessionID = azurePetStoreSessionInfo.getSessionID();
-            csrfToken = azurePetStoreSessionInfo.getCsrfToken();
-
-
-            if (sessionID == null && csrfToken == null) {
+            
+            //if (sessionID == null && csrfToken == null) {
                 // set the props
-                sessionIDProperty.set(turnContext, azurePetStoreSessionInfo.getSessionID()).join();
-                csrfTokenProperty.set(turnContext, azurePetStoreSessionInfo.getCsrfToken()).join();
+                //sessionIDProperty.set(turnContext, azurePetStoreSessionInfo.getSessionID()).join();
+                //csrfTokenProperty.set(turnContext, azurePetStoreSessionInfo.getCsrfToken()).join();
                 // save the user state changes
-                this.userState.saveChanges(turnContext).join();
+                //this.userState.saveChanges(turnContext).join();
                 
                 // send welcome message
                //return turnContext.sendActivity(
                //MessageFactory.text(this.WELCOME_MESSAGE)).thenApply(sendResult -> null);
-            }
+            //}
         }
         //if we have user state in the turn context use that instead
         //else if (sessionID != null && csrfToken != null) {
@@ -111,7 +108,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
         if(text.equals("debug"))
         {
             return turnContext.sendActivity(
-                    MessageFactory.text("your session id is "+sessionID+" and your csrf token is "+csrfToken)).thenApply(sendResult -> null);
+                    MessageFactory.text("your session id is "+azurePetStoreSessionInfo.getSessionID()+" and your csrf token is "+azurePetStoreSessionInfo.getCsrfToken())).thenApply(sendResult -> null);
         }
 
         DPResponse dpResponse = this.azureOpenAI.classification(text);
@@ -145,7 +142,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
         }
 
         //only respond to the user if the user sent something (seems to be a bug where initial messages are sent without a prompt while page loads)
-        if(StringUtils.isNotEmpty(text))
+        if(dpResponse.getDpResponseText() != null && dpResponse.getDpResponseText().length()>0)
         {
             return turnContext.sendActivity(
                 MessageFactory.text(dpResponse.getDpResponseText())).thenApply(sendResult -> null);
