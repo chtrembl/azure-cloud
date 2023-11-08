@@ -129,8 +129,13 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 break; 
         }
 
-        return turnContext.sendActivity(
+        //only respond to the user if the user sent something (seems to be a bug where initial messages are sent without a prompt while page loads)
+        if(StringUtils.isNotEmpty(text))
+        {
+            return turnContext.sendActivity(
                 MessageFactory.text(dpResponse.getDpResponseText())).thenApply(sendResult -> null);
+        }
+        return null;
     }
 
     @Override
