@@ -69,7 +69,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
         
         LOGGER.info("session: " + sessionID + " csrf: " + csrfToken);
       
-        // strip out session id and csrf token
+        // strip out session id and csrf token if one was passed from soul machines sendTextMessage() function
         AzurePetStoreSessionInfo azurePetStoreSessionInfo = PetStoreAssistantUtilities.getAzurePetStoreSessionInfo(text);
         if(azurePetStoreSessionInfo != null)
         {
@@ -87,7 +87,12 @@ public class PetStoreAssistantBot extends ActivityHandler {
                MessageFactory.text(this.WELCOME_MESSAGE)).thenApply(sendResult -> null);
             }
         }
+        //if we have user state in the turn context use that instead
+        else if (sessionID != null && csrfToken != null) {
+            azurePetStoreSessionInfo = new AzurePetStoreSessionInfo(sessionID, csrfToken, text);
+        }
 
+        // for debugging during development :)
         if(text.equals("debug"))
         {
             return turnContext.sendActivity(
