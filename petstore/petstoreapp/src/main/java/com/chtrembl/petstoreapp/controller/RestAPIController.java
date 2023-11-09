@@ -91,10 +91,10 @@ public class RestAPIController {
 	}
 
 	// helper api call for soul machines dp demo...
-	@GetMapping(value = "/api/cartitems", produces = MediaType.TEXT_HTML_VALUE)
-	public String cartitems() {
+	@GetMapping(value = "/api/viewcart", produces = MediaType.TEXT_HTML_VALUE)
+	public String viewcart() {
 		this.sessionUser.getTelemetryClient().trackEvent(
-				String.format("PetStoreApp user %s requesting cart items", this.sessionUser.getName()),
+				String.format("PetStoreApp user %s requesting view cart", this.sessionUser.getName()),
 				this.sessionUser.getCustomEventProperties(), null);
 
 		Order order = this.petStoreService.retrieveOrder(this.sessionUser.getSessionId());
