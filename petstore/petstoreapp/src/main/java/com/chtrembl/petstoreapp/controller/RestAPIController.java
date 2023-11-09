@@ -81,7 +81,7 @@ public class RestAPIController {
 
 	// helper api call for soul machines dp demo...
 	@PostMapping(value = "/api/completecart", produces = MediaType.TEXT_HTML_VALUE)
-	public String completecart(Model model, OAuth2AuthenticationToken token, HttpServletRequest request) {
+	public String completecart(Model model, OAuth2AuthenticationToken token, HttpServletRequest request, @RequestParam Map<String, String> params) {
 		this.sessionUser.getTelemetryClient().trackEvent(
 				String.format("PetStoreApp user %s requesting complete cart", this.sessionUser.getName()),
 				this.sessionUser.getCustomEventProperties(), null);
