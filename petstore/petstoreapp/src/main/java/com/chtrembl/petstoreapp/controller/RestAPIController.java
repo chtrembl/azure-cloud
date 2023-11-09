@@ -37,7 +37,7 @@ public class RestAPIController {
 	public String contactus() {
 
 		this.sessionUser.getTelemetryClient().trackEvent(
-				String.format("PetStoreApp user %s requesting Contact Us", this.sessionUser.getName()),
+				String.format("PetStoreApp user %s requesting contact us", this.sessionUser.getName()),
 				this.sessionUser.getCustomEventProperties(), null);
 
 		return "Please contact Azure PetStore at 401-555-5555. Thank you. Demo 6/13";
@@ -49,12 +49,12 @@ public class RestAPIController {
 		return this.sessionUser.getSessionId();
 	}
 
-
-	@PostMapping(value = "/api/updatecart")
+	// helper api call for soul machines dp demo...
+	@PostMapping(value = "/api/updatecart", produces = MediaType.TEXT_HTML_VALUE)
 	public String updatecart(Model model, OAuth2AuthenticationToken token, HttpServletRequest request,
 			@RequestParam Map<String, String> params) {
 		this.sessionUser.getTelemetryClient().trackEvent(
-				String.format("PetStoreApp user %s requesting Update Cart", this.sessionUser.getName()),
+				String.format("PetStoreApp user %s requesting update cart", this.sessionUser.getName()),
 				this.sessionUser.getCustomEventProperties(), null);
 	
 		int cartCount = 1;
@@ -79,14 +79,38 @@ public class RestAPIController {
 		return "success";
 	}
 
-	@GetMapping("/api/cartcount")
+	// helper api call for soul machines dp demo...
+	@GetMapping(value = "/api/cartcount", produces = MediaType.TEXT_HTML_VALUE)
 	public String cartcount() {
 
 		this.sessionUser.getTelemetryClient().trackEvent(
-				String.format("PetStoreApp user %s requesting Cart Count", this.sessionUser.getName()),
+				String.format("PetStoreApp user %s requesting cart count", this.sessionUser.getName()),
 				this.sessionUser.getCustomEventProperties(), null);
 
 		return String.valueOf(this.sessionUser.getCartCount());
+	}
+
+	// helper api call for soul machines dp demo...
+	@GetMapping(value = "/api/cartitems", produces = MediaType.TEXT_HTML_VALUE)
+	public String cartitems() {
+		this.sessionUser.getTelemetryClient().trackEvent(
+				String.format("PetStoreApp user %s requesting cart items", this.sessionUser.getName()),
+				this.sessionUser.getCustomEventProperties(), null);
+
+		Order order = this.petStoreService.retrieveOrder(this.sessionUser.getSessionId());
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("Your order contains a ");
+		if (order != null && order.getProducts() != null && !order.isComplete()) {
+			for (int i = 0; i < order.getProducts().size(); i++) {
+				sb.append(order.getProducts().get(i).getName()).append(" with a quantity ").append(order.getProducts().get(i).getQuantity());
+				if (i < order.getProducts().size() - 1) {
+					sb.append(", a ");
+				}
+			}
+		}
+		
+		return sb.toString();
 	}
 
 	@GetMapping(value = "/introspectionSimulation", produces = MediaType.APPLICATION_JSON_VALUE)
