@@ -107,7 +107,7 @@ public class AzurePetStore implements IAzurePetStore {
                         RequestBody body = RequestBody.create(mediaType,
                                         "_csrf=" + azurePetStoreSessionInfo.getCsrfToken());
                         Request request = new Request.Builder()
-                                        .url(this.UPDATE_CART_URL)
+                                        .url(this.COMPLETE_CART_URL)
                                         .method("POST", body)
                                         .addHeader("Cookie", "JSESSIONID=" + azurePetStoreSessionInfo.getSessionID())
                                         .addHeader("Content-Type", "application/x-www-form-urlencoded")

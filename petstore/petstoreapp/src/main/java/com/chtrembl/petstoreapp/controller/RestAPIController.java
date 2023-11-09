@@ -51,8 +51,7 @@ public class RestAPIController {
 
 	// helper api call for soul machines dp demo...
 	@PostMapping(value = "/api/updatecart", produces = MediaType.TEXT_HTML_VALUE)
-	public String updatecart(Model model, OAuth2AuthenticationToken token, HttpServletRequest request,
-			@RequestParam Map<String, String> params) {
+	public String updatecart(Model model, OAuth2AuthenticationToken token, @RequestParam Map<String, String> params) {
 		this.sessionUser.getTelemetryClient().trackEvent(
 				String.format("PetStoreApp user %s requesting update cart", this.sessionUser.getName()),
 				this.sessionUser.getCustomEventProperties(), null);
@@ -81,17 +80,20 @@ public class RestAPIController {
 
 	// helper api call for soul machines dp demo...
 	@PostMapping(value = "/api/completecart", produces = MediaType.TEXT_HTML_VALUE)
-	public String completecart(Model model, OAuth2AuthenticationToken token, HttpServletRequest request, @RequestParam Map<String, String> params) {
+	public String completecart(Model model, OAuth2AuthenticationToken token, @RequestParam Map<String, String> params) {
 		this.sessionUser.getTelemetryClient().trackEvent(
 				String.format("PetStoreApp user %s requesting complete cart", this.sessionUser.getName()),
 				this.sessionUser.getCustomEventProperties(), null);
 
-		if (token != null) {
+		try
+		{
 			this.petStoreService.updateOrder(0, 0, true);
 			return "I just completed your order.";
 		}
-		
-		return "You need to be logged in to complete your order.";
+		catch (Exception e)
+		{
+			return "I'm sorry, I was unable to complete your order.";
+		}
 	}
 
 	// helper api call for soul machines dp demo...
@@ -115,8 +117,11 @@ public class RestAPIController {
 		Order order = this.petStoreService.retrieveOrder(this.sessionUser.getSessionId());
 		
 		StringBuilder sb = new StringBuilder();
-		sb.append("Your order contains a ");
+		sb.append("You do not have any items in your cart and/or your order has been completed.");
+
 		if (order != null && order.getProducts() != null && !order.isComplete()) {
+			sb = new StringBuilder();
+			sb.append("Your order contains a ");
 			for (int i = 0; i < order.getProducts().size(); i++) {
 				sb.append(order.getProducts().get(i).getName()).append(" with a quantity ").append(order.getProducts().get(i).getQuantity());
 				if (i < order.getProducts().size() - 1) {
