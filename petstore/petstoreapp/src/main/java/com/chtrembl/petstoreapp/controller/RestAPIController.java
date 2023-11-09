@@ -1,5 +1,6 @@
 package com.chtrembl.petstoreapp.controller;
 
+import java.net.http.HttpRequest;
 import java.util.Map;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,9 +51,14 @@ public class RestAPIController {
 		return this.sessionUser.getSessionId();
 	}
 
-	// helper api call for soul machines dp demo...
-	@PostMapping(value = "/api/updatecart", produces = MediaType.TEXT_HTML_VALUE)
-	public String updatecart(Model model, OAuth2AuthenticationToken token, @RequestParam Map<String, String> params) {
+	// helper api call for soul machines dp demo... POST URL Encoding intermittent missing headers with POST/FORM Encoding hence the GET hack with UUID
+	@GetMapping(value = "/api/updatecart", produces = MediaType.TEXT_HTML_VALUE)
+	public String updatecart(Model model, @RequestParam Map<String, String> params, HttpServletRequest request) {
+		if(params.get("csrf") == null || !params.get("csrf").equals(new HttpSessionCsrfTokenRepository().loadToken(request).getToken().toString()))
+		{
+			return "Invalid CSRF token";
+		}
+
 		this.sessionUser.getTelemetryClient().trackEvent(
 				String.format("PetStoreApp user %s requesting update cart", this.sessionUser.getName()),
 				this.sessionUser.getCustomEventProperties(), null);
@@ -78,36 +85,7 @@ public class RestAPIController {
 		return "success";
 	}
 
-	// helper api call for soul machines dp demo...
-	@PostMapping(value = "/api/completecart", produces = MediaType.TEXT_HTML_VALUE)
-	public String completecart(Model model, OAuth2AuthenticationToken token, @RequestParam Map<String, String> params) {
-		this.sessionUser.getTelemetryClient().trackEvent(
-				String.format("PetStoreApp user %s requesting complete cart", this.sessionUser.getName()),
-				this.sessionUser.getCustomEventProperties(), null);
-
-		try
-		{
-			this.petStoreService.updateOrder(0, 0, true);
-			return "I just completed your order.";
-		}
-		catch (Exception e)
-		{
-			return "I'm sorry, I was unable to complete your order.";
-		}
-	}
-
-	// helper api call for soul machines dp demo...
-	@GetMapping(value = "/api/cartcount", produces = MediaType.TEXT_HTML_VALUE)
-	public String cartcount() {
-
-		this.sessionUser.getTelemetryClient().trackEvent(
-				String.format("PetStoreApp user %s requesting cart count", this.sessionUser.getName()),
-				this.sessionUser.getCustomEventProperties(), null);
-
-		return String.valueOf(this.sessionUser.getCartCount());
-	}
-
-	// helper api call for soul machines dp demo...
+	// helper api call for soul machines dp demo... POST URL Encoding intermittent missing headers with POST/FORM Encoding hence the GET hack with UUID
 	@GetMapping(value = "/api/viewcart", produces = MediaType.TEXT_HTML_VALUE)
 	public String viewcart() {
 		this.sessionUser.getTelemetryClient().trackEvent(
@@ -133,6 +111,45 @@ public class RestAPIController {
 		return sb.toString();
 	}
 
+	// helper api call for soul machines dp demo... POST URL Encoding intermittent missing headers with POST/FORM Encoding hence the GET hack with UUID
+	@GetMapping(value = "/api/completecart", produces = MediaType.TEXT_HTML_VALUE)
+	public String completecart(Model model, @RequestParam Map<String, String> params, HttpServletRequest request, OAuth2AuthenticationToken token) {
+		if(params.get("csrf") == null || !params.get("csrf").equals(new HttpSessionCsrfTokenRepository().loadToken(request).getToken().toString()))
+		{
+			return "Invalid CSRF token";
+		}
+		
+		this.sessionUser.getTelemetryClient().trackEvent(
+				String.format("PetStoreApp user %s requesting complete cart", this.sessionUser.getName()),
+				this.sessionUser.getCustomEventProperties(), null);
+
+		if(token == null)
+		{
+			return "You must be logged in to complete your order.";
+		}
+
+		try
+		{
+			this.petStoreService.updateOrder(0, 0, true);
+			return "I just completed your order.";
+		}
+		catch (Exception e)
+		{
+			return "I'm sorry, I was unable to complete your order.";
+		}
+	}
+
+	// helper api call for soul machines dp demo...
+	@GetMapping(value = "/api/cartcount", produces = MediaType.TEXT_HTML_VALUE)
+	public String cartcount() {
+
+		this.sessionUser.getTelemetryClient().trackEvent(
+				String.format("PetStoreApp user %s requesting cart count", this.sessionUser.getName()),
+				this.sessionUser.getCustomEventProperties(), null);
+
+		return String.valueOf(this.sessionUser.getCartCount());
+	}
+	
 	@GetMapping(value = "/introspectionSimulation", produces = MediaType.APPLICATION_JSON_VALUE)
 	public String introspectionSimulation(Model model, HttpServletRequest request,
 			@RequestParam(name = "sessionIdToIntrospect") Optional<String> sessionIdToIntrospect) {
