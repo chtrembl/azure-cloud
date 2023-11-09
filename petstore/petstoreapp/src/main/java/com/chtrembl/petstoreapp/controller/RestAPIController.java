@@ -80,6 +80,21 @@ public class RestAPIController {
 	}
 
 	// helper api call for soul machines dp demo...
+	@PostMapping(value = "/api/completecart", produces = MediaType.TEXT_HTML_VALUE)
+	public String completecart(Model model, OAuth2AuthenticationToken token, HttpServletRequest request) {
+		this.sessionUser.getTelemetryClient().trackEvent(
+				String.format("PetStoreApp user %s requesting complete cart", this.sessionUser.getName()),
+				this.sessionUser.getCustomEventProperties(), null);
+
+		if (token != null) {
+			this.petStoreService.updateOrder(0, 0, true);
+			return "I just completed your order.";
+		}
+		
+		return "You need to be logged in to complete your order.";
+	}
+
+	// helper api call for soul machines dp demo...
 	@GetMapping(value = "/api/cartcount", produces = MediaType.TEXT_HTML_VALUE)
 	public String cartcount() {
 
