@@ -128,10 +128,22 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 }
                 break;
             case VIEW_SHOPPING_CART:
-                dpResponse.setDpResponseText("Once I get your session information, I will be able to display your shopping cart.");
+                if(azurePetStoreSessionInfo != null)
+                {
+                    dpResponse = this.azurePetStore.viewCart(azurePetStoreSessionInfo);
+                }
+                else {
+                    dpResponse.setDpResponseText("Once I get your session information, I will be able to display your shopping cart.");
+                }
                 break;
             case PLACE_ORDER:
-                dpResponse.setDpResponseText("Once I get your session information, I will be able to place your order.");
+                if(azurePetStoreSessionInfo != null)
+                {
+                    dpResponse = this.azurePetStore.completeCart(azurePetStoreSessionInfo);
+                }
+                else {
+                    dpResponse.setDpResponseText("Once I get your session information, I will be able to place your order.");
+                }
                 break;
             case SEARCH_FOR_PRODUCTS:
                 dpResponse = this.azureOpenAI.completion(text, dpResponse.getClassification());

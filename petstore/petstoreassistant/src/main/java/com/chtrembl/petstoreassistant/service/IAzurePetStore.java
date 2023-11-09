@@ -5,5 +5,6 @@ import com.chtrembl.petstoreassistant.model.DPResponse;
 
 public interface IAzurePetStore {
     public DPResponse updateCart(AzurePetStoreSessionInfo azurePetStoreSessionInfo, String productId);
-    public DPResponse completeCart(AzurePetStoreSessionInfo azurePetStoreSessionInfo);
+    public DPResponse viewCart(AzurePetStoreSessionInfo azurePetStoreSessionInfo);       
+    public DPResponse completeCart(AzurePetStoreSessionInfo azurePetStoreSessionInfo);  
 }
