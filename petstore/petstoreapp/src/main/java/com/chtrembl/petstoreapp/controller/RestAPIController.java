@@ -1,19 +1,17 @@
 package com.chtrembl.petstoreapp.controller;
 
-import java.net.http.HttpRequest;
 import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,6 +26,7 @@ import com.chtrembl.petstoreapp.service.PetStoreService;
  */
 @RestController
 public class RestAPIController {
+	private static Logger logger = LoggerFactory.getLogger(RestAPIController.class);
 
 	@Autowired
 	private User sessionUser;
@@ -54,8 +53,12 @@ public class RestAPIController {
 	// helper api call for soul machines dp demo... POST URL Encoding intermittent missing headers with POST/FORM Encoding hence the GET hack with UUID
 	@GetMapping(value = "/api/updatecart", produces = MediaType.TEXT_HTML_VALUE)
 	public String updatecart(Model model, @RequestParam Map<String, String> params, HttpServletRequest request) {
-		if(params.get("csrf") == null || !params.get("csrf").equals(new HttpSessionCsrfTokenRepository().loadToken(request).getToken().toString()))
-		{
+		logger.info("session: " + this.sessionUser.getSessionId());
+		logger.info("jsession: " + this.sessionUser.getJSessionId());
+		logger.info("csrf: " + this.sessionUser.getCsrfToken());
+		
+		if(params.get("csrf") == null || !params.get("csrf").equals(this.sessionUser.getCsrfToken()))
+			{
 			return "Invalid CSRF token";
 		}
 
@@ -88,6 +91,10 @@ public class RestAPIController {
 	// helper api call for soul machines dp demo... POST URL Encoding intermittent missing headers with POST/FORM Encoding hence the GET hack with UUID
 	@GetMapping(value = "/api/viewcart", produces = MediaType.TEXT_HTML_VALUE)
 	public String viewcart() {
+		logger.info("session: " + this.sessionUser.getSessionId());
+		logger.info("jsession: " + this.sessionUser.getJSessionId());
+		logger.info("csrf: " + this.sessionUser.getCsrfToken());
+		
 		this.sessionUser.getTelemetryClient().trackEvent(
 				String.format("PetStoreApp user %s requesting view cart", this.sessionUser.getName()),
 				this.sessionUser.getCustomEventProperties(), null);
@@ -113,19 +120,23 @@ public class RestAPIController {
 
 	// helper api call for soul machines dp demo... POST URL Encoding intermittent missing headers with POST/FORM Encoding hence the GET hack with UUID
 	@GetMapping(value = "/api/completecart", produces = MediaType.TEXT_HTML_VALUE)
-	public String completecart(Model model, @RequestParam Map<String, String> params, HttpServletRequest request, OAuth2AuthenticationToken token) {
-		if(params.get("csrf") == null || !params.get("csrf").equals(new HttpSessionCsrfTokenRepository().loadToken(request).getToken().toString()))
+	public String completecart(Model model, @RequestParam Map<String, String> params, HttpServletRequest request) {
+		logger.info("session: " + this.sessionUser.getSessionId());
+		logger.info("jsession: " + this.sessionUser.getJSessionId());
+		logger.info("csrf: " + this.sessionUser.getCsrfToken());
+
+		if(params.get("csrf") == null || !params.get("csrf").equals(this.sessionUser.getCsrfToken()))
 		{
-			return "Invalid CSRF token";
+			return "Invalid CSRF token incoming was '" + params.get("csrf")+"'";
 		}
 		
 		this.sessionUser.getTelemetryClient().trackEvent(
 				String.format("PetStoreApp user %s requesting complete cart", this.sessionUser.getName()),
 				this.sessionUser.getCustomEventProperties(), null);
 
-		if(token == null)
+		if(this.sessionUser.getSessionId().equals(this.sessionUser.getJSessionId()))
 		{
-			return "You must be logged in to complete your order.";
+			return "Please login to complete your order.";
 		}
 
 		try
@@ -142,7 +153,10 @@ public class RestAPIController {
 	// helper api call for soul machines dp demo...
 	@GetMapping(value = "/api/cartcount", produces = MediaType.TEXT_HTML_VALUE)
 	public String cartcount() {
-
+		logger.info("session: " + this.sessionUser.getSessionId());
+		logger.info("jsession: " + this.sessionUser.getJSessionId());
+		logger.info("csrf: " + this.sessionUser.getCsrfToken());
+		
 		this.sessionUser.getTelemetryClient().trackEvent(
 				String.format("PetStoreApp user %s requesting cart count", this.sessionUser.getName()),
 				this.sessionUser.getCustomEventProperties(), null);

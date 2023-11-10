@@ -60,6 +60,18 @@ public class PetStoreAssistantUtilities {
             dpResponse.setResponseProductIDs(productIDs);
         }
         
+        // this should become a content card with a carousel of product(s) for now just display description if there is 1 product and override the stuff above
+        if(productIDs.size() == 1)
+        {
+             dpResponseText = "Here is a little information on the " + products.get(productIDs.get(0)).getName() + " " + products.get(productIDs.get(0)).getDescription();
+             dpResponse.setDpResponseText(dpResponseText);
+        }
+        else
+        {
+            // else display the raw AOAI response from our cog search index
+            dpResponseText = text;
+        }
+
         return dpResponse;
     }
 

@@ -275,10 +275,15 @@ public class WebAppController {
 			return "redirect:/home";
 		}
 
+		if(new HttpSessionCsrfTokenRepository().loadToken(request) != null)
+		{
+			this.sessionUser.setCsrfToken(new HttpSessionCsrfTokenRepository().loadToken(request).getToken().toString());		
+		}
+
 		String url = request.getRequestURL().toString() + "?" + request.getQueryString();	
 		if(!url.contains("sid") || !url.contains("csrf"))
 		{
-			return "redirect:soulmachines?sid="+this.sessionUser.getSessionId()+"&csrf="+new HttpSessionCsrfTokenRepository().loadToken(request).getToken().toString();
+			return "redirect:soulmachines?sid="+this.sessionUser.getJSessionId()+"&csrf="+this.sessionUser.getCsrfToken();
 		}
 		
 		return "soulmachines";

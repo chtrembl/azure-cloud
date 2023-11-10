@@ -1,6 +1,7 @@
 package com.chtrembl.petstoreapp.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.caffeine.CaffeineCache;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -39,7 +41,7 @@ public class PetStoreControllerAdvice {
 		com.github.benmanes.caffeine.cache.Cache<Object, Object> nativeCache = caffeineCache.getNativeCache();
 
 		// this is used for n tier correlated Telemetry. Keep the same one for anonymous
-		// sessions that get authenticateds
+		// sessions that get authenticated so they can persist for seamless flow of logs (public user to private) use the jSessionId for true JSESSION use
 		if (this.sessionUser.getSessionId() == null) {
 			String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
 			this.sessionUser.setSessionId(sessionId);
@@ -92,6 +94,19 @@ public class PetStoreControllerAdvice {
 		MDC.put("session_Id", this.sessionUser.getSessionId());
 
 		model.addAttribute("sid", this.sessionUser.getSessionId());
+		
+	    HttpSession session = request.getSession(false);
+		if (session != null) {
+			String jsessionId = session.getId();
+			this.sessionUser.setJSessionId(jsessionId);
+		}
+
+		String message = "";
+		if(!this.sessionUser.getSessionId().equals(this.sessionUser.getJSessionId()))
+		{
+			message = " these are different because the public user ended up logging in and we maintain the original for n-tiered correlated telemtry";
+		}
+		logger.info("session id: " + this.sessionUser.getSessionId() + " jsession id: " + this.sessionUser.getJSessionId()+ message);
 	}
 
 }

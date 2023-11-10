@@ -19,9 +19,8 @@ public class AzurePetStore implements IAzurePetStore {
         @Autowired
         private ICosmosDB cosmosDB;
 
-        // investigate why GET is needed instead of POST
-        // POST URL Encoding intermittent missing headers with POST/FORM Encoding hence
-        // the GET hack with UUID
+        // investigate why POST with FORM URL ENCODING wasnt working with Azure Pet Store, the Content-Type is getting dropped in all client libraries
+        // GET is the hack for POC purposes
         private OkHttpClient client = new OkHttpClient().newBuilder().build();
 
         private String UPDATE_CART_URL = "https://azurepetstore.com/api/updatecart";
