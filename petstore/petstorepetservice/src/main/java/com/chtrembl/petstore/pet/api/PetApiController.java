@@ -78,8 +78,6 @@ public class PetApiController implements PetApi {
 	public ResponseEntity<String> info() {
 		conigureThreadForLogging();
 
-		// password used for cred scan demo
-		String password = "foobar";
 		log.info("PetStorePetService incoming GET request to petstorepetservice/v2/info");
 		ApiUtil.setResponse(request, "application/json",
 				"{ \"service\" : \"pet service\", \"version\" : \"" + containerEnvironment.getAppVersion()

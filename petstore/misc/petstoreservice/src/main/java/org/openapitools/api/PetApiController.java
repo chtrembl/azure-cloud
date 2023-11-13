@@ -57,8 +57,6 @@ public class PetApiController implements PetApi {
 
 	@RequestMapping(value = "info", produces = { "application/json" }, method = RequestMethod.GET)
 	public ResponseEntity<String> info() {
-		// cred scan demo
-		String password = "foobar";
 		logger.info("incoming GET request to /v2/info");
 		ApiUtil.setExampleResponse(request, "application/json",
 				"{ \\\"message\\\" : \\\"welcome to the petstore api version 1:), thanks for stopping by...\\\", \\\"status\\\" : \\\"up\\\", \\\"author\\\" : \\\"Chris Tremblay\\\" }");

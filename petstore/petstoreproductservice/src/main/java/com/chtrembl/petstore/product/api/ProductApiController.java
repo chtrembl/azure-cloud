@@ -79,8 +79,6 @@ public class ProductApiController implements ProductApi {
 	public ResponseEntity<String> info() {
 		conigureThreadForLogging();
 
-		// password used for cred scan demo
-		String password = "foobar";
 		log.info("PetStoreProductService incoming GET request to petstoreproductservice/v2/info");
 		ApiUtil.setResponse(request, "application/json",
 				"{ \"service\" : \"product service\", \"version\" : \"" + containerEnvironment.getAppVersion()

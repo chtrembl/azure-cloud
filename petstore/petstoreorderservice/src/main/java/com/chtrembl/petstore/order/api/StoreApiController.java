@@ -94,8 +94,6 @@ public class StoreApiController implements StoreApi {
 	public ResponseEntity<String> info() {
 		conigureThreadForLogging();
 
-		// password used for cred scan demo
-		String password = "foobar";
 		log.info("PetStoreOrderService incoming GET request to petstoreorderservice/v2/info");
 
 		int ordersCacheSize = 0;

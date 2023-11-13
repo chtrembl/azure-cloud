@@ -30,8 +30,6 @@ public class PetsApiController implements PetsApi {
 
 	@RequestMapping(value = "info", produces = { "application/json" }, method = RequestMethod.GET)
 	public String info() {
-		//cred scan demo
-		String password = "foobar";
 		logger.info("info method invoked...");
 		logger.debug("debug method invoked...");
 		return "{ \"message\" : \"welcome to the petstore api version 5:), thanks for stopping by...\", \"status\" : \"up\", \"author\" : \"Chris Tremblay\" }";
