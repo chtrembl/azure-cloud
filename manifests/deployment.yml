@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: petstorepetservice 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: petstorepetservice
+  template:
+    metadata:
+      labels:
+        app: petstorepetservice 
+    spec:
+      containers:
+        - name: petstorepetservice 
+          image: demoazurepetstorecr.azurecr.io/petstorepetservice
+          ports:
+          - containerPort: 80
