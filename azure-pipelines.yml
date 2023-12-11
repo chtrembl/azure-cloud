@@ -106,7 +106,7 @@ stages:
     pool:
       vmImage: 'windows-latest'
     steps:
-        - task: TriggerPipeline@1
+        - task: TriggerPipeline@2
           inputs:
             serviceConnection: 'Automation'
             project: '6b3206dd-90b3-40f6-a611-e5a1e5a13593'
