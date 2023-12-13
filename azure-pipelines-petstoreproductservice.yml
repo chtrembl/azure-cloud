@@ -21,7 +21,7 @@ variables:
   containerRegistry: 'demoazurepetstorecr.azurecr.io'
   dockerfilePath: 'petstore/petstoreproductservice/Dockerfile'
   tag: '$(Build.BuildId)'
-  imagePullSecret: '$(crImagePullSecretGlobalV2)'
+  imagePullSecret: 'demoazurepetstorecr1392a527-auth'
 
 stages:
 - stage: Build
