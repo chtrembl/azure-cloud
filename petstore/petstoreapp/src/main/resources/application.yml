@@ -8,11 +8,11 @@ bing:
 petstore:
   service:
     pet:
-     url: ${PETSTOREPETSERVICE_URL:http://localhost:8081}
+     url: ${PETSTOREPETSERVICE_URL:http://20.185.73.44:8081}
     product:
-      url: ${PETSTOREPRODUCTSERVICE_URL:http://localhost:8082}
+      url: ${PETSTOREPRODUCTSERVICE_URL:http://20.185.73.44:8082}
     order:
-      url: ${PETSTOREORDERSERVICE_URL:http://localhost:8083}
+      url: ${PETSTOREORDERSERVICE_URL:http://20.185.73.44:8083}
     #subscription:
     #  key: ${PETSTORESERVICE_SUBSCRIPTION_KEY}
   #apim:
