@@ -37,6 +37,12 @@ spec:
 #              secretKeyRef:
 #                name: aisecretkey
 #                key: secret
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+    type: RollingUpdate
+    progressDeadlineSeconds: 600
 ---
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
