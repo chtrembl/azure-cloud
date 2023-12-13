@@ -81,6 +81,11 @@ stages:
       vmImage: 'ubuntu-latest'
     environment: 'Development'
     strategy:
+      rollingUpdate:
+        maxUnavailable: 1
+        maxSurge: 1
+      type: RollingUpdate
+      progressDeadlineSeconds: 600
       runOnce:
         deploy:
           steps:
