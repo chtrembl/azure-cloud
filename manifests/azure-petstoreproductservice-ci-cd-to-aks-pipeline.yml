@@ -18,7 +18,7 @@ variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: 'azurepetstorecr'
   imageRepository: 'petstoreproductservice'
-  containerRegistry: 'azurepetstorecontainerregistry.azurecr.io'
+  containerRegistry: 'petstoreservice.azurecr.io'
   dockerfilePath: 'petstore/petstoreproductservice/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: '$(crImagePullSecretGlobalV2)'
@@ -88,8 +88,8 @@ stages:
             displayName: Deploy to Kubernetes cluster
             inputs:
               action: deploy
-              kubernetesServiceConnection: azurepetstoreservices-akscluster
-              namespace: ingress-basic
+              kubernetesServiceConnection: azurepetstore-akscluster
+              namespace: ingress-petstoreservices
               manifests: |
                 $(Pipeline.Workspace)/manifests/petstoreproductservice-deployment-everything-enabled.yml
                 $(Pipeline.Workspace)/manifests/petstoreproductservice-service-everything-enabled.yml
@@ -106,10 +106,18 @@ stages:
     pool:
       vmImage: 'windows-latest'
     steps:
-        - task: TriggerPipeline@1
-          inputs:
-            serviceConnection: 'Automation'
-            project: '6b3206dd-90b3-40f6-a611-e5a1e5a13593'
-            Pipeline: 'Build'
-            buildDefinition: 'azure-petstoreautomation-regression-tests'
-            Branch: 'main'
+        # - task: TriggerPipeline@1
+        #   inputs:
+        #     serviceConnection: 'Automation'
+        #     project: '6b3206dd-90b3-40f6-a611-e5a1e5a13593'
+        #     Pipeline: 'Build'
+        #     buildDefinition: 'azure-petstoreautomation-regression-tests'
+        #     Branch: 'main'
+          - task: TriggerPipeline@2
+            inputs:
+              serviceConnection: 'pet-store-app'
+              project: '3dd51745-b973-44f2-a70e-4311c062f03f'
+              Pipeline: 'Build'
+              buildDefinition: '9'
+              Branch: 'main'
+              buildapiversion: '6.0'
