@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: aks-petstorepetservice
+  name: petstoreapp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: aks-petstorepetservice
+      app: petstoreapp
   template:
     metadata:
       labels:
-        app: aks-petstorepetservice
+        app: petstoreapp
     spec:
       containers:
-      - name: aks-petstorepetservice
+      - name: petstoreapp
         image: petstoreservice.azurecr.io/petstorepetservice:latest
         ports:
         - containerPort: 80
@@ -24,10 +24,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: aks-petstorepetservice 
+  name: petstoreapp
 spec:
   type: ClusterIP
   ports:
   - port: 80
   selector:
-    app: aks-petstorepetservice
+    app: petstoreapp
