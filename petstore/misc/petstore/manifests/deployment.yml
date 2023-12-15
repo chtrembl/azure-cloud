@@ -16,7 +16,7 @@ spec:
         "beta.kubernetes.io/os": linux
       containers:
       - name: petstoreapi
-        image: petstorecr.azurecr.io/petstoreapi
+        image: petstoreservice.azurecr.io/petstoreapi
         resources:
           requests:
             cpu: 100m
