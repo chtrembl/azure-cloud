@@ -118,6 +118,6 @@ stages:
               serviceConnection: 'pet-store-app'
               project: '3dd51745-b973-44f2-a70e-4311c062f03f'
               Pipeline: 'Build'
-              buildDefinition: '9'
+              buildDefinition: '10'
               Branch: 'main'
               buildapiversion: '6.0'
