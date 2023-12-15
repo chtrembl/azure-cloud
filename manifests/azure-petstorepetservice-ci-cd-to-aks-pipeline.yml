@@ -16,9 +16,9 @@ resources:
 variables:
 
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'azurepetstorecr'
+  dockerRegistryServiceConnection: '7486832a-5d1a-4d76-a230-2cb7fed6e2c6'
   imageRepository: 'petstorepetservice'
-  containerRegistry: 'azurepetstorecontainerregistry.azurecr.io'
+  containerRegistry: 'petstoreservice.azurecr.io'
   dockerfilePath: 'petstore/petstorepetservice/Dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: '$(crImagePullSecretGlobalV3)'
@@ -88,8 +88,8 @@ stages:
             displayName: Deploy to Kubernetes cluster
             inputs:
               action: deploy
-              kubernetesServiceConnection: azurepetstoreservices-akscluster
-              namespace: ingress-basic
+              kubernetesServiceConnection: azurepetstore-akscluster
+              namespace: ingress-petstoreservices
               manifests: |
                 $(Pipeline.Workspace)/manifests/petstorepetservice-deployment-everything-enabled.yml
                 $(Pipeline.Workspace)/manifests/petstorepetservice-service-everything-enabled.yml
@@ -106,10 +106,18 @@ stages:
     pool:
       vmImage: 'windows-latest'
     steps:
-        - task: TriggerPipeline@1
+    #     - task: TriggerPipeline@1
+    #       inputs:
+    #         serviceConnection: 'Automation'
+    #         project: '6b3206dd-90b3-40f6-a611-e5a1e5a13593'
+    #         Pipeline: 'Build'
+    #         buildDefinition: 'azure-petstoreautomation-regression-tests'
+    #         Branch: 'main'
+        - task: TriggerPipeline@2
           inputs:
-            serviceConnection: 'Automation'
-            project: '6b3206dd-90b3-40f6-a611-e5a1e5a13593'
+            serviceConnection: 'pet-store-app'
+            project: '3dd51745-b973-44f2-a70e-4311c062f03f'
             Pipeline: 'Build'
             buildDefinition: 'azure-petstoreautomation-regression-tests'
             Branch: 'main'
+            buildapiversion: '6.0'
