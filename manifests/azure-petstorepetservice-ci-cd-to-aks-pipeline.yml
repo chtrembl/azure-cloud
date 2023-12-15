@@ -89,7 +89,7 @@ stages:
             inputs:
               action: deploy
               kubernetesServiceConnection: azurepetstore-akscluster
-              namespace: ingress-basic
+              namespace: ingress-petstoreservices
               manifests: |
                 $(Pipeline.Workspace)/manifests/petstorepetservice-deployment-everything-enabled.yml
                 $(Pipeline.Workspace)/manifests/petstorepetservice-service-everything-enabled.yml
