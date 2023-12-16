@@ -16,11 +16,11 @@ spring:
     name: petstoreorderservice
   autoconfigure:
     exclude: com.azure.spring.autoconfigure.jms.ServiceBusJMSAutoConfiguration,org.springframework.boot.autoconfigure.jms.JmsAutoConfiguration,com.azure.spring.autoconfigure.jms.NonPremiumServiceBusJMSAutoConfiguration,com.microsoft.azure.spring.autoconfigure.jms.ServiceBusJMSAutoConfiguration
-  #jms:
-    #servicebus:
-      #connection-string: ${PETSTOREORDERSERVICE_EMAIL_TOPIC_CONNECTION_STRING}
-      #pricing-tier: Standard
-      #topic-client-id: ${PETSTOREORDERSERVICE_SUBSCRIPTION_ID}  
+  jms:
+    servicebus:
+      connection-string: ${PETSTOREORDERSERVICE_EMAIL_TOPIC_CONNECTION_STRING}
+      pricing-tier: Standard
+      topic-client-id: ${PETSTOREORDERSERVICE_SUBSCRIPTION_ID}  
 
 #azure:
 #    application-insights:
