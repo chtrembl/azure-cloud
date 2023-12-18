@@ -170,7 +170,7 @@ public class AzureOpenAI implements IAzureOpenAI {
                         dpResponse.setDpResponseText(PetStoreAssistantUtilities.cleanDataFromAOAIResponseContent(content));
                         break;
                 }
-
+                dpResponse.setAoaiResponse(content);
                 LOGGER.info("completion response for text {} was {}", text, content);
             }
         } catch (Exception e) {

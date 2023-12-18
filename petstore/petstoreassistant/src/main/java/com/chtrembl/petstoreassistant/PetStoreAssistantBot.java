@@ -99,6 +99,10 @@ public class PetStoreAssistantBot extends ActivityHandler {
                //MessageFactory.text(this.WELCOME_MESSAGE)).thenApply(sendResult -> null);
             //}
         }
+        else
+        {
+            return null;
+        }
         //if we have user state in the turn context use that instead
         //else if (sessionID != null && csrfToken != null) {
         //    azurePetStoreSessionInfo = new AzurePetStoreSessionInfo(sessionID, csrfToken, text);
@@ -123,26 +127,17 @@ public class PetStoreAssistantBot extends ActivityHandler {
                         dpResponse = this.azurePetStore.updateCart(azurePetStoreSessionInfo, dpResponse.getResponseProductIDs().get(0));
                     }
                 }
-                else {
-                    dpResponse.setDpResponseText("Once I get your session information, I will be able to update your shopping cart.");
-                }
                 break;
             case VIEW_SHOPPING_CART:
                 if(azurePetStoreSessionInfo != null)
                 {
                     dpResponse = this.azurePetStore.viewCart(azurePetStoreSessionInfo);
                 }
-                else {
-                    dpResponse.setDpResponseText("Once I get your session information, I will be able to display your shopping cart.");
-                }
                 break;
             case PLACE_ORDER:
                 if(azurePetStoreSessionInfo != null)
                 {
                     dpResponse = this.azurePetStore.completeCart(azurePetStoreSessionInfo);
-                }
-                else {
-                    dpResponse.setDpResponseText("Once I get your session information, I will be able to place your order.");
                 }
                 break;
             case SEARCH_FOR_PRODUCTS:

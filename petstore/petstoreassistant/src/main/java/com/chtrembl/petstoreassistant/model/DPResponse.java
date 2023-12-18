@@ -5,13 +5,14 @@ import java.util.List;
 import com.chtrembl.petstoreassistant.service.AzureOpenAI.Classification;
 
 public class DPResponse {
-    Classification classification = null;
+    private Classification classification = null;
     private String dpResponseText = "I am not sure how to handle that.";  
-    List<Product> products = null;
-    List<String> responseProductIDs = null;
-    boolean updateCart = false;
-    boolean completeCart = false;
-    
+    private List<Product> products = null;
+    private List<String> responseProductIDs = null;
+    private boolean updateCart = false;
+    private boolean completeCart = false;
+    private String aoaiResponse = null;
+
     public DPResponse() {
         super();
     }
@@ -56,4 +57,10 @@ public class DPResponse {
     public void setCompleteCart(boolean completeCart) {
         this.completeCart = completeCart;
     }   
+    public String getAoaiResponse() {
+        return aoaiResponse;
+    }
+    public void setAoaiResponse(String aoaiResponse) {
+        this.aoaiResponse = aoaiResponse;
+    }
 }
