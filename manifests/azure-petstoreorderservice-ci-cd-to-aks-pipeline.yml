@@ -16,7 +16,7 @@ resources:
 variables:
 
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '7486832a-5d1a-4d76-a230-2cb7fed6e2c6'
+  dockerRegistryServiceConnection: '148b9ba3-97e6-43cf-8381-82ee8c497b43'
   imageRepository: 'petstoreorderservice'
   containerRegistry: 'petstoreservice.azurecr.io'
   dockerfilePath: 'petstore/petstoreorderservice/Dockerfile'
@@ -115,9 +115,9 @@ stages:
         #     Branch: 'main'
           - task: TriggerPipeline@2
             inputs:
-              serviceConnection: 'pet-store-app'
-              project: '3dd51745-b973-44f2-a70e-4311c062f03f'
+              serviceConnection: 'azuretrigger'
+              project: '390aa9f8-ef31-447f-a0f1-bda9d09208ef'
               Pipeline: 'Build'
-              buildDefinition: '11'
+              # buildDefinition: '11'
               Branch: 'main'
               buildapiversion: '6.0'
