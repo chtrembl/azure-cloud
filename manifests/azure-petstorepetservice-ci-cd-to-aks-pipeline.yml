@@ -16,7 +16,8 @@ resources:
 variables:
 
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '148b9ba3-97e6-43cf-8381-82ee8c497b43'
+  dockerRegistryServiceConnection: '909a8ee5-0d10-4d79-a851-62649088f289'
+
   imageRepository: 'petstorepetservice'
   containerRegistry: 'petstoreservice.azurecr.io'
   dockerfilePath: 'petstore/petstorepetservice/Dockerfile'
@@ -113,11 +114,10 @@ stages:
     #         Pipeline: 'Build'
     #         buildDefinition: 'azure-petstoreautomation-regression-tests'
     #         Branch: 'main' 
-          - task: TriggerPipeline@2
-            inputs:
-              serviceConnection: 'azuretrigger'
-              project: '390aa9f8-ef31-447f-a0f1-bda9d09208ef'
-              Pipeline: 'Build'
-              # buildDefinition: '9'
-              Branch: 'main'
-              buildapiversion: '6.0'
+        - task: TriggerPipeline@2
+          inputs:
+            serviceConnection: 'triggerazure'
+            project: '01954d78-ee29-4d56-89a6-3674aedeab83'
+            Pipeline: 'Build'
+            Branch: 'main'
+            buildapiversion: '6.0'
