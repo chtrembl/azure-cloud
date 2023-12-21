@@ -6,6 +6,7 @@ import Markdown from './ContentCards/Markdown';
 import Link from './ContentCards/Link';
 import Image from './ContentCards/Image';
 import Video from './ContentCards/Video';
+import ButtonWithImage from './ContentCards/ButtonWithImage';
 import { setActiveCards, animateCamera } from '../store/sm/index';
 import ImageCarousel from './ContentCards/ImageCarousel';
 
@@ -45,6 +46,10 @@ function ContentCardSwitch({
     },
     video: {
       element: Video,
+      removeOnClick: false,
+    },
+    buttonWithImage: {
+      element: ButtonWithImage,
       removeOnClick: false,
     },
   };
