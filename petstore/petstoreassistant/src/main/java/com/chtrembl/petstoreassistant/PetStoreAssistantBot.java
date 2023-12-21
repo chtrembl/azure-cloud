@@ -21,11 +21,14 @@ import com.chtrembl.petstoreassistant.service.IAzureOpenAI;
 import com.chtrembl.petstoreassistant.service.IAzurePetStore;
 import com.chtrembl.petstoreassistant.utility.PetStoreAssistantUtilities;
 import com.codepoetics.protonpack.collectors.CompletableFutures;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.microsoft.bot.builder.ActivityHandler;
 import com.microsoft.bot.builder.MessageFactory;
 import com.microsoft.bot.builder.StatePropertyAccessor;
 import com.microsoft.bot.builder.TurnContext;
 import com.microsoft.bot.builder.UserState;
+import com.microsoft.bot.schema.Attachment;
 import com.microsoft.bot.schema.ChannelAccount;
 
 /**
@@ -101,7 +104,8 @@ public class PetStoreAssistantBot extends ActivityHandler {
         }
         else
         {
-            return null;
+                 return turnContext.sendActivity(
+                MessageFactory.text("")).thenApply(sendResult -> null);
         }
         //if we have user state in the turn context use that instead
         //else if (sessionID != null && csrfToken != null) {
@@ -113,6 +117,26 @@ public class PetStoreAssistantBot extends ActivityHandler {
         {
             return turnContext.sendActivity(
                     MessageFactory.text("your session id is "+azurePetStoreSessionInfo.getSessionID()+" and your csrf token is "+azurePetStoreSessionInfo.getCsrfToken())).thenApply(sendResult -> null);
+        }
+
+        if(text.equals("card"))
+        {
+
+            //String jsonString = "{\"type\":\"image\",\"id\":\"image-ball\",\"data\":{\"url\": \"https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-toys/ball.jpg?raw=true\",\"alt\": \"This is a ball\"}}";
+            
+            String jsonString = "{\"type\":\"buttonWithImage\",\"id\":\"buttonWithImage\",\"data\":{\"title\":\"Soul Machines\",\"imageUrl\":\"https://www.soulmachines.com/wp-content/uploads/cropped-sm-favicon-180x180.png\",\"description\":\"Soul Machines is the leader in astonishing AGI\",\"imageAltText\":\"some text\",\"buttonText\":\"push me\"}}";    
+
+            Attachment attachment = new Attachment();
+            attachment.setContentType("application/json");
+
+            attachment.setContent(new Gson().fromJson(jsonString, JsonObject.class));
+            attachment.setName("public-content-card");
+
+            return turnContext.sendActivity(
+                    MessageFactory.attachment(attachment, "I have something nice to show @showcards(content-card) you."))
+                    .thenApply(sendResult -> null);
+
+
         }
 
         DPResponse dpResponse = this.azureOpenAI.classification(text);
