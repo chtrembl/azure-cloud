@@ -1,0 +1,13 @@
+{
+  "count": true,
+  "minimumCoverage": null,
+  "queryType": "simple",
+  "search": "%s",
+  %s
+  "searchFields": "name,category/name,description",
+  "searchMode": "any",
+  "scoringStatistics": "global",
+  "select": "productId,name,category/name,description",
+  "skip": 0,
+  "top": 10
+}

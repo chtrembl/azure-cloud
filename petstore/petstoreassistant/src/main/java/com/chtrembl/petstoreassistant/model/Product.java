@@ -13,6 +13,8 @@ public class Product implements Serializable{
     private String description = null;
     private String photoURL = null;
 
+    private int searchScore = 0;
+
     public Product() {
         super();
     }
@@ -55,5 +57,11 @@ public class Product implements Serializable{
     }
     public void setPhotoURL(String photoURL) {
         this.photoURL = photoURL;
+    }
+    public int getSearchScore() {
+        return searchScore;
+    }
+    public void setSearchScore(int searchScore) {
+        this.searchScore = searchScore;
     }
 }

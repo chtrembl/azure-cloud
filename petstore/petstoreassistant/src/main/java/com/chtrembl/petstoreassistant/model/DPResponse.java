@@ -2,13 +2,12 @@ package com.chtrembl.petstoreassistant.model;
 
 import java.util.List;
 
-import com.chtrembl.petstoreassistant.service.AzureOpenAI.Classification;
+import com.chtrembl.petstoreassistant.service.AzureAIServices.Classification;
 
 public class DPResponse {
     private Classification classification = null;
     private String dpResponseText = "I am not sure how to handle that.";  
     private List<Product> products = null;
-    private List<String> responseProductIDs = null;
     private boolean updateCart = false;
     private boolean completeCart = false;
     private String aoaiResponse = null;
@@ -39,12 +38,6 @@ public class DPResponse {
         this.products = products;
     }
 
-    public List<String> getResponseProductIDs() {
-        return responseProductIDs;
-    }
-    public void setResponseProductIDs(List<String> responseProductIDs) {
-        this.responseProductIDs = responseProductIDs;
-    }
     public boolean isUpdateCart() {
         return updateCart;
     }
