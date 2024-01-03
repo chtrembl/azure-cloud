@@ -3,11 +3,8 @@
 
 package com.chtrembl.petstoreassistant;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -15,9 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.chtrembl.petstoreassistant.model.AzurePetStoreSessionInfo;
 import com.chtrembl.petstoreassistant.model.DPResponse;
@@ -123,7 +117,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 }
                 else
                 {
-                    dpResponse.setDpResponseText("Without a session id I can't update your shopping cart.");
+                    dpResponse.setDpResponseText("...");
                 }
                 break;
             case VIEW_SHOPPING_CART:
@@ -132,7 +126,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 }
                 else
                 {
-                    dpResponse.setDpResponseText("Without a session id I can't retrieve your shopping cart.");
+                    dpResponse.setDpResponseText("...");
                 }
                 break;
             case PLACE_ORDER:
@@ -141,7 +135,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 }
                 else
                 {
-                    dpResponse.setDpResponseText("Without a session id I can't place your order.");
+                    dpResponse.setDpResponseText("...");
                 }
                 break;
             case SEARCH_FOR_DOG_FOOD:
@@ -158,8 +152,13 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 break;
         }
 
+        // only respond to the user if the user sent something (seems to be a bug where
+        // initial messages are sent without a prompt while page loads)
+        if (dpResponse.getDpResponseText() != null && dpResponse.getDpResponseText().length() > 0) {
             return turnContext.sendActivity(
                     MessageFactory.text(dpResponse.getDpResponseText())).thenApply(sendResult -> null);
+        }
+        return null;
      }
 
     @Override
