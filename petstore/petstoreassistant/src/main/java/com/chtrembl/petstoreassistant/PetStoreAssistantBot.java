@@ -3,6 +3,7 @@
 
 package com.chtrembl.petstoreassistant;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -82,6 +83,10 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 .getAzurePetStoreSessionInfo(text);
 
          //DEBUG ONLY
+        if (text.contains("context")) {
+            printTurnContext(turnContext);
+        }
+        
         if (text.contains("variables")) {
             if(azurePetStoreSessionInfo != null && azurePetStoreSessionInfo.getNewText() != null)
             { 
@@ -254,5 +259,49 @@ public class PetStoreAssistantBot extends ActivityHandler {
             } 
         }
         return debug;
+    }
+
+    public void printTurnContext(TurnContext turnContext) {
+        try{
+        LOGGER.info("Turn Context Properties:");
+        turnContext.getActivity().getProperties().forEach((key, value) -> { 
+            LOGGER.info(key + ": " + value.toString());
+        });
+        }
+        catch(Exception e)
+        {
+            
+        }
+
+        try{
+        LOGGER.info("Turn Context Attachments:");
+        turnContext.getActivity().getAttachments().forEach((attachment) -> { 
+            LOGGER.info(attachment.getName());
+        });
+        }
+        catch(Exception e)
+        {
+            
+        }
+
+        try{
+        LOGGER.info("Turn Context Properties:");
+        turnContext.getActivity().getProperties().forEach((key, value) -> { 
+            LOGGER.info(key + ": " + value.toString());
+        });
+        }
+        catch(Exception e)
+        {
+            
+        }   
+
+                try{
+        LOGGER.info("Turn Context Channel Data:");
+        LOGGER.info("channel data: "+turnContext.getActivity().getChannelData());
+                }
+        catch(Exception e)
+        {
+            
+        }
     }
 }
