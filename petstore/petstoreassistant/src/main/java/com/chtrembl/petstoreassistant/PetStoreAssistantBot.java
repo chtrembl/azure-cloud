@@ -117,7 +117,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 }
                 else
                 {
-                    dpResponse.setDpResponseText("...");
+                    dpResponse.setDpResponseText("working on it");
                 }
                 break;
             case VIEW_SHOPPING_CART:
@@ -126,7 +126,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 }
                 else
                 {
-                    dpResponse.setDpResponseText("...");
+                    dpResponse.setDpResponseText("working on it");
                 }
                 break;
             case PLACE_ORDER:
@@ -135,7 +135,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 }
                 else
                 {
-                    dpResponse.setDpResponseText("...");
+                    dpResponse.setDpResponseText("working on it");
                 }
                 break;
             case SEARCH_FOR_DOG_FOOD:
@@ -148,7 +148,14 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 dpResponse = this.azureOpenAI.search(text, dpResponse.getClassification());
                 break;
             case SOMETHING_ELSE:
-                dpResponse = this.azureOpenAI.completion(text, dpResponse.getClassification());
+                if(!text.isEmpty())
+                {
+                    dpResponse = this.azureOpenAI.completion(text, dpResponse.getClassification());
+                }
+                else
+                {
+                    dpResponse.setDpResponseText("completion called for no reason");
+                }
                 break;
         }
 

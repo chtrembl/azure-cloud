@@ -59,14 +59,14 @@ public class AzurePetStore implements IAzurePetStore {
                                         + " to your cart. " + azurePetStoreSessionInfo.getSessionID() + "|"
                                         + azurePetStoreSessionInfo.getCsrfToken());
                 }
-
+                
                 return dpResponse;
         }
 
         @Override
         public DPResponse viewCart(AzurePetStoreSessionInfo azurePetStoreSessionInfo) {
                 DPResponse dpResponse = new DPResponse();
-
+                Response response = null;
                 try {
                         Request request = new Request.Builder()
                                         .url(this.VIEW_CART_URL)
@@ -75,7 +75,7 @@ public class AzurePetStore implements IAzurePetStore {
                                         .addHeader("Content-Type", "text/html")
                                         .build();
 
-                        Response response = this.client.newCall(request).execute();
+                        response = this.client.newCall(request).execute();
 
                         LOGGER.info("Retrieved cart items for session id: "
                                         + azurePetStoreSessionInfo.getSessionID() + " csrf: "
@@ -90,6 +90,12 @@ public class AzurePetStore implements IAzurePetStore {
                         dpResponse.setDpResponseText("I'm sorry, I wasn't able to retrieve your shopping cart. "
                                         + azurePetStoreSessionInfo.getSessionID() + "|"
                                         + azurePetStoreSessionInfo.getCsrfToken());
+                } finally 
+                {
+                        if(response.body() != null)
+                        {
+                                response.body().close();
+                        }
                 }
 
                 return dpResponse;
@@ -99,6 +105,8 @@ public class AzurePetStore implements IAzurePetStore {
         public DPResponse completeCart(AzurePetStoreSessionInfo azurePetStoreSessionInfo) {
                 DPResponse dpResponse = new DPResponse();
 
+                Response response = null;
+
                 try {
                         Request request = new Request.Builder()
                                         .url(this.COMPLETE_CART_URL + "?csrf=" + azurePetStoreSessionInfo.getCsrfToken())
@@ -107,7 +115,7 @@ public class AzurePetStore implements IAzurePetStore {
                                         .addHeader("Content-Type", "text/html")
                                         .build();
 
-                        Response response = this.client.newCall(request).execute();
+                        response = this.client.newCall(request).execute();
 
                         LOGGER.info("Completed cart for session id: "
                                         + azurePetStoreSessionInfo.getSessionID() + " csrf: "
@@ -123,7 +131,13 @@ public class AzurePetStore implements IAzurePetStore {
                                         + azurePetStoreSessionInfo.getSessionID() + "|"
                                         + azurePetStoreSessionInfo.getCsrfToken());
                 }
-
+                finally 
+                {
+                        if(response.body() != null)
+                        {
+                                response.body().close();
+                        }
+                }
                 return dpResponse;
         }
 
