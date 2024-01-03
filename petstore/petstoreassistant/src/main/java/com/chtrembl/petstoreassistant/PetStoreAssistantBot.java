@@ -58,7 +58,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
     @Autowired
     private IAzurePetStore azurePetStore;
 
-    private String WELCOME_MESSAGE = "V1 Hello and welcome to the Azure Pet Store, you can ask me questions about our products, your shopping cart and your order, you can also ask me for information about pet animals. How can I help you?";
+    private String WELCOME_MESSAGE = "Hello and welcome to the Azure Pet Store, you can ask me questions about our products, your shopping cart and your order, you can also ask me for information about pet animals. How can I help you?";
 
     private UserState userState;
 
@@ -81,40 +81,11 @@ public class PetStoreAssistantBot extends ActivityHandler {
         // sendTextMessage() function
         AzurePetStoreSessionInfo azurePetStoreSessionInfo = PetStoreAssistantUtilities
                 .getAzurePetStoreSessionInfo(text);
+        if (azurePetStoreSessionInfo != null) {
+            text = azurePetStoreSessionInfo.getNewText();
+        }
 
          //DEBUG ONLY
-        if (text.contains("context")) {
-                   
-                         return turnContext.sendActivity(
-                MessageFactory.text(getTurnContext(turnContext)))
-                .thenApply(sendResult -> null);
-        }
-        
-        if (text.contains("variables")) {
-            if(azurePetStoreSessionInfo != null && azurePetStoreSessionInfo.getNewText() != null)
-            { 
-            text = azurePetStoreSessionInfo.getNewText();
-            }
-                         return turnContext.sendActivity(
-                MessageFactory.text(getVariables()))
-                .thenApply(sendResult -> null);
-        }
-        if (text.contains("session")) {
-            
-            if(azurePetStoreSessionInfo != null)
-            {
-             return turnContext.sendActivity(
-                MessageFactory.text("your session id is " + azurePetStoreSessionInfo.getSessionID()
-                        + " and your csrf token is " + azurePetStoreSessionInfo.getCsrfToken()))
-                .thenApply(sendResult -> null);
-            }
-            else
-            {
-                 return turnContext.sendActivity(
-                MessageFactory.text("no session id or csrf token found"))
-                .thenApply(sendResult -> null);
-            }
-        }
         if (text.contains("card")) {
             if(azurePetStoreSessionInfo != null && azurePetStoreSessionInfo.getNewText() != null)
             { 
@@ -134,13 +105,6 @@ public class PetStoreAssistantBot extends ActivityHandler {
         }
         //END DEBUG
 
-        if (azurePetStoreSessionInfo != null) {
-            text = azurePetStoreSessionInfo.getNewText();
-        } else {
-            return turnContext.sendActivity(
-                    MessageFactory.text("")).thenApply(sendResult -> null);
-        }
-
         DPResponse dpResponse = this.azureOpenAI.classification(text);
 
         if (dpResponse.getClassification() == null) {
@@ -157,15 +121,27 @@ public class PetStoreAssistantBot extends ActivityHandler {
                                 dpResponse.getProducts().get(0).getProductId());
                     }
                 }
+                else
+                {
+                    dpResponse.setDpResponseText("Without a session id I can't update your shopping cart.");
+                }
                 break;
             case VIEW_SHOPPING_CART:
                 if (azurePetStoreSessionInfo != null) {
                     dpResponse = this.azurePetStore.viewCart(azurePetStoreSessionInfo);
                 }
+                else
+                {
+                    dpResponse.setDpResponseText("Without a session id I can't retrieve your shopping cart.");
+                }
                 break;
             case PLACE_ORDER:
                 if (azurePetStoreSessionInfo != null) {
                     dpResponse = this.azurePetStore.completeCart(azurePetStoreSessionInfo);
+                }
+                else
+                {
+                    dpResponse.setDpResponseText("Without a session id I can't place your order.");
                 }
                 break;
             case SEARCH_FOR_DOG_FOOD:
@@ -182,14 +158,9 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 break;
         }
 
-        // only respond to the user if the user sent something (seems to be a bug where
-        // initial messages are sent without a prompt while page loads)
-        if (dpResponse.getDpResponseText() != null && dpResponse.getDpResponseText().length() > 0) {
             return turnContext.sendActivity(
                     MessageFactory.text(dpResponse.getDpResponseText())).thenApply(sendResult -> null);
-        }
-        return null;
-    }
+     }
 
     @Override
     protected CompletableFuture<Void> onMembersAdded(
@@ -206,110 +177,6 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 .collect(CompletableFutures.toFutureList()).thenApply(resourceResponses -> null);
     }
 
-    private String getVariables() {
+   
 
-        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-
-        String debug = requestAttributes.toString();
-
-        if (requestAttributes instanceof ServletRequestAttributes) {
-
-            HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
-
-            try {
-                java.util.Enumeration<String> enumeration = request.getHeaderNames();
-                debug += " headers: ";
-                while (enumeration.hasMoreElements()) {
-                    String headerName = enumeration.nextElement();
-                    debug += headerName + " ";
-                }
-            } catch (Exception e) {
-
-            }
-
-            try {
-               java.util.Enumeration<String> enumeration = request.getAttributeNames();
-                debug += " attributes: ";
-                while (enumeration.hasMoreElements()) {
-                    String attributeName = enumeration.nextElement();
-                    debug += attributeName + " ";
-                }
-                
-            } catch (Exception e) {
-
-            }
-
-            try {
-                java.util.Enumeration<String> enumeration = request.getParameterNames();
-                debug += " parameters: ";
-                while (enumeration.hasMoreElements()) {
-                    String parameterName = enumeration.nextElement();
-                    debug += parameterName + " ";
-                }
-            } catch (Exception e) {
-
-            }
-
-            try {
-                java.util.Enumeration<String> enumeration = request.getSession().getAttributeNames();
-                debug += " session attributes: ";
-                while (enumeration.hasMoreElements()) {
-                    String attributeName = enumeration.nextElement();
-                    debug += attributeName + " ";
-                }
-            } catch (Exception e) {
-
-            } 
-        }
-        return debug;
-    }
-
-    public String getTurnContext(TurnContext turnContext) {
-      
-        StringBuilder debug = new StringBuilder();
-
-        try{
-         debug.append("Turn Context Properties:");
-            turnContext.getActivity().getProperties().forEach((key, value) -> { 
-                    debug.append(" "+ key + ": " + value.toString());
-            });
-        }
-        catch(Exception e)
-        {
-            
-        }
-
-        try{
-        debug.append("Turn Context Attachments:");
-        turnContext.getActivity().getAttachments().forEach((attachment) -> { 
-             debug.append(" " + attachment.getName());
-        });
-        }
-        catch(Exception e)
-        {
-            
-        }
-
-        try{
-        debug.append("Turn Context Properties:");
-        turnContext.getActivity().getProperties().forEach((key, value) -> { 
-             debug.append(" " + key + ": " + value.toString());
-        });
-        }
-        catch(Exception e)
-        {
-            
-        }   
-
-        try{
-         debug.append("Turn Context Channel Data:");
-         debug.append(" channel data: "+turnContext.getActivity().getChannelData());
-                }
-        catch(Exception e)
-        {
-            
-        }
-
-        return debug.toString();
-    }
-}
+   }
