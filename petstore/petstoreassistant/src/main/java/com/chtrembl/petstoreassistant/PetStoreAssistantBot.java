@@ -130,7 +130,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
             text = azurePetStoreSessionInfo.getNewText();
         } else {
             return turnContext.sendActivity(
-                    MessageFactory.text("no session id or csrf token found")).thenApply(sendResult -> null);
+                    MessageFactory.text("")).thenApply(sendResult -> null);
         }
 
         DPResponse dpResponse = this.azureOpenAI.classification(text);
