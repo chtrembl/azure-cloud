@@ -84,7 +84,10 @@ public class PetStoreAssistantBot extends ActivityHandler {
 
          //DEBUG ONLY
         if (text.contains("context")) {
-            printTurnContext(turnContext);
+                   
+                         return turnContext.sendActivity(
+                MessageFactory.text(getTurnContext(turnContext)))
+                .thenApply(sendResult -> null);
         }
         
         if (text.contains("variables")) {
@@ -261,12 +264,15 @@ public class PetStoreAssistantBot extends ActivityHandler {
         return debug;
     }
 
-    public void printTurnContext(TurnContext turnContext) {
+    public String getTurnContext(TurnContext turnContext) {
+      
+        StringBuilder debug = new StringBuilder();
+
         try{
-        LOGGER.info("Turn Context Properties:");
-        turnContext.getActivity().getProperties().forEach((key, value) -> { 
-            LOGGER.info(key + ": " + value.toString());
-        });
+         debug.append("Turn Context Properties:");
+            turnContext.getActivity().getProperties().forEach((key, value) -> { 
+                    debug.append(" "+ key + ": " + value.toString());
+            });
         }
         catch(Exception e)
         {
@@ -274,9 +280,9 @@ public class PetStoreAssistantBot extends ActivityHandler {
         }
 
         try{
-        LOGGER.info("Turn Context Attachments:");
+        debug.append("Turn Context Attachments:");
         turnContext.getActivity().getAttachments().forEach((attachment) -> { 
-            LOGGER.info(attachment.getName());
+             debug.append(" " + attachment.getName());
         });
         }
         catch(Exception e)
@@ -285,9 +291,9 @@ public class PetStoreAssistantBot extends ActivityHandler {
         }
 
         try{
-        LOGGER.info("Turn Context Properties:");
+        debug.append("Turn Context Properties:");
         turnContext.getActivity().getProperties().forEach((key, value) -> { 
-            LOGGER.info(key + ": " + value.toString());
+             debug.append(" " + key + ": " + value.toString());
         });
         }
         catch(Exception e)
@@ -295,13 +301,15 @@ public class PetStoreAssistantBot extends ActivityHandler {
             
         }   
 
-                try{
-        LOGGER.info("Turn Context Channel Data:");
-        LOGGER.info("channel data: "+turnContext.getActivity().getChannelData());
+        try{
+         debug.append("Turn Context Channel Data:");
+         debug.append(" channel data: "+turnContext.getActivity().getChannelData());
                 }
         catch(Exception e)
         {
             
         }
+
+        return debug.toString();
     }
 }
