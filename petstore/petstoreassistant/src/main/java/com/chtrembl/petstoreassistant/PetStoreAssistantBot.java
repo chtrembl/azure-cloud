@@ -88,11 +88,8 @@ public class PetStoreAssistantBot extends ActivityHandler {
         if (text.contains("session"))
         {
             RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-            if (requestAttributes instanceof ServletRequestAttributes) {
-                HttpServletRequest request = ((ServletRequestAttributes)requestAttributes).getRequest();
                   return turnContext.sendActivity(
-                MessageFactory.text("session: "+request.getSession().getId())).thenApply(sendResult -> null);
-            }
+                MessageFactory.text("session: "+requestAttributes.getSessionId())).thenApply(sendResult -> null);
         }
         if (text.contains("card")) {
             if(azurePetStoreSessionInfo != null && azurePetStoreSessionInfo.getNewText() != null)
