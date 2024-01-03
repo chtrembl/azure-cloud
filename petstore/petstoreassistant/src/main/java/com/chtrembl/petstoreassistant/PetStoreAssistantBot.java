@@ -4,19 +4,16 @@
 package com.chtrembl.petstoreassistant;
 
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang3.StringUtils;
+import org.checkerframework.checker.units.qual.K;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.chtrembl.petstoreassistant.model.AzurePetStoreSessionInfo;
 import com.chtrembl.petstoreassistant.model.DPResponse;
@@ -87,9 +84,14 @@ public class PetStoreAssistantBot extends ActivityHandler {
          //DEBUG ONLY
         if (text.contains("session"))
         {
-            RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-                  return turnContext.sendActivity(
-                MessageFactory.text("session: "+requestAttributes.getSessionId())).thenApply(sendResult -> null);
+            Set<String> keys =  turnContext.getActivity().getRecipient().getProperties().keySet();
+            String keystring = "";
+            for(String key: keys){    
+                keystring += key+" ";
+            }
+
+            return turnContext.sendActivity(
+                MessageFactory.text("id:"+turnContext.getActivity().getId()+" sender: "+turnContext.getActivity().getFrom()+" recipient id:"+turnContext.getActivity().getRecipient().getId()+ " recipient keys: "+keystring)).thenApply(sendResult -> null);
         }
         if (text.contains("card")) {
             if(azurePetStoreSessionInfo != null && azurePetStoreSessionInfo.getNewText() != null)
