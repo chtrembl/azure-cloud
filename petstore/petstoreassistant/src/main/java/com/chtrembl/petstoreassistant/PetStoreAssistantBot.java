@@ -76,20 +76,37 @@ public class PetStoreAssistantBot extends ActivityHandler {
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
         String text = turnContext.getActivity().getText().toLowerCase();
 
+        //DEBUG ONLY
+        if (text.equals("variables")) {
+                         return turnContext.sendActivity(
+                MessageFactory.text(getVariables(turnContext)))
+                .thenApply(sendResult -> null);
+        }
+
         // strip out session id and csrf token if one was passed from soul machines
         // sendTextMessage() function
         AzurePetStoreSessionInfo azurePetStoreSessionInfo = PetStoreAssistantUtilities
                 .getAzurePetStoreSessionInfo(text);
 
         //DEBUG ONLY
-        if (text.equals("variables")) {
-            return getVariables(turnContext);
-        }
         if (text.equals("session")) {
-            return getSession(turnContext, azurePetStoreSessionInfo);
+             return turnContext.sendActivity(
+                MessageFactory.text("your session id is " + azurePetStoreSessionInfo.getSessionID()
+                        + " and your csrf token is " + azurePetStoreSessionInfo.getCsrfToken()))
+                .thenApply(sendResult -> null);
         }
         if (text.equals("card")) {
-            return getCard(turnContext);
+            String jsonString = "{\"type\":\"buttonWithImage\",\"id\":\"buttonWithImage\",\"data\":{\"title\":\"Soul Machines\",\"imageUrl\":\"https://www.soulmachines.com/wp-content/uploads/cropped-sm-favicon-180x180.png\",\"description\":\"Soul Machines is the leader in astonishing AGI\",\"imageAltText\":\"some text\",\"buttonText\":\"push me\"}}";
+
+            Attachment attachment = new Attachment();
+            attachment.setContentType("application/json");
+
+            attachment.setContent(new Gson().fromJson(jsonString, JsonObject.class));
+            attachment.setName("public-content-card");
+
+            return turnContext.sendActivity(
+                    MessageFactory.attachment(attachment, "I have something nice to show @showcards(content-card) you."))
+                    .thenApply(sendResult -> null);
         }
 
         if (azurePetStoreSessionInfo != null) {
@@ -165,7 +182,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 .collect(CompletableFutures.toFutureList()).thenApply(resourceResponses -> null);
     }
 
-    private CompletableFuture<Void> getVariables(TurnContext turnContext) {
+    private String getVariables(TurnContext turnContext) {
 
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
 
@@ -218,37 +235,8 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 }
             } catch (Exception e) {
 
-            }
-
-            return turnContext.sendActivity(
-                    MessageFactory.text("debug: " + debug)).thenApply(sendResult -> null);
-        } else {
-            return turnContext.sendActivity(
-                    MessageFactory.text("no request data " + debug)).thenApply(sendResult -> null);
+            } 
         }
+        return debug;
     }
-
-    private CompletableFuture<Void> getSession(TurnContext turnContext,
-            AzurePetStoreSessionInfo azurePetStoreSessionInfo) {
-
-        return turnContext.sendActivity(
-                MessageFactory.text("your session id is " + azurePetStoreSessionInfo.getSessionID()
-                        + " and your csrf token is " + azurePetStoreSessionInfo.getCsrfToken()))
-                .thenApply(sendResult -> null);
-    }
-
-    private CompletableFuture<Void> getCard(TurnContext turnContext) {
-        String jsonString = "{\"type\":\"buttonWithImage\",\"id\":\"buttonWithImage\",\"data\":{\"title\":\"Soul Machines\",\"imageUrl\":\"https://www.soulmachines.com/wp-content/uploads/cropped-sm-favicon-180x180.png\",\"description\":\"Soul Machines is the leader in astonishing AGI\",\"imageAltText\":\"some text\",\"buttonText\":\"push me\"}}";
-
-        Attachment attachment = new Attachment();
-        attachment.setContentType("application/json");
-
-        attachment.setContent(new Gson().fromJson(jsonString, JsonObject.class));
-        attachment.setName("public-content-card");
-
-        return turnContext.sendActivity(
-                MessageFactory.attachment(attachment, "I have something nice to show @showcards(content-card) you."))
-                .thenApply(sendResult -> null);
-    }
-
 }
