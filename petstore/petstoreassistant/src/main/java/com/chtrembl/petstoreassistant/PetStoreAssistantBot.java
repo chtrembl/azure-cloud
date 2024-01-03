@@ -92,13 +92,54 @@ public class PetStoreAssistantBot extends ActivityHandler {
         if(text.equals("variables"))
         {
             RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+            
+            String debug = requestAttributes.toString();
+
             if (requestAttributes instanceof ServletRequestAttributes) {
+            
                 HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
+               
+                try
+                {
+                   debug += " headers: "+request.getHeaderNames().toString();
+                }
+                catch(Exception e)
+                {
+
+                }
+
+                try
+                {
+                   debug += " attributes: "+request.getAttributeNames().toString();
+                }
+                catch(Exception e)
+                {
+
+                }
+
+                try
+                {
+                   debug += " parameters: "+request.getParameterNames().toString();
+                }
+                catch(Exception e)
+                {
+
+                }
+
+                try
+                {
+                   debug += " session attributes: "+request.getSession().getAttributeNames().toString();
+                }
+                catch(Exception e)
+                {
+
+                }
+
                 return turnContext.sendActivity(
-                    MessageFactory.text("url: "+request.getHeader("url")+"|"+request.getParameter("url")+"|"+request.getAttribute("url")+" headers: "+request.getHeaderNames())).thenApply(sendResult -> null);
+                    MessageFactory.text("debug: "+debug)).thenApply(sendResult -> null);
             }else{
                 return turnContext.sendActivity(
-                    MessageFactory.text("no request attributes")+requestAttributes.toString()).thenApply(sendResult -> null);
+                    MessageFactory.text("no request data " + debug)).thenApply(sendResult -> null);
             }
         }
 
