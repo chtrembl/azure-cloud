@@ -6,12 +6,17 @@ package com.chtrembl.petstoreassistant;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.chtrembl.petstoreassistant.model.AzurePetStoreSessionInfo;
 import com.chtrembl.petstoreassistant.model.DPResponse;
@@ -80,6 +85,15 @@ public class PetStoreAssistantBot extends ActivityHandler {
         }
 
          //DEBUG ONLY
+        if (text.contains("session"))
+        {
+            RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+            if (requestAttributes instanceof ServletRequestAttributes) {
+                HttpServletRequest request = ((ServletRequestAttributes)requestAttributes).getRequest();
+                  return turnContext.sendActivity(
+                MessageFactory.text("session: "+request.getSession().getId())).thenApply(sendResult -> null);
+            }
+        }
         if (text.contains("card")) {
             if(azurePetStoreSessionInfo != null && azurePetStoreSessionInfo.getNewText() != null)
             { 
