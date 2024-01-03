@@ -145,16 +145,28 @@ public class PetStoreAssistantBot extends ActivityHandler {
             case SEARCH_FOR_FISH_FOOD:
             case SEARCH_FOR_FISH_TOYS:
             case SEARCH_FOR_PRODUCTS:
-                dpResponse = this.azureOpenAI.search(text, dpResponse.getClassification());
-                break;
-            case SOMETHING_ELSE:
-                if(!text.isEmpty())
-                {
-                    dpResponse = this.azureOpenAI.completion(text, dpResponse.getClassification());
+                if (azurePetStoreSessionInfo == null) {
+                    dpResponse.setDpResponseText("working on it");
                 }
                 else
                 {
-                    dpResponse.setDpResponseText("completion called for no reason");
+                    dpResponse = this.azureOpenAI.search(text, dpResponse.getClassification());
+                }
+                break;
+            case SOMETHING_ELSE:
+                if (azurePetStoreSessionInfo == null) {
+                    dpResponse.setDpResponseText("working on it");
+                }
+                else
+                {
+                    if(!text.isEmpty())
+                    {
+                        dpResponse = this.azureOpenAI.completion(text, dpResponse.getClassification());
+                    }
+                    else
+                    {
+                        dpResponse.setDpResponseText("completion called for no reason");
+                    }
                 }
                 break;
         }
