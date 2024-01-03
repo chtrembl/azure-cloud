@@ -152,14 +152,20 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 break;
         }
 
-        // only respond to the user if the user sent something (seems to be a bug where
-        // initial messages are sent without a prompt while page loads)
-        if (dpResponse.getDpResponseText() != null && dpResponse.getDpResponseText().length() > 0) {
-            return turnContext.sendActivity(
-                    MessageFactory.text(dpResponse.getDpResponseText())).thenApply(sendResult -> null);
+        if((dpResponse.getDpResponseText() == null))
+        {
+            String responseText = "I am not sure how to handle that.";
+
+            if((azurePetStoreSessionInfo == null))
+            {
+                responseText += " It may be because I did not have your session information.";
+            }
+            dpResponse.setDpResponseText(responseText);
         }
-        return null;
-     }
+
+        return turnContext.sendActivity(
+                MessageFactory.text(dpResponse.getDpResponseText())).thenApply(sendResult -> null);
+       }
 
     @Override
     protected CompletableFuture<Void> onMembersAdded(

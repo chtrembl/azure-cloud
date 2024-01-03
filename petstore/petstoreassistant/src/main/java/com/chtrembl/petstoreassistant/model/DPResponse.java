@@ -6,7 +6,7 @@ import com.chtrembl.petstoreassistant.service.AzureAIServices.Classification;
 
 public class DPResponse {
     private Classification classification = null;
-    private String dpResponseText = "I am not sure how to handle that.";  
+    private String dpResponseText = null;  
     private List<Product> products = null;
     private boolean updateCart = false;
     private boolean completeCart = false;
