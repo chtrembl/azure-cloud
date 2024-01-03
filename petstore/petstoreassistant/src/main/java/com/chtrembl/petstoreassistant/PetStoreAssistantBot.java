@@ -82,7 +82,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 .getAzurePetStoreSessionInfo(text);
 
          //DEBUG ONLY
-        if (text.equals("variables")) {
+        if (text.contains("variables")) {
             if(azurePetStoreSessionInfo != null && azurePetStoreSessionInfo.getNewText() != null)
             { 
             text = azurePetStoreSessionInfo.getNewText();
@@ -91,7 +91,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 MessageFactory.text(getVariables()))
                 .thenApply(sendResult -> null);
         }
-        if (text.equals("session")) {
+        if (text.contains("session")) {
             
             if(azurePetStoreSessionInfo != null)
             {
@@ -107,7 +107,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 .thenApply(sendResult -> null);
             }
         }
-        if (text.equals("card")) {
+        if (text.contains("card")) {
             if(azurePetStoreSessionInfo != null && azurePetStoreSessionInfo.getNewText() != null)
             { 
             text = azurePetStoreSessionInfo.getNewText();
