@@ -57,7 +57,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
     @Autowired
     private IAzurePetStore azurePetStore;
 
-    private String WELCOME_MESSAGE = "Hello and welcome to the Azure Pet Store, you can ask me questions about our products, your shopping cart and your order, you can also ask me for information about pet animals. How can I help you?";
+    private String WELCOME_MESSAGE = "V1 Hello and welcome to the Azure Pet Store, you can ask me questions about our products, your shopping cart and your order, you can also ask me for information about pet animals. How can I help you?";
 
     private UserState userState;
 
