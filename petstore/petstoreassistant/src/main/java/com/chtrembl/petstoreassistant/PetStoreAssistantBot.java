@@ -76,26 +76,36 @@ public class PetStoreAssistantBot extends ActivityHandler {
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
         String text = turnContext.getActivity().getText().toLowerCase();
 
-        //DEBUG ONLY
-        if (text.equals("variables")) {
-                         return turnContext.sendActivity(
-                MessageFactory.text(getVariables(turnContext)))
-                .thenApply(sendResult -> null);
-        }
-
         // strip out session id and csrf token if one was passed from soul machines
         // sendTextMessage() function
         AzurePetStoreSessionInfo azurePetStoreSessionInfo = PetStoreAssistantUtilities
                 .getAzurePetStoreSessionInfo(text);
 
-        //DEBUG ONLY
+         //DEBUG ONLY
+        if (text.equals("variables")) {
+            if(azurePetStoreSessionInfo.getNewText() != null)
+            { 
+            text = azurePetStoreSessionInfo.getNewText();
+            }
+                         return turnContext.sendActivity(
+                MessageFactory.text(getVariables(turnContext)))
+                .thenApply(sendResult -> null);
+        }
         if (text.equals("session")) {
+            if(azurePetStoreSessionInfo.getNewText() != null)
+            { 
+            text = azurePetStoreSessionInfo.getNewText();
+            }
              return turnContext.sendActivity(
                 MessageFactory.text("your session id is " + azurePetStoreSessionInfo.getSessionID()
                         + " and your csrf token is " + azurePetStoreSessionInfo.getCsrfToken()))
                 .thenApply(sendResult -> null);
         }
         if (text.equals("card")) {
+            if(azurePetStoreSessionInfo.getNewText() != null)
+            { 
+            text = azurePetStoreSessionInfo.getNewText();
+            }
             String jsonString = "{\"type\":\"buttonWithImage\",\"id\":\"buttonWithImage\",\"data\":{\"title\":\"Soul Machines\",\"imageUrl\":\"https://www.soulmachines.com/wp-content/uploads/cropped-sm-favicon-180x180.png\",\"description\":\"Soul Machines is the leader in astonishing AGI\",\"imageAltText\":\"some text\",\"buttonText\":\"push me\"}}";
 
             Attachment attachment = new Attachment();
@@ -108,7 +118,8 @@ public class PetStoreAssistantBot extends ActivityHandler {
                     MessageFactory.attachment(attachment, "I have something nice to show @showcards(content-card) you."))
                     .thenApply(sendResult -> null);
         }
-
+        //END DEBUG
+        
         if (azurePetStoreSessionInfo != null) {
             text = azurePetStoreSessionInfo.getNewText();
 
