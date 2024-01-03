@@ -83,26 +83,32 @@ public class PetStoreAssistantBot extends ActivityHandler {
 
          //DEBUG ONLY
         if (text.equals("variables")) {
-            if(azurePetStoreSessionInfo.getNewText() != null)
+            if(azurePetStoreSessionInfo != null && azurePetStoreSessionInfo.getNewText() != null)
             { 
             text = azurePetStoreSessionInfo.getNewText();
             }
                          return turnContext.sendActivity(
-                MessageFactory.text(getVariables(turnContext)))
+                MessageFactory.text(getVariables()))
                 .thenApply(sendResult -> null);
         }
         if (text.equals("session")) {
-            if(azurePetStoreSessionInfo.getNewText() != null)
-            { 
-            text = azurePetStoreSessionInfo.getNewText();
-            }
+            
+            if(azurePetStoreSessionInfo != null)
+            {
              return turnContext.sendActivity(
                 MessageFactory.text("your session id is " + azurePetStoreSessionInfo.getSessionID()
                         + " and your csrf token is " + azurePetStoreSessionInfo.getCsrfToken()))
                 .thenApply(sendResult -> null);
+            }
+            else
+            {
+                 return turnContext.sendActivity(
+                MessageFactory.text("no session id or csrf token found"))
+                .thenApply(sendResult -> null);
+            }
         }
         if (text.equals("card")) {
-            if(azurePetStoreSessionInfo.getNewText() != null)
+            if(azurePetStoreSessionInfo != null && azurePetStoreSessionInfo.getNewText() != null)
             { 
             text = azurePetStoreSessionInfo.getNewText();
             }
@@ -119,13 +125,12 @@ public class PetStoreAssistantBot extends ActivityHandler {
                     .thenApply(sendResult -> null);
         }
         //END DEBUG
-        
+
         if (azurePetStoreSessionInfo != null) {
             text = azurePetStoreSessionInfo.getNewText();
-
         } else {
             return turnContext.sendActivity(
-                    MessageFactory.text("")).thenApply(sendResult -> null);
+                    MessageFactory.text("no session id or csrf token found")).thenApply(sendResult -> null);
         }
 
         DPResponse dpResponse = this.azureOpenAI.classification(text);
@@ -193,7 +198,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 .collect(CompletableFutures.toFutureList()).thenApply(resourceResponses -> null);
     }
 
-    private String getVariables(TurnContext turnContext) {
+    private String getVariables() {
 
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
 
