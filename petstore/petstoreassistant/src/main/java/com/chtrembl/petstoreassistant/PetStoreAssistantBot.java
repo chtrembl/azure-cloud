@@ -117,7 +117,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 }
                 else
                 {
-                    dpResponse.setDpResponseText("working on it");
+                    dpResponse.setDpResponseText("update shopping cart request without session...");
                 }
                 break;
             case VIEW_SHOPPING_CART:
@@ -126,7 +126,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 }
                 else
                 {
-                    dpResponse.setDpResponseText("working on it");
+                    dpResponse.setDpResponseText("view shopping cart request without session...");
                 }
                 break;
             case PLACE_ORDER:
@@ -135,7 +135,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 }
                 else
                 {
-                    dpResponse.setDpResponseText("working on it");
+                    dpResponse.setDpResponseText("place order request without session...");
                 }
                 break;
             case SEARCH_FOR_DOG_FOOD:
@@ -146,7 +146,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
             case SEARCH_FOR_FISH_TOYS:
             case SEARCH_FOR_PRODUCTS:
                 if (azurePetStoreSessionInfo == null) {
-                    dpResponse.setDpResponseText("working on it");
+                    dpResponse.setDpResponseText("search for products request without session...");
                 }
                 else
                 {
@@ -155,7 +155,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 break;
             case SOMETHING_ELSE:
                 if (azurePetStoreSessionInfo == null) {
-                    dpResponse.setDpResponseText("working on it");
+                    dpResponse.setDpResponseText("chatgpt request without session...");
                 }
                 else
                 {
@@ -165,7 +165,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                     }
                     else
                     {
-                        dpResponse.setDpResponseText("completion called for no reason");
+                        dpResponse.setDpResponseText("chatgpt called without a search query");
                     }
                 }
                 break;
