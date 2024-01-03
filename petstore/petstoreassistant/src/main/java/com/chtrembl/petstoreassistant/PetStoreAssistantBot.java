@@ -98,7 +98,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                     MessageFactory.text("url: "+request.getHeader("url")+"|"+request.getParameter("url")+"|"+request.getAttribute("url")+" headers: "+request.getHeaderNames())).thenApply(sendResult -> null);
             }else{
                 return turnContext.sendActivity(
-                    MessageFactory.text("no request attributes")).thenApply(sendResult -> null);
+                    MessageFactory.text("no request attributes")+requestAttributes.toString()).thenApply(sendResult -> null);
             }
         }
 
