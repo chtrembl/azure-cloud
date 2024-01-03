@@ -50,15 +50,15 @@ import com.microsoft.bot.schema.ChannelAccount;
 @Primary
 public class PetStoreAssistantBot extends ActivityHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(PetStoreAssistantBot.class);
-    
+
     @Autowired
     private IAzureAIServices azureOpenAI;
-   
+
     @Autowired
     private IAzurePetStore azurePetStore;
 
     private String WELCOME_MESSAGE = "Hello and welcome to the Azure Pet Store, you can ask me questions about our products, your shopping cart and your order, you can also ask me for information about pet animals. How can I help you?";
-    
+
     private UserState userState;
 
     public PetStoreAssistantBot(UserState withUserState) {
@@ -69,136 +69,61 @@ public class PetStoreAssistantBot extends ActivityHandler {
     @Override
     public CompletableFuture<Void> onTurn(TurnContext turnContext) {
         return super.onTurn(turnContext)
-            .thenCompose(saveResult -> userState.saveChanges(turnContext));
+                .thenCompose(saveResult -> userState.saveChanges(turnContext));
     }
 
     @Override
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
         String text = turnContext.getActivity().getText().toLowerCase();
-              
-        // strip out session id and csrf token if one was passed from soul machines sendTextMessage() function
-        AzurePetStoreSessionInfo azurePetStoreSessionInfo = PetStoreAssistantUtilities.getAzurePetStoreSessionInfo(text);
-        if(azurePetStoreSessionInfo != null)
-        {
+
+        // strip out session id and csrf token if one was passed from soul machines
+        // sendTextMessage() function
+        AzurePetStoreSessionInfo azurePetStoreSessionInfo = PetStoreAssistantUtilities
+                .getAzurePetStoreSessionInfo(text);
+
+        //DEBUG ONLY
+        if (text.equals("variables")) {
+            return getVariables(turnContext);
+        }
+        if (text.equals("session")) {
+            return getSession(turnContext, azurePetStoreSessionInfo);
+        }
+        if (text.equals("card")) {
+            return getCard(turnContext);
+        }
+
+        if (azurePetStoreSessionInfo != null) {
             text = azurePetStoreSessionInfo.getNewText();
-            
-        }
-        else
-        {
+
+        } else {
             return turnContext.sendActivity(
-            MessageFactory.text("")).thenApply(sendResult -> null);
-        }
-
-        if(text.equals("variables"))
-        {
-            RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-            
-            String debug = requestAttributes.toString();
-
-            if (requestAttributes instanceof ServletRequestAttributes) {
-            
-                HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
-               
-                try
-                {
-                   debug += " headers: "+request.getHeaderNames().toString();
-                }
-                catch(Exception e)
-                {
-
-                }
-
-                try
-                {
-                   debug += " attributes: "+request.getAttributeNames().toString();
-                }
-                catch(Exception e)
-                {
-
-                }
-
-                try
-                {
-                   debug += " parameters: "+request.getParameterNames().toString();
-                }
-                catch(Exception e)
-                {
-
-                }
-
-                try
-                {
-                   debug += " session attributes: "+request.getSession().getAttributeNames().toString();
-                }
-                catch(Exception e)
-                {
-
-                }
-
-                return turnContext.sendActivity(
-                    MessageFactory.text("debug: "+debug)).thenApply(sendResult -> null);
-            }else{
-                return turnContext.sendActivity(
-                    MessageFactory.text("no request data " + debug)).thenApply(sendResult -> null);
-            }
-        }
-
-        // for debugging during development :)
-        if(text.equals("session"))
-        {
-            return turnContext.sendActivity(
-                    MessageFactory.text("your session id is "+azurePetStoreSessionInfo.getSessionID()+" and your csrf token is "+azurePetStoreSessionInfo.getCsrfToken())).thenApply(sendResult -> null);
-        }
-
-        // for debugging during development :)
-        if(text.equals("card"))
-        {
-
-            //String jsonString = "{\"type\":\"image\",\"id\":\"image-ball\",\"data\":{\"url\": \"https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-toys/ball.jpg?raw=true\",\"alt\": \"This is a ball\"}}";
-            
-            String jsonString = "{\"type\":\"buttonWithImage\",\"id\":\"buttonWithImage\",\"data\":{\"title\":\"Soul Machines\",\"imageUrl\":\"https://www.soulmachines.com/wp-content/uploads/cropped-sm-favicon-180x180.png\",\"description\":\"Soul Machines is the leader in astonishing AGI\",\"imageAltText\":\"some text\",\"buttonText\":\"push me\"}}";    
-
-            Attachment attachment = new Attachment();
-            attachment.setContentType("application/json");
-
-            attachment.setContent(new Gson().fromJson(jsonString, JsonObject.class));
-            attachment.setName("public-content-card");
-
-            return turnContext.sendActivity(
-                    MessageFactory.attachment(attachment, "I have something nice to show @showcards(content-card) you."))
-                    .thenApply(sendResult -> null);
-
-
+                    MessageFactory.text("")).thenApply(sendResult -> null);
         }
 
         DPResponse dpResponse = this.azureOpenAI.classification(text);
-        
-        if(dpResponse.getClassification() == null)
-        {
+
+        if (dpResponse.getClassification() == null) {
             dpResponse.setClassification(Classification.SEARCH_FOR_PRODUCTS);
             dpResponse = this.azureOpenAI.search(text, dpResponse.getClassification());
         }
 
         switch (dpResponse.getClassification()) {
             case UPDATE_SHOPPING_CART:
-                if(azurePetStoreSessionInfo != null)
-                {
+                if (azurePetStoreSessionInfo != null) {
                     dpResponse = this.azureOpenAI.search(text, Classification.SEARCH_FOR_PRODUCTS);
-                    if(dpResponse.getProducts() != null)
-                    {
-                        dpResponse = this.azurePetStore.updateCart(azurePetStoreSessionInfo, dpResponse.getProducts().get(0).getProductId());
+                    if (dpResponse.getProducts() != null) {
+                        dpResponse = this.azurePetStore.updateCart(azurePetStoreSessionInfo,
+                                dpResponse.getProducts().get(0).getProductId());
                     }
                 }
                 break;
             case VIEW_SHOPPING_CART:
-                if(azurePetStoreSessionInfo != null)
-                {
+                if (azurePetStoreSessionInfo != null) {
                     dpResponse = this.azurePetStore.viewCart(azurePetStoreSessionInfo);
                 }
                 break;
             case PLACE_ORDER:
-                if(azurePetStoreSessionInfo != null)
-                {
+                if (azurePetStoreSessionInfo != null) {
                     dpResponse = this.azurePetStore.completeCart(azurePetStoreSessionInfo);
                 }
                 break;
@@ -216,11 +141,11 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 break;
         }
 
-        //only respond to the user if the user sent something (seems to be a bug where initial messages are sent without a prompt while page loads)
-        if(dpResponse.getDpResponseText() != null && dpResponse.getDpResponseText().length()>0)
-        {
+        // only respond to the user if the user sent something (seems to be a bug where
+        // initial messages are sent without a prompt while page loads)
+        if (dpResponse.getDpResponseText() != null && dpResponse.getDpResponseText().length() > 0) {
             return turnContext.sendActivity(
-                MessageFactory.text(dpResponse.getDpResponseText())).thenApply(sendResult -> null);
+                    MessageFactory.text(dpResponse.getDpResponseText())).thenApply(sendResult -> null);
         }
         return null;
     }
@@ -229,7 +154,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
     protected CompletableFuture<Void> onMembersAdded(
             List<ChannelAccount> membersAdded,
             TurnContext turnContext) {
-        
+
         return membersAdded.stream()
                 .filter(
                         member -> !StringUtils
@@ -238,5 +163,92 @@ public class PetStoreAssistantBot extends ActivityHandler {
                         .sendActivity(
                                 MessageFactory.text(this.WELCOME_MESSAGE)))
                 .collect(CompletableFutures.toFutureList()).thenApply(resourceResponses -> null);
-    }       
+    }
+
+    private CompletableFuture<Void> getVariables(TurnContext turnContext) {
+
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+
+        String debug = requestAttributes.toString();
+
+        if (requestAttributes instanceof ServletRequestAttributes) {
+
+            HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
+
+            try {
+                java.util.Enumeration<String> enumeration = request.getHeaderNames();
+                debug += " headers: ";
+                while (enumeration.hasMoreElements()) {
+                    String headerName = enumeration.nextElement();
+                    debug += headerName + " ";
+                }
+            } catch (Exception e) {
+
+            }
+
+            try {
+               java.util.Enumeration<String> enumeration = request.getAttributeNames();
+                debug += " attributes: ";
+                while (enumeration.hasMoreElements()) {
+                    String attributeName = enumeration.nextElement();
+                    debug += attributeName + " ";
+                }
+                
+            } catch (Exception e) {
+
+            }
+
+            try {
+                java.util.Enumeration<String> enumeration = request.getParameterNames();
+                debug += " parameters: ";
+                while (enumeration.hasMoreElements()) {
+                    String parameterName = enumeration.nextElement();
+                    debug += parameterName + " ";
+                }
+            } catch (Exception e) {
+
+            }
+
+            try {
+                java.util.Enumeration<String> enumeration = request.getSession().getAttributeNames();
+                debug += " session attributes: ";
+                while (enumeration.hasMoreElements()) {
+                    String attributeName = enumeration.nextElement();
+                    debug += attributeName + " ";
+                }
+            } catch (Exception e) {
+
+            }
+
+            return turnContext.sendActivity(
+                    MessageFactory.text("debug: " + debug)).thenApply(sendResult -> null);
+        } else {
+            return turnContext.sendActivity(
+                    MessageFactory.text("no request data " + debug)).thenApply(sendResult -> null);
+        }
+    }
+
+    private CompletableFuture<Void> getSession(TurnContext turnContext,
+            AzurePetStoreSessionInfo azurePetStoreSessionInfo) {
+
+        return turnContext.sendActivity(
+                MessageFactory.text("your session id is " + azurePetStoreSessionInfo.getSessionID()
+                        + " and your csrf token is " + azurePetStoreSessionInfo.getCsrfToken()))
+                .thenApply(sendResult -> null);
+    }
+
+    private CompletableFuture<Void> getCard(TurnContext turnContext) {
+        String jsonString = "{\"type\":\"buttonWithImage\",\"id\":\"buttonWithImage\",\"data\":{\"title\":\"Soul Machines\",\"imageUrl\":\"https://www.soulmachines.com/wp-content/uploads/cropped-sm-favicon-180x180.png\",\"description\":\"Soul Machines is the leader in astonishing AGI\",\"imageAltText\":\"some text\",\"buttonText\":\"push me\"}}";
+
+        Attachment attachment = new Attachment();
+        attachment.setContentType("application/json");
+
+        attachment.setContent(new Gson().fromJson(jsonString, JsonObject.class));
+        attachment.setName("public-content-card");
+
+        return turnContext.sendActivity(
+                MessageFactory.attachment(attachment, "I have something nice to show @showcards(content-card) you."))
+                .thenApply(sendResult -> null);
+    }
+
 }
