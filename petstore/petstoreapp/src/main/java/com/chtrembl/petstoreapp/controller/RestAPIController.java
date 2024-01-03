@@ -142,6 +142,7 @@ public class RestAPIController {
 		try
 		{
 			this.petStoreService.updateOrder(0, 0, true);
+			this.sessionUser.setCartCount(0);
 			return "I just completed your order.";
 		}
 		catch (Exception e)
