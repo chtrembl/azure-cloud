@@ -144,6 +144,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
             case SEARCH_FOR_CAT_TOYS:
             case SEARCH_FOR_FISH_FOOD:
             case SEARCH_FOR_FISH_TOYS:
+            case MORE_PRODUCT_INFORMATION:
             case SEARCH_FOR_PRODUCTS:
                 if (azurePetStoreSessionInfo == null) {
                     dpResponse.setDpResponseText("search for products request without session...");

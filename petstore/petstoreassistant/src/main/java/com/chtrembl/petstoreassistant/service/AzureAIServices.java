@@ -88,6 +88,7 @@ public class AzureAIServices implements IAzureAIServices {
         SEARCH_FOR_FISH_TOYS("search for fish toys"),
         SEARCH_FOR_FISH_FOOD("search for fish food"),
         SEARCH_FOR_PRODUCTS("search for products"),
+        MORE_PRODUCT_INFORMATION("more product information"),
         SOMETHING_ELSE("something else");
 
         public final String label;
@@ -201,7 +202,11 @@ public class AzureAIServices implements IAzureAIServices {
                     category = "Fish Toy";
                     break;
             }
-            filter =  "\"filter\": \"category/name eq '"+category+"'\",";
+
+            if(!classification.equals(Classification.MORE_PRODUCT_INFORMATION))
+            {
+                filter =  "\"filter\": \"category/name eq '"+category+"'\",";
+            }
         }
 
         String body = String.format(this.semanticSearchRequestBodyBodyString,
@@ -256,9 +261,9 @@ public class AzureAIServices implements IAzureAIServices {
         }
         
         // this should become a content card with a carousel of product(s) for now just display description if there is 1 product and override the stuff above
-        if(products.size() == 1)
+        if(products.size() == 1 || classification.equals(Classification.MORE_PRODUCT_INFORMATION))
         {
-             dpResponseText = "Here is a little information on the " + products.get(0).getName() + " " + products.get(0).getDescription();
+             dpResponseText = "Here is a description of the " + products.get(0).getName() + ". " + products.get(0).getDescription();
              dpResponse.setDpResponseText(dpResponseText);
         }
         else
