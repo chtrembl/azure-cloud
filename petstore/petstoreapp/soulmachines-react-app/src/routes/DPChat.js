@@ -154,7 +154,7 @@ export default styled(DPChat)`
   height: 100vh;
 
   .video-overlay {
-    overflow: hidden;
+    overflow: scroll;
     position: absolute;
     top: 0;
     right: 0;
