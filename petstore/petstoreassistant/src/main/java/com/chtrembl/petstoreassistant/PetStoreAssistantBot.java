@@ -77,7 +77,12 @@ public class PetStoreAssistantBot extends ActivityHandler {
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
         String text = turnContext.getActivity().getText().toLowerCase().trim();
         
+        //XKQtkRt4hDBdwzwP2bwhs-us|0000014
         String id = turnContext.getActivity().getId().trim();
+        if(id.contains("-"))
+        {
+            id = id.substring(0, id.indexOf("-"));
+        }
 
         LOGGER.info("onMessageActivity: text {} id {} ", text, id);
 
