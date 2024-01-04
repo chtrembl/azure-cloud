@@ -82,7 +82,21 @@ public class PetStoreAssistantBot extends ActivityHandler {
         LOGGER.info("onMessageActivity: text {} id {} ", text, id);
 
 
-         AzurePetStoreSessionInfo azurePetStoreSessionInfo = this.sessionCache.get(id);
+        AzurePetStoreSessionInfo azurePetStoreSessionInfo = this.sessionCache.get(id);
+
+        LOGGER.info("azurePetStoreSessionInfo", azurePetStoreSessionInfo);
+        if(azurePetStoreSessionInfo != null)
+        {
+            LOGGER.info("azurePetStoreSessionInfo.getNewText()", azurePetStoreSessionInfo.getSessionID());
+        }
+
+        Set<String> keys =  this.sessionCache.keySet();
+        String keystring = "";
+        for(String key: keys){
+            keystring += key+" ";
+        }
+        LOGGER.info("sessionCache keys: "+keystring);
+
 
         // strip out session id and csrf token if one was passed from soul machines
         // sendTextMessage() function
@@ -110,7 +124,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
         if (text.contains("debug"))
         {      
             return turnContext.sendActivity(
-                MessageFactory.text("id:"+id+" sessionid"+azurePetStoreSessionInfo)).thenApply(sendResult -> null);
+                MessageFactory.text("id:"+id+" keystring: "+keystring)).thenApply(sendResult -> null);
             //return turnContext.sendActivity(
             //    MessageFactory.text("sender: "+turnContext.getActivity().getFrom())).thenApply(sendResult -> null);
             //Set<String> keys =  turnContext.getActivity().getRecipient().getProperties().keySet();
