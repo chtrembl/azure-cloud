@@ -229,7 +229,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
             TurnContext turnContext) {
         
         String message = "";
-        String id = turnContext.getActivity().getRecipient().getId()
+        String id = turnContext.getActivity().getRecipient().getId();
             
         if(this.sessionCache.get(id) == null)
         {
