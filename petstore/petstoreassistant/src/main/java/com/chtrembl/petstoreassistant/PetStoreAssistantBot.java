@@ -82,17 +82,30 @@ public class PetStoreAssistantBot extends ActivityHandler {
         }
 
          //DEBUG ONLY
-        if (text.contains("session"))
+        if (text.contains("session1"))
+        {
+            return turnContext.sendActivity(
+                MessageFactory.text("id:"+turnContext.getActivity().getId())).thenApply(sendResult -> null);
+        }
+
+        if (text.contains("session2"))
+        {         
+            return turnContext.sendActivity(
+                MessageFactory.text("sender: "+turnContext.getActivity().getFrom())).thenApply(sendResult -> null);
+        }
+
+        if (text.contains("session3"))
         {
             Set<String> keys =  turnContext.getActivity().getRecipient().getProperties().keySet();
             String keystring = "";
             for(String key: keys){    
                 keystring += key+" ";
             }
-
+          
             return turnContext.sendActivity(
-                MessageFactory.text("id:"+turnContext.getActivity().getId()+" sender: "+turnContext.getActivity().getFrom()+" recipient id:"+turnContext.getActivity().getRecipient().getId()+ " recipient keys: "+keystring)).thenApply(sendResult -> null);
+                MessageFactory.text("recipient id:"+turnContext.getActivity().getRecipient().getId()+ " recipient keys: "+keystring)).thenApply(sendResult -> null);
         }
+
         if (text.contains("card")) {
             if(azurePetStoreSessionInfo != null && azurePetStoreSessionInfo.getNewText() != null)
             { 
