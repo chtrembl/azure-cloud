@@ -109,7 +109,7 @@ function DPChat({
         {/* middle row */}
         <div
           className="row d-flex justify-content-end align-items-center flex-grow-1 ps-3 pe-3"
-          style={{ overflow: 'hidden' }}
+          style={{ overflow: 'scroll' }}
           ref={ccDisplaRef}
         >
           <div className="col col-md-5 d-flex align-items-end align-items-md-center" style={{ height: `${ccDisplayHeight}px` || 'auto' }}>
@@ -154,7 +154,7 @@ export default styled(DPChat)`
   height: 100vh;
 
   .video-overlay {
-    overflow: scroll;
+    overflow: hidden;
     position: absolute;
     top: 0;
     right: 0;
