@@ -81,17 +81,18 @@ public class PetStoreAssistantBot extends ActivityHandler {
 
         LOGGER.info("onMessageActivity: text {} id {} ", text, id);
 
+
+         AzurePetStoreSessionInfo azurePetStoreSessionInfo = this.sessionCache.get(id);
+
         // strip out session id and csrf token if one was passed from soul machines
         // sendTextMessage() function
-        AzurePetStoreSessionInfo azurePetStoreSessionInfo = PetStoreAssistantUtilities
+        AzurePetStoreSessionInfo incomingAzurePetStoreSessionInfo = PetStoreAssistantUtilities
                 .getAzurePetStoreSessionInfo(text);
-        if (azurePetStoreSessionInfo != null) {
-            text = azurePetStoreSessionInfo.getNewText();
+        if (incomingAzurePetStoreSessionInfo != null) {
+            text = incomingAzurePetStoreSessionInfo.getNewText();
             //turnContext.getActivity().getId() is unique per browser over the broken recipient for some reason
-            this.sessionCache.put(id, azurePetStoreSessionInfo);
-        }
-        else{
-            azurePetStoreSessionInfo = this.sessionCache.get(id);
+            this.sessionCache.put(id, incomingAzurePetStoreSessionInfo);
+            azurePetStoreSessionInfo = incomingAzurePetStoreSessionInfo;
         }
 
         if(text.isEmpty())
@@ -106,10 +107,10 @@ public class PetStoreAssistantBot extends ActivityHandler {
         }
 
          //DEBUG ONLY
-        if (text.contains("session"))
+        if (text.contains("debug"))
         {      
             return turnContext.sendActivity(
-                MessageFactory.text("id:"+id)).thenApply(sendResult -> null);
+                MessageFactory.text("id:"+id+" sessionid"+azurePetStoreSessionInfo)).thenApply(sendResult -> null);
             //return turnContext.sendActivity(
             //    MessageFactory.text("sender: "+turnContext.getActivity().getFrom())).thenApply(sendResult -> null);
             //Set<String> keys =  turnContext.getActivity().getRecipient().getProperties().keySet();
