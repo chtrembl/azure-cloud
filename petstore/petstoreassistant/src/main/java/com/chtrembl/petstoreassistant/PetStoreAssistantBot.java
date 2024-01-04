@@ -6,10 +6,8 @@ package com.chtrembl.petstoreassistant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +20,6 @@ import com.chtrembl.petstoreassistant.service.AzureAIServices.Classification;
 import com.chtrembl.petstoreassistant.service.IAzureAIServices;
 import com.chtrembl.petstoreassistant.service.IAzurePetStore;
 import com.chtrembl.petstoreassistant.utility.PetStoreAssistantUtilities;
-import com.codepoetics.protonpack.collectors.CompletableFutures;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.microsoft.bot.builder.ActivityHandler;
@@ -77,68 +74,25 @@ public class PetStoreAssistantBot extends ActivityHandler {
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
         String text = turnContext.getActivity().getText().toLowerCase().trim();
         
-        //XKQtkRt4hDBdwzwP2bwhs-us|0000014
-        String id = turnContext.getActivity().getId().trim();
-        if(id.contains("-"))
-        {
-            id = id.substring(0, id.indexOf("-"));
-        }
-
-        LOGGER.info("onMessageActivity: text {} id {} ", text, id);
-
-
-        AzurePetStoreSessionInfo azurePetStoreSessionInfo = this.sessionCache.get(id);
-
-        LOGGER.info("azurePetStoreSessionInfo", azurePetStoreSessionInfo);
-        if(azurePetStoreSessionInfo != null)
-        {
-            LOGGER.info("azurePetStoreSessionInfo.getNewText()", azurePetStoreSessionInfo.getSessionID());
-        }
-
-        Set<String> keys =  this.sessionCache.keySet();
-        String keystring = "";
-        for(String key: keys){
-            keystring += key+" ";
-        }
-        LOGGER.info("sessionCache keys: "+keystring);
-
-
-        // strip out session id and csrf token if one was passed from soul machines
-        // sendTextMessage() function
-        AzurePetStoreSessionInfo incomingAzurePetStoreSessionInfo = PetStoreAssistantUtilities
-                .getAzurePetStoreSessionInfo(text);
-        if (incomingAzurePetStoreSessionInfo != null) {
-            text = incomingAzurePetStoreSessionInfo.getNewText();
-            //turnContext.getActivity().getId() is unique per browser over the broken recipient for some reason
-            this.sessionCache.put(id, incomingAzurePetStoreSessionInfo);
-            azurePetStoreSessionInfo = incomingAzurePetStoreSessionInfo;
-        }
-
-        if(text.isEmpty())
+        if(isErroneousRequest(text))
         {
             return null;
         }
 
+        AzurePetStoreSessionInfo azurePetStoreSessionInfo = configureSession(turnContext, text);
+
+        //the client kickoff message
         if(text.equals("..."))
         {
             return turnContext.sendActivity(
-            MessageFactory.text(WELCOME_MESSAGE+" "+id)).thenApply(sendResult -> null);
+            MessageFactory.text(WELCOME_MESSAGE)).thenApply(sendResult -> null);
         }
 
          //DEBUG ONLY
         if (text.contains("debug"))
         {      
             return turnContext.sendActivity(
-                MessageFactory.text("id:"+id+" keystring: "+keystring)).thenApply(sendResult -> null);
-            //return turnContext.sendActivity(
-            //    MessageFactory.text("sender: "+turnContext.getActivity().getFrom())).thenApply(sendResult -> null);
-            //Set<String> keys =  turnContext.getActivity().getRecipient().getProperties().keySet();
-            //String keystring = "";
-            //for(String key: keys){    
-            //    keystring += key+" ";
-            //}
-            //return turnContext.sendActivity(
-            //    MessageFactory.text("recipient id:"+turnContext.getActivity().getRecipient().getId()+ " recipient keys: "+keystring)).thenApply(sendResult -> null);
+                MessageFactory.text("id:"+azurePetStoreSessionInfo.getId())).thenApply(sendResult -> null);
         }
 
         if (text.contains("card")) {
@@ -178,7 +132,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 }
                 else
                 {
-                    dpResponse.setDpResponseText("update shopping cart request without session...");
+                    dpResponse.setDpResponseText("update shopping cart request without session... text: "+text);
                 }
                 break;
             case VIEW_SHOPPING_CART:
@@ -187,7 +141,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 }
                 else
                 {
-                    dpResponse.setDpResponseText("view shopping cart request without session...");
+                    dpResponse.setDpResponseText("view shopping cart request without session... text: "+text);
                 }
                 break;
             case PLACE_ORDER:
@@ -196,7 +150,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 }
                 else
                 {
-                    dpResponse.setDpResponseText("place order request without session...");
+                    dpResponse.setDpResponseText("place order request without session... text: "+text);
                 }
                 break;
             case SEARCH_FOR_DOG_FOOD:
@@ -208,7 +162,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
             case MORE_PRODUCT_INFORMATION:
             case SEARCH_FOR_PRODUCTS:
                 if (azurePetStoreSessionInfo == null) {
-                    dpResponse.setDpResponseText("search for products request without session...");
+                    dpResponse.setDpResponseText("search for products request without session... text: "+text);
                 }
                 else
                 {
@@ -227,7 +181,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                     }
                     else
                     {
-                        dpResponse.setDpResponseText("chatgpt called without a search query");
+                        dpResponse.setDpResponseText("chatgpt called without a search query... text: "+text);
                     }
                 }
                 break;
@@ -245,10 +199,10 @@ public class PetStoreAssistantBot extends ActivityHandler {
         }
 
         return turnContext.sendActivity(
-                MessageFactory.text(dpResponse.getDpResponseText()+" "+id)).thenApply(sendResult -> null);
+                MessageFactory.text(dpResponse.getDpResponseText())).thenApply(sendResult -> null);
        }
 
-    // this method obly gets invoked once, regardless of browser/user, state isnt working right for some reason (DP related, not in issue with emulator)
+    // this method only gets invoked once, regardless of browser/user, state isnt working right for some reason (DP related, not in issue with emulator)
     @Override
     protected CompletableFuture<Void> onMembersAdded(
             List<ChannelAccount> membersAdded,
@@ -268,4 +222,37 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 MessageFactory.text("")).thenApply(sendResult -> null);
         }
 
+        private boolean isErroneousRequest(String text) {
+            //some times for unknown reasons, activity occurs with text: page_metadata, let's ignore these
+            if(text.contains("page_metadata") || text.isEmpty())
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private AzurePetStoreSessionInfo configureSession(TurnContext turnContext, String text) {
+            // bot turn state and recipient not working with SoulMachines/DP (works in emulator) however this id appears to be unique per browser tab.
+            // format is XKQtkRt4hDBdwzwP2bwhs-us|0000014, so we will hack off the dynamic ending piece
+            String id = turnContext.getActivity().getId().trim();
+            if(id.contains("-"))
+            {
+                id = id.substring(0, id.indexOf("-"));
+            }
+
+            AzurePetStoreSessionInfo azurePetStoreSessionInfo = this.sessionCache.get(id);
+
+            // strip out session id and csrf token if one was passed in
+            AzurePetStoreSessionInfo incomingAzurePetStoreSessionInfo = PetStoreAssistantUtilities
+                    .getAzurePetStoreSessionInfo(text);
+            if (incomingAzurePetStoreSessionInfo != null) {
+                text = incomingAzurePetStoreSessionInfo.getNewText();
+                //turnContext.getActivity().getId() is unique per browser over the broken recipient for some reason
+                this.sessionCache.put(id, incomingAzurePetStoreSessionInfo);
+                azurePetStoreSessionInfo = incomingAzurePetStoreSessionInfo;
+                azurePetStoreSessionInfo.setId(id);
+            }
+
+            return azurePetStoreSessionInfo;
+        }
    }
