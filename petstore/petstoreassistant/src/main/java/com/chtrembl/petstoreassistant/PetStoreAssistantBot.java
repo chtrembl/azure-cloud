@@ -76,6 +76,10 @@ public class PetStoreAssistantBot extends ActivityHandler {
     @Override
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
         String text = turnContext.getActivity().getText().toLowerCase().trim();
+        
+        String id = turnContext.getActivity().getId().trim();
+
+        LOGGER.info("onMessageActivity: text {} id {} ", text, id);
 
         // strip out session id and csrf token if one was passed from soul machines
         // sendTextMessage() function
@@ -84,10 +88,10 @@ public class PetStoreAssistantBot extends ActivityHandler {
         if (azurePetStoreSessionInfo != null) {
             text = azurePetStoreSessionInfo.getNewText();
             //turnContext.getActivity().getId() is unique per browser over the broken recipient for some reason
-            this.sessionCache.put(turnContext.getActivity().getId(), azurePetStoreSessionInfo);
+            this.sessionCache.put(id, azurePetStoreSessionInfo);
         }
         else{
-            azurePetStoreSessionInfo = this.sessionCache.get(turnContext.getActivity().getId());
+            azurePetStoreSessionInfo = this.sessionCache.get(id);
         }
 
         if(text.isEmpty())
@@ -98,14 +102,14 @@ public class PetStoreAssistantBot extends ActivityHandler {
         if(text.equals("..."))
         {
             return turnContext.sendActivity(
-            MessageFactory.text(WELCOME_MESSAGE+" "+turnContext.getActivity().getId())).thenApply(sendResult -> null);
+            MessageFactory.text(WELCOME_MESSAGE+" "+id)).thenApply(sendResult -> null);
         }
 
          //DEBUG ONLY
         if (text.contains("session"))
         {      
             return turnContext.sendActivity(
-                MessageFactory.text("id:"+turnContext.getActivity().getId())).thenApply(sendResult -> null);
+                MessageFactory.text("id:"+id)).thenApply(sendResult -> null);
             //return turnContext.sendActivity(
             //    MessageFactory.text("sender: "+turnContext.getActivity().getFrom())).thenApply(sendResult -> null);
             //Set<String> keys =  turnContext.getActivity().getRecipient().getProperties().keySet();
@@ -221,7 +225,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
         }
 
         return turnContext.sendActivity(
-                MessageFactory.text(dpResponse.getDpResponseText())).thenApply(sendResult -> null);
+                MessageFactory.text(dpResponse.getDpResponseText()+" "+id)).thenApply(sendResult -> null);
        }
 
     // this method obly gets invoked once, regardless of browser/user, state isnt working right for some reason (DP related, not in issue with emulator)
