@@ -109,7 +109,7 @@ function DPChat({
         {/* middle row */}
         <div
           className="row d-flex justify-content-end align-items-center flex-grow-1 ps-3 pe-3"
-          style={{ overflow: 'scroll' }}
+          style={{ overflow: 'hidden' }}
           ref={ccDisplaRef}
         >
           <div className="col col-md-5 d-flex align-items-end align-items-md-center" style={{ height: `${ccDisplayHeight}px` || 'auto' }}>
