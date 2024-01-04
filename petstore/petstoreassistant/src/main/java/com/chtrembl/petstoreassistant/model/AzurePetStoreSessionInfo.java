@@ -23,6 +23,9 @@ public class AzurePetStoreSessionInfo implements Serializable{
     public String getNewText() {
         return newText;
     }
+    public void setNewText(String newText) {
+        this.newText = newText;
+    }
     public String getId() {
         return id;
     }

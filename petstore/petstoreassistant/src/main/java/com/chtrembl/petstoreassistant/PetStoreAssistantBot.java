@@ -258,6 +258,11 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 azurePetStoreSessionInfo = incomingAzurePetStoreSessionInfo;
                 azurePetStoreSessionInfo.setId(id);
             }
+            else
+            {
+                azurePetStoreSessionInfo.setNewText(text);
+            }
+
 
             return azurePetStoreSessionInfo;
         }
