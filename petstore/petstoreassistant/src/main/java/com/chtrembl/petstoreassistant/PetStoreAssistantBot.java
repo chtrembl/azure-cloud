@@ -81,6 +81,12 @@ public class PetStoreAssistantBot extends ActivityHandler {
 
         AzurePetStoreSessionInfo azurePetStoreSessionInfo = configureSession(turnContext, text);
 
+        // get the text without the session id and csrf token
+        if(azurePetStoreSessionInfo != null && azurePetStoreSessionInfo.getNewText() != null)
+        {
+            text = azurePetStoreSessionInfo.getNewText();
+        }
+        
         //the client kickoff message
         if(text.equals("..."))
         {
