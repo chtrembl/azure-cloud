@@ -6,7 +6,7 @@
        },
        {
           "role":"user",
-          "content":"\"%s\"\nclassify above text into one of the 11 categories \"update shopping cart\", \"view shopping cart\", \"place order\", \"search for dog toys\", \"search for dog food\", \"search for cat toys\", \"search for cat food\", \"search for fish toys\", \"search for fish food\", \"search for products\", \"more product information\", \"something else\""
+          "content":"\"%s\"\nclassify above text into one of the 12 categories \"update shopping cart\", \"view shopping cart\", \"place order\", \"search for dog toys\", \"search for dog food\", \"search for cat toys\", \"search for cat food\", \"search for fish toys\", \"search for fish food\", \"search for products\", \"more product information\", \"something else\""
        }
     ]
  }

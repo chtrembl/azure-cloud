@@ -241,7 +241,8 @@ public class PetStoreAssistantBot extends ActivityHandler {
         if(this.sessionCache.get(turnContext.getActivity().getId()) == null)
         {
             //for some reason this id is the only unique id I can find in the turnContext when running with the Soul Machines DP, BOT Emulator doesn't have any issues
-            this.sessionCache.put(turnContext.getActivity().getId(), null);
+            String id = turnContext.getActivity().getId();
+            this.sessionCache.put(id, null);
         
             return membersAdded.stream()
                 .filter(
@@ -249,7 +250,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                                 .equals(member.getId(), turnContext.getActivity().getRecipient().getId()))
                 .map(channel -> turnContext
                         .sendActivity(
-                                MessageFactory.text(this.WELCOME_MESSAGE)))
+                                MessageFactory.text(this.WELCOME_MESSAGE+ " " + id)))
                 .collect(CompletableFutures.toFutureList()).thenApply(resourceResponses -> null);
         }
         return null;
