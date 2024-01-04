@@ -83,10 +83,10 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 .getAzurePetStoreSessionInfo(text);
         if (azurePetStoreSessionInfo != null) {
             text = azurePetStoreSessionInfo.getNewText();
-            this.sessionCache.put(turnContext.getActivity().getFrom().getId(), azurePetStoreSessionInfo);
+            this.sessionCache.put(turnContext.getActivity().getRecipient().getId(), azurePetStoreSessionInfo);
         }
         else{
-            azurePetStoreSessionInfo = this.sessionCache.get(turnContext.getActivity().getFrom().getId());
+            azurePetStoreSessionInfo = this.sessionCache.get(turnContext.getActivity().getRecipient().getId());
         }
 
         if(text.isEmpty())
@@ -97,14 +97,14 @@ public class PetStoreAssistantBot extends ActivityHandler {
         if(text.equals("..."))
         {
             return turnContext.sendActivity(
-            MessageFactory.text(WELCOME_MESSAGE+" "+turnContext.getActivity().getFrom().getId())).thenApply(sendResult -> null);
+            MessageFactory.text(WELCOME_MESSAGE+" "+turnContext.getActivity().getRecipient().getId())).thenApply(sendResult -> null);
         }
 
          //DEBUG ONLY
         if (text.contains("session"))
         {      
             return turnContext.sendActivity(
-                MessageFactory.text("id:"+turnContext.getActivity().getFrom().getId())).thenApply(sendResult -> null);
+                MessageFactory.text("id:"+turnContext.getActivity().getRecipient().getId())).thenApply(sendResult -> null);
             //return turnContext.sendActivity(
             //    MessageFactory.text("sender: "+turnContext.getActivity().getFrom())).thenApply(sendResult -> null);
             //Set<String> keys =  turnContext.getActivity().getRecipient().getProperties().keySet();
@@ -229,15 +229,21 @@ public class PetStoreAssistantBot extends ActivityHandler {
             TurnContext turnContext) {
         
         String message = "";
-        String id = turnContext.getActivity().getFrom().getId();
+        String id = turnContext.getActivity().getRecipient().getId()
             
         if(this.sessionCache.get(id) == null)
         {
             this.sessionCache.put(id, null);
             message = this.WELCOME_MESSAGE + " " + id;
         }
-            return turnContext.sendActivity(
-                    MessageFactory.text(message)).thenApply(sendResult -> null);
+            return membersAdded.stream()
+            .filter(
+                    member -> !StringUtils
+                            .equals(member.getId(), turnContext.getActivity().getRecipient().getId()))
+            .map(channel -> turnContext
+                    .sendActivity(
+                            MessageFactory.text(this.WELCOME_MESSAGE + id)))
+            .collect(CompletableFutures.toFutureList()).thenApply(resourceResponses -> null);
        }  
 
    }
