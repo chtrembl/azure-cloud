@@ -49,6 +49,7 @@ import com.microsoft.bot.schema.ChannelAccount;
 public class PetStoreAssistantBot extends ActivityHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(PetStoreAssistantBot.class);
 
+    //clean this up
     private Map<String, AzurePetStoreSessionInfo> sessionCache = new HashMap<String, AzurePetStoreSessionInfo>();
 
     @Autowired
@@ -82,15 +83,21 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 .getAzurePetStoreSessionInfo(text);
         if (azurePetStoreSessionInfo != null) {
             text = azurePetStoreSessionInfo.getNewText();
-            this.sessionCache.put(turnContext.getActivity().getFrom().getId(), azurePetStoreSessionInfo);
+            this.sessionCache.put(turnContext.getActivity().getId(), azurePetStoreSessionInfo);
         }
         else{
-            azurePetStoreSessionInfo = this.sessionCache.get(turnContext.getActivity().getFrom().getId());
+            azurePetStoreSessionInfo = this.sessionCache.get(turnContext.getActivity().getId());
         }
 
         if(text.isEmpty())
         {
             return null;
+        }
+
+        if(text.equals("..."))
+        {
+            return turnContext.sendActivity(
+            MessageFactory.text(WELCOME_MESSAGE)).thenApply(sendResult -> null);
         }
 
          //DEBUG ONLY
@@ -231,9 +238,10 @@ public class PetStoreAssistantBot extends ActivityHandler {
             List<ChannelAccount> membersAdded,
             TurnContext turnContext) {
         
-        if(this.sessionCache.get(turnContext.getActivity().getFrom().getId()) == null)
+        if(this.sessionCache.get(turnContext.getActivity().getId()) == null)
         {
-                 this.sessionCache.put(turnContext.getActivity().getFrom().getId(), null);
+            //for some reason this id is the only unique id I can find in the turnContext when running with the Soul Machines DP, BOT Emulator doesn't have any issues
+            this.sessionCache.put(turnContext.getActivity().getId(), null);
         
             return membersAdded.stream()
                 .filter(
