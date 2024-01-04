@@ -3,12 +3,13 @@
 
 package com.chtrembl.petstoreassistant;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 import org.apache.commons.lang3.StringUtils;
-import org.checkerframework.checker.units.qual.K;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,8 @@ import com.microsoft.bot.schema.ChannelAccount;
 public class PetStoreAssistantBot extends ActivityHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(PetStoreAssistantBot.class);
 
+    private Map<String, AzurePetStoreSessionInfo> sessionCache = new HashMap<String, AzurePetStoreSessionInfo>();
+
     @Autowired
     private IAzureAIServices azureOpenAI;
 
@@ -79,11 +82,21 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 .getAzurePetStoreSessionInfo(text);
         if (azurePetStoreSessionInfo != null) {
             text = azurePetStoreSessionInfo.getNewText();
+            this.sessionCache.put(turnContext.getActivity().getFrom().getId(), azurePetStoreSessionInfo);
+        }
+        else{
+            azurePetStoreSessionInfo = this.sessionCache.get(turnContext.getActivity().getFrom().getId());
+        }
+
+        if(text.isEmpty())
+        {
+            return null;
         }
 
          //DEBUG ONLY
         if (text.contains("session1"))
-        {
+        { 
+     
             return turnContext.sendActivity(
                 MessageFactory.text("id:"+turnContext.getActivity().getId())).thenApply(sendResult -> null);
         }
@@ -217,8 +230,12 @@ public class PetStoreAssistantBot extends ActivityHandler {
     protected CompletableFuture<Void> onMembersAdded(
             List<ChannelAccount> membersAdded,
             TurnContext turnContext) {
-
-        return membersAdded.stream()
+        
+        if(this.sessionCache.get(turnContext.getActivity().getFrom().getId()) == null)
+        {
+                 this.sessionCache.put(turnContext.getActivity().getFrom().getId(), null);
+        
+            return membersAdded.stream()
                 .filter(
                         member -> !StringUtils
                                 .equals(member.getId(), turnContext.getActivity().getRecipient().getId()))
@@ -226,6 +243,8 @@ public class PetStoreAssistantBot extends ActivityHandler {
                         .sendActivity(
                                 MessageFactory.text(this.WELCOME_MESSAGE)))
                 .collect(CompletableFutures.toFutureList()).thenApply(resourceResponses -> null);
+        }
+        return null;
     }
 
    
