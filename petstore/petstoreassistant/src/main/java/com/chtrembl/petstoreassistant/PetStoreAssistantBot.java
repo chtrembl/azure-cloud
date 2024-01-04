@@ -75,7 +75,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
 
     @Override
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
-        String text = turnContext.getActivity().getText().toLowerCase();
+        String text = turnContext.getActivity().getText().toLowerCase().trim();
 
         // strip out session id and csrf token if one was passed from soul machines
         // sendTextMessage() function
@@ -83,10 +83,10 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 .getAzurePetStoreSessionInfo(text);
         if (azurePetStoreSessionInfo != null) {
             text = azurePetStoreSessionInfo.getNewText();
-            this.sessionCache.put(turnContext.getActivity().getId(), azurePetStoreSessionInfo);
+            this.sessionCache.put(turnContext.getActivity().getFrom().getId(), azurePetStoreSessionInfo);
         }
         else{
-            azurePetStoreSessionInfo = this.sessionCache.get(turnContext.getActivity().getId());
+            azurePetStoreSessionInfo = this.sessionCache.get(turnContext.getActivity().getFrom().getId());
         }
 
         if(text.isEmpty())
@@ -97,33 +97,23 @@ public class PetStoreAssistantBot extends ActivityHandler {
         if(text.equals("..."))
         {
             return turnContext.sendActivity(
-            MessageFactory.text(WELCOME_MESSAGE)).thenApply(sendResult -> null);
+            MessageFactory.text(WELCOME_MESSAGE+" "+turnContext.getActivity().getFrom().getId())).thenApply(sendResult -> null);
         }
 
          //DEBUG ONLY
-        if (text.contains("session1"))
-        { 
-     
+        if (text.contains("session"))
+        {      
             return turnContext.sendActivity(
-                MessageFactory.text("id:"+turnContext.getActivity().getId())).thenApply(sendResult -> null);
-        }
-
-        if (text.contains("session2"))
-        {         
-            return turnContext.sendActivity(
-                MessageFactory.text("sender: "+turnContext.getActivity().getFrom())).thenApply(sendResult -> null);
-        }
-
-        if (text.contains("session3"))
-        {
-            Set<String> keys =  turnContext.getActivity().getRecipient().getProperties().keySet();
-            String keystring = "";
-            for(String key: keys){    
-                keystring += key+" ";
-            }
-          
-            return turnContext.sendActivity(
-                MessageFactory.text("recipient id:"+turnContext.getActivity().getRecipient().getId()+ " recipient keys: "+keystring)).thenApply(sendResult -> null);
+                MessageFactory.text("id:"+turnContext.getActivity().getFrom().getId())).thenApply(sendResult -> null);
+            //return turnContext.sendActivity(
+            //    MessageFactory.text("sender: "+turnContext.getActivity().getFrom())).thenApply(sendResult -> null);
+            //Set<String> keys =  turnContext.getActivity().getRecipient().getProperties().keySet();
+            //String keystring = "";
+            //for(String key: keys){    
+            //    keystring += key+" ";
+            //}
+            //return turnContext.sendActivity(
+            //    MessageFactory.text("recipient id:"+turnContext.getActivity().getRecipient().getId()+ " recipient keys: "+keystring)).thenApply(sendResult -> null);
         }
 
         if (text.contains("card")) {
@@ -202,7 +192,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 break;
             case SOMETHING_ELSE:
                 if (azurePetStoreSessionInfo == null) {
-                    dpResponse.setDpResponseText("chatgpt request without session...");
+                    dpResponse.setDpResponseText("chatgpt request without session... text: "+text);
                 }
                 else
                 {
@@ -238,24 +228,16 @@ public class PetStoreAssistantBot extends ActivityHandler {
             List<ChannelAccount> membersAdded,
             TurnContext turnContext) {
         
-        if(this.sessionCache.get(turnContext.getActivity().getId()) == null)
+        String message = "";
+        String id = turnContext.getActivity().getFrom().getId();
+            
+        if(this.sessionCache.get(id) == null)
         {
-            //for some reason this id is the only unique id I can find in the turnContext when running with the Soul Machines DP, BOT Emulator doesn't have any issues
-            String id = turnContext.getActivity().getId();
             this.sessionCache.put(id, null);
-        
-            return membersAdded.stream()
-                .filter(
-                        member -> !StringUtils
-                                .equals(member.getId(), turnContext.getActivity().getRecipient().getId()))
-                .map(channel -> turnContext
-                        .sendActivity(
-                                MessageFactory.text(this.WELCOME_MESSAGE+ " " + id)))
-                .collect(CompletableFutures.toFutureList()).thenApply(resourceResponses -> null);
+            message = this.WELCOME_MESSAGE + " " + id;
         }
-        return null;
-    }
-
-   
+            return turnContext.sendActivity(
+                    MessageFactory.text(message)).thenApply(sendResult -> null);
+       }  
 
    }
