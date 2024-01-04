@@ -116,6 +116,17 @@ public class PetStoreAssistantBot extends ActivityHandler {
             //    MessageFactory.text("recipient id:"+turnContext.getActivity().getRecipient().getId()+ " recipient keys: "+keystring)).thenApply(sendResult -> null);
         }
 
+        if (text.contains("session1"))
+        {      
+            Set<String> keys =  turnContext.getActivity().getRecipient().getProperties().keySet();
+            String keystring = "";
+            for(String key: keys){    
+                keystring += key+" ";
+            }
+            return turnContext.sendActivity(
+                MessageFactory.text("recipient id:"+turnContext.getActivity().getRecipient().getId()+ " recipient keys: "+keystring)).thenApply(sendResult -> null);
+        }
+
         if (text.contains("card")) {
             if(azurePetStoreSessionInfo != null && azurePetStoreSessionInfo.getNewText() != null)
             { 
@@ -236,14 +247,18 @@ public class PetStoreAssistantBot extends ActivityHandler {
             this.sessionCache.put(id, null);
             message = this.WELCOME_MESSAGE + " " + id;
         }
-            return membersAdded.stream()
-            .filter(
-                    member -> !StringUtils
-                            .equals(member.getId(), turnContext.getActivity().getRecipient().getId()))
-            .map(channel -> turnContext
-                    .sendActivity(
-                            MessageFactory.text(this.WELCOME_MESSAGE + id)))
-            .collect(CompletableFutures.toFutureList()).thenApply(resourceResponses -> null);
-       }  
+         //   return membersAdded.stream()
+         //   .filter(
+         //           member -> !StringUtils
+         //                   .equals(member.getId(), turnContext.getActivity().getRecipient().getId()))
+         //   .map(channel -> turnContext
+         //           .sendActivity(
+         //                   MessageFactory.text(this.WELCOME_MESSAGE + id)))
+         //   .collect(CompletableFutures.toFutureList()).thenApply(resourceResponses -> null);
+         
+
+            return turnContext.sendActivity(
+                MessageFactory.text(message)).thenApply(sendResult -> null);
+        }
 
    }
