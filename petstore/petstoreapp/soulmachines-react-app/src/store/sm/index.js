@@ -320,8 +320,8 @@ export const createScene = createAsyncThunk('sm/createScene', async (_, thunk) =
           }));
         }
 
-        console.log(`${text} ${window.parent.location}`);
-        persona.conversationSend(`${text} ${window.parent.location}`);
+        // console.log(`${text} ${window.parent.location}`);
+        // persona.conversationSend(`${text} ${window.parent.location}`);
 
         return thunk.dispatch(actions.addConversationResult({
           source: 'user',
