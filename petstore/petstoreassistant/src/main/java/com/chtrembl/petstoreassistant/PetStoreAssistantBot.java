@@ -118,6 +118,20 @@ public class PetStoreAssistantBot extends ActivityHandler {
                     MessageFactory.attachment(attachment, "I have something nice to show @showcards(content-card) you."))
                     .thenApply(sendResult -> null);
         }
+
+        if (text.contains("ball"))
+        {
+                String jsonString = "{\"type\":\"image\",\"id\":\"image-ball\",\"data\":{\"url\": \"https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-toys/ball.jpg?raw=true\",\"alt\": \"This is a ball\"}}";
+                Attachment attachment = new Attachment();
+                attachment.setContentType("application/json");
+    
+                attachment.setContent(new Gson().fromJson(jsonString, JsonObject.class));
+                attachment.setName("public-image-ball");
+    
+                return turnContext.sendActivity(
+                        MessageFactory.attachment(attachment, "I have something nice to show @showcards(image-ball) you."))
+                        .thenApply(sendResult -> null);
+        }
         //END DEBUG
 
         DPResponse dpResponse = this.azureOpenAI.classification(text);
