@@ -175,7 +175,7 @@ public class AzureAIServices implements IAzureAIServices {
         DPResponse dpResponse = new DPResponse();
         dpResponse.setClassification(classification);
 
-        String dpResponseText = "We have a ";
+        String dpResponseText = "We have some products, a ";
 
         String filter = "";
 
@@ -263,7 +263,7 @@ public class AzureAIServices implements IAzureAIServices {
         // this should become a content card with a carousel of product(s) for now just display description if there is 1 product and override the stuff above
         if(products.size() == 1 || classification.equals(Classification.MORE_PRODUCT_INFORMATION))
         {
-             dpResponseText = "Here is a description of the " + products.get(0).getName() + ". " + products.get(0).getDescription();
+             dpResponseText = "We have some products. Here is a description of the " + products.get(0).getName() + ". " + products.get(0).getDescription();
              dpResponse.setDpResponseText(dpResponseText);
         }
         else
