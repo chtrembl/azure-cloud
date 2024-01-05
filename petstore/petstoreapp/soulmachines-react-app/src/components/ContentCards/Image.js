@@ -13,7 +13,7 @@ function Image({ data, className, triggerScrollIntoView }) {
           style={{ width: '100%', height: 'auto' }}
           onLoad={triggerScrollIntoView}
         />
-        {caption ? <div className="text-center p-2">{caption}</div> : null}
+        <div className="text-center p-2">{caption}</div>
       </div>
     </div>
   );
