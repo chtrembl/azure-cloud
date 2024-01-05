@@ -7,7 +7,7 @@
   "searchFields": "name,category/name,description",
   "searchMode": "any",
   "scoringStatistics": "global",
-  "select": "productId,name,category/name,description",
+  "select": "productId,name,category/name,description,photoURL",
   "skip": 0,
   "top": 10
 }

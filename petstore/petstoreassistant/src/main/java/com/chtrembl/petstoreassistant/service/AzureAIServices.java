@@ -237,6 +237,7 @@ public class AzureAIServices implements IAzureAIServices {
             product.setProductId(productJsonObject.get("productId").getAsString());
             product.setName(productJsonObject.get("name").getAsString());
             product.setDescription(productJsonObject.get("description").getAsString());
+            product.setPhotoURL(productJsonObject.get("photoURL").getAsString());
             products.add(product);
             //}
         }
