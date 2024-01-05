@@ -13,7 +13,7 @@ function Image({ data, className, triggerScrollIntoView }) {
           style={{ width: '30%', height: 'auto' }}
           onLoad={triggerScrollIntoView}
         />
-        <div className="text-center p-2">{alt}</div>
+        <div style={{ 'margin-left': '50px;', 'margin-right': '50px;' }} className="text-center p-2">{alt}</div>
       </div>
     </div>
   );
@@ -35,5 +35,5 @@ export default styled(Image)`
   overflow: hidden;
 
   background: none;
-  color: #212529;
+  color: #6c757d;
 `;
