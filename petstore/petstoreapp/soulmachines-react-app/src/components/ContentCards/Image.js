@@ -6,7 +6,7 @@ function Image({ data, className, triggerScrollIntoView }) {
   const { url, alt } = data;
   return (
     <div className={className}>
-      <div style={{ 'text-align': 'center' }} >
+      <div style={{ 'text-align': 'center' }}>
         <img
           src={url}
           alt={alt}
