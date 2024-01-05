@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 function Image({ data, className, triggerScrollIntoView }) {
-  const { url, alt, caption } = data;
+  const { url, alt } = data;
   return (
     <div className={className}>
       <div>
