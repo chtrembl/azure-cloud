@@ -13,7 +13,7 @@ function Image({ data, className, triggerScrollIntoView }) {
           style={{ width: '100%', height: 'auto' }}
           onLoad={triggerScrollIntoView}
         />
-        <div className="text-center p-2">{caption}</div>
+        <div className="text-center p-2">{alt}</div>
       </div>
     </div>
   );
@@ -30,10 +30,10 @@ Image.propTypes = {
 };
 
 export default styled(Image)`
-  border-radius: 10px;
-  border: 1px solid rgba(0,0,0,0.2);
+  border-radius: 20px;
+  border: 0px solid #4581ba;
   overflow: hidden;
 
-  background: #393939;
-  color: #FFF;
+  background: none;
+  color: #212529;
 `;
