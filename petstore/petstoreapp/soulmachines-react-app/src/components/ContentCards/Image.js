@@ -6,11 +6,11 @@ function Image({ data, className, triggerScrollIntoView }) {
   const { url, alt } = data;
   return (
     <div className={className}>
-      <div>
+      <div style={{ 'text-align': 'center' }} >
         <img
           src={url}
           alt={alt}
-          style={{ width: '100%', height: 'auto' }}
+          style={{ width: '30%', height: 'auto' }}
           onLoad={triggerScrollIntoView}
         />
         <div className="text-center p-2">{alt}</div>
