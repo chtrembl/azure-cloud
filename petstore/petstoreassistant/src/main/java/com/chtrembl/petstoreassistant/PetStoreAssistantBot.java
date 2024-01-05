@@ -283,7 +283,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
 
             if (text.contains("ball"))
             {
-                    String jsonString = "{\"type\":\"image\",\"id\":\"image-ball\",\"data\":{\"url\": \"https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-toys/ball.jpg?raw=true\",\"alt\": \"This is a ball\"}}";
+                    String jsonString = "{\"type\":\"image\",\"id\":\"image-ball\",\"data\":{\"url\": \"https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-toys/ball.jpg?raw=true\",\"alt\": \"This is a ball\",\"alt\": \"This is a ball blah blah blah, This is a ball blah blah blah\"}}";
                     Attachment attachment = new Attachment();
                     attachment.setContentType("application/json");
         
