@@ -11,7 +11,8 @@ public class DPResponse {
     private boolean updateCart = false;
     private boolean completeCart = false;
     private String aoaiResponse = null;
-
+    private boolean imageContentCard = false;
+    
     public DPResponse() {
         super();
     }
@@ -55,5 +56,11 @@ public class DPResponse {
     }
     public void setAoaiResponse(String aoaiResponse) {
         this.aoaiResponse = aoaiResponse;
+    }
+    public boolean isImageContentCard() {
+        return imageContentCard;
+    }
+    public void setImageContentCard(boolean imageContentCard) {
+        this.imageContentCard = imageContentCard;
     }
 }

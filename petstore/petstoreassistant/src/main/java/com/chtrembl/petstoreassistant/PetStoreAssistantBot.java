@@ -187,6 +187,10 @@ public class PetStoreAssistantBot extends ActivityHandler {
             dpResponse.setDpResponseText(responseText);
         }
 
+        if(dpResponse.isImageContentCard())
+        {
+            return PetStoreAssistantUtilities.getImageCard(turnContext, dpResponse);
+        }
         return turnContext.sendActivity(
                 MessageFactory.text(dpResponse.getDpResponseText())).thenApply(sendResult -> null);
        }
@@ -251,7 +255,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
         }
 
         private CompletableFuture<Void> getDebug(TurnContext turnContext, String text, AzurePetStoreSessionInfo azurePetStoreSessionInfo) {
-            if (text.contains("debug"))
+            if (text.equals("debug"))
             {   
                 if(azurePetStoreSessionInfo != null && azurePetStoreSessionInfo.getNewText() != null)
                 {
@@ -263,7 +267,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                     MessageFactory.text("azurePetStoreSessionInfo was null, cache size: "+cache.estimatedSize())).thenApply(sendResult -> null);
                 }
             }
-            if (text.contains("card")) {
+            if (text.equals("button card")) {
                 if(azurePetStoreSessionInfo != null && azurePetStoreSessionInfo.getNewText() != null)
                 { 
                 text = azurePetStoreSessionInfo.getNewText();
@@ -281,7 +285,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                         .thenApply(sendResult -> null);
             }
 
-            if (text.contains("ball"))
+            if (text.equals("image card"))
             {
                     String jsonString = "{\"type\":\"image\",\"id\":\"image-ball\",\"data\":{\"url\": \"https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-toys/ball.jpg?raw=true\",\"alt\": \"This is a pretty ball\",\"caption\": \"ball blah blah blah\"}}";
                     Attachment attachment = new Attachment();
