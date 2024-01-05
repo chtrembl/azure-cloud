@@ -3,10 +3,9 @@
 
 package com.chtrembl.petstoreassistant;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +19,8 @@ import com.chtrembl.petstoreassistant.service.AzureAIServices.Classification;
 import com.chtrembl.petstoreassistant.service.IAzureAIServices;
 import com.chtrembl.petstoreassistant.service.IAzurePetStore;
 import com.chtrembl.petstoreassistant.utility.PetStoreAssistantUtilities;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.microsoft.bot.builder.ActivityHandler;
@@ -46,9 +47,6 @@ import com.microsoft.bot.schema.ChannelAccount;
 public class PetStoreAssistantBot extends ActivityHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(PetStoreAssistantBot.class);
 
-    //clean this up
-    private Map<String, AzurePetStoreSessionInfo> sessionCache = new HashMap<String, AzurePetStoreSessionInfo>();
-
     @Autowired
     private IAzureAIServices azureOpenAI;
 
@@ -59,6 +57,11 @@ public class PetStoreAssistantBot extends ActivityHandler {
 
     private UserState userState;
 
+    Cache<String, AzurePetStoreSessionInfo> cache = Caffeine.newBuilder()
+    .expireAfterWrite(30, TimeUnit.MINUTES)
+    .maximumSize(10000)
+    .build();
+    
     public PetStoreAssistantBot(UserState withUserState) {
         this.userState = withUserState;
     }
@@ -81,58 +84,24 @@ public class PetStoreAssistantBot extends ActivityHandler {
 
         AzurePetStoreSessionInfo azurePetStoreSessionInfo = configureSession(turnContext, text);
 
-        // get the text without the session id and csrf token
         if(azurePetStoreSessionInfo != null && azurePetStoreSessionInfo.getNewText() != null)
         {
+            // get the text without the session id and csrf token
             text = azurePetStoreSessionInfo.getNewText();
         }
         
-        //the client kickoff message
+        //the client browser initialized
         if(text.equals("..."))
         {
             return turnContext.sendActivity(
             MessageFactory.text(WELCOME_MESSAGE)).thenApply(sendResult -> null);
         }
 
-         //DEBUG ONLY
-        if (text.contains("debug"))
-        {      
-            return turnContext.sendActivity(
-                MessageFactory.text("id:"+azurePetStoreSessionInfo.getId())).thenApply(sendResult -> null);
-        }
-
-        if (text.contains("card")) {
-            if(azurePetStoreSessionInfo != null && azurePetStoreSessionInfo.getNewText() != null)
-            { 
-            text = azurePetStoreSessionInfo.getNewText();
-            }
-            String jsonString = "{\"type\":\"buttonWithImage\",\"id\":\"buttonWithImage\",\"data\":{\"title\":\"Soul Machines\",\"imageUrl\":\"https://www.soulmachines.com/wp-content/uploads/cropped-sm-favicon-180x180.png\",\"description\":\"Soul Machines is the leader in astonishing AGI\",\"imageAltText\":\"some text\",\"buttonText\":\"push me\"}}";
-
-            Attachment attachment = new Attachment();
-            attachment.setContentType("application/json");
-
-            attachment.setContent(new Gson().fromJson(jsonString, JsonObject.class));
-            attachment.setName("public-content-card");
-
-            return turnContext.sendActivity(
-                    MessageFactory.attachment(attachment, "I have something nice to show @showcards(content-card) you."))
-                    .thenApply(sendResult -> null);
-        }
-
-        if (text.contains("ball"))
+        CompletableFuture<Void> debug = getDebug(turnContext, text, azurePetStoreSessionInfo);
+        if(debug != null)
         {
-                String jsonString = "{\"type\":\"image\",\"id\":\"image-ball\",\"data\":{\"url\": \"https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-toys/ball.jpg?raw=true\",\"alt\": \"This is a ball\"}}";
-                Attachment attachment = new Attachment();
-                attachment.setContentType("application/json");
-    
-                attachment.setContent(new Gson().fromJson(jsonString, JsonObject.class));
-                attachment.setName("public-image-ball");
-    
-                return turnContext.sendActivity(
-                        MessageFactory.attachment(attachment, "I have something nice to show @showcards(image-ball) you."))
-                        .thenApply(sendResult -> null);
+            return debug;
         }
-        //END DEBUG
 
         DPResponse dpResponse = this.azureOpenAI.classification(text);
 
@@ -260,7 +229,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 id = id.substring(0, id.indexOf("-"));
             }
 
-            AzurePetStoreSessionInfo azurePetStoreSessionInfo = this.sessionCache.get(id);
+            AzurePetStoreSessionInfo azurePetStoreSessionInfo = this.cache.getIfPresent(id);
 
             // strip out session id and csrf token if one was passed in
             AzurePetStoreSessionInfo incomingAzurePetStoreSessionInfo = PetStoreAssistantUtilities
@@ -268,16 +237,63 @@ public class PetStoreAssistantBot extends ActivityHandler {
             if (incomingAzurePetStoreSessionInfo != null) {
                 text = incomingAzurePetStoreSessionInfo.getNewText();
                 //turnContext.getActivity().getId() is unique per browser over the broken recipient for some reason
-                this.sessionCache.put(id, incomingAzurePetStoreSessionInfo);
+                this.cache.put(id, incomingAzurePetStoreSessionInfo);
                 azurePetStoreSessionInfo = incomingAzurePetStoreSessionInfo;
                 azurePetStoreSessionInfo.setId(id);
             }
-            else
+            else if(azurePetStoreSessionInfo != null)
             {
                 azurePetStoreSessionInfo.setNewText(text);
             }
 
 
             return azurePetStoreSessionInfo;
+        }
+
+        private CompletableFuture<Void> getDebug(TurnContext turnContext, String text, AzurePetStoreSessionInfo azurePetStoreSessionInfo) {
+            if (text.contains("debug"))
+            {   
+                if(azurePetStoreSessionInfo != null && azurePetStoreSessionInfo.getNewText() != null)
+                {
+                return turnContext.sendActivity(
+                    MessageFactory.text("id:"+azurePetStoreSessionInfo.getId()+", cache size: "+cache.estimatedSize())).thenApply(sendResult -> null);
+                }
+                else{
+                     return turnContext.sendActivity(
+                    MessageFactory.text("azurePetStoreSessionInfo was null, cache size: "+cache.estimatedSize())).thenApply(sendResult -> null);
+                }
+            }
+            if (text.contains("card")) {
+                if(azurePetStoreSessionInfo != null && azurePetStoreSessionInfo.getNewText() != null)
+                { 
+                text = azurePetStoreSessionInfo.getNewText();
+                }
+                String jsonString = "{\"type\":\"buttonWithImage\",\"id\":\"buttonWithImage\",\"data\":{\"title\":\"Soul Machines\",\"imageUrl\":\"https://www.soulmachines.com/wp-content/uploads/cropped-sm-favicon-180x180.png\",\"description\":\"Soul Machines is the leader in astonishing AGI\",\"imageAltText\":\"some text\",\"buttonText\":\"push me\"}}";
+
+                Attachment attachment = new Attachment();
+                attachment.setContentType("application/json");
+
+                attachment.setContent(new Gson().fromJson(jsonString, JsonObject.class));
+                attachment.setName("public-content-card");
+
+                return turnContext.sendActivity(
+                        MessageFactory.attachment(attachment, "I have something nice to show @showcards(content-card) you."))
+                        .thenApply(sendResult -> null);
+            }
+
+            if (text.contains("ball"))
+            {
+                    String jsonString = "{\"type\":\"image\",\"id\":\"image-ball\",\"data\":{\"url\": \"https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-toys/ball.jpg?raw=true\",\"alt\": \"This is a ball\"}}";
+                    Attachment attachment = new Attachment();
+                    attachment.setContentType("application/json");
+        
+                    attachment.setContent(new Gson().fromJson(jsonString, JsonObject.class));
+                    attachment.setName("public-image-ball");
+        
+                    return turnContext.sendActivity(
+                            MessageFactory.attachment(attachment, "I have something nice to show @showcards(image-ball) you."))
+                            .thenApply(sendResult -> null);
+            }
+            return null;
         }
    }
