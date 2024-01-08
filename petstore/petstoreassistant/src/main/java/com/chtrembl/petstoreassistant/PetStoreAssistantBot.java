@@ -82,6 +82,8 @@ public class PetStoreAssistantBot extends ActivityHandler {
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
         String text = turnContext.getActivity().getText().toLowerCase().trim();
 
+        LOGGER.info("incoming text: " + text);
+
         if (isErroneousRequest(text)) {
             return null;
         }
@@ -187,6 +189,8 @@ public class PetStoreAssistantBot extends ActivityHandler {
         if (dpResponse.isImageContentCard()) {
             return PetStoreAssistantUtilities.getImageCard(turnContext, dpResponse);
         }
+
+             LOGGER.info("classificateion on text: " + text + " is: " + dpResponse.getClassification());
 
         return turnContext.sendActivity(
                 MessageFactory.text(dpResponse.getDpResponseText())).thenApply(sendResult -> null);
