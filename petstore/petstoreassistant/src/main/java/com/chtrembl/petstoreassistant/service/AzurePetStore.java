@@ -61,6 +61,8 @@ public class AzurePetStore implements IAzurePetStore {
                                         + azurePetStoreSessionInfo.getCsrfToken());
                 }
                 
+                dpResponse.setClassification(Classification.UPDATE_SHOPPING_CART);
+
                 return dpResponse;
         }
 
@@ -98,6 +100,8 @@ public class AzurePetStore implements IAzurePetStore {
                                 response.body().close();
                         }
                 }
+
+                dpResponse.setClassification(Classification.VIEW_SHOPPING_CART);
 
                 return dpResponse;
         }
@@ -139,6 +143,8 @@ public class AzurePetStore implements IAzurePetStore {
                                 response.body().close();
                         }
                 }
+
+                dpResponse.setClassification(Classification.PLACE_ORDER);
                 return dpResponse;
         }
 

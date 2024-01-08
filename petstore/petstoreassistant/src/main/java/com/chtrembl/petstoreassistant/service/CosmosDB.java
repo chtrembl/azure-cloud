@@ -1,12 +1,15 @@
 package com.chtrembl.petstoreassistant.service;
 
 import java.util.HashMap;
+import java.util.concurrent.Future;
 
 import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
 import com.azure.cosmos.CosmosClient;
@@ -63,7 +66,8 @@ public class CosmosDB implements ICosmosDB {
         return this.products;
     }
 
-    public void storePrompt(AzurePetStoreSessionInfo azurePetStoreSessionInfo) {
+    @Async
+    public Future<String> storePrompt(AzurePetStoreSessionInfo azurePetStoreSessionInfo) {
         CosmosContainer container = client.getDatabase(DATABASE_ID).getContainer(this.PROMPTS_CONTAINER_ID);
 
         try
@@ -76,5 +80,7 @@ public class CosmosDB implements ICosmosDB {
         {
             LOGGER.error("Error upserting prompt in CosmosDB " + e.getMessage());
         }
+
+         return new AsyncResult<>("prompt stored");
     }
 }

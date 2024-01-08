@@ -115,7 +115,6 @@ public class PetStoreAssistantBot extends ActivityHandler {
 
         switch (dpResponse.getClassification()) {
             case UPDATE_SHOPPING_CART:
-                dpResponse.setClassification(Classification.UPDATE_SHOPPING_CART);
                 if (azurePetStoreSessionInfo != null) {
                     dpResponse = this.azureOpenAI.search(text, Classification.SEARCH_FOR_PRODUCTS);
                     if (dpResponse.getProducts() != null) {
@@ -127,7 +126,6 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 }
                 break;
             case VIEW_SHOPPING_CART:
-                dpResponse.setClassification(Classification.VIEW_SHOPPING_CART);
                 if (azurePetStoreSessionInfo != null) {
                     dpResponse = this.azurePetStore.viewCart(azurePetStoreSessionInfo);
                 } else {
@@ -135,7 +133,6 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 }
                 break;
             case PLACE_ORDER:
-                dpResponse.setClassification(Classification.PLACE_ORDER);
                 if (azurePetStoreSessionInfo != null) {
                     dpResponse = this.azurePetStore.completeCart(azurePetStoreSessionInfo);
                 } else {
@@ -190,7 +187,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
             return PetStoreAssistantUtilities.getImageCard(turnContext, dpResponse);
         }
 
-             LOGGER.info("classificateion on text: " + text + " is: " + dpResponse.getClassification());
+        LOGGER.info("classification on text: " + text + " is: " + dpResponse.getClassification());
 
         return turnContext.sendActivity(
                 MessageFactory.text(dpResponse.getDpResponseText())).thenApply(sendResult -> null);
