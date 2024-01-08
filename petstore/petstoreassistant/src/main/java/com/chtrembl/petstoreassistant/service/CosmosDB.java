@@ -13,6 +13,7 @@ import com.azure.cosmos.CosmosClient;
 import com.azure.cosmos.CosmosClientBuilder;
 import com.azure.cosmos.CosmosContainer;
 import com.azure.cosmos.util.CosmosPagedIterable;
+import com.chtrembl.petstoreassistant.model.AzurePetStoreSessionInfo;
 import com.chtrembl.petstoreassistant.model.Product;
 
 @Service
@@ -26,7 +27,8 @@ public class CosmosDB implements ICosmosDB {
    
     private static final String DATABASE_ID = "E-Commerce";
    
-    private static final String CONTAINER_ID = "ProductsV2";
+    private static final String PRODUCTS_CONTAINER_ID = "ProductsV2";
+    private static final String PROMPTS_CONTAINER_ID = "Prompts";
 
     private CosmosClient client = null;
 
@@ -39,14 +41,13 @@ public class CosmosDB implements ICosmosDB {
                 .endpoint(ENDPOINT)
                 .key(this.cosmosKey)
                 .buildClient();
-        this.products = this.getProducts();
+        this.cacheProducts();
     }
 
-    @Override
-    public HashMap<String, Product>  getProducts() {
-        HashMap<String, Product>  products = new HashMap<String, Product> ();
+   private void  cacheProducts() {
+       this.products = new HashMap<String, Product> ();
 
-        CosmosContainer container = client.getDatabase(DATABASE_ID).getContainer(CONTAINER_ID);
+        CosmosContainer container = client.getDatabase(DATABASE_ID).getContainer(this.PRODUCTS_CONTAINER_ID);
 
         String query = "SELECT * FROM ProductsV2";
        
@@ -55,12 +56,25 @@ public class CosmosDB implements ICosmosDB {
             products.put(product.getProductId(), product);
         }
 
-        LOGGER.info("Retrieved " + products.size() + " products from CosmosDB");
-        
-        return products;
+        LOGGER.info("Cached " + products.size() + " products from CosmosDB");
     }
 
-    public HashMap<String, Product>  getCachedProducts() {
+    public HashMap<String, Product> getProducts() {
         return this.products;
+    }
+
+    public void storePrompt(AzurePetStoreSessionInfo azurePetStoreSessionInfo) {
+        CosmosContainer container = client.getDatabase(DATABASE_ID).getContainer(this.PROMPTS_CONTAINER_ID);
+
+        try
+        {
+            container.upsertItem(azurePetStoreSessionInfo);
+            LOGGER.info("Upsert prompt record in CosmosDB id: " + azurePetStoreSessionInfo.getId());
+
+        }
+        catch (Exception e)
+        {
+            LOGGER.error("Error upserting prompt in CosmosDB " + e.getMessage());
+        }
     }
 }

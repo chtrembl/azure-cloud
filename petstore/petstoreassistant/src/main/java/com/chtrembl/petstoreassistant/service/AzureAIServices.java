@@ -175,7 +175,7 @@ public class AzureAIServices implements IAzureAIServices {
         DPResponse dpResponse = new DPResponse();
         dpResponse.setClassification(classification);
 
-        String dpResponseText = "I found some information on our products. We have a ";
+        String dpResponseText = "We have a ";
 
         String filter = "";
 
@@ -265,7 +265,7 @@ public class AzureAIServices implements IAzureAIServices {
         if(products.size() == 1 || classification.equals(Classification.MORE_PRODUCT_INFORMATION))
         {
              dpResponse.setImageContentCard(true);
-             dpResponseText = "Check out this product of ours, the " + products.get(0).getName();
+             dpResponseText = "Check out this product, the " + products.get(0).getName();
              
              dpResponse.setDpResponseText(dpResponseText);
         }

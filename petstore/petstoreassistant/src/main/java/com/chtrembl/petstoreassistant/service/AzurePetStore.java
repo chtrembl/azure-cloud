@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.chtrembl.petstoreassistant.model.AzurePetStoreSessionInfo;
 import com.chtrembl.petstoreassistant.model.DPResponse;
+import com.chtrembl.petstoreassistant.service.AzureAIServices.Classification;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -30,7 +31,7 @@ public class AzurePetStore implements IAzurePetStore {
         @Override
         public DPResponse updateCart(AzurePetStoreSessionInfo azurePetStoreSessionInfo, String productId) {
                 DPResponse dpResponse = new DPResponse();
-
+            
                 try {
                         Request request = new Request.Builder()
                                         .url(this.UPDATE_CART_URL + "?csrf=" + azurePetStoreSessionInfo.getCsrfToken()
@@ -47,7 +48,7 @@ public class AzurePetStore implements IAzurePetStore {
                                         + azurePetStoreSessionInfo.getCsrfToken());
 
                         dpResponse.setDpResponseText("I just added the "
-                                        + this.cosmosDB.getCachedProducts().get(productId).getName()
+                                        + this.cosmosDB.getProducts().get(productId).getName()
                                         + " to your cart.");
 
                         dpResponse.setUpdateCart(true);
@@ -55,7 +56,7 @@ public class AzurePetStore implements IAzurePetStore {
                         LOGGER.error("Error updating cart with product id: " + productId + " for session id: "
                                         + azurePetStoreSessionInfo.getSessionID() + " " + e.getMessage());
                         dpResponse.setDpResponseText("I'm sorry, I wasn't able to add the "
-                                        + this.cosmosDB.getCachedProducts().get(productId).getName()
+                                        + this.cosmosDB.getProducts().get(productId).getName()
                                         + " to your cart. " + azurePetStoreSessionInfo.getSessionID() + "|"
                                         + azurePetStoreSessionInfo.getCsrfToken());
                 }
