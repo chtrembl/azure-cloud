@@ -210,6 +210,11 @@ public class PetStoreAssistantBot extends ActivityHandler {
         // .collect(CompletableFutures.toFutureList()).thenApply(resourceResponses ->
         // null);
 
+        String text = turnContext.getActivity().getText().toLowerCase().trim();
+
+        LOGGER.info("onMembersAdded incoming text: " + text);
+
+
         return turnContext.sendActivity(
                 MessageFactory.text("")).thenApply(sendResult -> null);
     }
