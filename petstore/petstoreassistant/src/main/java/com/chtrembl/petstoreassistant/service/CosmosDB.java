@@ -72,6 +72,7 @@ public class CosmosDB implements ICosmosDB {
 
         try
         {
+            Thread.sleep(300000);
             container.upsertItem(azurePetStoreSessionInfo);
             LOGGER.info("Upsert prompt record in CosmosDB id: " + azurePetStoreSessionInfo.getId());
 

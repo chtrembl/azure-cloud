@@ -180,7 +180,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                     .addPrompt(new Prompt(dpResponse.getClassification(), text, dpResponse.getDpResponseText()));
             this.cache.put(azurePetStoreSessionInfo.getId(), azurePetStoreSessionInfo);
         
-            this.cosmosDB.storePrompt(azurePetStoreSessionInfo);
+            this.cosmosDB.storePrompt(this.cache.getIfPresent(azurePetStoreSessionInfo.getId()));
         }
 
         if (dpResponse.isImageContentCard()) {
@@ -257,7 +257,9 @@ public class PetStoreAssistantBot extends ActivityHandler {
             azurePetStoreSessionInfo.setNewText(text);
         }
 
-        azurePetStoreSessionInfo.setPrompts(existingPrompts);
+        if (azurePetStoreSessionInfo != null && existingPrompts != null) {
+            azurePetStoreSessionInfo.setPrompts(existingPrompts);
+        }
 
         return azurePetStoreSessionInfo;
     }
