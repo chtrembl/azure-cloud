@@ -210,10 +210,29 @@ public class PetStoreAssistantBot extends ActivityHandler {
         // .collect(CompletableFutures.toFutureList()).thenApply(resourceResponses ->
         // null);
 
+        LOGGER.info("onMembersAdded...");
+
         String text = turnContext.getActivity().getText().toLowerCase().trim();
 
-        LOGGER.info("onMembersAdded incoming text: " + text);
+        LOGGER.info("incoming text: " + text);
 
+
+        if (isErroneousRequest(text)) {
+            return null;
+        }
+
+        AzurePetStoreSessionInfo azurePetStoreSessionInfo = configureSession(turnContext, text);
+
+        if (azurePetStoreSessionInfo != null && azurePetStoreSessionInfo.getNewText() != null) {
+            // get the text without the session id and csrf token
+            text = azurePetStoreSessionInfo.getNewText();
+        }
+
+        // the client browser initialized
+        if (text.equals("...")) {
+            return turnContext.sendActivity(
+                    MessageFactory.text(WELCOME_MESSAGE)).thenApply(sendResult -> null);
+        }
 
         return turnContext.sendActivity(
                 MessageFactory.text("")).thenApply(sendResult -> null);
