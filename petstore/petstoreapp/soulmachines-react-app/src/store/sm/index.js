@@ -621,6 +621,7 @@ export const createScene = createAsyncThunk('sm/createScene', async (_, thunk) =
 // usually used for typed input or UI elems that trigger a certain phrase
 export const sendTextMessage = createAsyncThunk('sm/sendTextMessage', async ({ text }, thunk) => {
   if (text === '') return thunk.rejectWithValue('submitted empty string!');
+  console.log(`scene: ${scene} persona: ${persona}`);
   if (scene !== null && persona !== null) {
     persona.conversationSetVariables({ url: `${window.parent.location}` });
     console.log(`${text} ${window.parent.location}`);
