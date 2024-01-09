@@ -64,6 +64,7 @@ function DPChat({
   useEffect(() => {
     // send init event, since we will finish loading before we display the DP
     dispatch(sendEvent({ eventName: '', payload: {}, kind: 'init' }));
+    console.log('sending text message...');
     sendTextMessage({ text: '...' });
 
     // run resize once on mount, then add listener for future resize events
