@@ -71,9 +71,11 @@ public class PetStoreAssistantBot extends ActivityHandler {
         this.userState = withUserState;
     }
 
-    // onTurn processing isn't working with DP, not being used...
+    // onTurn processing isn't working with DP, not being used to manage state...
     @Override
     public CompletableFuture<Void> onTurn(TurnContext turnContext) {
+        LOGGER.info("onTurn incoming text: " + turnContext.getActivity().getText());
+
         return super.onTurn(turnContext)
                 .thenCompose(saveResult -> userState.saveChanges(turnContext));
     }
@@ -82,7 +84,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
         String text = turnContext.getActivity().getText().toLowerCase().trim();
 
-        LOGGER.info("incoming text: " + text);
+        LOGGER.info("onMessageActivity incoming text: " + text);
 
         if (isErroneousRequest(text)) {
             return null;
@@ -211,28 +213,6 @@ public class PetStoreAssistantBot extends ActivityHandler {
         // null);
 
         LOGGER.info("onMembersAdded...");
-
-        String text = turnContext.getActivity().getText().toLowerCase().trim();
-
-        LOGGER.info("incoming text: " + text);
-
-
-        if (isErroneousRequest(text)) {
-            return null;
-        }
-
-        AzurePetStoreSessionInfo azurePetStoreSessionInfo = configureSession(turnContext, text);
-
-        if (azurePetStoreSessionInfo != null && azurePetStoreSessionInfo.getNewText() != null) {
-            // get the text without the session id and csrf token
-            text = azurePetStoreSessionInfo.getNewText();
-        }
-
-        // the client browser initialized
-        if (text.equals("...")) {
-            return turnContext.sendActivity(
-                    MessageFactory.text(WELCOME_MESSAGE)).thenApply(sendResult -> null);
-        }
 
         return turnContext.sendActivity(
                 MessageFactory.text("")).thenApply(sendResult -> null);
