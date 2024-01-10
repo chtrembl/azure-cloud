@@ -62,7 +62,9 @@ function DPChat({
   };
 
   useEffect(() => {
-    console.log('sending text message...');
+    console.log('sending 1st text message...');
+    dispatch(sendTextMessage({ text: '...' }));
+    console.log('sending 2nd text message...');
     dispatch(sendTextMessage({ text: '...' }));
 
     // run resize once on mount, then add listener for future resize events
