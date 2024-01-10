@@ -275,14 +275,33 @@ export const createScene = createAsyncThunk('sm/createScene', async (_, thunk) =
     const publicContexts = {};
     publicParams.forEach((p) => {
       const { data, id, type } = p.content.members;
-      publicContexts[p.name] = {
-        type: type.value,
-        id: id.value,
-        data: {
-          url: data.members.url.value,
-          alt: data.members.alt.value,
-        },
-      };
+      switch (type.value) {
+        case 'image':
+          publicContexts[p.name] = {
+            type: type.value,
+            id: id.value,
+            data: {
+              url: data.members.url.value,
+              alt: data.members.alt.value,
+            },
+          };
+          break;
+        case 'buttonWithImage':
+          publicContexts[p.name] = {
+            type: type.value,
+            id: id.value,
+            data: {
+              title: data.members.title.value,
+              imageUrl: data.members.imageUrl.value,
+              description: data.members.description.value,
+              imageAltText: data.members.imageAltText.value,
+              buttonText: data.members.buttonText.value,
+            },
+          };
+          break;
+        default:
+          break;
+      }
     });
     return publicContexts;
   }
