@@ -365,37 +365,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
 
         if(text.equals("button carousel"))
         {
-            String jsonString = 
-            "{\n" +
-            "  \"type\": \"buttonCarousel\",\n" +
-            "  \"id\": \"buttonCarousel\",\n" +
-            "  \"data\": {\n" +
-            "    \"buttonCards\": [\n" +
-            "      {\n" +
-            "        \"title\": \"Soul Machines\",\n" +
-            "        \"imageUrl\": \"https://www.soulmachines.com/wp-content/uploads/cropped-sm-favicon-180x180.png\",\n" +
-            "        \"description\": \"1 Soul Machines is the leader in astonishing AGI\",\n" +
-            "        \"imageAltText\": \"some text\",\n" +
-            "        \"buttonText\": \"push me\"\n" +
-            "      },\n" +
-            "      {\n" +
-            "        \"title\": \"Soul Machines\",\n" +
-            "        \"imageUrl\": \"https://www.soulmachines.com/wp-content/uploads/cropped-sm-favicon-180x180.png\",\n" +
-            "        \"description\": \"2 Soul Machines is the leader in astonishing AGI\",\n" +
-            "        \"imageAltText\": \"some text\",\n" +
-            "        \"buttonText\": \"push me\"\n" +
-            "      },\n" +
-            "      {\n" +
-            "        \"title\": \"Soul Machines\",\n" +
-            "        \"imageUrl\": \"https://www.soulmachines.com/wp-content/uploads/cropped-sm-favicon-180x180.png\",\n" +
-            "        \"description\": \"3 Soul Machines is the leader in astonishing AGI\",\n" +
-            "        \"imageAltText\": \"some text\",\n" +
-            "        \"buttonText\": \"push me\"\n" +
-            "      }\n" +
-            "    ]\n" +
-            "  }\n" +
-            "}";
-
+            String jsonString = "{ \\\"type\\\": \\\"buttonCarousel\\\", \\\"id\\\": \\\"buttonCarousel\\\", \\\"data\\\": { \\\"buttonCards\\\": [ { \\\"title\\\": \\\"Soul Machines\\\", \\\"imageUrl\\\": \\\"https:\\/\\/www.soulmachines.com\\/wp-content\\/uploads\\/cropped-sm-favicon-180x180.png\\\", \\\"description\\\":\\\"1 Soul Machines is the leader in astonishing AGI\\\", \\\"imageAltText\\\": \\\"some text\\\", \\\"buttonText\\\": \\\"push me\\\" }, { \\\"title\\\": \\\"Soul Machines\\\", \\\"imageUrl\\\": \\\"https:\\/\\/www.soulmachines.com\\/wp-content\\/uploads\\/cropped-sm-favicon-180x180.png\\\", \\\"description\\\":\\\"2 Soul Machines is the leader in astonishing AGI\\\", \\\"imageAltText\\\": \\\"some text\\\", \\\"buttonText\\\": \\\"push me\\\" }, { \\\"title\\\": \\\"Soul Machines\\\", \\\"imageUrl\\\": \\\"https:\\/\\/www.soulmachines.com\\/wp-content\\/uploads\\/cropped-sm-favicon-180x180.png\\\", \\\"description\\\":\\\"3 Soul Machines is the leader in astonishing AGI\\\", \\\"imageAltText\\\": \\\"some text\\\", \\\"buttonText\\\": \\\"push me\\\" }, ] } }";
             Attachment attachment = new Attachment();
             attachment.setContentType("application/json");
 
@@ -406,6 +376,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
                     MessageFactory.attachment(attachment, "I have something nice to show @showcards(buttonCarousel) you."))
                     .thenApply(sendResult -> null);
         }
+
 
         return null;
     }
