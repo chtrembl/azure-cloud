@@ -202,10 +202,10 @@ export const createScene = createAsyncThunk('sm/createScene', async (_, thunk) =
           minLogLevel: cueLoggingLevel || 'debug',
         },
       },
-      sendMetadata: {
-        // send url updates for react app as PAGE_METADATA intents to NLP
-        pageUrl: true,
-      },
+      // sendMetadata: {
+      //   // send url updates for react app as PAGE_METADATA intents to NLP
+      //   pageUrl: false,
+      // },
       stopSpeakingWhenNotVisible: false,
     };
     if (AUTH_MODE === 0) sceneOpts.apiKey = API_KEY;
@@ -296,6 +296,53 @@ export const createScene = createAsyncThunk('sm/createScene', async (_, thunk) =
               description: data.members.description.value,
               imageAltText: data.members.imageAltText.value,
               buttonText: data.members.buttonText.value,
+              productId: data.members.buttonText.value,
+            },
+          };
+
+          // publicContexts[p.name] = {
+          //   type: 'buttonCarousel',
+          //   id: 'buttonCarousel',
+          //   data: {
+          //     buttonCards: [
+          //       {
+          //         title: 'Soul Machines',
+          //         imageUrl: 'https://www.soulmachines.com/wp-content/uploads/cropped-sm-favicon-180x180.png',
+          //         description: '1 Soul Machines is the leader in astonishing AGI',
+          //         imageAltText: 'some text',
+          //         productId: data.members.buttonText.value,
+          //       },
+          //       {
+          //         title: 'Soul Machines',
+          //         imageUrl: 'https://www.soulmachines.com/wp-content/uploads/cropped-sm-favicon-180x180.png',
+          //         description: '2 Soul Machines is the leader in astonishing AGI',
+          //         imageAltText: 'some text',
+          //         productId: data.members.buttonText.value,
+          //       },
+          //       {
+          //         title: 'Soul Machines',
+          //         imageUrl: 'https://www.soulmachines.com/wp-content/uploads/cropped-sm-favicon-180x180.png',
+          //         description: '3 Soul Machines is the leader in astonishing AGI',
+          //         imageAltText: 'some text',
+          //         productId: data.members.buttonText.value,
+          //       },
+          //     ],
+          //   },
+          // };
+          break;
+        case 'buttonCarousel':
+          publicContexts[p.name] = {
+            type: type.value,
+            id: id.value,
+            data: {
+              buttonCards: data.members.map((button) => ({
+                title: button.title.value,
+                imageUrl: button.imageUrl.value,
+                description: button.description.value,
+                imageAltText: button.imageAltText.value,
+                buttonText: button.buttonText.value,
+              }
+              )),
             },
           };
           break;
@@ -640,7 +687,6 @@ export const createScene = createAsyncThunk('sm/createScene', async (_, thunk) =
 // usually used for typed input or UI elems that trigger a certain phrase
 export const sendTextMessage = createAsyncThunk('sm/sendTextMessage', async ({ text }, thunk) => {
   if (text === '') return thunk.rejectWithValue('submitted empty string!');
-  console.log(`scene: ${scene} persona: ${persona}`);
   if (scene !== null && persona !== null) {
     persona.conversationSetVariables({ url: `${window.parent.location}` });
     console.log(`${text} ${window.parent.location}`);

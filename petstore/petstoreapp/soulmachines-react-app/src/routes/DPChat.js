@@ -62,11 +62,10 @@ function DPChat({
   };
 
   useEffect(() => {
-    console.log('sending 1st text message...');
-    dispatch(sendTextMessage({ text: '...' }));
-    console.log('sending 2nd text message...');
-    dispatch(sendTextMessage({ text: '...' }));
-
+    // send init event, since we will finish loading before we display the DP
+    setTimeout(() => {
+      dispatch(sendTextMessage({ text: '...' }));
+    }, 1000);
     // run resize once on mount, then add listener for future resize events
     handleResize();
     window.addEventListener('resize', handleResize);
