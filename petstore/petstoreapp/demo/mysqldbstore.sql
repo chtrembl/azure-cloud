@@ -29,3 +29,20 @@ VALUES
   (2, 1, 'Gadget', 20.00),
   (3, 2, 'Thingamajig', 15.00),
   (4, 3, 'Doohickey', 5.00);
+
+// generate a sql query to get all the customers
+SELECT * FROM customers;
+
+// generate a sql query to get all the customers with a missing email
+SELECT * FROM customers WHERE COALESCE(email, '') = '';
+
+// generate a sql query to get all the customers with a missing email or a "microsoft.com" email
+SELECT * FROM customers WHERE email IS NULL OR email LIKE '%microsoft.com';
+
+// generate a sql query to get all the customers that have placed an order
+SELECT * FROM customers WHERE id IN (SELECT customer_id FROM orders);
+ 
+SELECT * FROM 
+  (SELECT * FROM 
+    (SELECT * FROM orders WHERE id > 1 AND product = 'Widget') 
+  WHERE price > 10)
