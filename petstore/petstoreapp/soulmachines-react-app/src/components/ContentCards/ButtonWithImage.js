@@ -4,8 +4,14 @@ import styled from 'styled-components';
 
 function ButtonWithImage({ data, className }) {
   const {
-    title, imageUrl, description, imageAltText, buttonText,
+    title, imageUrl, description, imageAltText, buttonText, productId,
   } = data;
+
+  const handleButtonClick = (e) => {
+    e.preventDefault();
+    console.log(window.location + productId);
+  };
+
   return (
     <div className={className}>
       <div className="card">
@@ -16,8 +22,7 @@ function ButtonWithImage({ data, className }) {
           <h5>{title}</h5>
           <p>{description}</p>
           <div className="d-flex justify-content-center">
-            {/* open ButtonWithImage in new tab */}
-            <button type="button">
+            <button type="button" onClick={handleButtonClick}>
               {buttonText}
             </button>
           </div>
@@ -34,6 +39,7 @@ ButtonWithImage.propTypes = {
     description: PropTypes.string.isRequired,
     imageAltText: PropTypes.string,
     buttonText: PropTypes.string,
+    productId: PropTypes.string,
   }).isRequired,
   className: PropTypes.string.isRequired,
 };
@@ -55,6 +61,7 @@ export default styled(ButtonWithImage)`
 //     "imageUrl": "https://www.soulmachines.com/wp-content/uploads/cropped-sm-favicon-180x180.png",
 //     "description":"Soul Machines is the leader in astonishing AGI",
 //     "imageAltText": "some text",
-//     "buttonText": "push me"
+//     "buttonText": "push me",
+//     "productId": 12345
 //   }
 // }

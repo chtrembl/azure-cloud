@@ -9,6 +9,7 @@ import Video from './ContentCards/Video';
 import ButtonWithImage from './ContentCards/ButtonWithImage';
 import { setActiveCards, animateCamera } from '../store/sm/index';
 import ImageCarousel from './ContentCards/ImageCarousel';
+import ButtonCarousel from './ContentCards/ButtonCarousel';
 
 const returnCardError = (errMsg) => {
   console.error(errMsg);
@@ -50,6 +51,10 @@ function ContentCardSwitch({
     },
     buttonWithImage: {
       element: ButtonWithImage,
+      removeOnClick: false,
+    },
+    buttonCarousel: {
+      element: ButtonCarousel,
       removeOnClick: false,
     },
   };
