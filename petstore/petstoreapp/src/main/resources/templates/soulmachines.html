@@ -22,6 +22,14 @@
 	<div lang="en" th:replace="fragments/disclaimer :: disclaimer"></div>
 	-->
 
+	<style>
+		@keyframes expandAndReturn {
+			0% { transform: scale(1); }
+			50% { transform: scale(2.0); }
+			100% { transform: scale(1); display: none; }
+		  }
+	</style>
+
 	<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 	<script>
 		function cartcount(){
@@ -29,8 +37,17 @@
 			 url: 'api/cartcount',
 			 type: 'GET',
 			 success: function(size){
+			  var oldsize = $( "#cartcount" ).html();
 			  console.log("cart count: " + size);
 			  $( "#cartcount" ).html(size);
+			  if (size != oldsize) {
+				$("#cartcontainer").css( "animation-name", "expandAndReturn" );
+				$("#cartcontainer").css( "animation-duration", "2s" );
+			  }
+			  else
+			  {
+				$("#cartcontainer").removeAttr("style");
+			  }
 			 }
 			});
 		   }
