@@ -62,16 +62,6 @@ function DPChat({
   };
 
   useEffect(() => {
-    // send init event, since we will finish loading before we display the DP
-    setTimeout(() => {
-      dispatch(
-        // get an element and click it to start the conversation
-        // console.log('textMessageInput ...'),
-        // document.getElementById('textMessageInput').value = '...',
-        // console.log('sendMessageButton click'),
-        // document.getElementById('sendMessageButton').click(),
-      );
-    }, 2000);
     // run resize once on mount, then add listener for future resize events
     handleResize();
     window.addEventListener('resize', handleResize);
