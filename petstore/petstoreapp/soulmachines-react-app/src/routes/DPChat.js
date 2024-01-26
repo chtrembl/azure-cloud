@@ -7,7 +7,7 @@ import PersonaVideo from '../components/PersonaVideo';
 import Captions from '../components/Captions';
 import ContentCardDisplay from '../components/ContentCardDisplay';
 import {
-  disconnect, setVideoDimensions,
+  disconnect, sendTextMessage, setVideoDimensions,
 } from '../store/sm/index';
 import Header from '../components/Header';
 import {
@@ -62,6 +62,10 @@ function DPChat({
   };
 
   useEffect(() => {
+    // send init event, since we will finish loading before we display the DP
+    setTimeout(() => {
+      dispatch(sendTextMessage({ text: '...' }));
+    }, 3000);
     // run resize once on mount, then add listener for future resize events
     handleResize();
     window.addEventListener('resize', handleResize);

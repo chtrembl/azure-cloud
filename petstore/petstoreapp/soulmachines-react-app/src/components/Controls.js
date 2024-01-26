@@ -208,7 +208,6 @@ function Controls({
             data-tip="Toggle Transcript"
             onClick={toggleKeyboardInput}
             disabled={transcript.length <= 0}
-            id="toggleTranscript"
           >
             <ChatSquareTextFill
               size={iconSize}
@@ -225,8 +224,7 @@ function Controls({
             aria-label="Toggle Microphone"
             data-tip="Toggle Microphone"
             disabled={requestedMediaPerms.micDenied === true}
-            onClick={() => dispatch(setMicOn({ micOn: !micOn }), console.log('toggle mic'))}
-            id="toggleMicrophone"
+            onClick={() => dispatch(setMicOn({ micOn: !micOn }))}
           >
             {micOn ? (
               <MicFill size={iconSize} color={primaryAccent} style={{ border: highlightMic ? 'red 2px solid' : '' }} />
@@ -263,7 +261,7 @@ function Controls({
             aria-label="More Options"
             data-tip="More Options"
             id="dpChatDropdown"
-            onClick={() => { document.getElementById('toggleMicrophone').click(); document.getElementById('textMessageInput').click(); document.getElementById('textMessageInput').value = '...'; document.getElementById('sendMessageButton').click(); document.getElementById('toggleMicrophone').click(); }}
+            onClick={() => setShowContextMenu(!showContextMenu)}
           >
             {showContextMenu ? (
               <X size={iconSize} color="#fff" />
