@@ -263,7 +263,7 @@ function Controls({
             aria-label="More Options"
             data-tip="More Options"
             id="dpChatDropdown"
-            onClick={() => { document.getElementById('toggleMicrophone').click();  document.getElementById('textMessageInput').value = '...'; document.getElementById('sendMessageButton').click(); document.getElementById('toggleMicrophone').click(); } }
+            onClick={() => { document.getElementById('toggleMicrophone').click(); document.getElementById('textMessageInput').value = '...'; document.getElementById('sendMessageButton').click(); document.getElementById('toggleMicrophone').click();}}
           >
             {showContextMenu ? (
               <X size={iconSize} color="#fff" />
