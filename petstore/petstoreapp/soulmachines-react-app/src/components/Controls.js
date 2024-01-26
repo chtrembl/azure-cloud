@@ -225,7 +225,7 @@ function Controls({
             aria-label="Toggle Microphone"
             data-tip="Toggle Microphone"
             disabled={requestedMediaPerms.micDenied === true}
-            onClick={() => dispatch(setMicOn({ micOn: !micOn }))}
+            onClick={() => dispatch(setMicOn({ micOn: !micOn }), console.log('toggle mic'))}
             id="toggleMicrophone"
           >
             {micOn ? (
