@@ -64,7 +64,12 @@ function DPChat({
   useEffect(() => {
     // send init event, since we will finish loading before we display the DP
     setTimeout(() => {
-      dispatch(sendTextMessage({ text: '...' }));
+      dispatch(
+        //sendTextMessage({ text: '...' })
+        //get an element and click it to start the conversation
+        document.getElementById("toggleTranscript").click(),
+        document.getElementById("sendButton").click()
+        );
     }, 2000);
     // run resize once on mount, then add listener for future resize events
     handleResize();

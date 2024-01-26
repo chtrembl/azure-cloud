@@ -208,6 +208,7 @@ function Controls({
             data-tip="Toggle Transcript"
             onClick={toggleKeyboardInput}
             disabled={transcript.length <= 0}
+            id="toggleTranscript"
           >
             <ChatSquareTextFill
               size={iconSize}
