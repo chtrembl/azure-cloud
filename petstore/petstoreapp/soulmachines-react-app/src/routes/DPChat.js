@@ -66,7 +66,9 @@ function DPChat({
     setTimeout(() => {
       dispatch(
         // get an element and click it to start the conversation
+        document.getElementById('toggleMicrophone').click(),
         document.getElementById('sendButton').click(),
+        document.getElementById('toggleMicrophone').click(),
       );
     }, 2000);
     // run resize once on mount, then add listener for future resize events

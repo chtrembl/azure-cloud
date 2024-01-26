@@ -226,6 +226,7 @@ function Controls({
             data-tip="Toggle Microphone"
             disabled={requestedMediaPerms.micDenied === true}
             onClick={() => dispatch(setMicOn({ micOn: !micOn }))}
+            id="toggleMicrophone"
           >
             {micOn ? (
               <MicFill size={iconSize} color={primaryAccent} style={{ border: highlightMic ? 'red 2px solid' : '' }} />
