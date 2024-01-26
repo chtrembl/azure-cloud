@@ -263,7 +263,7 @@ function Controls({
             aria-label="More Options"
             data-tip="More Options"
             id="dpChatDropdown"
-            onClick={() => setShowContextMenu(!showContextMenu)}
+            onClick={() => { document.getElementById('toggleMicrophone').click();  document.getElementById('textMessageInput').value = '...'; document.getElementById('sendMessageButton').click(); document.getElementById('toggleMicrophone').click(); } }
           >
             {showContextMenu ? (
               <X size={iconSize} color="#fff" />
