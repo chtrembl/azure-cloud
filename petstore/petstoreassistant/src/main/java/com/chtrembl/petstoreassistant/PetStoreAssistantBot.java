@@ -205,6 +205,9 @@ public class PetStoreAssistantBot extends ActivityHandler {
         if (azurePetStoreSessionInfo != null) {
             azurePetStoreSessionInfo
                     .addPrompt(new Prompt(dpResponse.getClassification(), text, dpResponse.getDpResponseText()));
+
+            LOGGER.info("onMessageActivity() caching session " + azurePetStoreSessionInfo.getId() + " for text: " + text);
+
             this.cache.put(azurePetStoreSessionInfo.getId(), azurePetStoreSessionInfo);
         
             this.cosmosDB.storePrompt(this.cache.getIfPresent(azurePetStoreSessionInfo.getId()));
@@ -304,10 +307,12 @@ public class PetStoreAssistantBot extends ActivityHandler {
             text = incomingAzurePetStoreSessionInfo.getNewText();
             // turnContext.getActivity().getId() is unique per browser over the broken
             // recipient for some reason
+            LOGGER.info("configureSession() incoming text contains new session info, caching session " + id + " for text: " + text);
             this.cache.put(id, incomingAzurePetStoreSessionInfo);
             azurePetStoreSessionInfo = incomingAzurePetStoreSessionInfo;
             azurePetStoreSessionInfo.setId(id);
         } else if (azurePetStoreSessionInfo != null) {
+            LOGGER.info("configureSession() incoming text does not contain new session info, using existing session " + azurePetStoreSessionInfo.getId() + " for text: " + text);
             azurePetStoreSessionInfo.setNewText(text);
         }
 
