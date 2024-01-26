@@ -7,7 +7,7 @@ import PersonaVideo from '../components/PersonaVideo';
 import Captions from '../components/Captions';
 import ContentCardDisplay from '../components/ContentCardDisplay';
 import {
-  disconnect, sendTextMessage, setVideoDimensions,
+  disconnect, setVideoDimensions,
 } from '../store/sm/index';
 import Header from '../components/Header';
 import {
@@ -67,8 +67,8 @@ function DPChat({
       dispatch(
         // get an element and click it to start the conversation
         document.getElementById('toggleTranscript').click(),
-        document.getElementById('sendButton').click()
-        );
+        document.getElementById('sendButton').click(),
+      );
     }, 2000);
     // run resize once on mount, then add listener for future resize events
     handleResize();
