@@ -25,14 +25,15 @@ function TextInput({ className }) {
             value={textInput}
             onChange={handleInput}
             className="form-control"
-            placeholder="..."
+            placeholder="Type your message here ..."
+            id="textMessageInput"
           />
           <button
             className="btn send-button"
             type="submit"
             aria-label="Submit"
             data-tip="Submit"
-            id="sendButton'"
+            id="sendMessageButton"
           >
             <Send />
           </button>
