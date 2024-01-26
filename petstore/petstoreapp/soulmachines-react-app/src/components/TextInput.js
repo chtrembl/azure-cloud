@@ -32,7 +32,7 @@ function TextInput({ className }) {
             type="submit"
             aria-label="Submit"
             data-tip="Submit"
-            id='sendButton'
+            id="sendButton'"
           >
             <Send />
           </button>
