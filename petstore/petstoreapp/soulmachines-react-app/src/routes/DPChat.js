@@ -67,7 +67,7 @@ function DPChat({
       dispatch(
         // get an element and click it to start the conversation
         document.getElementById('toggleMicrophone').click(),
-        document.getElementById('textMessageInput').value='...',
+        document.getElementById('textMessageInput').value = '...',
         document.getElementById('sendMessageButton').click(),
         document.getElementById('toggleMicrophone').click(),
       );
