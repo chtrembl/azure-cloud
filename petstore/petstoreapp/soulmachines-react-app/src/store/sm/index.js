@@ -343,6 +343,7 @@ export const createScene = createAsyncThunk('sm/createScene', async (_, thunk) =
                   description: button.members.description.value,
                   imageAltText: button.members.imageAltText.value,
                   buttonText: button.members.buttonText.value,
+                  productId: button.members.productId.value,
                 };
               }),
             },
