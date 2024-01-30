@@ -335,14 +335,16 @@ export const createScene = createAsyncThunk('sm/createScene', async (_, thunk) =
             type: type.value,
             id: id.value,
             data: {
-              buttonCards: data.members.map((button) => ({
-                title: button.title.value,
-                imageUrl: button.imageUrl.value,
-                description: button.description.value,
-                imageAltText: button.imageAltText.value,
-                buttonText: button.buttonText.value,
-              }
-              )),
+              buttonCards: data.members.buttonCards.elements.map((button) => {
+                if (!button.members) return null;
+                return {
+                  title: button.members.title.value,
+                  imageUrl: button.members.imageUrl.value,
+                  description: button.members.description.value,
+                  imageAltText: button.members.imageAltText.value,
+                  buttonText: button.members.buttonText.value,
+                };
+              }),
             },
           };
           break;

@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
 import React, { createRef, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { ArrowLeftCircle, ArrowRightCircle } from 'react-bootstrap-icons';
 import ButtonWithImage from './ButtonWithImage';
@@ -32,10 +33,11 @@ function ButtonCarousel({
   }, [viewIndex]);
 
   const carousel = buttonCards.map((imData) => {
+    if (!imData) return null;
     const imgRef = createRef();
     refs.push(imgRef);
     return (
-      <div className="image-carousel-item" key={imData.url} ref={imgRef}>
+      <div className="image-carousel-item" key={imData.url || 'key'} ref={imgRef}>
         <ButtonWithImage data={imData} triggerScrollIntoView={triggerScrollIntoView} />
       </div>
     );
@@ -90,25 +92,25 @@ function ButtonCarousel({
   );
 }
 
-ButtonCarousel.propTypes = {
-  data: PropTypes.shape({
-    buttonCards: PropTypes.arrayOf(
-      PropTypes.shape({
-        data: {
-          title: PropTypes.string.isRequired,
-          imageUrl: PropTypes.string.isRequired,
-          description: PropTypes.string.isRequired,
-          imageAltText: PropTypes.string,
-          buttonText: PropTypes.string,
-          productId: PropTypes.string,
-        },
-      }),
-    ),
-  }).isRequired,
-  className: PropTypes.string.isRequired,
-  inTranscript: PropTypes.bool.isRequired,
-  triggerScrollIntoView: PropTypes.func.isRequired,
-};
+// ButtonCarousel.propTypes = {
+//   data: PropTypes.shape({
+//     buttonCards: PropTypes.arrayOf(
+//       PropTypes.shape({
+//         data: {
+//           title: PropTypes.string.isRequired,
+//           imageUrl: PropTypes.string.isRequired,
+//           description: PropTypes.string.isRequired,
+//           imageAltText: PropTypes.string,
+//           buttonText: PropTypes.string,
+//           productId: PropTypes.string,
+//         },
+//       }),
+//     ),
+//   }).isRequired,
+//   className: PropTypes.string.isRequired,
+//   inTranscript: PropTypes.bool.isRequired,
+//   triggerScrollIntoView: PropTypes.func.isRequired,
+// };
 
 export default styled(ButtonCarousel)`
   .image-carousel-wrapper {
