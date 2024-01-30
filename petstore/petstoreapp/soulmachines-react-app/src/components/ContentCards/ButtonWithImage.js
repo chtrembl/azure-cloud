@@ -53,7 +53,6 @@ export default styled(ButtonWithImage)`
   color: #6c757d;
 `;
 
-
 // {
 //   "type": "buttonWithImage",
 //   "id": "buttonWithImage",
