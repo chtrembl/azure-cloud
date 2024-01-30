@@ -45,13 +45,14 @@ ButtonWithImage.propTypes = {
 };
 
 export default styled(ButtonWithImage)`
-  width: 20rem;
+  border-radius: 20px;
+  border: 0px solid #4581ba;
+  overflow: hidden;
 
-  img {
-    width: 100%;
-    height: auto;
-  }
+  background: none;
+  color: #6c757d;
 `;
+
 
 // {
 //   "type": "buttonWithImage",
