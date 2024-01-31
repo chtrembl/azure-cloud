@@ -214,7 +214,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
         }
 
         if (dpResponse.isContentCard()) {
-            if(dpResponse.getClassification().equals(Classification.MORE_PRODUCT_INFORMATION)
+            if(dpResponse.getClassification().equals(Classification.MORE_PRODUCT_INFORMATION))
             {
                 return PetStoreAssistantUtilities.getImageCard(turnContext, dpResponse);
             }
