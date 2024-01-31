@@ -1,0 +1,8 @@
+{
+   "type":"buttonCarousel",
+   "id":"buttonCarousel",
+   "data":
+      {
+         "buttonCards": %s
+      }
+}           

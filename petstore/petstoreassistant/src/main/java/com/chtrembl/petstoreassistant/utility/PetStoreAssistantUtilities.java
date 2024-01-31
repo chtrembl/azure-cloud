@@ -53,4 +53,21 @@ public class PetStoreAssistantUtilities {
                 MessageFactory.attachment(attachment, dpResponse.getDpResponseText() + " @showcards(image-product)"))
                 .thenApply(sendResult -> null);
     }
+
+    public static CompletableFuture<Void> getProductCarouselContentCard(TurnContext turnContext, DPResponse dpResponse) {
+        String jsonString = "{\"type\":\"buttonCarousel\",\"id\":\"buttonCarousel\",\"data\":{\"buttonCards\":%s}}";
+        jsonString = String.format(jsonString, new Gson().toJson(dpResponse.getProducts()));
+
+        LOGGER.info("getProductCarouselContentCard() jsonString: " + jsonString);
+
+        Attachment attachment = new Attachment();
+        attachment.setContentType("application/json");
+
+        attachment.setContent(new Gson().fromJson(jsonString, JsonObject.class));
+        attachment.setName("public-buttonCarousel");
+
+        return turnContext.sendActivity(
+                MessageFactory.attachment(attachment, dpResponse.getDpResponseText() + " @showcards(buttonCarousel)"))
+                .thenApply(sendResult -> null);
+    }
 }

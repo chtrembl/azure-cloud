@@ -213,8 +213,12 @@ public class PetStoreAssistantBot extends ActivityHandler {
             this.cosmosDB.storePrompt(this.cache.getIfPresent(azurePetStoreSessionInfo.getId()));
         }
 
-        if (dpResponse.isImageContentCard()) {
-            return PetStoreAssistantUtilities.getImageCard(turnContext, dpResponse);
+        if (dpResponse.isContentCard()) {
+            if(dpResponse.getClassification().equals(Classification.MORE_PRODUCT_INFORMATION)
+            {
+                return PetStoreAssistantUtilities.getImageCard(turnContext, dpResponse);
+            }
+            return PetStoreAssistantUtilities.getProductCarouselContentCard(turnContext, dpResponse);
         }
 
         LOGGER.info("classification on text: " + text + " is: " + dpResponse.getClassification());

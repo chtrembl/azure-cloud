@@ -185,21 +185,27 @@ public class AzureAIServices implements IAzureAIServices {
             switch (dpResponse.getClassification()) {
                 case SEARCH_FOR_DOG_FOOD:
                     category = "Dog Food";
+                    dpResponse.setContentCard(true);
                     break;
                 case SEARCH_FOR_DOG_TOYS:
                     category = "Dog Toy";
+                    dpResponse.setContentCard(true);
                     break;
                 case SEARCH_FOR_CAT_FOOD:
                     category = "Cat Food";
+                    dpResponse.setContentCard(true);
                     break;
                 case SEARCH_FOR_CAT_TOYS:
                     category = "Cat Toy";
+                    dpResponse.setContentCard(true);
                     break;
                 case SEARCH_FOR_FISH_FOOD:
                     category = "Fish Food";
+                    dpResponse.setContentCard(true);
                     break;
                 case SEARCH_FOR_FISH_TOYS:
                     category = "Fish Toy";
+                    dpResponse.setContentCard(true);
                     break;
             }
 
@@ -262,12 +268,15 @@ public class AzureAIServices implements IAzureAIServices {
         }
         
         // this should become a content card with a carousel of product(s) for now just display description if there is 1 product and override the stuff above
-        if(products.size() == 1 || classification.equals(Classification.MORE_PRODUCT_INFORMATION))
+        if(products.size() == 1 && (classification.equals(Classification.MORE_PRODUCT_INFORMATION) || dpResponse.isContentCard()))
         {
-             dpResponse.setImageContentCard(true);
-             dpResponseText = "Check out this product, the " + products.get(0).getName();
-             
-             dpResponse.setDpResponseText(dpResponseText);
+             dpResponse.setContentCard(true);
+             dpResponse.setDpResponseText("Check out this product, the " + products.get(0).getName());
+        }
+        else if (products.size() > 0 && dpResponse.isContentCard())
+        {
+            dpResponseText = "Check out these products below";
+            dpResponse.setDpResponseText(dpResponseText);
         }
         else
         {

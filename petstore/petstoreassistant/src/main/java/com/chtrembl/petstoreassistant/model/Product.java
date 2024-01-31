@@ -3,16 +3,26 @@ package com.chtrembl.petstoreassistant.model;
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 public class Product implements Serializable{
     private String productId = null;
     
     @JsonProperty("category.name")
     private String category = null;
+    
+    @SerializedName("title")
     private String name = null;
-    private String description = null;
+
+    @SerializedName("imageUrl")
     private String photoURL = null;
 
+    private String description = null;
+
+    private String imageAltText = "";
+
+    private String buttonText = "Add to cart";
+    
     private int searchScore = 0;
 
     public Product() {
@@ -63,5 +73,17 @@ public class Product implements Serializable{
     }
     public void setSearchScore(int searchScore) {
         this.searchScore = searchScore;
+    }
+    public String getImageAltText() {
+        return imageAltText;
+    }
+    public void setImageAltText(String imageAltText) {
+        this.imageAltText = imageAltText;
+    }
+    public String getButtonText() {
+        return buttonText;
+    }
+    public void setButtonText(String buttonText) {
+        this.buttonText = buttonText;    
     }
 }
