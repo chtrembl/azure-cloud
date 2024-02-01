@@ -9,7 +9,7 @@ function ButtonWithImage({ data, className }) {
 
   const handleButtonClick = (e) => {
     e.preventDefault();
-    const url = window.parent.location;
+    const url = window.parent.location + '';
     console.log(`${url}  ${productId}`);
     const session = url.split('sid=')[1].split('&')[0];
     const csrf = url.split('csrf=')[1];
