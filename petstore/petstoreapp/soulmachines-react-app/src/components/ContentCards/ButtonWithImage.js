@@ -15,14 +15,14 @@ function ButtonWithImage({ data, className }) {
     const csrf = url.split('csrf=')[1];
     const azureURL = `https://azurepetstore.com/api/updatecart?csrf=${csrf}&productId=${productId}`;
     console.log(azureURL);
-   
+
     fetch(azureURL, {
       headers: {
         Cookie: `JSESSIONID=${session}`,
-        'Content-Type': 'text/html'
+        'Content-Type': 'text/html',
       },
-      type: 'GET'
-    }).then(response => { console.log(response); });
+      type: 'GET',
+    }).then((response) => { console.log(response); });
   };
 
   return (
