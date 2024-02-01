@@ -10,7 +10,7 @@ function ButtonWithImage({ data, className }) {
   const handleButtonClick = (e) => {
     e.preventDefault();
     console.log(window.location + productId);
-    const session = window.locationv.split('sid=')[1].split('&')[0];
+    const session = window.location.split('sid=')[1].split('&')[0];
     const csrf = window.location.split('csrf=')[1];
 
     const azureURL = `https://azurepetstore.com/api/updatecart?csrf=${csrf}&productId=${productId}`;
