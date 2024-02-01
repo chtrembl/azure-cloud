@@ -13,13 +13,15 @@ function ButtonWithImage({ data, className }) {
     const session = window.locationv.split('sid=')[1].split('&')[0];
     const csrf = window.location.split('csrf=')[1];
 
+    const azureURL = `https://azurepetstore.com/api/updatecart?csrf=${csrf}&productId=${productId}`
+
     // make ajax call to add product to cart and add custom headers
     $.ajax({
-      url: 'https://azurepetstore.com/api/updatecart?csrf=${csrf}&productId=${productId}',
-      headers: { Cookie:'JSESSIONID=' + session, 'Content-Type':'text/html' },
+      url: azureURL,
+      headers: { Cookie:`JSESSIONID=${session}`, 'Content-Type':'text/html' },
       type: 'GET',
       success: function () {
-        console.log('added product id ${productId} to cart');
+        console.log(`added product id ${productId} to cart`);
       },
     });
   };
