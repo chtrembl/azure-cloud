@@ -10,6 +10,7 @@ function ButtonWithImage({ data, className }) {
   const handleButtonClick = (e) => {
     e.preventDefault();
     console.log(window.location + productId);
+    addToCart(window.location, productId)
   };
 
   return (
