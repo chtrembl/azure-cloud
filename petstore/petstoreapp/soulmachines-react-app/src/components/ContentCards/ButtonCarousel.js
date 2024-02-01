@@ -113,6 +113,15 @@ function ButtonCarousel({
 // };
 
 export default styled(ButtonCarousel)`
+  .descriptionReduce {
+    width:100%;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    background: transparent;
+  }
+
   .card {
     --bs-card-bg: transparent !important;
   }

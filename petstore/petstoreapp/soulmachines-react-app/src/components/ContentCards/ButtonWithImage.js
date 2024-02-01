@@ -20,7 +20,7 @@ function ButtonWithImage({ data, className }) {
         </div>
         <div className="card-body">
           <h5>{title}</h5>
-          <p>{description}</p>
+          <p className="descriptionReduce">{description}</p>
           <div className="d-flex justify-content-center">
             <button className="btn btn-outline-primary" type="button" onClick={handleButtonClick}>
               {buttonText}
