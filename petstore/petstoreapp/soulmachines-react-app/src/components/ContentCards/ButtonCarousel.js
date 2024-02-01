@@ -113,13 +113,22 @@ function ButtonCarousel({
 // };
 
 export default styled(ButtonCarousel)`
+
+  div[data-sm-content="buttonCarousel"] {
+    width: 80%;
+  }
+
+  .imageReduce {
+    width:30%;
+  }
+
   .descriptionReduce {
-    width:100%;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    background: transparent;
+      width:100%;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      background: transparent;
   }
 
   .card {
