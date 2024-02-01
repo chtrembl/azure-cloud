@@ -22,7 +22,7 @@ function ButtonWithImage({ data, className }) {
           <h5>{title}</h5>
           <p>{description}</p>
           <div className="d-flex justify-content-center">
-            <button type="button" onClick={handleButtonClick}>
+            <button class="btn btn-outline-primary" type="button" onClick={handleButtonClick}>
               {buttonText}
             </button>
           </div>

@@ -128,7 +128,7 @@ export default styled(ButtonCarousel)`
   }
 
   .image-carousel-item {
-    min-width: 90%;
+    min-width: 50%;
     position: relative;
     &>div {
       margin-right: 1rem;
