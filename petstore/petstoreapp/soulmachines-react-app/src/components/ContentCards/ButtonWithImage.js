@@ -10,7 +10,19 @@ function ButtonWithImage({ data, className }) {
   const handleButtonClick = (e) => {
     e.preventDefault();
     console.log(window.location + productId);
-    addToCart(window.location, productId)
+    const session = url.split("sid=")[1].split("&")[0];
+		const csrf = url.split("csrf=")[1];
+
+			// make ajax call to add product to cart and add custom headers
+			$.ajax({
+			 url: 'https://azurepetstore.com/api/updatecart?csrf='+csrf+'&productId=' + productId,
+			 headers: { 'Cookie': 'JSESSIONID='+session, 'Content-Type': 'text/html'},
+			 type: 'GET',
+			 success: function(data){
+			  console.log("added to cart: " + productId);
+			  cartcount();
+			 }
+			});
   };
 
   return (
