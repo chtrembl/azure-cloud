@@ -65,7 +65,7 @@ function DPChat({
     // send init event, since we will finish loading before we display the DP
     setTimeout(() => {
       dispatch(sendTextMessage({ text: '...' }));
-    }, 1000);
+    }, 5000);
     // run resize once on mount, then add listener for future resize events
     handleResize();
     window.addEventListener('resize', handleResize);
