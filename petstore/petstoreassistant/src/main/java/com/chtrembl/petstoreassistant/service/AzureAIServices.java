@@ -275,7 +275,7 @@ public class AzureAIServices implements IAzureAIServices {
         }
         else if (products.size() > 0 && dpResponse.isContentCard())
         {
-            dpResponseText = "Check out these products below";
+            dpResponseText = "Check out these products";
             dpResponse.setDpResponseText(dpResponseText);
         }
         else

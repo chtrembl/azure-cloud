@@ -46,7 +46,7 @@ ButtonWithImage.propTypes = {
 
 export default styled(ButtonWithImage)`
   border-radius: 20px;
-  border: 0px solid #4581ba;
+  border: 1px solid #4581ba;
   overflow: hidden;
 
   background: none;

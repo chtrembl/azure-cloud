@@ -113,6 +113,14 @@ function ButtonCarousel({
 // };
 
 export default styled(ButtonCarousel)`
+  div[data-sm-content="buttonCarousel"] {
+    width: 80%;
+  }
+
+  .card {
+    --bs-card-bg: transparent !important;
+  }
+
   .image-carousel-wrapper {
     display: flex;
     min-height: 100%;
