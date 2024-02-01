@@ -9,10 +9,10 @@ function ButtonWithImage({ data, className }) {
 
   const handleButtonClick = (e) => {
     e.preventDefault();
-    console.log(window.location + productId);
-    const session = window.location.split('sid=')[1].split('&')[0];
-    const csrf = window.location.split('csrf=')[1];
-
+    const url = window.parent.location;
+    console.log(`${url}  ${productId}`);
+    const session = url.split('sid=')[1].split('&')[0];
+    const csrf = url.split('csrf=')[1];
     const azureURL = `https://azurepetstore.com/api/updatecart?csrf=${csrf}&productId=${productId}`;
 
     // make ajax call to add product to cart and add custom headers
