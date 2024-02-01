@@ -16,7 +16,7 @@ function ButtonWithImage({ data, className }) {
     <div className={className}>
       <div className="card">
         <div className="d-flex justify-content-center">
-          <img class="imageReduce" src={imageUrl} alt={imageAltText || description} />
+          <img className="imageReduce" src={imageUrl} alt={imageAltText || description} />
         </div>
         <div className="card-body">
           <h5>{title}</h5>
