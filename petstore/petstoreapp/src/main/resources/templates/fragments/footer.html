@@ -4,7 +4,25 @@
 </head>
 <body>
 	<div th:fragment="footer">
-
+		<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+		<script>
+			$(document).click(function (e) {    
+				if(e.target.innerHTML.includes('sm-'))
+				{
+					e.preventDefault();
+					window.location.href = "https://azurepetstore.com/soulmachines";
+				}
+			});
+		</script>
+		<script
+		src="https://static.soulmachines.com/widget-snippet-1.12.0.min.js"
+		data-sm-api-key="eyJzb3VsSWQiOiJkZG5hLW1pY3Jvc29mdC0yMDIzLS1uZXctcHJvamVjdC1iY2MyMjMyIiwiYXV0aFNlcnZlciI6Imh0dHBzOi8vZGguYXouc291bG1hY2hpbmVzLmNsb3VkL2FwaS9qd3QiLCJhdXRoVG9rZW4iOiJhcGlrZXlfdjFfYjM1YTQzYmEtYjQzMC00MDUyLTlmN2ItNGQzMjgyMWUwNzEwIn0="
+		data-sm-position="center"
+		data-sm-greeting="Hello and welcome to the Azure Pet Store, How can I help you?"
+		data-sm-layout="fullFrame"
+		data-sm-profile-picture="https://azurepetstore.com/static/media/placeholder-headshot.70778301adda08b1f193.png">
+		</script>
+	
 		<div class="container">
 			<footer class="pt-4 my-md-5 pt-md-5 border-top">
 				<div class="row">
