@@ -16,13 +16,13 @@ function ButtonWithImage({ data, className }) {
     const azureURL = `https://azurepetstore.com/api/updatecart?csrf=${csrf}&productId=${productId}`;
     console.log(azureURL);
    
-     fetch(azureURL, {
-       headers: {
-         'Cookie': `JSESSIONID=${session}`,
-         'Content-Type': 'text/html'
-       },
-       type: 'GET'
-      }).then(response => { console.log(response) });
+    fetch(azureURL, {
+      headers: {
+        Cookie: `JSESSIONID=${session}`,
+        'Content-Type': 'text/html'
+      },
+      type: 'GET'
+    }).then(response => { console.log(response); });
   };
 
   return (
