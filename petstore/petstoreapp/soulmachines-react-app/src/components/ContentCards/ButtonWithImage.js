@@ -15,11 +15,11 @@ function ButtonWithImage({ data, className }) {
 
     // make ajax call to add product to cart and add custom headers
     $.ajax({
-      url: 'https://azurepetstore.com/api/updatecart?csrf=' + csrf+'&productId=' + productId,
-      headers: { Cookie:'JSESSIONID=' + session,'Content-Type':'text/html' },
+      url: 'https://azurepetstore.com/api/updatecart?csrf=${csrf}&productId=${productId}',
+      headers: { Cookie:'JSESSIONID=' + session, 'Content-Type':'text/html' },
       type: 'GET',
       success: function () {
-        console.log('added to cart:' + productId);
+        console.log('added product id ${productId} to cart');
       },
     });
   };
