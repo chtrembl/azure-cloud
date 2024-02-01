@@ -11,16 +11,16 @@ function ButtonWithImage({ data, className }) {
     e.preventDefault();
     console.log(window.location + productId);
     const session = window.locationv.split('sid=')[1].split('&')[0];
-    const csrf  = window.location.split('csrf=')[1];
+    const csrf = window.location.split('csrf=')[1];
 
     // make ajax call to add product to cart and add custom headers
     $.ajax({
-      url: 'https://azurepetstore.com/api/updatecart?csrf='+csrf+'&productId='+productId,
-      headers: {'Cookie':'JSESSIONID='+session,'Content-Type':'text/html'},
+      url: 'https://azurepetstore.com/api/updatecart?csrf=' + csrf+'&productId=' + productId,
+      headers: { Cookie:'JSESSIONID=' + session,'Content-Type':'text/html' },
       type: 'GET',
       success: function () {
-        console.log('added to cart:'+productId);
-      }
+        console.log('added to cart:' + productId);
+      },
     });
   };
 
