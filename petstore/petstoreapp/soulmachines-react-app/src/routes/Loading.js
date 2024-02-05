@@ -157,7 +157,11 @@ function Loading({
   };
   const history = useHistory();
   useEffect(() => {
-    if (skip === true && connected === true) history.push('/video');
+    if (skip === true && connected === true) {
+      setTimeout(() => {
+        history.push('/video');
+      }, 2500);
+    }
   }, [connected, skip]);
 
   return (
