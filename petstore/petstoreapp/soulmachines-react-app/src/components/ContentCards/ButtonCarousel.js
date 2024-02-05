@@ -120,6 +120,7 @@ export default styled(ButtonCarousel)`
 
   .imageReduce {
     width:30%;
+    margin-top:10px;
   }
 
   .descriptionReduce {
@@ -132,6 +133,8 @@ export default styled(ButtonCarousel)`
   }
 
   .card {
+    border:2px solid rgb(69, 129, 186) !important;
+    border-radius:20px !important;
     --bs-card-bg: transparent !important;
   }
 
