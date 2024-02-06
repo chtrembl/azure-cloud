@@ -3,6 +3,7 @@
 
 package com.chtrembl.petstoreassistant;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -29,6 +30,7 @@ import com.microsoft.bot.builder.ActivityHandler;
 import com.microsoft.bot.builder.MessageFactory;
 import com.microsoft.bot.builder.TurnContext;
 import com.microsoft.bot.builder.UserState;
+import com.microsoft.bot.schema.Activity;
 import com.microsoft.bot.schema.Attachment;
 import com.microsoft.bot.schema.ChannelAccount;
 
@@ -382,6 +384,18 @@ public class PetStoreAssistantBot extends ActivityHandler {
                     .thenApply(sendResult -> null);
         }
 
+        if(text.equals("list"))
+        {
+            List<Activity> activities = new ArrayList<Activity>() {
+                {
+                    add(MessageFactory.text("Ball (1)"));
+                    add(MessageFactory.text("Plush Lamb (4)"));
+                    add(MessageFactory.text("Scratcher (2)"));
+                }
+            };
+
+            return turnContext.sendActivities(activities).thenApply(sendResult -> null);
+        }
 
         return null;
     }
