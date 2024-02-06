@@ -108,7 +108,7 @@ public class RestAPIController {
 			sb = new StringBuilder();
 			sb.append("Your order contains a ");
 			for (int i = 0; i < order.getProducts().size(); i++) {
-				sb.append(order.getProducts().get(i).getName()).append(" with a quantity ").append(order.getProducts().get(i).getQuantity());
+				sb.append(order.getProducts().get(i).getName()).append(" (").append(order.getProducts().get(i).getQuantity()).append(")");
 				if (i < order.getProducts().size() - 1) {
 					sb.append(", a ");
 				}

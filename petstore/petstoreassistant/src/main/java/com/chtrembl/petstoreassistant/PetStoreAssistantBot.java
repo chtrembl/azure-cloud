@@ -388,13 +388,13 @@ public class PetStoreAssistantBot extends ActivityHandler {
         {
             List<String> cart = new ArrayList<String>() {
                 {
-                    add("Ball (1)");
-                    add("Plush Lamb (4)");
-                    add("Scratcher (2)");
+                    add("Product A (1)");
+                    add("Product B (2)");
+                    add("Product C (3)");
                 }
             };
 
-            return turnContext.sendActivity(MessageFactory.suggestedActions(cart, "Your cart contains the following:")).thenApply(sendResult -> null);
+            return turnContext.sendActivity(MessageFactory.suggestedActions(cart, "Sample message, cart contains the following:")).thenApply(sendResult -> null);
         }
 
         return null;
