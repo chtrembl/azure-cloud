@@ -133,8 +133,15 @@ public class PetStoreAssistantBot extends ActivityHandler {
             return debug;
         }
 
-        DPResponse dpResponse = this.azureOpenAI.classification(text);
+        DPResponse dpResponse = this.azureOpenAI.classification(text, azurePetStoreSessionInfo.getSessionID());
 
+        if(dpResponse.isRateLimitExceeded())
+        {
+            return turnContext.sendActivity(
+                MessageFactory.text("I am sorry, you have exceeded your Azure Open AI Rate Limit, please try again shortly."))
+                .thenApply(sendResult -> null);
+        }
+        
         if (dpResponse.getClassification() == null) {
             dpResponse.setClassification(Classification.SEARCH_FOR_PRODUCTS);
             dpResponse = this.azureOpenAI.search(text, dpResponse.getClassification());
@@ -148,22 +155,16 @@ public class PetStoreAssistantBot extends ActivityHandler {
                         dpResponse = this.azurePetStore.updateCart(azurePetStoreSessionInfo,
                                 dpResponse.getProducts().get(0).getProductId());
                     }
-                } else {
-                    dpResponse.setDpResponseText("update shopping cart request without session... text: " + text);
                 }
                 break;
             case VIEW_SHOPPING_CART:
                 if (azurePetStoreSessionInfo != null) {
                     dpResponse = this.azurePetStore.viewCart(azurePetStoreSessionInfo);
-                } else {
-                    dpResponse.setDpResponseText("view shopping cart request without session... text: " + text);
                 }
                 break;
             case PLACE_ORDER:
                 if (azurePetStoreSessionInfo != null) {
                     dpResponse = this.azurePetStore.completeCart(azurePetStoreSessionInfo);
-                } else {
-                    dpResponse.setDpResponseText("place order request without session... text: " + text);
                 }
                 break;
             case SEARCH_FOR_DOG_FOOD:
@@ -174,18 +175,14 @@ public class PetStoreAssistantBot extends ActivityHandler {
             case SEARCH_FOR_FISH_TOYS:
             case MORE_PRODUCT_INFORMATION:
             case SEARCH_FOR_PRODUCTS:
-                if (azurePetStoreSessionInfo == null) {
-                    dpResponse.setDpResponseText("search for products request without session... text: " + text);
-                } else {
+                if (azurePetStoreSessionInfo != null) {
                     dpResponse = this.azureOpenAI.search(text, dpResponse.getClassification());
                 }
                 break;
             case SOMETHING_ELSE:
-                if (azurePetStoreSessionInfo == null) {
-                    dpResponse.setDpResponseText("chatgpt request without session... text: " + text);
-                } else {
+                if (azurePetStoreSessionInfo != null) {
                     if (!text.isEmpty()) {
-                        dpResponse = this.azureOpenAI.completion(text, dpResponse.getClassification());
+                        dpResponse = this.azureOpenAI.completion(text, dpResponse.getClassification(), azurePetStoreSessionInfo.getSessionID());
                     } else {
                         dpResponse.setDpResponseText("chatgpt called without a search query... text: " + text);
                     }
@@ -193,12 +190,15 @@ public class PetStoreAssistantBot extends ActivityHandler {
                 break;
         }
 
+        if(dpResponse.isRateLimitExceeded())
+        {
+            return turnContext.sendActivity(
+                MessageFactory.text("I am sorry, you have exceeded your Azure Open AI Rate Limit, please try again shortly."))
+                .thenApply(sendResult -> null);
+        }
+        
         if ((dpResponse.getDpResponseText() == null)) {
             String responseText = "I am not sure how to handle that.";
-
-            if ((azurePetStoreSessionInfo == null)) {
-                responseText += " It may be because I did not have your session information.";
-            }
             dpResponse.setDpResponseText(responseText);
         }
 

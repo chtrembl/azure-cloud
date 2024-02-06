@@ -12,6 +12,7 @@ public class DPResponse {
     private boolean completeCart = false;
     private String aoaiResponse = null;
     private boolean contentCard = false;
+    private boolean rateLimitExceeded = false;
     
     public DPResponse() {
         super();
@@ -62,5 +63,11 @@ public class DPResponse {
     }
     public void setContentCard(boolean contentCard) {
         this.contentCard = contentCard;
+    }
+    public boolean isRateLimitExceeded() {
+        return this.rateLimitExceeded;
+    }
+    public void setRateLimitExceeded(boolean rateLimitExceeded) {
+        this.rateLimitExceeded = rateLimitExceeded;
     }
 }

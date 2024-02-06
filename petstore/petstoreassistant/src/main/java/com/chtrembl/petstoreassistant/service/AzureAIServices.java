@@ -8,7 +8,6 @@ import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientException;
 
 import com.chtrembl.petstoreassistant.model.DPResponse;
 import com.chtrembl.petstoreassistant.model.Product;
@@ -24,6 +24,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
+import retrofit2.HttpException;
 
 @Service
 public class AzureAIServices implements IAzureAIServices {
@@ -48,18 +50,23 @@ public class AzureAIServices implements IAzureAIServices {
     private Resource semanticSearchRequestBodyBodyResource;
     String semanticSearchRequestBodyBodyString;
 
-    private WebClient aoaiClient = WebClient.create("https://azurepetstore-aoai-gpt4.openai.azure.com");
-    private WebClient csClient = WebClient.create(
-            "https://azurepetstore-cs.search.windows.net/indexes/petproducts/docs/search?api-version=2023-10-01-Preview");
+    @Value("${apim.key:}")
+    private String apimKey;
+
+    @Value("${aoai.url}")
+    private String aoaiUrl;
 
     @Value("${aoai.key}")
     private String aoaiKey;
 
+    @Value("${cognitive.search.url}")
+    private String csUrl;
+
     @Value("${cognitive.search.key}")
     private String csKey;
 
-    @Autowired
-    private ICosmosDB cosmosDB;
+    private WebClient aoaiClient = null;
+    private WebClient csClient = null;
 
     @PostConstruct
     public void initialize() throws Exception {
@@ -75,6 +82,9 @@ public class AzureAIServices implements IAzureAIServices {
 
         this.semanticSearchRequestBodyBodyString = StreamUtils
                 .copyToString(semanticSearchRequestBodyBodyResource.getInputStream(), Charset.defaultCharset());
+
+        this.aoaiClient = WebClient.create(this.aoaiUrl);
+        this.csClient = WebClient.create(this.csUrl);
     }
 
     public enum Classification {
@@ -108,14 +118,14 @@ public class AzureAIServices implements IAzureAIServices {
     }
 
     @Override
-    public DPResponse classification(String text) {
+    public DPResponse classification(String text, String sessionID) {
         LOGGER.info("classification invoked, text: {}", text);
 
         DPResponse dpResponse = new DPResponse();
 
         try {
             String aoaiResponse = this.httpRequest(String.format(this.classificationRequestBodyString, text),
-                    this.CLASSIFICATION_URI, this.aoaiKey, this.aoaiClient);
+                    this.CLASSIFICATION_URI, this.aoaiKey, this.apimKey, sessionID, this.aoaiClient);
 
             String classification = new Gson().fromJson(aoaiResponse, JsonElement.class).getAsJsonObject()
                     .get("choices")
@@ -128,14 +138,23 @@ public class AzureAIServices implements IAzureAIServices {
 
             LOGGER.info("classified {} as {}", text, classification);
 
-        } catch (Exception e) {
+        }
+        catch (WebClientException webClientException) {
+            LOGGER.error("Error parsing classification response ", webClientException);
+            if(webClientException.getMessage().contains("429"))
+            {
+                dpResponse.setRateLimitExceeded(true);
+            }
+        }
+        catch (Exception e) {
             LOGGER.error("Error parsing classification response ", e);
         }
+
         return dpResponse;
     }
 
     @Override
-    public DPResponse completion(String text, Classification classification) {
+    public DPResponse completion(String text, Classification classification, String sessionID) {
         LOGGER.info("completion invoked, text: {}", text);
 
         DPResponse dpResponse = new DPResponse();
@@ -148,7 +167,7 @@ public class AzureAIServices implements IAzureAIServices {
             String aoaiResponse = this.httpRequest(
                     String.format(aoaiRequestBody,
                             text),
-                    uri, this.aoaiKey, this.aoaiClient);
+                    uri, this.aoaiKey, this.apimKey, sessionID, this.aoaiClient);
 
             String content = null;
 
@@ -162,7 +181,15 @@ public class AzureAIServices implements IAzureAIServices {
 
             dpResponse.setAoaiResponse(content);
             LOGGER.info("completion response for text {} was {}", text, content);
-        } catch (Exception e) {
+        }
+        catch (WebClientException webClientException) {
+            LOGGER.error("Error parsing completion response ", webClientException);
+            if(webClientException.getMessage().contains("429"))
+            {
+                dpResponse.setRateLimitExceeded(true);
+            }
+        }
+        catch (Exception e) {
             LOGGER.error("Error parsing completion response ", e);
         }
         return dpResponse;
@@ -207,6 +234,8 @@ public class AzureAIServices implements IAzureAIServices {
                     category = "Fish Toy";
                     dpResponse.setContentCard(true);
                     break;
+                default:
+                    break;
             }
 
             if(!classification.equals(Classification.MORE_PRODUCT_INFORMATION))
@@ -221,7 +250,7 @@ public class AzureAIServices implements IAzureAIServices {
         LOGGER.info("search body: {}", body);
 
         String searchResponse = this.httpRequest(body,
-                null, this.csKey, this.csClient);
+                null, this.csKey, this.apimKey, "", this.csClient);
 
         LOGGER.info("search response: {}", searchResponse);
 
@@ -287,9 +316,11 @@ public class AzureAIServices implements IAzureAIServices {
         return dpResponse;
     }
 
-    private String httpRequest(String body, String uri, String apiKey, WebClient webClient) {
+    private String httpRequest(String body, String uri, String apiKey, String apimKey, String sessionID, WebClient webClient) throws HttpException {
         String response = webClient.post().uri(uri)
                 .header("api-key", apiKey)
+                .header("Ocp-Apim-Subscription-Key", apimKey) // when APIM is enabled
+                .header("JSESSIONID", sessionID) // when APIM is enabled
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(body))
                 .retrieve()
