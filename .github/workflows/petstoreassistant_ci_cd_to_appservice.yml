@@ -18,7 +18,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Update the application.properties hack because the app config injection isnt working for some reason
-      run: echo -n -e "MicrosoftAppId=${{ secrets.ASSISTANTAPPID }}\nMicrosoftAppPassword=${{ secrets.ASSISTANTAPPPASSWORD }}\nserver.port=3978\naoai.key=${{ secrets.ASSISTANT_AOAI_KEY }}\ncognitive.search.key=${{ secrets.ASSISTANT_CS_KEY }}\ncosmos.key=${{ secrets.ASSISTANT_COSMOS_KEY }}" > petstore/petstoreassistant/src/main/resources/application.properties
+      run: echo -n -e "MicrosoftAppId=${{ secrets.ASSISTANTAPPID }}\nMicrosoftAppPassword=${{ secrets.ASSISTANTAPPPASSWORD }}\nserver.port=3978\napim.key=${{ secrets.ASSISTANT_APIM_KEY }}\naoai.key=${{ secrets.ASSISTANT_AOAI_KEY }}\naoai.url=https://azurepetstoreapimgmnt.azure-api.net\ncognitive.search.key=${{ secrets.ASSISTANT_CS_KEY }}\ncognitive.search.url=https://azurepetstore-cs.search.windows.net/indexes/petproducts/docs/search?api-version=2023-11-01\ncosmos.key=${{ secrets.ASSISTANT_COSMOS_KEY }}" > petstore/petstoreassistant/src/main/resources/application.properties
     - run: cat petstore/petstoreassistant/src/main/resources/application.properties
     - uses: azure/docker-login@v1
       name: Build Docker image
