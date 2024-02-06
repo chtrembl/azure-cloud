@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+
+<head lang="en" th:replace="fragments/head :: head"></head>
+
+<body>
+	<div lang="en" th:replace="fragments/header :: header"></div>
+	<div
+		class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+		<h1 class="display-4">HTTP Request Information</h1>
+		<div style="display: flex; justify-content: center;">
+			<div th:if="${headers} != null">
+				<h2 class="display-4">Headers</h2>
+				<div th:each="header, iStat : ${headers}">
+					<div th:text="${header.key}" style="font-weight: 700;" />
+					<div th:text="${header.value}" />
+				</div>
+			</div>	
+			<div th:if="${cookies} != null">
+				<h2 class="display-4">Cookies</h2>
+				<div th:each="cookie, iStat : ${cookies}">
+					<div th:text="${cookie.name}" style="font-weight: 700;" />
+					<div th:text="${cookie.value}" />
+				</div>
+			</div>
+		</div>
+	</div>
+	<div lang="en" th:replace="fragments/footer :: footer"></div>
+	<div lang="en" th:replace="fragments/disclaimer :: disclaimer"></div>
+</body>
+
+</html>

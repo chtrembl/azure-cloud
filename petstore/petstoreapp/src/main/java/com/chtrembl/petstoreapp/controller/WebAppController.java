@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -311,5 +312,21 @@ public class WebAppController {
 				this.sessionUser.getName()));
 	
 		return "raadcnnai";
+	}
+
+	@GetMapping(value = "/debug")
+	public String debug(Model model, HttpServletRequest request) throws URISyntaxException {
+		logger.info(String.format("PetStoreApp /debug requested for %s, routing to raadcnnai view...",
+				this.sessionUser.getName()));
+		
+		model.addAttribute("cookies", request.getCookies());
+		Map<String, String> headers = new HashMap<String, String>();
+		request.getHeaderNames().asIterator().forEachRemaining(header -> {
+			headers.put(header, request.getHeader(header));
+		});
+		model.addAttribute("headers", headers);
+		
+
+		return "debug";
 	}
 }

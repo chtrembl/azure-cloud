@@ -60,6 +60,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 					.antMatchers("/intelligence*").permitAll()
 					.antMatchers("/i2xhack*").permitAll()
 					.antMatchers("/pets*").permitAll()
+					.antMatchers("/debug*").permitAll()
 					.antMatchers("/raadcnnai*").permitAll()
 					.antMatchers("/hybridConnection").permitAll().anyRequest()
 					.authenticated().and().apply(this.aadB2COidcLoginConfigurerWrapper.getConfigurer()).and()
