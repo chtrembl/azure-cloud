@@ -20,7 +20,7 @@ public class PetStoreAssistantUtilities {
 
     public static String cleanDataFromAOAIResponseContent(String content) {
        //remove quotes, slashes and all chars after the last period
-       return content.replaceAll("[\"']", "").replaceAll("\\\\", "").replaceAll("\\.[^.]*$", "");
+       return content.replaceAll("[\"]", "").replaceAll("\\\\", "").replaceAll("\\.[^.]*$", "");
     }
 
     public static AzurePetStoreSessionInfo getAzurePetStoreSessionInfo(String text) {

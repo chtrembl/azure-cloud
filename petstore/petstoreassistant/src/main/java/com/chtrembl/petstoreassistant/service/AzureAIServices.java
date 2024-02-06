@@ -175,7 +175,7 @@ public class AzureAIServices implements IAzureAIServices {
                     .get("choices")
                     .getAsJsonArray().get(0).getAsJsonObject().get("message").getAsJsonObject();
 
-            content = message.get("content").toString().toLowerCase();
+            content = message.get("content").toString();
 
             dpResponse.setDpResponseText(PetStoreAssistantUtilities.cleanDataFromAOAIResponseContent(content));
 
