@@ -151,7 +151,7 @@ function Loading({
           </button>
         </div>
         <div className="mt-0 mb-2">
-          You can only talk to Maia about the products in the Azure Pet Store, 
+          You can only talk to Maia about the products in the Azure Pet Store,
           your shopping cart, and/or general pet related questions.
         </div>
       </div>
