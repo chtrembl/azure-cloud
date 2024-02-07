@@ -296,6 +296,12 @@ public class AzureAIServices implements IAzureAIServices {
                 }
             }
 
+            if(products.size() > 4)
+            {
+               // too many items for a content card
+               dpResponse.setContentCard(false);
+            }
+            
             dpResponse.setDpResponseText(dpResponseText);
             dpResponse.setProducts(products);
         }
