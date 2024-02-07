@@ -12,7 +12,9 @@
 						<small class="d-block mb-3 text-muted"
 							style="text-align: left !important;">&copy; <span
 							th:text="${containerEnvironment.year}" /> Azure Pet Store</br>
-							session:<br /> <span th:text="${sessionId}" />
+						 	<span th:text="${sessionId}" />
+							<br/>
+							<span th:text="${containerEnvironment.containerHostName}" />
 						</small>
 					</div>
 					<div class="col-6 col-md">
