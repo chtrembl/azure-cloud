@@ -96,11 +96,6 @@ public class RestAPIController {
 		logger.info("jsession: " + this.sessionUser.getJSessionId());
 		logger.info("csrf: " + this.sessionUser.getCsrfToken());
 		logger.info("incoming arrAffinity: " + params.get("arrAffinity"));
-		
-		if(params.get("csrf") == null || !params.get("csrf").equals(this.sessionUser.getCsrfToken()))
-		{
-			return "Invalid CSRF token";
-		}
 
 		this.sessionUser.getTelemetryClient().trackEvent(
 				String.format("PetStoreApp user %s requesting view cart", this.sessionUser.getName()),
