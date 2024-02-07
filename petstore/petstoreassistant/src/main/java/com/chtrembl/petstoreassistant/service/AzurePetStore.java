@@ -72,9 +72,9 @@ public class AzurePetStore implements IAzurePetStore {
                 Response response = null;
                 try {
                         Request request = new Request.Builder()
-                                        .url(this.VIEW_CART_URL)
+                                        .url(this.VIEW_CART_URL + "?csrf=" + azurePetStoreSessionInfo.getCsrfToken())
                                         .method("GET", null)
-                                        .addHeader("Cookie", "JSESSIONID=" + azurePetStoreSessionInfo.getSessionID())
+                                        .addHeader("Cookie", "JSESSIONID=" + azurePetStoreSessionInfo.getSessionID()+"; ARRAffinity="+azurePetStoreSessionInfo.getArrAffinity())
                                         .addHeader("Content-Type", "text/html")
                                         .build();
 
