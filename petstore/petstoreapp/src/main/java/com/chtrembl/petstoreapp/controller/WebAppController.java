@@ -266,7 +266,7 @@ public class WebAppController {
 	}
 	
 	@GetMapping(value = "/soulmachines")
-	public String soulmachines(Model model, HttpServletRequest request, @RequestParam("sid") Optional<String> sid,  @RequestParam("csrf") Optional<String> csrf) throws URISyntaxException {
+	public String soulmachines(Model model, HttpServletRequest request, @RequestParam("sid") Optional<String> sid,  @RequestParam("csrf") Optional<String> csrf, @RequestParam("arr") Optional<String> arr) throws URISyntaxException {
 		logger.info(String.format("PetStoreApp /soulmachines requested for %s, routing to soulmachines view...",
 				this.sessionUser.getName()));		
 
@@ -281,10 +281,24 @@ public class WebAppController {
 			this.sessionUser.setCsrfToken(new HttpSessionCsrfTokenRepository().loadToken(request).getToken().toString());		
 		}
 
+		String arrAffinity = "";
+		if(request.getCookies() != null)
+		{
+			for(int i = 0; i < request.getCookies().length; i++)
+			{
+				if(request.getCookies()[i].getName().equals("ARRAffinity"))
+				{
+					arrAffinity = request.getCookies()[i].getValue();
+				}
+			}
+		}
+
+		model.addAttribute("arrAffinity", arrAffinity);
+
 		String url = request.getRequestURL().toString() + "?" + request.getQueryString();	
 		if(!url.contains("sid") || !url.contains("csrf"))
 		{
-			return "redirect:soulmachines?sid="+this.sessionUser.getJSessionId()+"&csrf="+this.sessionUser.getCsrfToken();
+			return "redirect:soulmachines?sid="+this.sessionUser.getJSessionId()+"&csrf="+this.sessionUser.getCsrfToken()+"&arr="+arrAffinity;
 		}
 		
 		return "soulmachines";

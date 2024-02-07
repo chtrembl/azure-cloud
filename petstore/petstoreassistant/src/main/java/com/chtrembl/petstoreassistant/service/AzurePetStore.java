@@ -37,15 +37,15 @@ public class AzurePetStore implements IAzurePetStore {
                                         .url(this.UPDATE_CART_URL + "?csrf=" + azurePetStoreSessionInfo.getCsrfToken()
                                                         + "&productId=" + productId)
                                         .method("GET", null)
-                                        .addHeader("Cookie", "JSESSIONID=" + azurePetStoreSessionInfo.getSessionID())
+                                        .addHeader("Cookie", "JSESSIONID=" + azurePetStoreSessionInfo.getSessionID()+"; ARRAffinity="+azurePetStoreSessionInfo.getArrAffinity())
                                         .addHeader("Content-Type", "text/html")
                                         .build();
 
                         this.client.newCall(request).execute();
 
                         LOGGER.info("Updated cart with product id: " + productId + " for session id: "
-                                        + azurePetStoreSessionInfo.getSessionID() + " csrf: "
-                                        + azurePetStoreSessionInfo.getCsrfToken());
+                                        + azurePetStoreSessionInfo.getSessionID() + " csrf token: "
+                                        + azurePetStoreSessionInfo.getCsrfToken() + " arr affinity: " + azurePetStoreSessionInfo.getArrAffinity());
 
                         dpResponse.setDpResponseText("I just added the "
                                         + this.cosmosDB.getProducts().get(productId).getName()
@@ -57,8 +57,8 @@ public class AzurePetStore implements IAzurePetStore {
                                         + azurePetStoreSessionInfo.getSessionID() + " " + e.getMessage());
                         dpResponse.setDpResponseText("I'm sorry, I wasn't able to add the "
                                         + this.cosmosDB.getProducts().get(productId).getName()
-                                        + " to your cart. " + azurePetStoreSessionInfo.getSessionID() + "|"
-                                        + azurePetStoreSessionInfo.getCsrfToken());
+                                        + " to your cart. session id: " + azurePetStoreSessionInfo.getSessionID() + " csrf token: "
+                                        + azurePetStoreSessionInfo.getCsrfToken() + " arr affinity: " + azurePetStoreSessionInfo.getArrAffinity());
                 }
                 
                 dpResponse.setClassification(Classification.UPDATE_SHOPPING_CART);
@@ -81,8 +81,8 @@ public class AzurePetStore implements IAzurePetStore {
                         response = this.client.newCall(request).execute();
 
                         LOGGER.info("Retrieved cart items for session id: "
-                                        + azurePetStoreSessionInfo.getSessionID() + " csrf: "
-                                        + azurePetStoreSessionInfo.getCsrfToken());
+                                        + azurePetStoreSessionInfo.getSessionID() + " csrf token: "
+                                        + azurePetStoreSessionInfo.getCsrfToken() + " arr affinity: " + azurePetStoreSessionInfo.getArrAffinity());
 
                         dpResponse.setDpResponseText(response.body().string());
 
@@ -90,9 +90,9 @@ public class AzurePetStore implements IAzurePetStore {
                 } catch (Exception e) {
                         LOGGER.error("Error retrieving cart items for session id: "
                                         + azurePetStoreSessionInfo.getSessionID() + " " + e.getMessage());
-                        dpResponse.setDpResponseText("I'm sorry, I wasn't able to retrieve your shopping cart. "
-                                        + azurePetStoreSessionInfo.getSessionID() + "|"
-                                        + azurePetStoreSessionInfo.getCsrfToken());
+                        dpResponse.setDpResponseText("I'm sorry, I wasn't able to retrieve your shopping cart. session id: "
+                                        + azurePetStoreSessionInfo.getSessionID() + " csrf token: "
+                                        + azurePetStoreSessionInfo.getCsrfToken() + " arr affinity: " + azurePetStoreSessionInfo.getArrAffinity());
                 } finally 
                 {
                         if(response.body() != null)
@@ -116,15 +116,15 @@ public class AzurePetStore implements IAzurePetStore {
                         Request request = new Request.Builder()
                                         .url(this.COMPLETE_CART_URL + "?csrf=" + azurePetStoreSessionInfo.getCsrfToken())
                                         .method("GET", null)
-                                        .addHeader("Cookie", "JSESSIONID=" + azurePetStoreSessionInfo.getSessionID())
+                                        .addHeader("Cookie", "JSESSIONID=" + azurePetStoreSessionInfo.getSessionID()+"; ARRAffinity="+azurePetStoreSessionInfo.getArrAffinity())
                                         .addHeader("Content-Type", "text/html")
                                         .build();
 
                         response = this.client.newCall(request).execute();
 
                         LOGGER.info("Completed cart for session id: "
-                                        + azurePetStoreSessionInfo.getSessionID() + " csrf: "
-                                        + azurePetStoreSessionInfo.getCsrfToken());
+                                        + azurePetStoreSessionInfo.getSessionID() + " csrf token: "
+                                        + azurePetStoreSessionInfo.getCsrfToken() + " arr affinity: " + azurePetStoreSessionInfo.getArrAffinity());
 
                         dpResponse.setDpResponseText(response.body().string());
 
@@ -132,9 +132,9 @@ public class AzurePetStore implements IAzurePetStore {
                 } catch (Exception e) {
                         LOGGER.error("Error completing cart for session id: "
                                         + azurePetStoreSessionInfo.getSessionID() + " " + e.getMessage());
-                        dpResponse.setDpResponseText("I'm sorry, I wasn't able to place your order. "
-                                        + azurePetStoreSessionInfo.getSessionID() + "|"
-                                        + azurePetStoreSessionInfo.getCsrfToken());
+                        dpResponse.setDpResponseText("I'm sorry, I wasn't able to place your order. session id: "
+                                        + azurePetStoreSessionInfo.getSessionID() + " csrf token: "
+                                        + azurePetStoreSessionInfo.getCsrfToken() + " arr affinity: " + azurePetStoreSessionInfo.getArrAffinity());
                 }
                 finally 
                 {

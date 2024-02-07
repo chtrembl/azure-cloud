@@ -56,6 +56,7 @@ public class RestAPIController {
 		logger.info("session: " + this.sessionUser.getSessionId());
 		logger.info("jsession: " + this.sessionUser.getJSessionId());
 		logger.info("csrf: " + this.sessionUser.getCsrfToken());
+		logger.info("incoming arrAffinity: " + params.get("arrAffinity"));
 		
 		if(params.get("csrf") == null || !params.get("csrf").equals(this.sessionUser.getCsrfToken()))
 			{
@@ -90,11 +91,17 @@ public class RestAPIController {
 
 	// helper api call for soul machines dp demo... POST URL Encoding intermittent missing headers with POST/FORM Encoding hence the GET hack with UUID
 	@GetMapping(value = "/api/viewcart", produces = MediaType.TEXT_HTML_VALUE)
-	public String viewcart() {
+	public String viewcart(Model model, @RequestParam Map<String, String> params, HttpServletRequest request) {
 		logger.info("session: " + this.sessionUser.getSessionId());
 		logger.info("jsession: " + this.sessionUser.getJSessionId());
 		logger.info("csrf: " + this.sessionUser.getCsrfToken());
+		logger.info("incoming arrAffinity: " + params.get("arrAffinity"));
 		
+		if(params.get("csrf") == null || !params.get("csrf").equals(this.sessionUser.getCsrfToken()))
+		{
+			return "Invalid CSRF token";
+		}
+
 		this.sessionUser.getTelemetryClient().trackEvent(
 				String.format("PetStoreApp user %s requesting view cart", this.sessionUser.getName()),
 				this.sessionUser.getCustomEventProperties(), null);
@@ -106,11 +113,11 @@ public class RestAPIController {
 
 		if (order != null && order.getProducts() != null && !order.isComplete()) {
 			sb = new StringBuilder();
-			sb.append("Your order contains a ");
+			sb.append("Your order contains ");
 			for (int i = 0; i < order.getProducts().size(); i++) {
-				sb.append(order.getProducts().get(i).getName()).append(" (").append(order.getProducts().get(i).getQuantity()).append(")");
+				sb.append("(").append(order.getProducts().get(i).getQuantity()).append(") ").append(order.getProducts().get(i).getName());
 				if (i < order.getProducts().size() - 1) {
-					sb.append(", a ");
+					sb.append(", ");
 				}
 			}
 		}
@@ -124,6 +131,7 @@ public class RestAPIController {
 		logger.info("session: " + this.sessionUser.getSessionId());
 		logger.info("jsession: " + this.sessionUser.getJSessionId());
 		logger.info("csrf: " + this.sessionUser.getCsrfToken());
+		logger.info("incoming arrAffinity: " + params.get("arrAffinity"));
 
 		if(params.get("csrf") == null || !params.get("csrf").equals(this.sessionUser.getCsrfToken()))
 		{
@@ -157,7 +165,7 @@ public class RestAPIController {
 		logger.info("session: " + this.sessionUser.getSessionId());
 		logger.info("jsession: " + this.sessionUser.getJSessionId());
 		logger.info("csrf: " + this.sessionUser.getCsrfToken());
-		
+
 		this.sessionUser.getTelemetryClient().trackEvent(
 				String.format("PetStoreApp user %s requesting cart count", this.sessionUser.getName()),
 				this.sessionUser.getCustomEventProperties(), null);

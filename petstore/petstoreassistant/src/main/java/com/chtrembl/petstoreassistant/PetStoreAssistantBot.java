@@ -30,7 +30,6 @@ import com.microsoft.bot.builder.ActivityHandler;
 import com.microsoft.bot.builder.MessageFactory;
 import com.microsoft.bot.builder.TurnContext;
 import com.microsoft.bot.builder.UserState;
-import com.microsoft.bot.schema.Activity;
 import com.microsoft.bot.schema.Attachment;
 import com.microsoft.bot.schema.ChannelAccount;
 
@@ -88,7 +87,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
             AzurePetStoreSessionInfo azurePetStoreSessionInfo = configureSession(turnContext, text);
 
             if (azurePetStoreSessionInfo != null && azurePetStoreSessionInfo.getNewText() != null) {
-                // get the text without the session id and csrf token
+                // get the text without the session id, csrf token and arr affinity
                 text = azurePetStoreSessionInfo.getNewText();
             }
 
@@ -120,7 +119,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
         AzurePetStoreSessionInfo azurePetStoreSessionInfo = configureSession(turnContext, text);
 
         if (azurePetStoreSessionInfo != null && azurePetStoreSessionInfo.getNewText() != null) {
-            // get the text without the session id and csrf token
+            // get the text without the session id, csrf token and arr affinity
             text = azurePetStoreSessionInfo.getNewText();
         }
 
@@ -254,7 +253,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
             AzurePetStoreSessionInfo azurePetStoreSessionInfo = configureSession(turnContext, text);
 
             if (azurePetStoreSessionInfo != null && azurePetStoreSessionInfo.getNewText() != null) {
-                // get the text without the session id and csrf token
+                // get the text without the session id, csrf token and arr affinity
                 text = azurePetStoreSessionInfo.getNewText();
             }
 
@@ -302,7 +301,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
             existingPrompts = azurePetStoreSessionInfo.getPrompts();
         }
 
-        // strip out session id and csrf token if one was passed in
+        // strip out session id, csrf token and arr affinity if one was passed in
         AzurePetStoreSessionInfo incomingAzurePetStoreSessionInfo = PetStoreAssistantUtilities
                 .getAzurePetStoreSessionInfo(text);
         if (incomingAzurePetStoreSessionInfo != null) {

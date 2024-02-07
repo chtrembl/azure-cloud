@@ -25,17 +25,18 @@ public class PetStoreAssistantUtilities {
 
     public static AzurePetStoreSessionInfo getAzurePetStoreSessionInfo(String text) {
         AzurePetStoreSessionInfo azurePetStoreSessionInfo = null;
-
-        Pattern pattern = Pattern.compile("sid=(.*)&csrf=(.*)");
+        //text comes throgh from DP as "text https://azurepetstore.com/soulmachines?sid=[sessionId]&csrf=[csrfToken]&arr=[arrAffinity]"
+        Pattern pattern = Pattern.compile("sid=(.*)&csrf=(.*)&arr=(.*)");
         Matcher matcher = pattern.matcher(text);
         if (matcher.find()) {
             String sessionID = matcher.group(1);
             String csrfToken = matcher.group(2);
+            String arrAffinity = matcher.group(3);
             String newText = text.substring(0, text.indexOf("http")).trim();
-            azurePetStoreSessionInfo = new AzurePetStoreSessionInfo(sessionID, csrfToken, newText);
-            LOGGER.info("Found session id:" + sessionID + " and csrf token:" + csrfToken + " in text: " + text + " new text: " + newText);
+            azurePetStoreSessionInfo = new AzurePetStoreSessionInfo(sessionID, csrfToken, arrAffinity, newText);
+            LOGGER.info("Found session id:" + sessionID + ", csrf token:" + csrfToken + " and arr affinity:" + arrAffinity + " in text: " + text + " new text: " + newText);
         } else {
-            LOGGER.info("No new session id or csrf token found in text: " + text);
+            LOGGER.info("No new session id, csrf token or arr affinity found in text: " + text);
         }
         
         return azurePetStoreSessionInfo;

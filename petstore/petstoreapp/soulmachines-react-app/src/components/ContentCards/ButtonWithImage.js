@@ -12,13 +12,15 @@ function ButtonWithImage({ data, className }) {
     const url = window.parent.location.toString();
     console.log(`${url} ${productId}`);
     const session = url.split('sid=')[1].split('&')[0];
-    const csrf = url.split('csrf=')[1];
+    const csrf = url.split('csrf=')[1].split('&')[0];
+    const arr = url.split('arr=')[1];
+    
     const azureURL = `https://azurepetstore.com/api/updatecart?csrf=${csrf}&productId=${productId}`;
     console.log(azureURL);
 
     fetch(azureURL, {
       headers: {
-        Cookie: `JSESSIONID=${session}`,
+        Cookie: `JSESSIONID=${session}; ARRAffinity=${arr};`,
         'Content-Type': 'text/html',
       },
       type: 'GET',
