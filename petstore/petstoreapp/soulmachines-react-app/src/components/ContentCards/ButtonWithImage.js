@@ -64,7 +64,6 @@ export default styled(ButtonWithImage)`
   overflow: hidden;
 
   background: none;
-  color: #6c757d;
 `;
 
 // {

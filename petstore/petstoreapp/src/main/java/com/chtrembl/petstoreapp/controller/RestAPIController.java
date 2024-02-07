@@ -56,7 +56,7 @@ public class RestAPIController {
 		logger.info("session: " + this.sessionUser.getSessionId());
 		logger.info("jsession: " + this.sessionUser.getJSessionId());
 		logger.info("csrf: " + this.sessionUser.getCsrfToken());
-		logger.info("incoming arrAffinity: " + params.get("arrAffinity"));
+		logger.info("incoming arrAffinity: " + getCookieValue("ARRAffinity", request));
 		
 		if(params.get("csrf") == null || !params.get("csrf").equals(this.sessionUser.getCsrfToken()))
 			{
@@ -95,7 +95,7 @@ public class RestAPIController {
 		logger.info("session: " + this.sessionUser.getSessionId());
 		logger.info("jsession: " + this.sessionUser.getJSessionId());
 		logger.info("csrf: " + this.sessionUser.getCsrfToken());
-		logger.info("incoming arrAffinity: " + params.get("arrAffinity"));
+		logger.info("incoming arrAffinity: " + getCookieValue("ARRAffinity", request));
 
 		if(params.get("csrf") == null || !params.get("csrf").equals(this.sessionUser.getCsrfToken()))
 		{
@@ -131,7 +131,7 @@ public class RestAPIController {
 		logger.info("session: " + this.sessionUser.getSessionId());
 		logger.info("jsession: " + this.sessionUser.getJSessionId());
 		logger.info("csrf: " + this.sessionUser.getCsrfToken());
-		logger.info("incoming arrAffinity: " + params.get("arrAffinity"));
+		logger.info("incoming arrAffinity: " + getCookieValue("ARRAffinity", request));
 
 		if(params.get("csrf") == null || !params.get("csrf").equals(this.sessionUser.getCsrfToken()))
 		{
@@ -188,4 +188,20 @@ public class RestAPIController {
 					"  \"exp\": 1911221039\n" + 
 					"}";
 		}
+
+	private String getCookieValue(String cookieName, HttpServletRequest request) {
+		String foundCookieValue = null;
+		if(request.getCookies() != null)
+		{
+			for(int i = 0; i < request.getCookies().length; i++)
+			{
+				if(request.getCookies()[i].getName().equals(cookieName))
+				{
+					foundCookieValue = request.getCookies()[i].getValue();
+					break;
+				}
+			}
+		}	
+		return foundCookieValue;
+	}
 }
