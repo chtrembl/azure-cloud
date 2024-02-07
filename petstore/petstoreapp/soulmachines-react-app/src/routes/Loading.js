@@ -151,9 +151,8 @@ function Loading({
           </button>
         </div>
         <div className="mt-0 mb-2">
-          You can explore the features of my UI, see examples of the different
-          supporting content I can show, or hear about the latest updates to
-          the UI template that I&apos;m using.
+          You can only talk to Maia about the products in the Azure Pet Store, 
+          your shopping cart, and/or general pet related questions.
         </div>
       </div>
     </div>,
