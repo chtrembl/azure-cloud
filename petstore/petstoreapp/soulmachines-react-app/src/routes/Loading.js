@@ -76,6 +76,9 @@ function Loading({
               ? (
                 <div>
                   <p>
+                    Wait until the "Chat Now" button is enabled, do not attempt to "Skip" ahead, instead use the "Next" button to proceed and/or "Chat Now" once it is enabled.
+                  </p>
+                  <p>
                     The Digital Person works best in a quiet environment, when you&apos;re close to
                     your microphone, and your camera is on.
                   </p>
@@ -104,7 +107,7 @@ function Loading({
       <div className="row justify-content-center">
         <div className="tutorial-icon mb-2">
           <div className="fs-4 fw-bold mt-2">
-            &ldquo;hi, how are you?&rdquo;
+            &ldquo;Welcome to the Azure Pet Store!&rdquo;
           </div>
         </div>
       </div>
@@ -114,14 +117,14 @@ function Loading({
             <ArrowLeftCircleFill size={32} />
           </button>
           <h4>
-            What you do.
+            What do you have for Dog Toys?
           </h4>
           <button className="btn-unstyled" type="button" onClick={() => setPage(page + 1)}>
             <ArrowRightCircleFill size={32} />
           </button>
         </div>
         <div className="mt-0 mb-2">
-          Cory will listen to whatever you say.
+          Maia will listen to whatever you say.
           Other options, like typing or choosing your responses, are also available.
         </div>
       </div>
