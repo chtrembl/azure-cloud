@@ -15,7 +15,6 @@ function ButtonWithImage({ data, className }) {
     const csrf = url.split('csrf=')[1].split('&')[0];
     const arr = url.split('arr=')[1];
     const azureURL = `https://azurepetstore.com/api/updatecart?csrf=${csrf}&productId=${productId}`;
-    
     console.log(azureURL);
 
     fetch(azureURL, {
