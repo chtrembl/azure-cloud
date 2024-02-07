@@ -206,43 +206,47 @@ public class AzureAIServices implements IAzureAIServices {
 
         String filter = "";
 
+        // general product search content cards shown
+        if(classification.equals(Classification.SEARCH_FOR_PRODUCTS) )
+        {
+            dpResponse.setContentCard(true);
+        }
+
+        // specific product search content cards shown
         if(!classification.equals(Classification.SEARCH_FOR_PRODUCTS))
         {
+            dpResponse.setContentCard(true);
             String category = "";
             switch (dpResponse.getClassification()) {
                 case SEARCH_FOR_DOG_FOOD:
                     category = "Dog Food";
-                    dpResponse.setContentCard(true);
                     break;
                 case SEARCH_FOR_DOG_TOYS:
                     category = "Dog Toy";
-                    dpResponse.setContentCard(true);
                     break;
                 case SEARCH_FOR_CAT_FOOD:
                     category = "Cat Food";
-                    dpResponse.setContentCard(true);
                     break;
                 case SEARCH_FOR_CAT_TOYS:
                     category = "Cat Toy";
-                    dpResponse.setContentCard(true);
                     break;
                 case SEARCH_FOR_FISH_FOOD:
                     category = "Fish Food";
-                    dpResponse.setContentCard(true);
                     break;
                 case SEARCH_FOR_FISH_TOYS:
                     category = "Fish Toy";
-                    dpResponse.setContentCard(true);
                     break;
                 default:
                     break;
             }
 
+            // no content cards shown, just product description text response
             if(!classification.equals(Classification.MORE_PRODUCT_INFORMATION))
             {
                 filter =  "\"filter\": \"category/name eq '"+category+"'\",";
             }
         }
+        
 
         String body = String.format(this.semanticSearchRequestBodyBodyString,
                         text, filter);
