@@ -117,15 +117,15 @@ function Loading({
             <ArrowLeftCircleFill size={32} />
           </button>
           <h4>
-            What do you have for Dog Toys?
+            Do you have any toys for a dog that likes to chew?
           </h4>
           <button className="btn-unstyled" type="button" onClick={() => setPage(page + 1)}>
             <ArrowRightCircleFill size={32} />
           </button>
         </div>
         <div className="mt-0 mb-2">
-          Maia will listen to whatever you say.
-          Other options, like typing or choosing your responses, are also available.
+          Maia will listen to whatever you say. You can ask her about our products, things like dog toys, cat food etc..., or
+          other questions about your pets to help you find the right product. You can also ask her to add products to your shopping cart, view your shopping cart and even place your order!
         </div>
       </div>
     </div>,
