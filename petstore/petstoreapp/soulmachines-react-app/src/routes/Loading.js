@@ -76,8 +76,8 @@ function Loading({
               ? (
                 <div>
                   <p>
-                    Wait until the `"`Chat Now`"` button is enabled, do not attempt to `"`Skip`"` ahead, 
-                    instead use the "Next" button to proceed and/or "Chat Now" once it is enabled.
+                    Wait until the &quot;Chat Now&quot; button is enabled, do not attempt to &quot;Skip&quot; ahead,
+                     instead use the &quot;Next&quot; button to proceed and/or &quot;Chat Now&quot; once it is enabled.
                   </p>
                   <p>
                     The Digital Person works best in a quiet environment, when you&apos;re close to
