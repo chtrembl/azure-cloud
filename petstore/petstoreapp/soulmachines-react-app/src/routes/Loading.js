@@ -76,8 +76,9 @@ function Loading({
               ? (
                 <div>
                   <p>
-                    Wait until the &quot;Chat Now&quot; button is enabled, do not attempt to &quot;Skip&quot; ahead,
-                     instead use the &quot;Next&quot; button to proceed and/or &quot;Chat Now&quot; once it is enabled.
+                    Wait until the &quot;Chat Now&quot; button is enabled, do not attempt to
+                    &quot;Skip&quot; ahead, instead use the &quot;Next&quot; button to proceed
+                    and/or &quot;Chat Now&quot; once it is enabled.
                   </p>
                   <p>
                     The Digital Person works best in a quiet environment, when you&apos;re close to
@@ -125,10 +126,10 @@ function Loading({
           </button>
         </div>
         <div className="mt-0 mb-2">
-          Maia will listen to whatever you say. You can ask her about our products, 
-          things like dog toys, cat food etc..., or 
-          other questions about your pets to help you find the right product. 
-          You can also ask her to add products to your shopping cart, 
+          Maia will listen to whatever you say. You can ask her about our products,
+          things like dog toys, cat food etc..., or
+          other questions about your pets to help you find the right product.
+          You can also ask her to add products to your shopping cart,
           view your shopping cart and even place your order!
         </div>
       </div>
