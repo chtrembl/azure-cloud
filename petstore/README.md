@@ -106,8 +106,7 @@ Prerequisites and environment setup (Optionaly you can build/deploy locally)
 
 ## [17 - Configure SignalR to send Real-Time Analytics to Client Browser](17-configure-signalr-to-send-real-time-analytics-to-client-browser/README.md)
 
-## [18 - Build an Intelligent and more Accessible Experience into your Application]
-(18-build-intelligent-and-accessible-experience-into-your-application/README.md)
+## [18 - Build an Intelligent and more Accessible Experience into your Application](18-build-intelligent-and-accessible-experience-into-your-application/README.md)
 
 ---
 
