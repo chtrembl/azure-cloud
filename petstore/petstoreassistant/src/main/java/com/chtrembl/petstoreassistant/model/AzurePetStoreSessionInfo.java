@@ -11,6 +11,7 @@ public class AzurePetStoreSessionInfo implements Serializable{
     private String arrAffinity = null;
     @JsonIgnore
     private String newText = null;
+    private String unformattedId = null;
     private String id = null;
 
     private List<Prompt> prompts = null;
@@ -36,6 +37,12 @@ public class AzurePetStoreSessionInfo implements Serializable{
     }
     public void setNewText(String newText) {
         this.newText = newText;
+    }
+    public String getUnformattedId() {
+        return unformattedId;
+    }
+    public void setUnformattedId(String unformattedId) {
+        this.unformattedId = unformattedId;
     }
     public String getId() {
         return id;

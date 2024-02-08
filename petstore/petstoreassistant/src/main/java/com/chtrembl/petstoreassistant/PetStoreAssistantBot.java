@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
@@ -297,6 +298,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
         // single time so you will want to change to
         // turnContext.getActivity().getrecipient().getId() when running locally
         String id = turnContext.getActivity().getId().trim();
+
         if (id.contains("-")) {
             id = id.substring(0, id.indexOf("-"));
         }
@@ -327,6 +329,13 @@ public class PetStoreAssistantBot extends ActivityHandler {
         if (azurePetStoreSessionInfo != null && existingPrompts != null) {
             azurePetStoreSessionInfo.setPrompts(existingPrompts);
         }
+
+        MDC.put("newText", azurePetStoreSessionInfo!= null ? azurePetStoreSessionInfo.getNewText(): null);
+        MDC.put("unformattedID", turnContext.getActivity().getId().trim());
+        MDC.put("id", azurePetStoreSessionInfo!= null ? azurePetStoreSessionInfo.getId() : null);
+        MDC.put("sessionID", azurePetStoreSessionInfo!= null ? azurePetStoreSessionInfo.getSessionID() : null);
+        MDC.put("csrfToken", azurePetStoreSessionInfo!= null ? azurePetStoreSessionInfo.getCsrfToken() : null);
+        MDC.put("arrAffinity", azurePetStoreSessionInfo!= null ? azurePetStoreSessionInfo.getArrAffinity() : null);
 
         return azurePetStoreSessionInfo;
     }
