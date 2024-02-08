@@ -3,7 +3,6 @@
 
 package com.chtrembl.petstoreassistant;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -24,13 +23,10 @@ import com.chtrembl.petstoreassistant.service.ICosmosDB;
 import com.chtrembl.petstoreassistant.utility.PetStoreAssistantUtilities;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.microsoft.bot.builder.ActivityHandler;
 import com.microsoft.bot.builder.MessageFactory;
 import com.microsoft.bot.builder.TurnContext;
 import com.microsoft.bot.builder.UserState;
-import com.microsoft.bot.schema.Attachment;
 import com.microsoft.bot.schema.ChannelAccount;
 
 /**
@@ -60,6 +56,9 @@ public class PetStoreAssistantBot extends ActivityHandler {
     private ICosmosDB cosmosDB;
 
     private String WELCOME_MESSAGE = "Hello and welcome to the Azure Pet Store, you can ask me questions about our products, your shopping cart and your order, you can also ask me for information about pet animals. How can I help you?";
+    private String RATE_LIMIT_EXCEEDED_MESSAGE = "I am sorry, you have exceeded your Azure Open AI rate limit, please try again shortly.";  
+    private String SESSION_MISSING_ERROR_MESSAGE = "I am sorry, there is an error with audio translation, please try interacting via text or restarting your browser.";   
+    private String ERROR_MESSAGE = "I am sorry, I am having trouble understanding you, please try interacting via text or restarting your browser.";
 
     private UserState userState;
 
@@ -125,6 +124,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
 
         // the client browser initialized
         if (text.equals("...")) {
+            LOGGER.info("onMessageActivity new session established, " + azurePetStoreSessionInfo != null ? "session id: " + azurePetStoreSessionInfo.getId() + " id: " + azurePetStoreSessionInfo.getId() : "session id: null");
             return turnContext.sendActivity(
                     MessageFactory.text(WELCOME_MESSAGE)).thenApply(sendResult -> null);
         }
@@ -133,13 +133,20 @@ public class PetStoreAssistantBot extends ActivityHandler {
         if (debug != null) {
             return debug;
         }
+        
+        if(azurePetStoreSessionInfo == null)
+        {
+            return turnContext.sendActivity(
+                MessageFactory.text(this.SESSION_MISSING_ERROR_MESSAGE))
+                .thenApply(sendResult -> null);
+        }
 
-        DPResponse dpResponse = this.azureOpenAI.classification(text, azurePetStoreSessionInfo.getSessionID());
+        DPResponse dpResponse = this.azureOpenAI.classification(text, azurePetStoreSessionInfo);
 
         if(dpResponse.isRateLimitExceeded())
         {
             return turnContext.sendActivity(
-                MessageFactory.text("I am sorry, you have exceeded your Azure Open AI Rate Limit, please try again shortly."))
+                MessageFactory.text(this.RATE_LIMIT_EXCEEDED_MESSAGE))
                 .thenApply(sendResult -> null);
         }
         
@@ -183,7 +190,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
             case SOMETHING_ELSE:
                 if (azurePetStoreSessionInfo != null) {
                     if (!text.isEmpty()) {
-                        dpResponse = this.azureOpenAI.completion(text, dpResponse.getClassification(), azurePetStoreSessionInfo.getSessionID());
+                        dpResponse = this.azureOpenAI.completion(text, dpResponse.getClassification(), azurePetStoreSessionInfo);
                     } else {
                         dpResponse.setDpResponseText("chatgpt called without a search query... text: " + text);
                     }
@@ -194,13 +201,12 @@ public class PetStoreAssistantBot extends ActivityHandler {
         if(dpResponse.isRateLimitExceeded())
         {
             return turnContext.sendActivity(
-                MessageFactory.text("I am sorry, you have exceeded your Azure Open AI Rate Limit, please try again shortly."))
+                MessageFactory.text(this.RATE_LIMIT_EXCEEDED_MESSAGE))
                 .thenApply(sendResult -> null);
         }
         
         if ((dpResponse.getDpResponseText() == null)) {
-            String responseText = "I am not sure how to handle that.";
-            dpResponse.setDpResponseText(responseText);
+            dpResponse.setDpResponseText(this.ERROR_MESSAGE);
         }
 
         if (azurePetStoreSessionInfo != null) {
@@ -259,6 +265,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
 
             // the client browser initialized
             if (text.equals("...")) {
+                LOGGER.info("onMembersAdded new session established, " + azurePetStoreSessionInfo != null ? "session id: " + azurePetStoreSessionInfo.getId() + " id: " + azurePetStoreSessionInfo.getId() : "session id: null");
                 return turnContext.sendActivity(
                         MessageFactory.text(WELCOME_MESSAGE)).thenApply(sendResult -> null);
             }
@@ -295,7 +302,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
         }
 
         AzurePetStoreSessionInfo azurePetStoreSessionInfo = this.cache.getIfPresent(id);
-
+        
         List<Prompt> existingPrompts = null;
         if (azurePetStoreSessionInfo != null && azurePetStoreSessionInfo.getPrompts() != null) {
             existingPrompts = azurePetStoreSessionInfo.getPrompts();
@@ -309,9 +316,9 @@ public class PetStoreAssistantBot extends ActivityHandler {
             // turnContext.getActivity().getId() is unique per browser over the broken
             // recipient for some reason
             LOGGER.info("configureSession() incoming text contains new session info, caching session " + id + " for text: " + text);
+            incomingAzurePetStoreSessionInfo.setId(id);
             this.cache.put(id, incomingAzurePetStoreSessionInfo);
             azurePetStoreSessionInfo = incomingAzurePetStoreSessionInfo;
-            azurePetStoreSessionInfo.setId(id);
         } else if (azurePetStoreSessionInfo != null) {
             LOGGER.info("configureSession() incoming text does not contain new session info, using existing session " + azurePetStoreSessionInfo.getId() + " for text: " + text);
             azurePetStoreSessionInfo.setNewText(text);
@@ -337,63 +344,6 @@ public class PetStoreAssistantBot extends ActivityHandler {
                         MessageFactory.text("azurePetStoreSessionInfo was null, cache size: " + cache.estimatedSize()))
                         .thenApply(sendResult -> null);
             }
-        }
-        if (text.equals("button card")) {
-            if (azurePetStoreSessionInfo != null && azurePetStoreSessionInfo.getNewText() != null) {
-                text = azurePetStoreSessionInfo.getNewText();
-            }
-            String jsonString = "{\"type\":\"buttonWithImage\",\"id\":\"buttonWithImage\",\"data\":{\"title\":\"Soul Machines\",\"imageUrl\":\"https://www.soulmachines.com/wp-content/uploads/cropped-sm-favicon-180x180.png\",\"description\":\"Soul Machines is the leader in astonishing AGI\",\"imageAltText\":\"some text\",\"buttonText\":\"push me\"}}";
-
-            Attachment attachment = new Attachment();
-            attachment.setContentType("application/json");
-
-            attachment.setContent(new Gson().fromJson(jsonString, JsonObject.class));
-            attachment.setName("public-buttonWithImage");
-
-            return turnContext.sendActivity(
-                    MessageFactory.attachment(attachment,
-                            "I have something nice to show @showcards(buttonWithImage) you."))
-                    .thenApply(sendResult -> null);
-        }
-
-        if (text.equals("image card")) {
-            String jsonString = "{\"type\":\"image\",\"id\":\"image-ball\",\"data\":{\"url\": \"https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-toys/ball.jpg?raw=true\",\"alt\": \"This is a pretty ball\",\"caption\": \"ball blah blah blah\"}}";
-            Attachment attachment = new Attachment();
-            attachment.setContentType("application/json");
-
-            attachment.setContent(new Gson().fromJson(jsonString, JsonObject.class));
-            attachment.setName("public-image-ball");
-
-            return turnContext.sendActivity(
-                    MessageFactory.attachment(attachment, "I have something nice to show @showcards(image-ball) you."))
-                    .thenApply(sendResult -> null);
-        }
-
-        if(text.equals("button carousel"))
-        {
-            String jsonString = "{\"type\":\"buttonCarousel\",\"id\":\"buttonCarousel\",\"data\":{\"buttonCards\":[{\"title\":\"Soul Machines\",\"imageUrl\":\"https://www.soulmachines.com/wp-content/uploads/cropped-sm-favicon-180x180.png\",\"description\":\"1 Soul Machines is the leader in astonishing AGI\",\"imageAltText\":\"some text\",\"buttonText\":\"push me\",\"productId\":\"1\"},{\"title\":\"Soul Machines\",\"imageUrl\":\"https://www.soulmachines.com/wp-content/uploads/cropped-sm-favicon-180x180.png\",\"description\":\"2 Soul Machines is the leader in astonishing AGI\",\"imageAltText\":\"some text\",\"buttonText\":\"push me\",\"productId\":\"2\"},{\"title\":\"Soul Machines\",\"imageUrl\":\"https://www.soulmachines.com/wp-content/uploads/cropped-sm-favicon-180x180.png\",\"description\":\"3 Soul Machines is the leader in astonishing AGI\",\"imageAltText\":\"some text\",\"buttonText\":\"push me\",\"productId\":\"3\"},]}}";
-            Attachment attachment = new Attachment();
-            attachment.setContentType("application/json");
-
-            attachment.setContent(new Gson().fromJson(jsonString, JsonObject.class));
-            attachment.setName("public-buttonCarousel");
-
-            return turnContext.sendActivity(
-                    MessageFactory.attachment(attachment, "I have something nice to show @showcards(buttonCarousel) you."))
-                    .thenApply(sendResult -> null);
-        }
-
-        if(text.equals("list"))
-        {
-            List<String> cart = new ArrayList<String>() {
-                {
-                    add("Product A (1)");
-                    add("Product B (2)");
-                    add("Product C (3)");
-                }
-            };
-
-            return turnContext.sendActivity(MessageFactory.suggestedActions(cart, "Sample message, cart contains the following:")).thenApply(sendResult -> null);
         }
 
         return null;

@@ -17,6 +17,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientException;
 
+import com.chtrembl.petstoreassistant.model.AzurePetStoreSessionInfo;
 import com.chtrembl.petstoreassistant.model.DPResponse;
 import com.chtrembl.petstoreassistant.model.Product;
 import com.chtrembl.petstoreassistant.utility.PetStoreAssistantUtilities;
@@ -118,14 +119,14 @@ public class AzureAIServices implements IAzureAIServices {
     }
 
     @Override
-    public DPResponse classification(String text, String sessionID) {
+    public DPResponse classification(String text, AzurePetStoreSessionInfo azurePetStoreSessionInfo) {
         LOGGER.info("classification invoked, text: {}", text);
 
         DPResponse dpResponse = new DPResponse();
 
         try {
             String aoaiResponse = this.httpRequest(String.format(this.classificationRequestBodyString, text),
-                    this.CLASSIFICATION_URI, this.aoaiKey, this.apimKey, sessionID, this.aoaiClient);
+                    this.CLASSIFICATION_URI, this.aoaiKey, this.apimKey, azurePetStoreSessionInfo.getSessionID(), this.aoaiClient);
 
             String classification = new Gson().fromJson(aoaiResponse, JsonElement.class).getAsJsonObject()
                     .get("choices")
@@ -147,14 +148,14 @@ public class AzureAIServices implements IAzureAIServices {
             }
         }
         catch (Exception e) {
-            LOGGER.error("Error parsing classification response ", e);
+            LOGGER.error("Error parsing classification response azure " + azurePetStoreSessionInfo != null ? "session id: " + azurePetStoreSessionInfo.getId() + " id: " + azurePetStoreSessionInfo.getId() : "session id: null", e);
         }
 
         return dpResponse;
     }
 
     @Override
-    public DPResponse completion(String text, Classification classification, String sessionID) {
+    public DPResponse completion(String text, Classification classification, AzurePetStoreSessionInfo azurePetStoreSessionInfo) {
         LOGGER.info("completion invoked, text: {}", text);
 
         DPResponse dpResponse = new DPResponse();
@@ -167,7 +168,7 @@ public class AzureAIServices implements IAzureAIServices {
             String aoaiResponse = this.httpRequest(
                     String.format(aoaiRequestBody,
                             text),
-                    uri, this.aoaiKey, this.apimKey, sessionID, this.aoaiClient);
+                    uri, this.aoaiKey, this.apimKey, azurePetStoreSessionInfo.getSessionID(), this.aoaiClient);
 
             String content = null;
 
@@ -190,7 +191,7 @@ public class AzureAIServices implements IAzureAIServices {
             }
         }
         catch (Exception e) {
-            LOGGER.error("Error parsing completion response ", e);
+            LOGGER.error("Error parsing completion response azure " + azurePetStoreSessionInfo != null ? "session id: " + azurePetStoreSessionInfo.getId() + " id: " + azurePetStoreSessionInfo.getId() : "session id: null", e);
         }
         return dpResponse;
     }
