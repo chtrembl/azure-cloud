@@ -1,5 +1,7 @@
 # 17 - Configure SignalR to send Real-Time Analytics to Client Browser
 
+**This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)**
+
 Just imagine you are developing a progressive/single page web application that requires real-time data. Sure you can have your end users refresh the page, and reload/re render the data and html, server side, but that would be a less than ideal user experience. You could also build out the control plane to facilitate client/server invocations using WebSockets, but that would require you to integrate/write more pub/sub code to integrate with a centralized cache/hub. Another option is [SignalR](https://docs.microsoft.com/en-us/aspnet/signalr/overview/getting-started/introduction-to-signalr), a technology that simplifies the process of adding real-time web functionality to your application that allows your client & server code to send data back and forth, instantly as it becomes available, rather than having the server wait for a client to request new data, freeing up more time for you to be productive and more write code that provides business value.
 
 In this guide we will configure the PetStoreApp to send real-time azurepetstore.com analytics to client browsers via SignalR. Customers visiting azurepetstore.com will initiate a SignalR connection and receive azurepetstore.com live shopper counts, real-time, as shoppers visit the application, this count will be displayed on the homepage without any page refreshes.
@@ -252,7 +254,7 @@ curl -d "userId=20FCE47617B5EBFA7706150BCB354C6B&mockSize=200000000" -X POST htt
 
 ![](images/5.png)
 
-**This guide is part of the [Azure Pet Store App Dev Reference Guide](../README.md)**
+➡️ Next guide: [18 - Build an Intelligent and more Accessible Experience into your Application](../18-build-intelligent-and-accessible-experience-into-your-application/README.md)
 
 Things you can now do now with this guide
 
