@@ -110,10 +110,12 @@ This workflow action does both CI & CD. Below are the details:
 - On any Change to petstoreapp/\*\* main branch, the Action will execute
 - The code is then checked out into a project workspace using actions/checkout@v2
 - A version.json is created each time containing meta data about the build (Date/Version) and will be built as part of the Docker Image as static content. This is useful for obtaining version info at application runtime.
-- actions/setup-java@v2 is used to compile our Spring Boot Java Application using Maven. Since we are not configuring Docker for a Multi Stage build, we first build the petstoreapp.jar executable, in advance of our Docker Image.
+- actions/setup-java@v2 is used to compile our Spring Boot Java Application using Maven.
 - actions/upload-artifact@v1 is used to store the petstoreapp.jar artifact, we do not need this for anything, however its more for academic purposes to show that we can persist build artifacts. (Ultimately we persist Docker Images in ACR)
 - azure/docker-login@v1 is used to authenticate/build/push into Azure Container Registry.
 - The latest Docker image for PetStoreApp gets tagged with the GitHub Hash (seen in version.json) as well as latest. CD in App Service is configured to always web hook to the latest tag.
+
+> 📝 Please Note, you may be wondering why we are building the artifact jar before having Docker execute a multi stage build, this was just left in for academic purposes to show the features of GitHub artifact upload and is not needed for anything other than that, feel free to remove the "Upload Maven build artifact" task.
 
 Head to your azure-cloud/petstore/petstoreapp folder and edit your README.MD file and commit, this will trigger the azure-cloud/blob/main/.github/workflows/petstoresapp_ci_cd_to_appservice.yml
 
