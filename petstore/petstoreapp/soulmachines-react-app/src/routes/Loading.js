@@ -109,7 +109,7 @@ function Loading({
       <div className="row justify-content-center">
         <div className="tutorial-icon mb-2">
           <div className="fs-4 fw-bold mt-2">
-            &ldquo;Welcome to the Azure Pet Store!&rdquo;
+            &ldquo;Welcome to the Pet Store!&rdquo;
           </div>
         </div>
       </div>
