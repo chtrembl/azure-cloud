@@ -45,7 +45,7 @@
     <factorypathentry kind="VARJAR" id="M2_REPO/javax/activation/activation/1.1/activation-1.1.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/com/github/stephenc/jcip/jcip-annotations/1.0-1/jcip-annotations-1.0-1.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/com/nimbusds/lang-tag/1.7/lang-tag-1.7.jar" enabled="true" runInBatchMode="false"/>
-    <factorypathentry kind="VARJAR" id="M2_REPO/com/nimbusds/nimbus-jose-jwt/9.25/nimbus-jose-jwt-9.25.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/com/nimbusds/nimbus-jose-jwt/9.38-rc3/nimbus-jose-jwt-9.38-rc3.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/com/google/code/gson/gson/2.8.2/gson-2.8.2.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/apache/commons/commons-lang3/3.7/commons-lang3-3.7.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/com/microsoft/azure/azure-annotations/1.10.0/azure-annotations-1.10.0.jar" enabled="true" runInBatchMode="false"/>
@@ -59,16 +59,13 @@
     <factorypathentry kind="VARJAR" id="M2_REPO/io/netty/netty-transport-native-unix-common/4.1.23.Final/netty-transport-native-unix-common-4.1.23.Final.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/io/netty/netty-transport-native-kqueue/4.1.23.Final/netty-transport-native-kqueue-4.1.23.Final.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/io/netty/netty-codec-http/4.1.23.Final/netty-codec-http-4.1.23.Final.jar" enabled="true" runInBatchMode="false"/>
-    <factorypathentry kind="VARJAR" id="M2_REPO/com/microsoft/azure/applicationinsights-spring-boot-starter/2.6.1/applicationinsights-spring-boot-starter-2.6.1.jar" enabled="true" runInBatchMode="false"/>
-    <factorypathentry kind="VARJAR" id="M2_REPO/com/microsoft/azure/applicationinsights-web/2.6.1/applicationinsights-web-2.6.1.jar" enabled="true" runInBatchMode="false"/>
-    <factorypathentry kind="VARJAR" id="M2_REPO/com/microsoft/azure/applicationinsights-logging-logback/2.6.1/applicationinsights-logging-logback-2.6.1.jar" enabled="true" runInBatchMode="false"/>
-    <factorypathentry kind="VARJAR" id="M2_REPO/com/microsoft/azure/applicationinsights-core/2.6.1/applicationinsights-core-2.6.1.jar" enabled="true" runInBatchMode="false"/>
-    <factorypathentry kind="VARJAR" id="M2_REPO/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.jar" enabled="true" runInBatchMode="false"/>
-    <factorypathentry kind="VARJAR" id="M2_REPO/ch/qos/logback/logback-core/1.2.3/logback-core-1.2.3.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/com/microsoft/azure/applicationinsights-core/3.4.12/applicationinsights-core-3.4.12.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/springframework/boot/spring-boot-starter-web/2.0.1.RELEASE/spring-boot-starter-web-2.0.1.RELEASE.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/springframework/boot/spring-boot-starter/2.0.1.RELEASE/spring-boot-starter-2.0.1.RELEASE.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/springframework/boot/spring-boot/2.0.1.RELEASE/spring-boot-2.0.1.RELEASE.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/springframework/boot/spring-boot-starter-logging/2.0.1.RELEASE/spring-boot-starter-logging-2.0.1.RELEASE.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/ch/qos/logback/logback-classic/1.2.3/logback-classic-1.2.3.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/ch/qos/logback/logback-core/1.2.3/logback-core-1.2.3.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/apache/logging/log4j/log4j-to-slf4j/2.10.0/log4j-to-slf4j-2.10.0.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/slf4j/jul-to-slf4j/1.7.25/jul-to-slf4j-1.7.25.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/yaml/snakeyaml/1.19/snakeyaml-1.19.jar" enabled="true" runInBatchMode="false"/>

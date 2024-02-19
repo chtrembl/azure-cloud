@@ -56,7 +56,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
     @Autowired
     private ICosmosDB cosmosDB;
 
-    private String WELCOME_MESSAGE = "Hello and welcome to the Azure Pet Store, you can ask me questions about our products, your shopping cart and your order, you can also ask me for information about pet animals. How can I help you?";
+    private String WELCOME_MESSAGE = "Hello and welcome to the Pet Store, you can ask me questions about our products, your shopping cart and your order, you can also ask me for information about pet animals. How can I help you?";
     private String RATE_LIMIT_EXCEEDED_MESSAGE = "I am sorry, you have exceeded your Azure Open AI rate limit, please try again shortly.";  
     private String SESSION_MISSING_ERROR_MESSAGE = "I am sorry, there is an error with audio translation, please try interacting via text or restarting your browser.";   
     private String ERROR_MESSAGE = "I am sorry, I am having trouble understanding you, please try interacting via text or restarting your browser.";
