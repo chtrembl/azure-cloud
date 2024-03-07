@@ -35,17 +35,17 @@ public class AzureAIServices implements IAzureAIServices {
     @Value("classpath:json/azurerequests/classificationRequestBody.txt")
     private Resource classificationRequestBodyResource;
     String classificationRequestBodyString;
-    String CLASSIFICATION_URI = "/openai/deployments/azurepetstore-shopping-assistant/chat/completions?api-version=2023-12-01-preview";
+    String CLASSIFICATION_URI = "/openai/deployments/azurepetstore-shopping-assistant/chat/completions?api-version=2024-02-15-preview";
 
     @Value("classpath:json/azurerequests/azurepetstoredataCompletionRequestBody.txt")
     private Resource azurepetstoredataCompletionRequestBodyResource;
     String azurepetstoredataCompletionRequestBodyString;
-    String COMPLETION_URI = "/openai/deployments/azurepetstore-shopping-assistant/extensions/chat/completions?api-version=2023-12-01-preview";
+    String COMPLETION_URI = "/openai/deployments/azurepetstore-shopping-assistant/extensions/chat/completions?api-version=2024-02-15-preview";
 
     @Value("classpath:json/azurerequests/chatgpt4completionRequestBody.txt")
     private Resource chatgpt4CompletionRequestBodyResource;
     String chatgpt4CompletionRequestBodyString;
-    String CHATGPT4_COMPLETION_URI = "/openai/deployments/azurepetstore-shopping-assistant/chat/completions?api-version=2023-12-01-preview";
+    String CHATGPT4_COMPLETION_URI = "/openai/deployments/azurepetstore-shopping-assistant/chat/completions?api-version=2024-02-15-preview";
 
     @Value("classpath:json/azurerequests/semanticSearchRequestBody.txt")
     private Resource semanticSearchRequestBodyBodyResource;
