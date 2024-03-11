@@ -20,11 +20,6 @@ jobs:
     - name: Checking the file system listing for Pet Store App
       run: |
         ls -al
-    - name: Build the Soul Machines React app
-      run: |
-        cd petstore/petstoreapp/soulmachines-react-app
-        npm install
-        npm run build
 
     - name: Update the version.json
       run: echo -n -e "{\"version\":\"${{ github.sha }}\",\"date\":\"$(date '+%m-%d-%Y %H:%M:%S')\"}" > petstore/petstoreapp/src/main/resources/static/content/version.json
