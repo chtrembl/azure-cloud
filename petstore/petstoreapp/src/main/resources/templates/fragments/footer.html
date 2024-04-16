@@ -1,29 +1,30 @@
+<!-- Unique version of the HTML code -->
 <!DOCTYPE html>
 <html>
 <head>
 </head>
 <body>
-	<div th:fragment="footer">
+	<div id="footer">
 		<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 		<script>
 			$(document).click(function (e) {    
-				if(e.target.innerHTML.includes('sm-'))
+				if(e.target.innerHTML.includes('unique-target'))
 				{
 					e.preventDefault();
-					window.location.href = "/soulmachines";
+					window.location.href = "/unique-page";
 				}
 			});
 		</script>
 	
-		<div class="container">
-			<footer class="pt-4 my-md-5 pt-md-5 border-top">
+		<div class="custom-container">
+			<footer class="custom-footer">
 				<div class="row">
 					<div class="col-12 col-md">
 						<small class="d-block mb-3 text-muted"
 							style="text-align: left !important;">&copy; <span
-							th:text="${containerEnvironment.year}" /> Azure Pet Store<br />
+							id="yearSpan" /> Unique Pet Store<br />
 							container:<br /> <span
-							th:text="${containerEnvironment.containerHostName}" /><br />
+							id="containerSpan" /><br />
 
 						</small>
 					</div>
@@ -51,7 +52,7 @@
 				</div>
 			</footer>
 		</div>
-		<div th:if="${containerEnvironment.gaTrackingId} != ''">
+		<div id="gaScript">
 			<script>
 				(function(i, s, o, g, r, a, m) {
 					i['GoogleAnalyticsObject'] = r;
@@ -64,7 +65,7 @@
 					m.parentNode.insertBefore(a, m)
 				})(window, document, 'script',
 						'//www.google-analytics.com/analytics.js', 'ga');
-				ga('create', '[[${containerEnvironment.gaTrackingId}]]', 'auto');
+				ga('create', '[[YourUniqueTrackingID]]', 'auto');
 				ga('send', 'pageview');
 			</script>
 		</div>
@@ -72,7 +73,7 @@
 		<script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@3.0.0/dist/browser/signalr.min.js"></script>  
 		<script src="https://cdn.jsdelivr.net/npm/axios@0.18.0/dist/axios.min.js"></script>
 		
-		<input type="hidden" id="signalRNegotiationURL" th:value="${signalRNegotiationURL}"/>
+		<input type="hidden" id="signalRNegotiationURL" value="/unique-signalRNegotiationURL"/>
 		
 		<script>
 			
@@ -111,4 +112,3 @@
 	</div>
 </body>
 </html>
-

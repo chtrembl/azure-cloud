@@ -99,7 +99,7 @@ public class PetStoreServiceImpl implements PetStoreService {
 			this.sessionUser.getTelemetryClient().trackEvent(
 					String.format("PetStoreApp %s received %s, container host: %s", this.sessionUser.getName(),
 							wce.getMessage(), this.containerEnvironment.getContainerHostName()));
-			// little hack to visually show the error message within our Azure Pet Store
+			// little hack to visually show the error message within our Pet Cloud Store
 			// Reference Guide (Academic Tutorial)
 			Pet pet = new Pet();
 			pet.setName(wce.getMessage());
@@ -108,7 +108,7 @@ public class PetStoreServiceImpl implements PetStoreService {
 			pet.setId((long) 0);
 			pets.add(pet);
 		} catch (IllegalArgumentException iae) {
-			// little hack to visually show the error message within our Azure Pet Store
+			// little hack to visually show the error message within our Pet Cloud Store
 			// Reference Guide (Academic Tutorial)
 			Pet pet = new Pet();
 			pet.setName("petstore.service.url:${PETSTOREPETSERVICE_URL} needs to be enabled for this service to work"

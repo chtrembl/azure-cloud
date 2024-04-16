@@ -3,18 +3,18 @@
 <head>
 </head>
 <body>
-	<div th:fragment="header">
+	<div th:fragment="unique_header">
 		<script>
-			var sid = "[[${sid}]]";
-			var csrf = "[[${_csrf.token}]]";
-			var arr = "[[${arrAffinity}]]";
+			var unique_sid = "[[${sid}]]";
+			var unique_csrf = "[[${_csrf.token}]]";
+			var unique_arr = "[[${arrAffinity}]]";
 		</script>
 		
 		<div
 			class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
 			<table class="my-0 mr-md-auto font-weight-normal">
 				<tr><td style="width:50px;"><a class="p-2 text-dark" href="/">
-					 </a></td><td>Hi <span th:text="${userName}"/>, Welcome to the Pet Store!</td></tr>
+					 </a></td><td>Hey there, <span th:text="${userName}"/>, Welcome to the Unique Pet Store!</td></tr>
 			</table>
 			<p/>
 			<div th:if="${user} != null">
@@ -33,7 +33,7 @@
   					<a class="btn btn-outline-primary" href="/oauth2/authorization/B2C_1_signupsignin">Sign up / Sign in</a>
 	  			</div>
   			</div>
-  			<div id="cartcontainer" class="cartcontainer"><a href = "/cart"><img class="cart" src="content/carticon.png"/><div class="cartcount"><div id="cartcount" style="margin-left:9px;margin-top:-3px;font-weight: 900;" th:text="${cartSize}" /></div></a></div>
+  			<div id="unique_cartcontainer" class="cartcontainer"><a href = "/cart"><img class="cart" src="content/unique_carticon.png"/><div class="cartcount"><div id="unique_cartcount" style="margin-left:9px;margin-top:-3px;font-weight: 900;" th:text="${cartSize}" /></div></a></div>
   		</div>
 	</div>
 </body>

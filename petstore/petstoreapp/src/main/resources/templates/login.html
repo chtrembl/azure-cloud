@@ -1,22 +1,21 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
-<head lang="en" th:replace="fragments/head :: head"></head>
+<head lang="en" th:replace="unique/head :: head"></head>
 
 <body>
-	<div lang="en" th:replace="fragments/header :: header"></div>
+	<div lang="en" th:replace="unique/header :: header"></div>
 	<div
-		class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-		<h1 class="display-4">Welcome to the Pet Store</h1>
-		<h2 class="subHeader">You are now logged out!</h2>
-		<p>You will need to Sign
-			Up and/or Sign In to continue accessing protected pages.</p>
-		<div id="banner">
-			<img class="banner" src="content/banner.png" />
+		class="unique-pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+		<h1 class="unique-display-4">Welcome to Our Exclusive Pet Store</h1>
+		<h2 class="unique-subHeader">You Have Successfully Logged Out!</h2>
+		<p>Thank you for visiting. To access our premium features, please Sign Up or Sign In.</p>
+		<div id="unique-banner">
+			<img class="unique-banner" src="content/unique-banner.png" />
 		</div>
 	</div>
-	<div lang="en" th:replace="fragments/footer :: footer"></div>
-	<div lang="en" th:replace="fragments/disclaimer :: disclaimer"></div>
+	<div lang="en" th:replace="unique/footer :: footer"></div>
+	<div lang="en" th:replace="unique/disclaimer :: disclaimer"></div>
 </body>
 
 </html>
