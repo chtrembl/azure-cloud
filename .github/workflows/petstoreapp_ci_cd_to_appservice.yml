@@ -21,9 +21,7 @@ jobs:
       run: |
         ls -al
 
-    - name: Update the version.json
-      run: echo -n -e "{\"version\":\"${{ github.sha }}\",\"date\":\"$(date '+%m-%d-%Y %H:%M:%S')\"}" > petcloudstore/petstoreapp/src/main/resources/static/content/version.json
-    - run: cat petcloudstore/petstoreapp/src/main/resources/static/content/version.json
+    
     - uses: actions/setup-java@v2
       name: Building Pet Store App with Java 13
       with:

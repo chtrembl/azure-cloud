@@ -41,8 +41,7 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-    - script: echo -n -e "{\"version\":\"$(Build.BuildNumber) - $(tag)\"}" > petstore/petstoreorderservice/src/main/resources/version.json
-
+    
     - task: Maven@3
       continueOnError: true 
       displayName: Build Spring Boot Jar
