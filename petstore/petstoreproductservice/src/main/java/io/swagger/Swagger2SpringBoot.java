@@ -7,8 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
-import com.chtrembl.petstore.product.model.ContainerEnvironment;
-import com.chtrembl.petstore.product.model.DataPreload;
+import com.dazhar.petstore.product.model.ContainerEnvironment;
+import com.dazhar.petstore.product.model.DataPreload;
 
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 

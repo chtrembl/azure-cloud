@@ -16,9 +16,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.chtrembl.petstoreapp.model.Pet;
-import com.chtrembl.petstoreapp.model.Category;
-import com.chtrembl.petstoreapp.service.PetStoreService;
+import com.dazhar.petstoreapp.controller.WebAppController;
+import com.dazhar.petstoreapp.model.Category;
+import com.dazhar.petstoreapp.model.Pet;
+import com.dazhar.petstoreapp.service.PetStoreService;
 
 import junit.framework.TestCase;
 
