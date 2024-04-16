@@ -5,9 +5,9 @@ The project/API Scaffolding was generated using Swagger Codegen https://github.c
 ```
   java -jar swagger-codegen-cli-2.4.9.jar generate \
   -i petstorepetservice.json \
-  --api-package com.chtrembl.petstore.pet.api \
-  --model-package com.chtrembl.petstore.pet.model \
-  --group-id com.chtrembl.petstore.pet \
+  --api-package com.dazhar.petstore.pet.api \
+  --model-package com.dazhar.petstore.pet.model \
+  --group-id com.dazhar.petstore.pet \
   --artifact-id petstorepetservice \
   --artifact-version 0.0.1-SNAPSHOT \
   -l spring \

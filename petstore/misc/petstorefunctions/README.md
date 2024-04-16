@@ -8,7 +8,7 @@
 	  -DarchetypeGroupId="com.microsoft.azure" \
 	  -DarchetypeArtifactId="azure-functions-archetype" \
 	  -Dversion="1.0-SNAPSHOT" \
-	  -DgroupId="com.chtrembl" \
+	  -DgroupId="com.dazhar" \
 	  -DartifactId="petstorefunctions"
 	  -Ddocker
 	 ```

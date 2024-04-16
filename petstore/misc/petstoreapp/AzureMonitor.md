@@ -120,7 +120,7 @@ In this tutorial we will look at what it takes to get your Spring Boot Applicati
 	Throughout your application code you can use TelementryClient to push transaction data (Custom Events, Page Views, Exceptions etc..) into Application Insights. Suppose you have a Session Scoped Spring Bean, called User, that is wired throughout your application, You could wire in an instance of  TelemetryClient to push data to Application Insights, specific to a session. Using [MDC](http://logback.qos.ch/manual/mdc.html) We can log all of these Telemetry Tranactions with a sessionId which will be very helpful in constructing our Kusto Log Queries.
 
 	```java
-	package com.chtrembl.petstoreapp.model;
+	package com.dazhar.petstoreapp.model;
 
 	import java.io.Serializable;
 

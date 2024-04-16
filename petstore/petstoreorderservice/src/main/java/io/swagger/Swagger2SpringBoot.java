@@ -18,15 +18,15 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.web.client.RestTemplate;
 
-import com.chtrembl.petstore.order.api.StoreApiCacheInterceptor;
-import com.chtrembl.petstore.order.model.ContainerEnvironment;
+import com.dazhar.petcloudstore.order.api.StoreApiCacheInterceptor;
+import com.dazhar.petcloudstore.order.model.ContainerEnvironment;
 
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableCaching
 @EnableSwagger2
-@ComponentScan(basePackages = { "io.swagger", "com.chtrembl.petstore.order.api", "io.swagger.configuration" })
+@ComponentScan(basePackages = { "io.swagger", "com.dazhar.petcloudstore.order.api", "io.swagger.configuration" })
 public class Swagger2SpringBoot implements CommandLineRunner {
 	static final Logger log = LoggerFactory.getLogger(Swagger2SpringBoot.class);
 

@@ -9,7 +9,7 @@
 		<version>2.6.1</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.chtrembl</groupId>
+	<groupId>com.dazhar</groupId>
 	<artifactId>petstoreapp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>petstoreapp</name>

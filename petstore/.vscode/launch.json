@@ -14,7 +14,7 @@
             "name": "Spring Boot-PetstoreappApplication<petstoreapp>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
-            "mainClass": "com.chtrembl.petstoreapp.PetstoreappApplication",
+            "mainClass": "com.dazhar.petstoreapp.PetstoreappApplication",
             "projectName": "petstoreapp",
             "args": "",
             "envFile": "${workspaceFolder}/.env",

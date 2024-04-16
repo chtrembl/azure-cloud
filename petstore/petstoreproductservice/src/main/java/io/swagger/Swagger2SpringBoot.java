@@ -7,14 +7,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
-import com.dazhar.petstore.product.model.ContainerEnvironment;
-import com.dazhar.petstore.product.model.DataPreload;
+import com.dazhar.petcloudstore.product.model.ContainerEnvironment;
+import com.dazhar.petcloudstore.product.model.DataPreload;
 
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-@ComponentScan(basePackages = { "io.swagger", "com.chtrembl.petstore.product.api", "io.swagger.configuration" })
+@ComponentScan(basePackages = { "io.swagger", "com.dazhar.petcloudstore.product.api", "io.swagger.configuration" })
 public class Swagger2SpringBoot implements CommandLineRunner {
 
 	@Bean

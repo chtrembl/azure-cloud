@@ -79,7 +79,7 @@ In no particular order, you will want to add the following to your newly generat
 Create WebSecurityConfiguration.java as seen below. This will wire up the Microsoft AADB2COidcLoginConfigurer as our securtity configurer and resolve our Azure flows for us.  The other unique thing to notice is the configure methods. Our Rhody Pet Store Application will have 1 publicly accessible page (login landing page configured in our HttpSecurity) and all others will require authentication. We also need to permit all access to our static resources (configured in our WebSecurity) as they are used by the publicly accessible login landing page.  The Rhody Pet Store Presentation was built with Bootstrap, hence the need to permit that. CSRF is disabled for this tutorial, however it is not advised to disable CSRF in a real live application (internal or external). 
 
 ````java
-package com.chtrembl.petstoreapp.security;
+package com.dazhar.petstoreapp.security;
 
 import com.microsoft.azure.spring.autoconfigure.b2c.AADB2COidcLoginConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -128,7 +128,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 Create WebController.java as seen below. There are 2 GET request mapping handlers, login (public landing) and everything else, that in this case, will just route to the home Thymeleaf view. We also use @ModelAttribute to initializeModel on each Threads incoming GET Request. This will ensure that each Thymeleaf view has User Claims, if they exist.
 
 ````java
-package com.chtrembl.petstoreapp.controller;
+package com.dazhar.petstoreapp.controller;
 
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
