@@ -1,4 +1,4 @@
-package com.dazhar.petstore;
+package com.dazhar.petcloudstore;
 
 import com.microsoft.azure.functions.*;
 
