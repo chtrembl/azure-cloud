@@ -28,7 +28,7 @@ jobs:
         java-version: '13'
         distribution: 'adopt'
     - name: Run Maven build
-      run: mvn -f petcloudstore/petstoreapp/pom.xml --batch-mode --update-snapshots verify
+      run: mvn -f petcloudstore/petcloudstore/pom.xml --batch-mode --update-snapshots verify
     - name: Upload Maven build artifact
       uses: actions/upload-artifact@v1
       with:
