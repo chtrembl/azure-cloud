@@ -74,6 +74,13 @@ public class PetStoreServiceImpl implements PetStoreService {
 		try {
 			Consumer<HttpHeaders> consumer = it -> it.addAll(this.webRequest.getHeaders());
 
+			// log all of the headers in the petServiceWebClient request
+			logger.info("Headers in the petServiceWebClient request " + this.containerEnvironment.getPetStorePetServiceURL());
+			this.webRequest.getHeaders().forEach((k, v) -> {
+				logger.info("Key: " + k + " Value: " + v);
+			});
+			logger.info("Key: " + "Ocp-Apim-Subscription-Key" + " Value: " + this.containerEnvironment.getPetStoreServicesSubscriptionKey());
+		
 			pets = this.petServiceWebClient.get().uri("petstorepetservice/v2/pet/findByStatus?status=available")
 					.accept(MediaType.APPLICATION_JSON)
 					.headers(consumer)
@@ -107,6 +114,8 @@ public class PetStoreServiceImpl implements PetStoreService {
 			pet.setCategory(new Category());
 			pet.setId((long) 0);
 			pets.add(pet);
+			logger.error(wce.getMessage());
+
 		} catch (IllegalArgumentException iae) {
 			// little hack to visually show the error message within our Azure Pet Store
 			// Reference Guide (Academic Tutorial)
@@ -117,7 +126,9 @@ public class PetStoreServiceImpl implements PetStoreService {
 			pet.setCategory(new Category());
 			pet.setId((long) 0);
 			pets.add(pet);
+			logger.error(iae.getMessage());
 		}
+
 		return pets;
 	}
 
