@@ -17,7 +17,7 @@ spec:
         agentpool: nodepool1
       containers:
       - name: petstoreproductservice
-        image: azurepetstorecontainerregistry.azurecr.io/petstoreproductservice:latest
+        image: azurepetstoremecr.azurecr.io/petstoreproductservice:latest
         resources:
           requests:
             cpu: 250m
@@ -26,7 +26,7 @@ spec:
             cpu: 500m
             memory: 2Gi
         ports:
-        - containerPort: 8080
+        - containerPort: 80
         env:
           - name: PETSTOREPRODUCTSERVICE_SERVER_PORT
             value: "80"
