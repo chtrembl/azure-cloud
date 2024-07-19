@@ -135,6 +135,14 @@ public class AzureAIServices implements IAzureAIServices {
 
             classification = PetStoreAssistantUtilities.cleanDataFromAOAIResponseContent(classification);
 
+            // with gtp4o some classification enums come back solo matching the enum values and some come back in a sentence, need to pick them out
+            //find the Classification that contains the classification string
+            for (Classification c : Classification.values()) {
+                if (classification.contains(c.label.toLowerCase())) {
+                    classification = c.label.toLowerCase();
+                    break;
+                }
+            }
             dpResponse.setClassification(Classification.valueOfLabel(classification));
 
             LOGGER.info("classified {} as {}", text, classification);
