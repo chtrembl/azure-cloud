@@ -23,14 +23,15 @@ import com.chtrembl.petstoreassistant.model.Product;
 public class CosmosDB implements ICosmosDB {
     private static final Logger LOGGER = LoggerFactory.getLogger(CosmosDB.class);
 
-    private static final String ENDPOINT = "https://azurepetstoreweb.documents.azure.com:443/";
+    //needs to be injected not hardcoded
+    private static final String ENDPOINT = "https://azurepetstoreme.documents.azure.com:443/";
    
     @Value("${cosmos.key}")
     private String cosmosKey;
    
     private static final String DATABASE_ID = "E-Commerce";
    
-    private static final String PRODUCTS_CONTAINER_ID = "ProductsV2";
+    private static final String PRODUCTS_CONTAINER_ID = "Products";
     private static final String PROMPTS_CONTAINER_ID = "Prompts";
 
     private CosmosClient client = null;
