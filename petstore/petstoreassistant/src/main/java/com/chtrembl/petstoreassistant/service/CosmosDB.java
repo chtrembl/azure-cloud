@@ -30,7 +30,7 @@ public class CosmosDB implements ICosmosDB {
    
     private static final String DATABASE_ID = "E-Commerce";
    
-    private static final String PRODUCTS_CONTAINER_ID = "ProductsV2";
+    private static final String PRODUCTS_CONTAINER_ID = "Products";
     private static final String PROMPTS_CONTAINER_ID = "Prompts";
 
     private CosmosClient client = null;
