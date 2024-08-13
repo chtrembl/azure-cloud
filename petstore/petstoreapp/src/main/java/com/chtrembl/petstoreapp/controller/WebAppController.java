@@ -48,10 +48,10 @@ public class WebAppController {
 	@Autowired
 	private PetStoreService petStoreService;
 
-	@Autowired
+	@Autowired(required = false)
 	private SearchService searchService;
 
-	@Autowired
+	@Autowired(required = false)
 	private StorageService storageService;
 
 	@Autowired
