@@ -1,5 +1,8 @@
 package com.chtrembl.petstoreapp.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
@@ -10,11 +13,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientException;
 
+import com.chtrembl.petstoreapp.model.AudioData;
 import com.chtrembl.petstoreapp.model.ContainerEnvironment;
 import com.chtrembl.petstoreapp.model.SearchResponse;
-import com.chtrembl.petstoreapp.model.User;
 import com.chtrembl.petstoreapp.model.Value;
 import com.chtrembl.petstoreapp.model.WebPages;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -25,19 +29,21 @@ public class SearchServiceImpl implements SearchService {
 	private static Logger logger = LoggerFactory.getLogger(SearchServiceImpl.class);
 
 	final ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
-			false);
-
-	@Autowired
-	private User sessionUser;
+				false);
 
 	@Autowired
 	private ContainerEnvironment containerEnvironment;
 
 	private WebClient bingSearchWebClient = null;
+	private WebClient audioSearchClient = null;
 
 	@PostConstruct
 	public void initialize() {
+		this.objectMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true); // Allow single quotes
+  
 		this.bingSearchWebClient = WebClient.builder().baseUrl(this.containerEnvironment.getBingSearchURL())
+				.build();
+		this.audioSearchClient = WebClient.builder().baseUrl(this.containerEnvironment.getAudioSearchServiceURL())
 				.build();
 	}
 
@@ -72,5 +78,37 @@ public class SearchServiceImpl implements SearchService {
 		webpages.value[0] = value;
 
 		return webpages;
+	}
+
+	@Override
+	public List<AudioData> audioSearch() {
+		Exception e = null;
+
+		List<AudioData> audioData = new ArrayList<AudioData>();
+		
+		try {
+			String response = this.audioSearchClient.get()
+					.accept(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
+					.header("x-functions-key", this.containerEnvironment.getAudioSearchSubscriptionKey())
+					.header("Cache-Control", "no-cache").retrieve()
+                    .bodyToMono(String.class)
+                    .block();
+
+			audioData = this.objectMapper.readValue(response, this.objectMapper.getTypeFactory().constructCollectionType(List.class, AudioData.class));
+		} catch (WebClientException wce) {
+			e = wce;
+		} catch (IllegalArgumentException iae) {
+			e = iae;
+		} catch (JsonMappingException jme) {
+			e = jme;
+		} catch (JsonProcessingException jpe) {
+			e = jpe;
+		}
+
+		if(e != null) {
+			logger.error("Error with audioSearch", e.getMessage());
+		}
+
+		return audioData;
 	}
 }

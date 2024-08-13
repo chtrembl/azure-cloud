@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.chtrembl.petstoreapp.model.Breed;
 import com.chtrembl.petstoreapp.model.Order;
@@ -32,6 +34,7 @@ import com.chtrembl.petstoreapp.model.WebPages;
 import com.chtrembl.petstoreapp.repository.BreedRepository;
 import com.chtrembl.petstoreapp.service.PetStoreService;
 import com.chtrembl.petstoreapp.service.SearchService;
+import com.chtrembl.petstoreapp.service.StorageService;
 import com.microsoft.applicationinsights.telemetry.PageViewTelemetry;
 
 /**
@@ -49,11 +52,15 @@ public class WebAppController {
 	private SearchService searchService;
 
 	@Autowired
+	private StorageService storageService;
+
+	@Autowired
 	private User sessionUser;
 	
 	@Autowired(required = false)
 	private BreedRepository breedRepository;
 	
+	@Value("${audio.access-list:}") String audioAccessList;
 
 	@GetMapping(value = "/login")
 	public String login(Model model, HttpServletRequest request) throws URISyntaxException {
@@ -342,5 +349,43 @@ public class WebAppController {
 		
 
 		return "debug";
+	}
+
+	//create get request method to return a list of breeds
+	@GetMapping(value = "/audioAI")
+	public String audioAI(Model model) {
+		logger.info("PetStoreApp /audioAI requested, routing to audioAI view...");
+			
+		if(this.audioAccessList == null || this.audioAccessList.isEmpty() || this.sessionUser== null || this.sessionUser.getEmail() == null || !this.audioAccessList.contains(this.sessionUser.getEmail())) {
+			logger.info("PetStoreApp /audioAI requested, access not allowed for user "+this.sessionUser.getEmail());
+			return "redirect:login";
+		}
+		
+		model.addAttribute("audioDataDocuments", this.searchService.audioSearch());
+		
+		return "audioSearch";
+	}
+
+	@PostMapping(value = "/audioAI")
+	public String audioAI(Model model, @RequestParam("audioFile") MultipartFile audioFile) {
+		logger.info("PetStoreApp /audioAI requested, routing to audioAI view...");
+		
+		if(this.audioAccessList == null || this.audioAccessList.isEmpty() || this.sessionUser== null || this.sessionUser.getEmail() == null || !this.audioAccessList.contains(this.sessionUser.getEmail())) {
+			logger.info("PetStoreApp /audioAI requested, access not allowed for user "+this.sessionUser.getEmail());
+			return "redirect:login";
+		}
+		
+		this.storageService.uploadFile(audioFile);
+
+		model.addAttribute("audioDataDocuments", this.searchService.audioSearch());
+		
+		//sleep for 5 seconds to allow for the audio file to be processed
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:audioAI";
 	}
 }

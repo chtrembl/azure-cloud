@@ -21,7 +21,12 @@
 	</properties>
 
 	<dependencies>
-		<!-- MAC M1 CHIPS
+		<dependency>
+			<groupId>com.azure</groupId>
+			<artifactId>azure-storage-blob</artifactId>
+			<version>12.14.2</version>
+		</dependency>
+		<!--MAC M1 CHIPS
 		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-resolver-dns-native-macos</artifactId>

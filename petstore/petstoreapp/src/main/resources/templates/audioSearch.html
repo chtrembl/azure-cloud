@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+
+<head lang="en" th:replace="fragments/head :: head"></head>
+
+<body>
+    <div lang="en" th:replace="fragments/header :: header"></div>
+
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">Audio Search Demo</h1>
+
+        <p/>
+
+        <form method="post" enctype="multipart/form-data" action="/audioAI">
+            <div class="form-row align-items-center justify-content-center">
+                <div class="col-auto">
+                    <label for="audioFile">Upload a new Audio File</label>
+                </div>
+                <div class="col-auto">
+                    <input type="file" class="form-control-file" id="audioFile" name="audioFile" accept=".mp3" required>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                <div class="col-auto">
+                    <input type="hidden" th:if="${_csrf}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                </div>
+            </div>
+        </form>
+
+        <p/>
+        <p/>
+
+        <b>Displaying Last 10 uploads</b>
+        <p/>
+        <div th:if="${audioDataDocuments} != null">
+            <div id="accordion">
+                <div th:each="audioData, iterStat : ${audioDataDocuments}" class="card">
+                    <div class="card-header" th:attr="id='heading' + ${iterStat.index}">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" th:attr="data-target='#collapse' + ${iterStat.index}" data-toggle="collapse" aria-expanded="true">
+                                <span th:text="${iterStat.index + 1} + '. ' + ${audioData.id}"></span>
+                            </button>
+                        </h5>
+                    </div>
+
+                    <div th:attr="id='collapse' + ${iterStat.index}" class="collapse" th:classappend="${iterStat.index == 0} ? ''">
+                        <div class="card-body">
+                            <div style="margin-bottom: 20px;">
+                                <span style="font-weight: bold;">Audio as Text: <br/> </span>
+                                <span th:if="${audioData.audioAsText != null and audioData.audioAsText != ''}" th:text="${audioData.audioAsText}"></span>
+                                <img th:if="${audioData.audioAsText == null or audioData.audioAsText == ''}" src="content/spinner.gif" alt="Spinner" style="height: 10%; width: 10%;">
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <span style="font-weight: bold;">AI Action Items: <br/> </span>
+                            <div th:if="${audioData.aiActionItemsList.size() > 0}">
+                                <div th:each="aiActionItem : ${audioData.aiActionItemsList}">
+                                    <span th:text="${aiActionItem}"></span>
+                                    <br>
+                                </div>
+                            </div>
+                            <img th:unless="${audioData.aiActionItemsList.size() > 0}" src="content/spinner.gif" alt="Spinner" style="height: 10%; width: 10%;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div lang="en" th:replace="fragments/footer :: footer"></div>
+    <div lang="en" th:replace="fragments/disclaimer :: disclaimer"></div>
+
+    <script src="content/bootstrap-4.5.0-dist/js/bootstrap.js"></script>
+</body>
+
+</html>

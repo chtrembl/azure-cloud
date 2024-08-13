@@ -75,8 +75,14 @@ public class ContainerEnvironment implements Serializable {
 	@Value("${bing.search.url:https://api.bing.microsoft.com/}")
 	private String bingSearchURL;
 
+	@Value("${audio.search.service.url:}")
+	private String audioSearchServiceURL;
+
 	@Value("${bing.search.subscription.key:}")
 	private String bingSearchSubscriptionKey;
+
+	@Value("${audio.search.service.subscription.key:}")
+	private String audioSearchSubscriptionKey;
 
 	@Value("#{T(java.util.Arrays).asList('${petstore.logging.additional-headers-to-log:}')}") 
 	private List<String> additionalHeadersToLog;
@@ -239,6 +245,14 @@ public class ContainerEnvironment implements Serializable {
 
 	public String getBingSearchSubscriptionKey() {
 		return bingSearchSubscriptionKey;
+	}
+	
+	public String getAudioSearchSubscriptionKey() {
+		return audioSearchSubscriptionKey;
+	}
+	
+	public String getAudioSearchServiceURL() {
+		return audioSearchServiceURL;
 	}
 
 	public List<String> getAdditionalHeadersToLog() {

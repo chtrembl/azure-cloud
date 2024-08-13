@@ -1,6 +1,16 @@
 #logging:
 #  level:
 #    org.springframework.security: DEBUG
+audio:
+  access-list: ${AUDIO_ACCESS_LIST:}
+  blob:
+    connection-string: ${AUDIO_BLOB_CONNECTION_STRING:}
+    container-name: ${AUDIO_BLOB_CONTAINER_NAME:}
+  search:
+    service:
+      url: ${AUDIO_SEARCH_SERVICE_URL:}
+      subscription:
+        key: ${AUDIO_SEARCH_SUBSCRIPTION_KEY:}
 bing:
   search:
     subscription:
