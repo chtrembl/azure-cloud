@@ -16,19 +16,27 @@ public class AudioData implements Serializable {
     @JsonProperty("audioAsText")
 	private String audioAsText;
 
-    @JsonProperty("aiActionItems")
-	private String aiActionItems;
+    @JsonProperty("actionItems")
+	private String actionItems;
 
-	private List<String> aiActionItemsList;
+    @JsonProperty("summary")
+	private String summary;
+
+    @JsonProperty("tone")
+	private String tone;
+
+    private List<String> actionItemsList;
 
     public AudioData() {  }
 
-    public AudioData(String id, String audioAsText, String aiActionItems) {
+    public AudioData(String id, String audioAsText, String actionItems, String summary, String tone) {
         this.setId(id);
         this.audioAsText = audioAsText; 
-        this.aiActionItems = aiActionItems;
+        this.actionItems = actionItems;
+        this.summary = summary;
+        this.tone = tone;
 
-        this.setAiActionItemsList(this.aiActionItems);
+        this.setActionItemsList(this.actionItems);
     }
 
     public void setId(String id) {
@@ -43,18 +51,30 @@ public class AudioData implements Serializable {
     public String getAudioAsText() {
         return this.audioAsText;
     }
-    public void setAiActionItems(String aiActionItems) {
-        this.aiActionItems = aiActionItems;
-        this.setAiActionItemsList(this.aiActionItems);
+    public void setActionItems(String actionItems) {
+        this.actionItems = actionItems;
+        this.setActionItemsList(this.actionItems);
     }
-    public String getAiActionItems() {
-        return this.aiActionItems;
+    public String getActionItems() {
+        return this.actionItems;
     }
-    public List<String> getAiActionItemsList() {
-        return this.aiActionItemsList;
+    public List<String> getActionItemsList() {
+        return this.actionItemsList;
     }
-    public void setAiActionItemsList(String aiActionItems) {
-        this.aiActionItemsList = List.of(aiActionItems.split("- "));
-        this.aiActionItemsList = this.aiActionItemsList.subList(1, this.aiActionItemsList.size());
+    public void setActionItemsList(String actionItems) {
+        this.actionItemsList = List.of(actionItems.split("- "));
+        this.actionItemsList = this.actionItemsList.subList(1, this.actionItemsList.size());
     }
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+    public String getSummary() {
+        return this.summary;
+    }
+    public void setTone(String tone) {
+        this.tone = tone;
+    }
+    public String getTone() {
+        return this.tone;
+    } 
 }

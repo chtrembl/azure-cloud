@@ -51,23 +51,32 @@
                                 <span th:if="${audioData.audioAsText != null and audioData.audioAsText != ''}" th:text="${audioData.audioAsText}"></span>
                                 <img th:if="${audioData.audioAsText == null or audioData.audioAsText == ''}" src="content/spinner.gif" alt="Spinner" style="height: 10%; width: 10%;">
                             </div>
-                        </div>
-                        <div style="margin-bottom: 20px;">
-                            <span style="font-weight: bold;">AI Action Items: <br/> </span>
-                            <div th:if="${audioData.aiActionItemsList.size() > 0}">
-                                <div th:each="aiActionItem : ${audioData.aiActionItemsList}">
-                                    <span th:text="${aiActionItem}"></span>
-                                    <br>
-                                </div>
+                            <div style="margin-bottom: 20px;">
+                                <span style="font-weight: bold;">Summary: <br/> </span>
+                                <span th:if="${audioData.summary != null and audioData.summary != ''}" th:text="${audioData.summary}"></span>
+                                <img th:if="${audioData.summary == null or audioData.summary == ''}" src="content/spinner.gif" alt="Spinner" style="height: 10%; width: 10%;">
                             </div>
-                            <img th:unless="${audioData.aiActionItemsList.size() > 0}" src="content/spinner.gif" alt="Spinner" style="height: 10%; width: 10%;">
+                            <div style="margin-bottom: 20px;">
+                                <span style="font-weight: bold;">Tone: <br/> </span>
+                                <span th:if="${audioData.tone != null and audioData.tone != ''}" th:text="${audioData.tone}"></span>
+                                <img th:if="${audioData.tone == null or audioData.tone == ''}" src="content/spinner.gif" alt="Spinner" style="height: 10%; width: 10%;">
+                            </div>
+                            <div style="margin-bottom: 20px;">
+                                <span style="font-weight: bold;">Action Items: <br/> </span>
+                                <div th:if="${audioData.actionItemsList.size() > 0}">
+                                    <div th:each="actionItem : ${audioData.actionItemsList}">
+                                        <span th:text="${actionItem}"></span>
+                                        <br>
+                                    </div>
+                                </div>
+                                <img th:unless="${audioData.actionItemsList.size() > 0}" src="content/spinner.gif" alt="Spinner" style="height: 10%; width: 10%;">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
     <div lang="en" th:replace="fragments/footer :: footer"></div>
     <div lang="en" th:replace="fragments/disclaimer :: disclaimer"></div>
 
