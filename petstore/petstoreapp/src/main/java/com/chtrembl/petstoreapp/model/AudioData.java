@@ -17,7 +17,7 @@ public class AudioData implements Serializable {
 	private String audioAsText;
 
     @JsonProperty("actionItems")
-	private String actionItems;
+	private List<String> actionItems;
 
     @JsonProperty("summary")
 	private String summary;
@@ -25,18 +25,14 @@ public class AudioData implements Serializable {
     @JsonProperty("tone")
 	private String tone;
 
-    private List<String> actionItemsList;
-
     public AudioData() {  }
 
-    public AudioData(String id, String audioAsText, String actionItems, String summary, String tone) {
+    public AudioData(String id, String audioAsText, List<String> actionItems, String summary, String tone) {
         this.setId(id);
         this.audioAsText = audioAsText; 
         this.actionItems = actionItems;
         this.summary = summary;
         this.tone = tone;
-
-        this.setActionItemsList(this.actionItems);
     }
 
     public void setId(String id) {
@@ -51,19 +47,11 @@ public class AudioData implements Serializable {
     public String getAudioAsText() {
         return this.audioAsText;
     }
-    public void setActionItems(String actionItems) {
+    public void setActionItems(List<String> actionItems) {
         this.actionItems = actionItems;
-        this.setActionItemsList(this.actionItems);
     }
-    public String getActionItems() {
+    public List<String> getActionItems() {
         return this.actionItems;
-    }
-    public List<String> getActionItemsList() {
-        return this.actionItemsList;
-    }
-    public void setActionItemsList(String actionItems) {
-        this.actionItemsList = List.of(actionItems.split("- "));
-        this.actionItemsList = this.actionItemsList.subList(1, this.actionItemsList.size());
     }
     public void setSummary(String summary) {
         this.summary = summary;

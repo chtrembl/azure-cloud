@@ -63,13 +63,13 @@
                             </div>
                             <div style="margin-bottom: 20px;">
                                 <span style="font-weight: bold;">Action Items: <br/> </span>
-                                <div th:if="${audioData.actionItemsList.size() > 0}">
-                                    <div th:each="actionItem : ${audioData.actionItemsList}">
+                                <div th:if="${audioData.actionItems != null && audioData.actionItems.size() > 0}">
+                                    <div th:each="actionItem : ${audioData.actionItems}">
                                         <span th:text="${actionItem}"></span>
                                         <br>
                                     </div>
                                 </div>
-                                <img th:unless="${audioData.actionItemsList.size() > 0}" src="content/spinner.gif" alt="Spinner" style="height: 10%; width: 10%;">
+                                <img th:unless="${audioData.actionItems != null && audioData.actionItems.size() > 0}" src="content/spinner.gif" alt="Spinner" style="height: 10%; width: 10%;">
                             </div>
                         </div>
                     </div>

@@ -94,7 +94,13 @@ public class SearchServiceImpl implements SearchService {
                     .bodyToMono(String.class)
                     .block();
 
-			audioData = this.objectMapper.readValue(response, this.objectMapper.getTypeFactory().constructCollectionType(List.class, AudioData.class));
+			// Configure ObjectMapper to allow coercion of empty strings to null
+			ObjectMapper objectMapper = this.objectMapper.copy();
+			objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
+
+			// Deserialize the JSON array response into a list of AudioData objects
+			audioData = objectMapper.readValue(response, objectMapper.getTypeFactory().constructCollectionType(List.class, AudioData.class));
+
 		} catch (WebClientException wce) {
 			e = wce;
 		} catch (IllegalArgumentException iae) {
