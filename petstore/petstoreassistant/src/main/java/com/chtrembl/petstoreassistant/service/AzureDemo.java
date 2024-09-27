@@ -103,9 +103,44 @@ public class AzureDemo implements IAzureDemo {
         }
 
         @Override
-        public DPResponse executeDevopsPipeline(AzurePetStoreSessionInfo azurePetStoreSessionInfo) {
+        public DPResponse executeDevopsPipeline(String at2, AzurePetStoreSessionInfo azurePetStoreSessionInfo) {
+                LOGGER.info("executeDevopsPipeline invoked, text: {}", azurePetStoreSessionInfo.getNewText());
+
                 DPResponse dpResponse = new DPResponse();
-                dpResponse.setDpResponseText("I'm sorry, I wasn't able to execute the DevOps pipeline.");
+                try {
+                        String adoResponse = this.adoClient.post()
+                                .header("Content-Type", "application/json")
+                                .header("Authorization", "Bearer " + at2)
+                                .bodyValue("{\n" + //
+                                                                                "    \"resources\": {\n" + //
+                                                                                "        \"repositories\": {\n" + //
+                                                                                "            \"self\": {\n" + //
+                                                                                "                \"refName\": \"refs/heads/main\"\n" + //
+                                                                                "            }\n" + //
+                                                                                "        }\n" + //
+                                                                                "    }\n" + //
+                                                                                "}")
+                                .retrieve()
+                                .bodyToMono(String.class)
+                                .block();
+        
+                        dpResponse.setDpResponseText("Azure DevOps Pipeline executed successfully");
+
+                        
+                        LOGGER.info("executeDevopsPipeline response for text ");
+                }
+                catch (WebClientException webClientException) {
+                        LOGGER.error("Error parsing getAzureResources response ", webClientException);
+                        if(webClientException.getMessage().contains("429"))
+                        {
+                                dpResponse.setRateLimitExceeded(true);
+                        }
+                        
+                        dpResponse.setDpResponseText("I'm sorry, I wasn't able to execute the Azure DevOps Pipeline, check at.");
+                }
+                catch (Exception e) {
+                        LOGGER.error("Error parsing executeDevopsPipeline response azure " + azurePetStoreSessionInfo != null ? "session id: " + azurePetStoreSessionInfo.getId() + " id: " + azurePetStoreSessionInfo.getId() : "session id: null", e);
+                }
                 return dpResponse;
         }
 }

@@ -201,9 +201,15 @@ public class PetStoreAssistantBot extends ActivityHandler {
                     dpResponse = this.azureDemo.getAzureResources(this.at1, azurePetStoreSessionInfo);
                 }
                 break;
+            case DISPLAY_ADO_PIPELINES_DEMO:
+                if (azurePetStoreSessionInfo != null) {
+                    return turnContext.sendActivity(
+                            MessageFactory.text("There is 1 Azure DevOps Pipeline, azure-petstoreautomation-regression-tests")).thenApply(sendResult -> null);
+                }
             case EXECUTE_ADO_PIPELINES_DEMO:
                 if (azurePetStoreSessionInfo != null) {
-                    dpResponse = this.azureDemo.executeDevopsPipeline(azurePetStoreSessionInfo);
+                    //typically if this wasnt a quick demo we would find the right pipeline to execute based on verbal/text command
+                    dpResponse = this.azureDemo.executeDevopsPipeline(at2, azurePetStoreSessionInfo);
                 }
                 break;
             case UPDATE_SHOPPING_CART:
