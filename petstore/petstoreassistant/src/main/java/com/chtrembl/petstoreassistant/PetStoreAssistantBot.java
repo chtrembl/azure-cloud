@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
 package com.chtrembl.petstoreassistant;
-
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -60,6 +60,9 @@ public class PetStoreAssistantBot extends ActivityHandler {
     @Autowired
     private ICosmosDB cosmosDB;
 
+    public String at1 = "";
+    public String at2  = ""; 
+
     private String WELCOME_MESSAGE = "Hello and welcome to the Azure Pet Store, you can ask me questions about our products, your shopping cart and your order, you can also ask me for information about pet animals. How can I help you?";
     private String RATE_LIMIT_EXCEEDED_MESSAGE = "I am sorry, you have exceeded your Azure Open AI rate limit, please try again shortly.";  
     private String SESSION_MISSING_ERROR_MESSAGE = "I am sorry, there is an error with audio translation, please try interacting via text or restarting your browser.";   
@@ -112,6 +115,38 @@ public class PetStoreAssistantBot extends ActivityHandler {
 
     @Override
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
+        
+        //customer demo/temp hack
+        if(turnContext.getActivity().getText().startsWith("at1:")) 
+        {
+            String patternString = "at1:(.*?)(https://|$)";
+            Pattern pattern = Pattern.compile(patternString);
+            Matcher matcher = pattern.matcher(turnContext.getActivity().getText());
+
+            if (matcher.find()) {
+                this.at1 = matcher.group(1).trim();
+            }
+
+            return turnContext.sendActivity(
+                MessageFactory.text("at1 set thank you..."))
+                .thenApply(sendResult -> null);
+        }
+
+        if(turnContext.getActivity().getText().startsWith("at2:")) 
+        {
+            String patternString = "at2:(.*?)(https://|$)";
+            Pattern pattern = Pattern.compile(patternString);
+            Matcher matcher = pattern.matcher(turnContext.getActivity().getText());
+
+            if (matcher.find()) {
+                this.at2 = matcher.group(1).trim();
+            }
+
+            return turnContext.sendActivity(
+                MessageFactory.text("at2 set thank you..."))
+                .thenApply(sendResult -> null);
+        }
+
         String text = turnContext.getActivity().getText().toLowerCase().trim();
 
         LOGGER.info("onMessageActivity incoming text: " + text);
@@ -125,21 +160,6 @@ public class PetStoreAssistantBot extends ActivityHandler {
         if (azurePetStoreSessionInfo != null && azurePetStoreSessionInfo.getNewText() != null) {
             // get the text without the session id, csrf token and arr affinity
             text = azurePetStoreSessionInfo.getNewText();
-        }
-
-        if(text.startsWith("at1:")) 
-        {
-            azurePetStoreSessionInfo.setAt1(text.substring(4));
-            return turnContext.sendActivity(
-                MessageFactory.text("at1 set thank you..."))
-                .thenApply(sendResult -> null);
-        }
-        if(text.startsWith("at2:")) 
-        {
-            azurePetStoreSessionInfo.setAt2(text.substring(4));
-            return turnContext.sendActivity(
-                MessageFactory.text("at2 set thank you..."))
-                .thenApply(sendResult -> null);
         }
 
         // the client browser initialized
@@ -178,7 +198,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
         switch (dpResponse.getClassification()) {
             case VIEW_AZURE_RESOURCES_DEMO:
                 if (azurePetStoreSessionInfo != null) {
-                    dpResponse = this.azureDemo.getAzureResources(azurePetStoreSessionInfo);
+                    dpResponse = this.azureDemo.getAzureResources(this.at1, azurePetStoreSessionInfo);
                 }
                 break;
             case EXECUTE_ADO_PIPELINES_DEMO:

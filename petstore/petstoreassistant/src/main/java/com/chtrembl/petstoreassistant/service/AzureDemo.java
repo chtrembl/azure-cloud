@@ -45,7 +45,7 @@ public class AzureDemo implements IAzureDemo {
         }
 
         @Override       
-        public DPResponse getAzureResources(AzurePetStoreSessionInfo azurePetStoreSessionInfo) {
+        public DPResponse getAzureResources(String at1, AzurePetStoreSessionInfo azurePetStoreSessionInfo) {
                 LOGGER.info("getAzureResources invoked, text: {}", azurePetStoreSessionInfo.getNewText());
 
                 DPResponse dpResponse = new DPResponse();
@@ -58,7 +58,7 @@ public class AzureDemo implements IAzureDemo {
 
                         String azureResponse = this.azureClient.post()
                                 .header("Content-Type", "application/json")
-                                .header("Authorization", "Bearer " + azurePetStoreSessionInfo.getAt1())
+                                .header("Authorization", "Bearer " + at1)
                                 .bodyValue((String.format(this.azureResourcesDemoBodyBodyString, subscriptionId, days)))
                                 .retrieve()
                                 .bodyToMono(String.class)
@@ -93,6 +93,7 @@ public class AzureDemo implements IAzureDemo {
                         {
                                 dpResponse.setRateLimitExceeded(true);
                         }
+                        
                         dpResponse.setDpResponseText("I'm sorry, I wasn't able to get the Azure resources, check at.");
                 }
                 catch (Exception e) {
