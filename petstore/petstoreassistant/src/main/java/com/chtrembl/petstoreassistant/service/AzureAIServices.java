@@ -100,6 +100,9 @@ public class AzureAIServices implements IAzureAIServices {
         SEARCH_FOR_FISH_FOOD("search for fish food"),
         SEARCH_FOR_PRODUCTS("search for products"),
         MORE_PRODUCT_INFORMATION("more product information"),
+        VIEW_AZURE_RESOURCES_DEMO("resources or services or subscription changes or updates"),
+        DISPLAY_ADO_PIPELINES_DEMO("display devops pipeline"),
+        EXECUTE_ADO_PIPELINES_DEMO("execute devops pipeline"),
         SOMETHING_ELSE("something else");
 
         public final String label;

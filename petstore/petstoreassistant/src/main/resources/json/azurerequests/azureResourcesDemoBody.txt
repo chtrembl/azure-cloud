@@ -1,0 +1,18 @@
+{
+  "subscriptions": [
+    "%s"
+  ],
+   "query": "resourcechanges
+| extend changeTime = todatetime(properties.changeAttributes.timestamp), 
+         targetResourceId = tostring(properties.targetResourceId),
+         changeType = tostring(properties.changeType), 
+         correlationId = properties.changeAttributes.correlationId, 
+         changedProperties = properties.changes, 
+         changeCount = properties.changeAttributes.changesCount
+| where changeTime > ago(%sd)
+| order by changeTime desc
+| project changeTime, targetResourceId, changeType, correlationId, changeCount, changedProperties
+| summarize ChangeCount = count() by targetResourceId, changeTime, changeType
+| extend resourceName = split(targetResourceId, \"/\")[array_length(split(targetResourceId, \"/\")) - 1],
+         resourceType = replace(\"['./']\", \" \", strcat_array(array_slice(split(targetResourceId, \"/\"), array_length(split(targetResourceId, \"/\")) - 3, array_length(split(targetResourceId, \"/\")) - 1), \"/\"))"
+}

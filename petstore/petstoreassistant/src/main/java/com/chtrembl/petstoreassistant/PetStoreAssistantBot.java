@@ -19,6 +19,7 @@ import com.chtrembl.petstoreassistant.model.DPResponse;
 import com.chtrembl.petstoreassistant.model.Prompt;
 import com.chtrembl.petstoreassistant.service.AzureAIServices.Classification;
 import com.chtrembl.petstoreassistant.service.IAzureAIServices;
+import com.chtrembl.petstoreassistant.service.IAzureDemo;
 import com.chtrembl.petstoreassistant.service.IAzurePetStore;
 import com.chtrembl.petstoreassistant.service.ICosmosDB;
 import com.chtrembl.petstoreassistant.utility.PetStoreAssistantUtilities;
@@ -54,6 +55,9 @@ public class PetStoreAssistantBot extends ActivityHandler {
     private IAzurePetStore azurePetStore;
 
     @Autowired
+    private IAzureDemo azureDemo;
+
+    @Autowired
     private ICosmosDB cosmosDB;
 
     private String WELCOME_MESSAGE = "Hello and welcome to the Azure Pet Store, you can ask me questions about our products, your shopping cart and your order, you can also ask me for information about pet animals. How can I help you?";
@@ -62,7 +66,7 @@ public class PetStoreAssistantBot extends ActivityHandler {
     private String ERROR_MESSAGE = "I am sorry, I am having trouble understanding you, please try interacting via text or restarting your browser.";
 
     private UserState userState;
-
+    
     Cache<String, AzurePetStoreSessionInfo> cache = Caffeine.newBuilder()
             .expireAfterWrite(30, TimeUnit.MINUTES)
             .maximumSize(10000)
@@ -123,6 +127,21 @@ public class PetStoreAssistantBot extends ActivityHandler {
             text = azurePetStoreSessionInfo.getNewText();
         }
 
+        if(text.startsWith("at1:")) 
+        {
+            azurePetStoreSessionInfo.setAt1(text.substring(4));
+            return turnContext.sendActivity(
+                MessageFactory.text("at1 set thank you..."))
+                .thenApply(sendResult -> null);
+        }
+        if(text.startsWith("at2:")) 
+        {
+            azurePetStoreSessionInfo.setAt2(text.substring(4));
+            return turnContext.sendActivity(
+                MessageFactory.text("at2 set thank you..."))
+                .thenApply(sendResult -> null);
+        }
+
         // the client browser initialized
         if (text.equals("...")) {
             LOGGER.info("onMessageActivity new session established, " + azurePetStoreSessionInfo != null ? "session id: " + azurePetStoreSessionInfo.getId() + " id: " + azurePetStoreSessionInfo.getId() : "session id: null");
@@ -157,6 +176,16 @@ public class PetStoreAssistantBot extends ActivityHandler {
         }
 
         switch (dpResponse.getClassification()) {
+            case VIEW_AZURE_RESOURCES_DEMO:
+                if (azurePetStoreSessionInfo != null) {
+                    dpResponse = this.azureDemo.getAzureResources(azurePetStoreSessionInfo);
+                }
+                break;
+            case EXECUTE_ADO_PIPELINES_DEMO:
+                if (azurePetStoreSessionInfo != null) {
+                    dpResponse = this.azureDemo.executeDevopsPipeline(azurePetStoreSessionInfo);
+                }
+                break;
             case UPDATE_SHOPPING_CART:
                 if (azurePetStoreSessionInfo != null) {
                     dpResponse = this.azureOpenAI.search(text, Classification.SEARCH_FOR_PRODUCTS);

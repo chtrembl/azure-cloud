@@ -16,6 +16,9 @@ public class AzurePetStoreSessionInfo implements Serializable{
 
     private List<Prompt> prompts = null;
     
+    private String at1 = null;
+    private String at2 = null;
+
     public AzurePetStoreSessionInfo(String sessionID, String csrfToken, String arrAffinity, String newText) {
         super();
         this.sessionID = sessionID.trim().toUpperCase(); //JSESSION needs to be UPPER CASE
@@ -62,5 +65,17 @@ public class AzurePetStoreSessionInfo implements Serializable{
         }
         this.prompts.add(prompt);
     }
-
+    
+    public void setAt1(String at1) {
+        this.at1 = at1;
+    }
+    public String getAt1() {
+        return this.at1;
+    }
+    public void setAt2(String at2) {
+        this.at2 = at2;
+    }
+    public String getAt2() {
+        return this.at2;
+    }
 }
