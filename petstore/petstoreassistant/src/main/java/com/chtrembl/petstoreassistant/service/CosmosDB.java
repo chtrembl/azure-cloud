@@ -24,7 +24,7 @@ public class CosmosDB implements ICosmosDB {
     private static final Logger LOGGER = LoggerFactory.getLogger(CosmosDB.class);
 
     //needs to be injected not hardcoded
-    private static final String ENDPOINT = "https://azurepetstoreme.documents.azure.com:443/";
+    private static final String ENDPOINT = "https://azurepetstorecosmosdbmsdn.documents.azure.com:443/";
    
     @Value("${cosmos.key}")
     private String cosmosKey;
