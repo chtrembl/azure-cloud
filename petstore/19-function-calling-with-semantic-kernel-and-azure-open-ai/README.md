@@ -279,7 +279,7 @@ async def process_prompt(prompt: str) -> str:
 
 ***Demo***
 
-![](../petstoreskfunctioncalling/demo.gif)
+<img src="../petstoreskfunctioncalling/demo.gif" width="90%" height="90%">
 
 ***Summary***
 
