@@ -283,7 +283,7 @@ async def process_prompt(prompt: str) -> str:
 
 ***Summary***
 
-Here we looked at how to enhance our code to leverage Semantic Kernel with Plugins and Function Calling. We saw how Semantic Kernel will generate our JSON for us. We can control the chat history. Notice that these request can get bloated so you will want to consider leveraging classification if you have a great number of functions and/or chat history which can reduce your tokens and bloat. 
+Here we looked at how to enhance our code to leverage Semantic Kernel with Plugins and Function Calling. We saw how Semantic Kernel will generate our JSON for us. We can control the chat history. Notice that these request can get bloated so you will want to consider leveraging classification if you have a great number of functions and/or chat history which can reduce your tokens and bloat. Other things to consider are what to do with all of our existing/legacy services and business logic? Can we expose those service contracts (APIM perhaps?) and make them part of our function calling flow?
 
 Things you can now do now with this guide
 
