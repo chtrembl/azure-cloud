@@ -178,7 +178,7 @@ async def process_prompt(prompt: str) -> str:
     return response
 ```
 
-***Payload JSON***
+***Payload JSON captured in our terminal logs***
 
 ```json
 {
