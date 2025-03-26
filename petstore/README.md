@@ -108,6 +108,7 @@ Prerequisites and environment setup (Optionaly you can build/deploy locally)
 
 ## [18 - Build an Intelligent and more Accessible Experience into your Application](18-build-intelligent-and-accessible-experience-into-your-application/README.md)
 
+## [19 - Function Calling with Semantic Kernel and Azure Open AI](19-function-calling-with-semantic-kernel-and-azure-open-ai)
 
 ---
 

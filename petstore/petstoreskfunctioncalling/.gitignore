@@ -1,0 +1,76 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.eggs/
+dist/
+sdist/
+*.egg-info/
+*.egg
+MANIFEST
+
+# PyInstaller
+#  Usually these files are written into a _MEIPASS folder, but there is no way to use wildcards
+#  to match the path at the moment.
+_MEIPASS*
+*.pkg
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs
+/site
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Temp files by package managers
+pip-log.txt
+pip-delete-this-directory.txt
+pypoetry.lock
+poetry.lock
+
+# Celery / Django stuff
+celerybeat-schedule
+celeryev.db
+
+# Unit test / coverage reports
+*.coverage
+*.log
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+pytest_debug.log
+
+# Translations
+*.mo
+*.pot
+
+# Django static files
+MEDIA_ROOT
+STATIC_ROOT
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Azure related
+.azurite/
+__azurite_db_*.json

@@ -7,3 +7,5 @@
 Things you can now do now with this guide
 
 ☑️ Setup ...
+
+➡️ Next guide: [19 - Function Calling with Semantic Kernel and Azure Open AI](../19-function-calling-with-semantic-kernel-and-azure-open-ai)
