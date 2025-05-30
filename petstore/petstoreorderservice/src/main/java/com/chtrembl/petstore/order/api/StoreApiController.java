@@ -206,52 +206,40 @@ public class StoreApiController implements StoreApi {
 			@ApiParam(value = "ID of the order that needs to be deleted", required = true) @PathVariable("orderId") String orderId) {
 		conigureThreadForLogging();
 
-		String acceptType = request.getHeader("Content-Type");
-		String contentType = request.getHeader("Content-Type");
-
+		
 		log.info(String.format(
-					"PetStoreOrderService incoming GET request to petstoreorderservice/v2/order/getOrderById for order id:%s acceptType:%s contentType:%s",
-					orderId, acceptType, contentType));
-	
-		if (acceptType != null && contentType != null && acceptType.contains("application/json")
-				&& contentType.contains("application/json")) {
+				"PetStoreOrderService incoming GET request to petstoreorderservice/v2/order/getOrderById for order id:%s",
+				orderId));
 
-			log.info(String.format(
-					"PetStoreOrderService incoming GET request to petstoreorderservice/v2/order/getOrderById for order id:%s",
-					orderId));
+		List<Product> products = this.storeApiCache.getProducts();
 
-			List<Product> products = this.storeApiCache.getProducts();
+		Order order = this.storeApiCache.getOrder(orderId);
 
-			Order order = this.storeApiCache.getOrder(orderId);
-
-			if (products != null) {
-				// cross reference order data (order only has product id and qty) with product
-				// data....
-				try {
-					if (order.getProducts() != null) {
-						for (Product p : order.getProducts()) {
-							Product peekedProduct = getProduct(products, p.getId());
-							p.setName(peekedProduct.getName());
-							p.setPhotoURL((peekedProduct.getPhotoURL()));
-						}
-					}
-				} catch (Exception e) {
-					log.error(String.format(
-							"PetStoreOrderService incoming GET request to petstoreorderservice/v2/order/getOrderById for order id:%s failed: %s",
-							orderId, e.getMessage()));
-				}
-			}
-
+		if (products != null) {
+			// cross reference order data (order only has product id and qty) with product
+			// data....
 			try {
-				ApiUtil.setResponse(request, "application/json", new ObjectMapper().writeValueAsString(order));
-				return new ResponseEntity<>(HttpStatus.OK);
-			} catch (IOException e) {
-				log.error("Couldn't serialize response for content type application/json", e);
-				return new ResponseEntity<Order>(HttpStatus.INTERNAL_SERVER_ERROR);
+				if (order.getProducts() != null) {
+					for (Product p : order.getProducts()) {
+						Product peekedProduct = getProduct(products, p.getId());
+						p.setName(peekedProduct.getName());
+						p.setPhotoURL((peekedProduct.getPhotoURL()));
+					}
+				}
+			} catch (Exception e) {
+				log.error(String.format(
+						"PetStoreOrderService incoming GET request to petstoreorderservice/v2/order/getOrderById for order id:%s failed: %s",
+						orderId, e.getMessage()));
 			}
 		}
 
-		return new ResponseEntity<Order>(HttpStatus.NOT_IMPLEMENTED);
+		try {
+			ApiUtil.setResponse(request, "application/json", new ObjectMapper().writeValueAsString(order));
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (IOException e) {
+			log.error("Couldn't serialize response for content type application/json", e);
+			return new ResponseEntity<Order>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 
 	private Product getProduct(List<Product> products, Long id) {
