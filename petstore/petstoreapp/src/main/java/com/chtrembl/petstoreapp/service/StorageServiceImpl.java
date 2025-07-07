@@ -20,12 +20,19 @@ import com.azure.storage.blob.specialized.BlockBlobClient;
 public class StorageServiceImpl implements StorageService {
    	private static Logger logger = LoggerFactory.getLogger(StorageServiceImpl.class);
 
-    private final BlobServiceClient blobServiceClient;
-    private final BlobContainerClient containerClient;
+    private BlobServiceClient blobServiceClient = null;
+    private BlobContainerClient containerClient = null;
 
     public StorageServiceImpl(@Value("${audio.blob.connection-string:}") String blobConnectionString, @Value("${audio.blob.container-name:}") String blobContainerName) {
-        this.blobServiceClient = new BlobServiceClientBuilder().connectionString(blobConnectionString).buildClient();
-        this.containerClient = blobServiceClient.getBlobContainerClient(blobContainerName);
+        try
+        {
+            this.blobServiceClient = new BlobServiceClientBuilder().connectionString(blobConnectionString).buildClient();
+            this.containerClient = blobServiceClient.getBlobContainerClient(blobContainerName);
+        }
+        catch (Exception e)
+        {
+            logger.error("Failed to initialize Azure Blob Storage client", e);
+        }
     }
 
     public String uploadFile(MultipartFile file)
