@@ -39,11 +39,6 @@ jobs:
         distribution: 'adopt'
     - name: Run Maven build
       run: mvn -f petstore/petstoreapp/pom.xml --batch-mode --update-snapshots verify
-    - name: Upload Maven build artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: artifact
-        path: petstore/petstoreapp/target/petstoreapp-0.0.1-SNAPSHOT.jar
     - uses: azure/docker-login@v1
       name: Build Docker image
       with:
