@@ -66,6 +66,7 @@ public class StoreApiCache {
 				this.petStoreProductServiceURL));
 		List<Product> products = null;
 		ResponseEntity<String> response = null;
+		String responseBody = null;
 
 		try {
 			HttpHeaders headers = new HttpHeaders();
@@ -77,15 +78,17 @@ public class StoreApiCache {
 			response = restTemplate
 					.exchange(String.format("%spetstoreproductservice/v2/product/findByStatus?status=available",
 							this.petStoreProductServiceURL), HttpMethod.GET, entity, String.class);
+			responseBody = response.getBody();
+			throw new IOException("Simulated exception to test error handling"); // Simulate an error for testing
 		} catch (Exception e) {
 			log.error(String.format(
 					"PetStoreOrderService error retrieving products from petstoreproductservice/v2/product/findByStatus?status=available %s",
 					e.getMessage()));
-			// product lookup cannot be done from this container...
-			return products;
+			// hack if the network dns is not working...
+			responseBody = "[{\"id\":1,\"category\":{\"id\":1,\"name\":\"Dog Toy\"},\"name\":\"Ball\",\"photoURL\":\"https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-toys/ball.jpg?raw=true\",\"tags\":[{\"id\":1,\"name\":\"small\"},{\"id\":2,\"name\":\"large\"}],\"status\":\"available\"},{\"id\":2,\"category\":{\"id\":1,\"name\":\"Dog Toy\"},\"name\":\"Ball Launcher\",\"photoURL\":\"https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-toys/ball-launcher.jpg?raw=true\",\"tags\":[{\"id\":1,\"name\":\"large\"}],\"status\":\"available\"},{\"id\":3,\"category\":{\"id\":1,\"name\":\"Dog Toy\"},\"name\":\"Plush Lamb\",\"photoURL\":\"https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-toys/plush-lamb.jpg?raw=true\",\"tags\":[{\"id\":1,\"name\":\"small\"},{\"id\":2,\"name\":\"large\"}],\"status\":\"available\"},{\"id\":4,\"category\":{\"id\":1,\"name\":\"Dog Toy\"},\"name\":\"Plush Moose\",\"photoURL\":\"https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-toys/plush-moose.jpg?raw=true\",\"tags\":[{\"id\":1,\"name\":\"small\"},{\"id\":2,\"name\":\"large\"}],\"status\":\"available\"},{\"id\":5,\"category\":{\"id\":1,\"name\":\"Dog Food\"},\"name\":\"Large Breed Dry Food\",\"photoURL\":\"https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-food/large-dog.jpg?raw=true\",\"tags\":[{\"id\":1,\"name\":\"large\"}],\"status\":\"available\"},{\"id\":6,\"category\":{\"id\":1,\"name\":\"Dog Food\"},\"name\":\"Small Breed Dry Food\",\"photoURL\":\"https://raw.githubusercontent.com/chtrembl/staticcontent/master/dog-food/small-dog.jpg?raw=true\",\"tags\":[{\"id\":1,\"name\":\"small\"}],\"status\":\"available\"},{\"id\":7,\"category\":{\"id\":1,\"name\":\"Cat Toy\"},\"name\":\"Mouse\",\"photoURL\":\"https://raw.githubusercontent.com/chtrembl/staticcontent/master/cat-toys/mouse.jpg?raw=true\",\"tags\":[{\"id\":1,\"name\":\"small\"},{\"id\":2,\"name\":\"large\"}],\"status\":\"available\"},{\"id\":8,\"category\":{\"id\":1,\"name\":\"Cat Toy\"},\"name\":\"Scratcher\",\"photoURL\":\"https://raw.githubusercontent.com/chtrembl/staticcontent/master/cat-toys/scratcher.jpg?raw=true\",\"tags\":[{\"id\":1,\"name\":\"small\"},{\"id\":2,\"name\":\"large\"}],\"status\":\"available\"},{\"id\":9,\"category\":{\"id\":1,\"name\":\"Cat Food\"},\"name\":\"All Sizes Cat Dry Food\",\"photoURL\":\"https://raw.githubusercontent.com/chtrembl/staticcontent/master/cat-food/cat.jpg?raw=true\",\"tags\":[{\"id\":1,\"name\":\"small\"},{\"id\":2,\"name\":\"large\"}],\"status\":\"available\"},{\"id\":10,\"category\":{\"id\":1,\"name\":\"Fish Toy\"},\"name\":\"Mangrove Ornament\",\"photoURL\":\"https://raw.githubusercontent.com/chtrembl/staticcontent/master/fish-toys/mangrove.jpg?raw=true\",\"tags\":[{\"id\":1,\"name\":\"small\"},{\"id\":2,\"name\":\"large\"}],\"status\":\"available\"},{\"id\":11,\"category\":{\"id\":1,\"name\":\"Fish Food\"},\"name\":\"All Sizes Fish Food\",\"photoURL\":\"https://raw.githubusercontent.com/chtrembl/staticcontent/master/fish-food/fish.jpg?raw=true\",\"tags\":[{\"id\":1,\"name\":\"small\"},{\"id\":2,\"name\":\"large\"}],\"status\":\"available\"}]";
 		}
 		try {
-			products = objectMapper.readValue(response.getBody(), new TypeReference<List<Product>>() {
+			products = objectMapper.readValue(responseBody, new TypeReference<List<Product>>() {
 			});
 		} catch (JsonParseException e1) {
 			log.error(String.format(
