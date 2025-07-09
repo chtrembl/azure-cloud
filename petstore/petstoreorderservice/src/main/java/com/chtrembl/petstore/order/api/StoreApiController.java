@@ -120,12 +120,7 @@ public class StoreApiController implements StoreApi {
 			@ApiParam(value = "order placed for purchasing the product", required = true) @Valid @RequestBody Order body) {
 		conigureThreadForLogging();
 
-		String acceptType = request.getHeader("Content-Type");
-		String contentType = request.getHeader("Content-Type");
-		if (acceptType != null && contentType != null && acceptType.contains("application/json")
-				&& contentType.contains("application/json")) {
-
-			log.info(String.format(
+				log.info(String.format(
 					"PetStoreOrderService incoming POST request to petstoreorderservice/v2/order/placeOder for order id:%s",
 					body.getId()));
 
@@ -195,9 +190,6 @@ public class StoreApiController implements StoreApi {
 				log.error("Couldn't serialize response for content type application/json", e);
 				return new ResponseEntity<Order>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
-		}
-
-		return new ResponseEntity<Order>(HttpStatus.NOT_IMPLEMENTED);
 
 	}
 
