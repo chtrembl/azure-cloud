@@ -5,7 +5,7 @@
 param name string
 param location string
 
-resource foundryAccount 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
+resource foundryAccount 'Microsoft.CognitiveServices/accounts@2025-06-01' = {
   name: name
   location: location
   kind: 'AIServices'
@@ -18,6 +18,7 @@ resource foundryAccount 'Microsoft.CognitiveServices/accounts@2024-10-01' = {
   properties: {
     customSubDomainName: name
     publicNetworkAccess: 'Enabled'
+    allowProjectManagement: true
     apiProperties: {}
   }
 }

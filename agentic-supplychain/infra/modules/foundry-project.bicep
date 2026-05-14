@@ -6,13 +6,12 @@
 param name string
 param location string
 param foundryAccountName string
-param appInsightsId string
 
-resource foundryAccount 'Microsoft.CognitiveServices/accounts@2024-10-01' existing = {
+resource foundryAccount 'Microsoft.CognitiveServices/accounts@2025-06-01' existing = {
   name: foundryAccountName
 }
 
-resource foundryProject 'Microsoft.CognitiveServices/accounts/projects@2024-10-01' = {
+resource foundryProject 'Microsoft.CognitiveServices/accounts/projects@2025-06-01' = {
   parent: foundryAccount
   name: name
   location: location
@@ -21,15 +20,11 @@ resource foundryProject 'Microsoft.CognitiveServices/accounts/projects@2024-10-0
   }
   properties: {
     description: 'Agentic supply-chain orchestrator project'
-    friendlyName: 'Agentic Supply Chain'
-    // Link Application Insights for hosted-agent observability
-    customProperties: {
-      ApplicationInsightsResourceId: appInsightsId
-    }
+    displayName: 'Agentic Supply Chain'
   }
 }
 
 output projectName string = foundryProject.name
 output projectId string = foundryProject.id
-output projectEndpoint string = foundryProject.properties.endpoint
+output projectEndpoint string = foundryProject.properties.endpoints['AI Foundry API']
 output projectPrincipalId string = foundryProject.identity.principalId

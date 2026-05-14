@@ -11,9 +11,7 @@ param acrId string
 param logAnalyticsId string
 
 // Built-in role definition IDs
-// Container Registry Repository Reader: Grants image-pull access
-var acrPullRoleId = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'b24988ac-6180-42a0-ab88-20f7382dd24c')
-// More precise: AcrPull role
+// AcrPull role – grants image-pull access
 var acrPullRoleDefinitionId = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d')
 
 // Log Analytics Reader

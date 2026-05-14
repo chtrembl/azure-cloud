@@ -68,7 +68,6 @@ module foundryProject 'modules/foundry-project.bicep' = {
     name: foundryProjectName
     location: location
     foundryAccountName: foundryAccount.outputs.accountName
-    appInsightsId: appInsights.outputs.appInsightsId
   }
 }
 
