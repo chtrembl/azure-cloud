@@ -1,0 +1,25 @@
+Use @docs/agentic-supplychain-spec.md as the authoritative implementation spec.
+
+Generate the complete MVP repository, not just a scaffold. Create every required file named in the spec with working content. Optimize for local laptop-driven deployment first, then mirror it in GitHub Actions. If any Azure Foundry or Microsoft Fabric step cannot be fully automated, still generate the surrounding scripts and docs and mark the exact manual checkpoint with precise instructions.
+
+Build in 4 phases:
+1. Repo structure, README, .env.example, azure.yaml, Bicep modules, bootstrap and post-provision scripts.
+2. Python orchestrator agent, config, prompts, tools, Dockerfile, requirements, tests, agent.yaml, deploy scripts.
+3. Sample Fabric CSVs, knowledge markdown files, eval files, helper scripts, Fabric and Foundry IQ runbooks.
+4. GitHub Actions, validation scripts, and a top-level local deployment script.
+
+After each phase, summarize:
+- created files,
+- assumptions,
+- manual checkpoints,
+- prerequisites,
+- variables/placeholders introduced and where to get them.
+
+When complete, include:
+- exact commands to run locally from a fresh terminal session,
+- exact commands to deploy infra, export outputs, build/push image, deploy the hosted agent, and validate,
+- a section for blocked deployment troubleshooting,
+- expected successful outcomes,
+- a copy/paste commands-only terminal block.
+
+Do not omit files in the spec. Do not leave empty stubs. Do not overstate automation where platform constraints exist.

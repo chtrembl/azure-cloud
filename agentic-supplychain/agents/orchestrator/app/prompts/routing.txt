@@ -1,0 +1,11 @@
+Classify the following user question into one of these categories:
+
+- **structured**: The question asks about operational data, metrics, rankings, quantities, or status that would come from a database or data warehouse (e.g., supplier performance, inventory levels, shipment delays, warehouse status).
+
+- **knowledge**: The question asks about policies, contracts, SLAs, procedures, approval processes, penalties, or escalation rules that would come from enterprise documents.
+
+- **mixed**: The question asks about both operational data AND policy/contractual context, or requests recommendations that require combining data with policy knowledge.
+
+Respond with exactly one word: structured, knowledge, or mixed.
+
+Question: {question}

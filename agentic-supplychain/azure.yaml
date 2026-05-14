@@ -1,0 +1,16 @@
+# Azure Developer CLI (azd) project configuration
+# See https://learn.microsoft.com/azure/developer/azure-developer-cli/
+name: agentic-supplychain
+metadata:
+  template: chtrembl/azure-cloud@main
+
+infra:
+  provider: bicep
+  path: infra
+  module: main
+
+services:
+  orchestrator:
+    project: agents/orchestrator
+    language: python
+    host: containerapp  # Image is built and pushed to ACR; deployed as a Foundry hosted agent

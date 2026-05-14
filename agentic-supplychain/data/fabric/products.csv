@@ -1,0 +1,13 @@
+product_id,name,category,unit_cost,supplier_id,alternate_supplier_id,reorder_point,reorder_qty,lead_time_days,critical
+PRD-101,Heavy Duty Motor Assembly,Motors,1250.00,SUP-001,,30,100,14,true
+PRD-102,Standard Relay Module,Electronics,45.00,SUP-001,SUP-009,200,500,14,false
+PRD-110,Industrial Valve Assembly,Mechanical Components,320.00,SUP-003,SUP-007,50,150,21,true
+PRD-111,Hydraulic Pump Unit,Mechanical Components,890.00,SUP-003,,25,50,21,true
+PRD-205,Precision Bearing Kit,Precision Parts,78.00,SUP-007,SUP-010,40,200,18,false
+PRD-206,Custom Gear Set,Precision Parts,215.00,SUP-007,,20,60,18,true
+PRD-301,Steel Plate Grade A,Raw Materials,55.00,SUP-005,,500,2000,35,false
+PRD-302,Aluminum Extrusion Profile,Raw Materials,32.00,SUP-004,,300,1000,28,false
+PRD-401,Nylon Bushing Set,Plastics,12.50,SUP-006,,400,2000,10,false
+PRD-402,High-Temp Polymer Seal,Plastics,28.00,SUP-006,,150,500,10,true
+PRD-501,M10 Hex Bolt Kit (100pc),Fasteners,18.00,SUP-008,,1000,5000,12,false
+PRD-502,Stainless Anchor Assembly,Fasteners,42.00,SUP-008,,200,800,12,false

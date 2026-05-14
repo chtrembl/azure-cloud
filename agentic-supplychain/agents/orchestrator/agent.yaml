@@ -1,0 +1,48 @@
+# Hosted Agent Definition for the Supply Chain Orchestrator
+# This file describes the agent for deployment to Azure Foundry Agent Service.
+# Placeholders reference environment variables from .env / .env.generated.
+
+name: orchestrator
+display_name: "Agentic Supply Chain Orchestrator"
+version: "0.1.0"
+protocol: http
+
+# Container image — set AGENT_IMAGE before deployment
+# Source: ACR_LOGIN_SERVER from Bicep output + image tag from build step
+# Example: agentscacr.azurecr.io/orchestrator:latest
+image: "${AGENT_IMAGE}"
+
+# Health check endpoint
+health:
+  path: /health
+  port: 8088
+  interval_seconds: 30
+
+# Environment variables injected into the container at runtime
+environment:
+  # Foundry project endpoint — from Bicep output (AZURE_AI_PROJECT_ENDPOINT)
+  AZURE_AI_PROJECT_ENDPOINT: "${AZURE_AI_PROJECT_ENDPOINT}"
+
+  # Model deployment name — from Step 3 model deployment (MODEL_DEPLOYMENT_NAME)
+  MODEL_DEPLOYMENT_NAME: "${MODEL_DEPLOYMENT_NAME}"
+
+  # App Insights connection string — from Bicep output (APPINSIGHTS_CONNECTION_STRING)
+  APPINSIGHTS_CONNECTION_STRING: "${APPINSIGHTS_CONNECTION_STRING}"
+
+  # Fabric data agent endpoint — from Fabric portal (FABRIC_DATA_AGENT_ENDPOINT)
+  FABRIC_DATA_AGENT_ENDPOINT: "${FABRIC_DATA_AGENT_ENDPOINT}"
+
+  # Foundry IQ MCP endpoint — from Foundry IQ setup (FOUNDRY_IQ_MCP_URL)
+  FOUNDRY_IQ_MCP_URL: "${FOUNDRY_IQ_MCP_URL}"
+
+  # Agent display name
+  AGENT_NAME: "${AGENT_NAME}"
+
+# Tools configured as Foundry project connections
+tools:
+  - type: remote_tool
+    connection: fabric-data-agent
+    description: "Microsoft Fabric data agent for structured supply chain analytics"
+  - type: remote_tool
+    connection: foundry-iq-mcp
+    description: "Foundry IQ knowledge base for policies, contracts, and SOPs"

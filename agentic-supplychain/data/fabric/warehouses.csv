@@ -1,0 +1,5 @@
+warehouse_id,name,region,city,state,capacity_sqft,type,manager,status
+WH-NE-01,Northeast Distribution Center,Northeast,Newark,NJ,125000,Distribution,Sarah Chen,Active
+WH-SE-01,Southeast Hub,Southeast,Atlanta,GA,95000,Distribution,Marcus Johnson,Active
+WH-W-01,West Coast Warehouse,West,Portland,OR,110000,Storage,Lisa Patel,Active
+WH-MW-01,Midwest Fulfillment Center,Midwest,Chicago,IL,85000,Fulfillment,David Kim,Active

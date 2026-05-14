@@ -1,0 +1,15 @@
+# Risk Analyst Agent Definition (Optional)
+name: risk-analyst
+display_name: "Supply Chain Risk Analyst"
+version: "0.1.0"
+protocol: http
+image: "${AGENT_IMAGE_RISK_ANALYST}"
+
+health:
+  path: /health
+  port: 8089
+  interval_seconds: 30
+
+environment:
+  AZURE_AI_PROJECT_ENDPOINT: "${AZURE_AI_PROJECT_ENDPOINT}"
+  MODEL_DEPLOYMENT_NAME: "${MODEL_DEPLOYMENT_NAME}"

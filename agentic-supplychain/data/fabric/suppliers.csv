@@ -1,0 +1,11 @@
+supplier_id,name,contact_email,region,country,category,lead_time_days,on_time_rate,quality_score,status
+SUP-001,GlobalTech Industries,procurement@globaltech.com,Southeast,US,Electronics,14,0.92,4.5,Active
+SUP-002,NorthStar Logistics,orders@northstarlog.com,Northeast,US,Logistics,7,0.85,4.2,Active
+SUP-003,Apex Manufacturing,supply@apexmfg.com,Northeast,US,Mechanical Components,21,0.32,3.1,Under Review
+SUP-004,Pacific Rim Materials,sales@pacrimmat.com,West,US,Raw Materials,28,0.88,4.4,Active
+SUP-005,EuroSteel GmbH,verkauf@eurosteel.de,Europe,DE,Steel & Metals,35,0.91,4.6,Active
+SUP-006,Meridian Plastics,orders@meridianplast.com,Southeast,US,Plastics & Polymers,10,0.95,4.7,Active
+SUP-007,Delta Components Ltd,sourcing@deltacomp.com,Northeast,US,Precision Parts,18,0.78,3.8,Active
+SUP-008,Atlas Fasteners Inc,sales@atlasfasteners.com,Midwest,US,Fasteners & Hardware,12,0.90,4.3,Active
+SUP-009,Summit Wire & Cable,procurement@summitwire.com,Northeast,US,Electrical Components,15,0.87,4.1,Active
+SUP-010,Cascade Bearings Co,orders@cascadebearings.com,West,US,Bearings & Seals,20,0.93,4.5,Active

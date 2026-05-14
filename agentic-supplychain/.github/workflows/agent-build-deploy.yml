@@ -1,0 +1,55 @@
+name: agent-build-deploy
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'agents/orchestrator/**'
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure Login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: ACR login
+        run: az acr login --name ${{ vars.ACR_NAME }}
+
+      - name: Build image
+        run: |
+          docker build \
+            -t ${{ vars.ACR_NAME }}.azurecr.io/orchestrator:${{ github.sha }} \
+            -t ${{ vars.ACR_NAME }}.azurecr.io/orchestrator:latest \
+            agents/orchestrator
+
+      - name: Push image
+        run: |
+          docker push ${{ vars.ACR_NAME }}.azurecr.io/orchestrator:${{ github.sha }}
+          docker push ${{ vars.ACR_NAME }}.azurecr.io/orchestrator:latest
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deployment dependencies
+        run: pip install azure-ai-projects azure-identity python-dotenv
+
+      - name: Deploy hosted agent
+        run: python infra/scripts/deploy-hosted-agent.py
+        env:
+          AZURE_AI_PROJECT_ENDPOINT: ${{ vars.AZURE_AI_PROJECT_ENDPOINT }}
+          MODEL_DEPLOYMENT_NAME: ${{ vars.MODEL_DEPLOYMENT_NAME }}
+          AGENT_IMAGE: ${{ vars.ACR_NAME }}.azurecr.io/orchestrator:${{ github.sha }}
+          AGENT_NAME: ${{ vars.AGENT_NAME || 'orchestrator-agent' }}

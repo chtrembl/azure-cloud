@@ -1,0 +1,8 @@
+incident_id,date,supplier_id,type,severity,description,warehouse_id,product_id,resolution_status,days_to_resolve
+INC-001,2025-03-15,SUP-003,Late Delivery,High,Shipment SHP-001 arrived 12 days late causing production delay,WH-NE-01,PRD-110,Resolved,5
+INC-002,2025-03-20,SUP-003,Late Delivery,High,Shipment SHP-002 arrived 13 days late; expedited replacement needed,WH-NE-01,PRD-111,Resolved,7
+INC-003,2025-04-01,SUP-007,Late Delivery,Medium,Shipment SHP-004 arrived 5 days late,WH-NE-01,PRD-205,Resolved,2
+INC-004,2025-04-15,SUP-003,Quality Issue,Medium,Batch inspection failed for 15% of PRD-110 units in SHP-005,WH-NE-01,PRD-110,Under Investigation,
+INC-005,2025-04-20,SUP-003,Late Delivery,Critical,Chronic late delivery pattern — 4th consecutive late shipment,WH-NE-01,PRD-110,Open,
+INC-006,2025-04-25,,Stockout Risk,Critical,PRD-110 at WH-NE-01 below critical threshold (2.1 days supply),WH-NE-01,PRD-110,Open,
+INC-007,2025-05-01,SUP-003,Escalation,High,Formal supplier escalation initiated per escalation runbook,WH-NE-01,,Open,
