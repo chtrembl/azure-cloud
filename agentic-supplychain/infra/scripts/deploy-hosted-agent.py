@@ -56,32 +56,7 @@ def main():
     print(f"   Image:    {image}")
 
     credential = DefaultAzureCredential()
-    client = AIProjectClient(endpoint=endpoint, credential=credential)
-
-    # Build tool definitions for the agent
-    tools = []
-
-    fabric_endpoint = os.environ.get("FABRIC_DATA_AGENT_ENDPOINT", "")
-    if fabric_endpoint:
-        tools.append({
-            "type": "remote_tool",
-            "remote_tool": {
-                "connection_name": "fabric-data-agent",
-                "allowed_tools": ["*"],
-            },
-        })
-        print(f"   Tool: Fabric data agent ({fabric_endpoint})")
-
-    iq_url = os.environ.get("FOUNDRY_IQ_MCP_URL", "")
-    if iq_url:
-        tools.append({
-            "type": "remote_tool",
-            "remote_tool": {
-                "connection_name": "foundry-iq-mcp",
-                "allowed_tools": ["*"],
-            },
-        })
-        print(f"   Tool: Foundry IQ MCP ({iq_url})")
+    client = AIProjectClient(endpoint=endpoint, credential=credential, allow_preview=True)
 
     # Read system prompt
     system_prompt_path = Path(__file__).resolve().parents[2] / "agents" / "orchestrator" / "app" / "prompts" / "system.txt"
@@ -90,17 +65,42 @@ def main():
         system_prompt = system_prompt_path.read_text().strip()
 
     try:
-        agent = client.agents.create_agent(
-            model=model,
-            name=agent_name,
-            instructions=system_prompt,
-            tools=tools if tools else None,
-            headers={"x-ms-enable-preview": "true"},
+        from azure.ai.projects.models import HostedAgentDefinition, ProtocolVersionRecord, AgentProtocol
+
+        # Build hosted agent definition with container image
+        definition = HostedAgentDefinition(
+            image=image,
+            cpu="1",
+            memory="2Gi",
+            container_protocol_versions=[
+                ProtocolVersionRecord(protocol=AgentProtocol.INVOCATIONS, version="1.0.0"),
+            ],
+            environment_variables={
+                "AZURE_AI_PROJECT_ENDPOINT": endpoint,
+                "MODEL_DEPLOYMENT_NAME": model,
+            },
         )
-        print(f"\n✅ Agent created successfully!")
-        print(f"   Agent ID: {agent.id}")
-        print(f"   Name:     {agent.name}")
-        print(f"\n   Save this AGENT_ID for evals: {agent.id}")
+
+        # Add optional env vars if set
+        fabric_endpoint = os.environ.get("FABRIC_DATA_AGENT_ENDPOINT", "")
+        if fabric_endpoint:
+            definition.environment_variables["FABRIC_DATA_AGENT_ENDPOINT"] = fabric_endpoint
+            print(f"   Tool: Fabric data agent ({fabric_endpoint})")
+
+        iq_url = os.environ.get("FOUNDRY_IQ_MCP_URL", "")
+        if iq_url:
+            definition.environment_variables["FOUNDRY_IQ_MCP_URL"] = iq_url
+            print(f"   Tool: Foundry IQ MCP ({iq_url})")
+
+        agent = client.agents.create_version(
+            agent_name=agent_name,
+            definition=definition,
+            description=system_prompt[:512],
+        )
+        print(f"\n✅ Agent version created successfully!")
+        print(f"   Agent: {agent_name}")
+        print(f"   Version: {agent.as_dict()}")
+        print(f"\n   Save AGENT_NAME for evals: {agent_name}")
     except Exception as e:
         print(f"\n❌ Agent creation failed: {e}")
         print("\n═══ MANUAL CHECKPOINT ═══")

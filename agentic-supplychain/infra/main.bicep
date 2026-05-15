@@ -6,7 +6,7 @@ targetScope = 'resourceGroup'
 
 // ── Parameters ─────────────────────────────────────────────
 @description('Azure region for all resources')
-param location string = 'eastus'
+param location string = 'swedencentral'
 
 @description('Base name prefix used for resource naming')
 param baseName string = 'agentsc'
