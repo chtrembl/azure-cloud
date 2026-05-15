@@ -82,14 +82,16 @@ def main():
         )
 
         # Add optional env vars if set
+        # Note: FOUNDRY_* and AGENT_* prefixes are reserved by the platform,
+        # so we use KNOWLEDGE_MCP_URL and FABRIC_DATA_ENDPOINT instead.
         fabric_endpoint = os.environ.get("FABRIC_DATA_AGENT_ENDPOINT", "")
         if fabric_endpoint:
-            definition.environment_variables["FABRIC_DATA_AGENT_ENDPOINT"] = fabric_endpoint
+            definition.environment_variables["FABRIC_DATA_ENDPOINT"] = fabric_endpoint
             print(f"   Tool: Fabric data agent ({fabric_endpoint})")
 
         iq_url = os.environ.get("FOUNDRY_IQ_MCP_URL", "")
         if iq_url:
-            definition.environment_variables["FOUNDRY_IQ_MCP_URL"] = iq_url
+            definition.environment_variables["KNOWLEDGE_MCP_URL"] = iq_url
             print(f"   Tool: Foundry IQ MCP ({iq_url})")
 
         agent = client.agents.create_version(

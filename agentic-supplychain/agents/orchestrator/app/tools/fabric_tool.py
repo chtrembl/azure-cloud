@@ -56,22 +56,37 @@ async def query_fabric_agent(question: str, user_context: dict) -> FabricResult:
         )
 
     try:
+        # Acquire token for Fabric API
+        from azure.identity import DefaultAzureCredential
+        credential = DefaultAzureCredential()
+        token = credential.get_token("https://api.fabric.microsoft.com/.default")
+
         async with httpx.AsyncClient(timeout=30.0) as client:
-            # The Fabric data agent accepts natural language queries
+            # Fabric data agent uses OpenAI-compatible chat completions format
             response = await client.post(
                 endpoint,
                 json={
-                    "query": question,
-                    "context": user_context,
+                    "messages": [
+                        {"role": "user", "content": question}
+                    ],
                 },
-                headers={"Content-Type": "application/json"},
+                headers={
+                    "Content-Type": "application/json",
+                    "Authorization": f"Bearer {token.token}",
+                },
             )
             response.raise_for_status()
             data = response.json()
+
+            # Extract answer from OpenAI-style response
+            summary = ""
+            if "choices" in data and data["choices"]:
+                summary = data["choices"][0].get("message", {}).get("content", "")
+            
             return FabricResult(
                 success=True,
                 data=data,
-                summary=data.get("summary", str(data)),
+                summary=summary or str(data),
             )
     except httpx.HTTPStatusError as e:
         logger.error(f"Fabric agent HTTP error: {e.response.status_code}")
